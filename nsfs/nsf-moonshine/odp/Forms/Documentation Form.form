@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<note class="form" version="9.0" maintenanceversion="1.4" replicaid="4825808B00336E81" xmlns="http://www.lotus.com/dxl">
+  <item name="$Info" sign="true">
+    <rawitemdata type="1">hhgBAIAAAAAAgAAAAQABAP///wAQAAAA</rawitemdata>
+  </item>
+  <item name="$Flags">
+    <text/>
+  </item>
+  <item name="$TITLE">
+    <text>Documentation Form</text>
+  </item>
+  <item name="$Fields">
+    <textlist>
+      <text>DocumentationUNID</text>
+      <text>DocumentationName</text>
+      <text>DocumentationBody</text>
+    </textlist>
+  </item>
+  <item name="$Body" sign="true">
+    <richtext style="width:700px;height:700px;" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" direction="Vertical" vdirection="Vertical">
+      <table refwidth="6.25in" widthtype="fixedleft">
+        <tablecolumn/>
+        <tablecolumn/>
+        <tablerow>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="62" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="62" hidewhen="">
+              <run>
+                <font color="system" size="12pt" style="normal"/>Documentation UNID
+              </run>
+            </par>
+          </tablecell>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="63" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="63" hidewhen="">
+              <run>
+                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="DocumentationUNID"/>
+              </run>
+            </par>
+          </tablecell>
+        </tablerow>
+        <tablerow>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="64" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="64" hidewhen="">
+              <run>
+                <font color="system" size="12pt" style="normal"/>Documentation Name
+              </run>
+            </par>
+          </tablecell>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="65" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="65" hidewhen="">
+              <run>
+                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="DocumentationName"/>
+              </run>
+            </par>
+          </tablecell>
+        </tablerow>
+      </table>
+      <pardef id="1016" align="left" dominotype="domino" hide=""/>
+      <par def="1016" paragraph="true" dominotype="paragraph" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop">
+        <run>
+          <font color="system" size="12pt" style="normal"/> 
+        </run>
+      </par>
+      <pardef id="1017" align="left" dominotype="domino" hide="" list="none"/>
+      <pardef id="10005" align="left" dominotype="domino" hide="" list="none" linespacing="1" spacebefore="1" spaceafter="1"/>
+      <par def="10005" paragraph="true" dominotype="paragraph" spacingInterline="1" spacingBelow="1" spacingAbove="1" alignPardef="left" listPardef="none" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop">
+        <run>
+          <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="richtext" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="DocumentationBody"/>
+        </run>
+      </par>
+    </richtext>
+  </item>
+</note>

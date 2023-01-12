@@ -1,0 +1,36 @@
+<mockup>
+  <MainApplication title="" width="700" height="450" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+    <Grid width="600" height="80">
+      <Row class="ui-g">
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">Documentation%20UNID</Label>
+          </Div>
+        </Column>
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="DocumentationUNID" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+          </Div>
+        </Column>
+      </Row>
+      <Row class="ui-g">
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">Documentation%20Name</Label>
+          </Div>
+        </Column>
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="DocumentationName" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+          </Div>
+        </Column>
+      </Row>
+    </Grid>
+    <Paragraph percentWidth="100" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop" wrap="true">
+      <Label size="12" color="system" fontStyle="normal" fontName="serif">%20</Label>
+    </Paragraph>
+    <Paragraph percentWidth="100" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop" wrap="true">
+      <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="DocumentationBody" kind="editable" type="richtext" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+    </Paragraph>
+  </MainApplication>
+</mockup>

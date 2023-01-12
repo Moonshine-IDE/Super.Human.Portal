@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <output>
+    <movie fps="60"/>
+    <movie height="450"/>
+    <movie version="32"/>
+    <movie background="#0F00FF"/>
+    <movie path="bin-debug/SuperHumanPortal.swf"/>
+    <movie disabled="False"/>
+    <movie input=""/>
+    <movie width="725"/>
+    <movie platform="Flash Player"/>
+  </output>
+  &lt;!-- Other classes to be compiled into your SWF --&gt;
+  <jsOutput>
+    <option path="/Users/joelanderson/Documents/Flex/temp_workspace/SuperHumanPortal"/>
+  </jsOutput>
+  <classpaths>
+    <class path="nsfs/nsf-moonshine/odp/Forms"/>
+  </classpaths>
+  <moonshineResourcePaths></moonshineResourcePaths>
+  <moonshineNativeExtensionPaths></moonshineNativeExtensionPaths>
+  <build>
+    <option additional=""/>
+    <option showBindingWarnings="True"/>
+    <option compilerConstants=""/>
+    <option antBuildPath="build/build.xml"/>
+    <option loadConfig=""/>
+    <option showActionScriptWarnings="True"/>
+    <option linkReport=""/>
+    <option useResourceBundleMetadata="True"/>
+    <option strict="True"/>
+    <option locale=""/>
+    <option warnings="True"/>
+    <option staticLinkRSL="False"/>
+    <option allowSourcePathOverlap="False"/>
+    <option showUnusedTypeSelectorWarnings="True"/>
+    <option es="False"/>
+    <option showDeprecationWarnings="True"/>
+    <option useNetwork="True"/>
+    <option benchmark="False"/>
+    <option sourceMap="False"/>
+    <option accessible="False"/>
+    <option customSDK="/Users/joelanderson/Downloads/MoonshineSDKs/Flex_SDK/Flex_4.16.1_AIR_32.0"/>
+    <option optimize="False"/>
+    <option verboseStackTraces="False"/>
+  </build>
+  <mavenBuild>
+    <option settingsFilePath="%NSFODP_SETTINGS_FILE%"/>
+    <option dominoNotesProgram=""/>
+    <option mavenBuildPath="."/>
+    <option dominoNotesPlatform=""/>
+    <option commandLine="install"/>
+    <actions>
+      <action action="install" actionName="Build"/>
+      <action action="clean package" actionName="Clean and package"/>
+      <action action="clean" actionName="Clean"/>
+      <action action="clean install" actionName="Clean and Build"/>
+      <action action="war:exploded" actionName="Exploded"/>
+    </actions>
+  </mavenBuild>
+  <includeLibraries></includeLibraries>
+  <libraryPaths></libraryPaths>
+  <externalLibraryPaths></externalLibraryPaths>
+  <rslPaths></rslPaths>
+  <intrinsics>
+    <element path="Library\AS3\frameworks\Flex4"/>
+  </intrinsics>
+  <library></library>
+  <modules/>
+  <compileTargets>
+    <compile path="nsfs/nsf-moonshine/odp/Forms/SuperHumanPortal.form"/>
+  </compileTargets>
+  <hiddenPaths>
+    <hidden path="visualeditor-src"/>
+    <hidden path="src/main/webapp/WEB-INF"/>
+    <hidden path="src/main/resources"/>
+  </hiddenPaths>
+  <preBuildCommand>null</preBuildCommand>
+  <postBuildCommand alwaysRun="False">null</postBuildCommand>
+  <trustSVNCertificate>False</trustSVNCertificate>
+  <options>
+    <option isRoyale="False"/>
+    <option isDominoVisualEditor="True"/>
+    <option isExportedToExistingSource="False"/>
+    <option visualEditorExportPath=""/>
+    <option testMovie=""/>
+    <option showHiddenPaths="False"/>
+    <option defaultBuildTargets=""/>
+    <option testMovieCommand=""/>
+    <option jdkType="jdk-8"/>
+    <option isPrimeFacesVisualEditor="False"/>
+  </options>
+  <domino>
+    <option targetServer="demo/DEMO"/>
+    <option targetDatabase="SuperHumanPortal.nsf"/>
+    <option localDatabase="/Users/joelanderson/Documents/Flex/temp_workspace/SuperHumanPortal/nsfs/nsf-moonshine/target/nsf-moonshine-domino-1.0.0.nsf"/>
+    <option dominoBaseAgentURL="http://127.0.0.1:8080/SuperHumanPortal.nsf"/>
+  </domino>
+  <moonshineRunCustomization>
+    <option webBrowser="null"/>
+    <option launchMethod="Simulator"/>
+    <option projectType="2"/>
+    <option urlToLaunch="/bin-debug/SuperHumanPortal.html"/>
+    <option targetPlatform="2"/>
+    <option deviceConnectType="USB"/>
+    <option deviceSimulator="null"/>
+    <option customUrlToLaunch=""/>
+    <deviceSimulator>null</deviceSimulator>
+    <certAndroid>null</certAndroid>
+    <certIos>null</certIos>
+    <certIosProvisioning>null</certIosProvisioning>
+  </moonshineRunCustomization>
+</project>
