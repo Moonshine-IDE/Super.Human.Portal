@@ -1,2 +1,3 @@
 # Super.Human.Portal
-Portal interface to show documentation for DominoVagrant and Super.Human.Installer
+
+Design for documentation database for DominoVagrant and Super.Human.Installer
