@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+ 	     xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" 
+		 xmlns:vo="model.vo.*" xmlns:controls="view.controls.*" xmlns:beads="classes.beads.*" xmlns:models="classes.models.*" 
+         itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsCenter" className="bodyPadding"
+         implements="interfaces.IViewHello">
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+	<fx:Script>
+		<![CDATA[
+			import org.apache.royale.events.IEventDispatcher;						
+
+			public function resetView():void
+			{
+				
+			}
+		]]>
+	</fx:Script>
+
+	<html:H3 text="Hello!"/>
+
+	<j:Spacer height="10"/>
+	
+	<j:Card>
+		<j:Label maxWidth="500" multiline="true" text="Welcome to Apache Royale Templated Application. We created this template for you, so you can easliy make Apache Royale and Jewel front-end to your Domino back-end. The whole process is automated by Moonshine IDE. This app's source code contains placeholders and auto-generated sections that can be regenerated from Moonshine IDE. The rest of the app is open for your customizations."/>
+	</j:Card>
+</j:VGroup>

@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:validators="classes.validators.*" 
+		  xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" xmlns:models="classes.models.*"
+		 itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsCenter"
+		 implements="interfaces.INewRegistration" percentWidth="100" className="flexScrollHelp">
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>	
+	<fx:Script>
+	<![CDATA[
+		import model.vo.NewRegistrationVO;
+
+		import org.apache.royale.collections.ArrayList;
+		import org.apache.royale.events.IEventDispatcher;
+				
+		private var _newRegistration:NewRegistrationVO;
+		
+		[Bindable]
+		public function get newRegistration():NewRegistrationVO
+		{
+			return _newRegistration;
+		}		
+		
+		public function set newRegistration(value:NewRegistrationVO):void
+		{
+			_newRegistration = value;
+		}
+		
+		private var _registrationFailed:Boolean;
+			
+		public function get registrationFailed():Boolean
+        {
+            return _registrationFailed;
+        }
+	
+		public function set registrationFailed(value:Boolean):void
+        {
+			if (_registrationFailed != value)
+			{
+				_registrationFailed = value;
+            		registerFormValidator.loginFailed = value;
+				
+				dispatchEvent("loginFailed");
+			}
+        }
+		
+		public function set errorMessage(value:String):void
+        {
+			registerFormValidator.requiredFieldError = value;
+        }
+	        
+		private var _phoneCountries:ArrayList;
+		
+		[Bindable]
+		public function get phoneCountries():ArrayList
+		{
+			return _phoneCountries;	
+		}		
+		
+		public function set phoneCountries(value:ArrayList):void
+		{
+			_phoneCountries = value;
+		}
+		
+		public function get newPasswordInput():IEventDispatcher
+		{
+			return this.passwordTextInput;	
+		}		
+		
+		private var _passwordStrength:int;
+		
+		[Bindable]
+		public function get passwordStrength():int
+		{
+			return _passwordStrength;
+		}		
+		
+		public function set passwordStrength(value:int):void
+		{
+			_passwordStrength = value;
+		}
+		
+		private var _passwordStrengthMessage:String;
+		
+		[Bindable]
+		public function get passwordStrengthMessage():String
+		{
+			return _passwordStrengthMessage;
+		}		
+		
+		public function set passwordStrengthMessage(value:String):void
+		{
+			_passwordStrengthMessage = value;
+		}
+		
+		public function get formRegister():IEventDispatcher
+		{
+			return this.registerForm;	
+		}		
+		
+		public function get backToLogin():IEventDispatcher
+		{
+			return this.backToLoginLink;	
+		}
+		
+		private var _mobileType:ArrayList;
+		
+		[Bindable]
+		public function set mobileType(value:ArrayList):void
+		{
+			_mobileType = value;
+		}
+			
+		public function get mobileType():ArrayList
+		{
+			return _mobileType;	
+		}		
+		
+		public function set idcCountries(value:ArrayList):void
+		{
+			idcPrimaryPhoneDropDown.dataProvider = value;	
+		}		
+		
+		public function get dropDownTypePrimaryPhone():IEventDispatcher
+		{
+			return this.typePrimaryPhoneDropDown;	
+		}		
+		
+		public function get dropDownTypeSecondaryPhone():IEventDispatcher
+		{
+			return this.typeSecondaryPhoneDropDown;	
+		}	
+		
+		public function updateViewInfo():void
+		{
+			this.mainInfo1.html = "<br>Use this form to register your contact details with us. This does not sign you up for any services yet; it is simply so we know who you are. Registering with us provides the following benefits:<br>";
+			this.mainInfo2.html = "<b>Prominic.NET will never give your telephone number or e-mail address to third parties.</b><br><br>";
+			this.mainInfo3.html = "To register simply fill out the form below. Required fields are indicated by a ";
+			this.emailInfo1.html = "The Prominic.NET e-mail support system needs to verify and associate your e-mail address with your Contact ID. Please supply us with all e-mail addresses that you may contact us with (via Support@Prominic.NET), so that we may recognize your e-mails as coming from you. <br><br>";
+			this.phoneInfo1.html = "Prominic.NET uses Caller ID to help us identify authorized contacts on our phone support lines. Please supply us with all phone numbers which you may use to call for support so that we can properly identify you when you call.<br><br>";	
+			
+			typeSecondaryPhoneDropDown.selectedIndex = 2;
+		}		
+		
+		public function resetView():void
+		{
+			typePrimaryPhoneDropDown.dataProvider = null;
+			idcPrimaryPhoneDropDown.dataProvider = null;
+			
+			typeSecondaryPhoneDropDown.dataProvider = null;
+			idcSecondaryPhoneDropDown.dataProvider = null;
+		}
+		
+		private function validateConfirmPassword(item:Object):String
+		{
+			if (newRegistration.password === confirmPasswordTextInput.text) return null;
+			
+			return "Passwords do not match";
+		}
+		
+		private function validatePIN(item:Object):String
+		{
+			var pin:Number = Number(supportPinTextInput.text);
+			
+			if (isNaN(pin))
+			{
+				return "This field is required";
+			}			
+			
+			if (pin < 1000)
+			{
+				return "Four digit number, must not start with 0";
+			}			
+			
+			return "";
+		}
+		]]>
+</fx:Script>
+	<fx:Binding source="firstNameTextInput.text" destination="newRegistration.firstName" />
+    <fx:Binding source="lastNameTextInput.text" destination="newRegistration.lastName" />
+    <fx:Binding source="primarEmailTextInput.text" destination="newRegistration.primaryEmailAddress" />
+    <fx:Binding source="alternateEmailTextInput.text" destination="newRegistration.alternateEmailAddress" />
+	
+    <fx:Binding source="typePrimaryPhoneDropDown.selectedItem" destination="newRegistration.typePrimaryPhone" />
+    <fx:Binding source="idcPrimaryPhoneDropDown.selectedItem.countryIDC" destination="newRegistration.idcPrimaryPhone" />
+    <fx:Binding source="areaCodePrimaryPhoneTextInput.text" destination="newRegistration.areaCodePrimaryPhone" />
+    <fx:Binding source="primaryPhoneTextInput.text" destination="newRegistration.primaryPhoneNumber" />
+    <fx:Binding source="extensionPrimaryPhoneTextInput.text" destination="newRegistration.extensionPrimaryPhone" />
+    
+    <fx:Binding source="typeSecondaryPhoneDropDown.selectedItem" destination="newRegistration.typeSecondaryPhone" />
+    <fx:Binding source="idcSecondaryPhoneDropDown.selectedItem.countryIDC" destination="newRegistration.idcSecondaryPhone" />
+    <fx:Binding source="areaCodeSecondaryPhoneTextInput.text" destination="newRegistration.areaCodeSecondaryPhone" />
+    <fx:Binding source="secondaryPhoneTextInput.text" destination="newRegistration.secondaryPhoneNumber" />
+    <fx:Binding source="extensionSecondaryPhoneTextInput.text" destination="newRegistration.extensionSecondaryPhone" />
+    
+    <fx:Binding source="supportPinTextInput.text" destination="newRegistration.supportPin" />
+    <fx:Binding source="passwordTextInput.text" destination="newRegistration.password" />
+    <fx:Binding source="confirmPasswordTextInput.text" destination="newRegistration.confirmPassword" />
+        
+	<j:Card className="loginViewBackground wizardCardSize" itemsHorizontalAlign="itemsCenter">
+		   <j:Form localId="registerForm">
+				<j:beads>
+					<j:FormValidator trigger="{registerButton}" triggerEvent="click" />
+					<validators:LoginFormValidator localId="registerFormValidator" trigger="{this}" triggerEvent="loginFailed"/>
+				</j:beads>
+				<j:FormHeading label="Create Your Prominic.NET Contact ID" percentWidth="100">
+					<j:style>
+						<js:AllCSSStyles textAlign="center"/>
+					</j:style>
+				</j:FormHeading>
+				<controls:CustomFormItem className="verticalContentFormItem">
+					<j:Label localId="mainInfo1" multiline="true" />
+					<html:Ul>
+						<html:Li text="Makes it easier to get in touch with us" />
+						<html:Li text="Enables you to join an existing or create a new account" />
+						<html:Li text="Allows you to contact our customer support department once you are a customer" />
+					</html:Ul>
+					<j:Label localId="mainInfo2" multiline="true" />
+					<j:HGroup gap="1">
+						<j:Label localId="mainInfo3" multiline="true" />
+						<j:Label text=" *" className="required"/>
+					</j:HGroup>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="horizontalContentShrinkFormItem">
+					<controls:CustomFormItem required="true" labelClass="formNewRegistrationRequired"
+											 className="horizontalContentShrinkFormItem"
+											 label="First Name:">
+						<j:TextInput localId="firstNameTextInput" className="flexShrink"
+									  text="{newRegistration.firstName}">
+							<j:beads>
+								<j:StringValidator required="1"/>
+								<j:TextPrompt prompt="First Name"/>
+							</j:beads>
+						</j:TextInput>
+					</controls:CustomFormItem>
+					<controls:CustomFormItem required="true" labelClass="formNewRegistrationRequired"
+											 className="horizontalContentShrinkFormItem"
+											 label="Last Name:">							
+						<j:TextInput localId="lastNameTextInput" className="flexShrink"
+									 text="{newRegistration.lastName}">
+							<j:beads>
+								<j:StringValidator required="1"/>
+								<j:TextPrompt prompt="Last Name"/>							
+							</j:beads>
+						</j:TextInput>
+					</controls:CustomFormItem>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem required="true" labelClass="formNewRegistrationRequired"
+										 className="stackedShrinkFormItem"
+										 label="Primary E-mail Address:" percentWidth="100">							
+					<j:TextInput localId="primarEmailTextInput" className="flexShrink"
+								 text="{newRegistration.primaryEmailAddress}">
+						<j:beads>
+							<j:EmailValidator required="1"/>
+							<j:TextPrompt prompt="Primary E-mail Address"/>	
+						</j:beads>
+					</j:TextInput>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem labelClass="formNewRegistrationStackedNoRequired"
+										 className="stackedShrinkFormItem"
+										 label="Alternate E-mail Address:" percentWidth="100">							
+					<j:TextInput localId="alternateEmailTextInput" className="flexShrink"
+								 text="{newRegistration.alternateEmailAddress}">
+						<j:beads>
+							<j:EmailValidator />
+							<j:TextPrompt prompt="Alternate E-mail Address"/>
+						</j:beads>
+					</j:TextInput>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="verticalContentFormItem">
+					<j:Label localId="emailInfo1" multiline="true" />
+				</controls:CustomFormItem>
+				<controls:CustomFormItem labelClass="formNewRegistrationStackedNoRequired"
+										 className="stackedShrinkFormItem" required="true"
+										 label="Primary Phone Number:" percentWidth="100">
+					<j:DropDownList localId="typePrimaryPhoneDropDown" selectedIndex="0" width="100"
+									dataProvider="{mobileType}">	
+						<j:beads>
+							<j:RequireSelection requireSelection="true" />
+						</j:beads>
+					</j:DropDownList>								 						
+					<j:DropDownList localId="idcPrimaryPhoneDropDown" className="idcWithCountryRenderer"
+									selectedIndex="0" dataProvider="{phoneCountries}">
+						<j:beads>
+							<j:RequireSelection requireSelection="true" />
+							<validators:CountryCodeDropDownListSelectionRequireValidator requiredFieldError="Select country code"/>
+						</j:beads>			
+					</j:DropDownList>
+					
+					<j:TextInput localId="areaCodePrimaryPhoneTextInput" className="flexShrink minUnsetWidthTextInput maxWidthTextInputPhone"
+							 	 text="{newRegistration.areaCodePrimaryPhone}">	 
+						<j:beads>
+							<j:TextPrompt prompt="Area Code"/>
+						</j:beads>
+					</j:TextInput>	
+					<j:TextInput localId="primaryPhoneTextInput" className="flexShrink minUnsetWidthTextInput"
+							 	 text="{newRegistration.primaryPhoneNumber}">
+						<j:beads>
+							<j:StringValidator required="1"/>
+							<j:TextPrompt prompt="Phone Number"/>
+						</j:beads>		
+					</j:TextInput>	
+					<j:TextInput localId="extensionPrimaryPhoneTextInput" className="flexShrink minUnsetWidthTextInput maxWidthTextInputPhone"
+							 	 text="{newRegistration.extensionPrimaryPhone}">	 	 
+						<j:beads>
+							<j:TextPrompt prompt="Extension"/>
+						</j:beads>		 	
+					</j:TextInput>									
+				</controls:CustomFormItem>
+				<controls:CustomFormItem labelClass="formNewRegistrationStackedNoRequired" 
+										 className="stackedShrinkFormItem"
+										 label="Secondary Phone Number:" percentWidth="100">
+					<j:DropDownList localId="typeSecondaryPhoneDropDown" selectedIndex="2" width="100"
+								    dataProvider="{mobileType}"/>									 						
+					<j:DropDownList localId="idcSecondaryPhoneDropDown" className="idcWithCountryRenderer"
+									selectedIndex="0" dataProvider="{phoneCountries}">
+						<j:beads>
+							<j:RequireSelection requireSelection="true" />
+						</j:beads>
+					</j:DropDownList>
+					<j:TextInput localId="areaCodeSecondaryPhoneTextInput" className="flexShrink minUnsetWidthTextInput maxWidthTextInputPhone"
+							 	 text="{newRegistration.areaCodeSecondaryPhone}">	 
+						<j:beads>
+							<j:TextPrompt prompt="Area Code"/>
+						</j:beads>
+					</j:TextInput>	
+					<j:TextInput localId="secondaryPhoneTextInput" className="flexShrink minUnsetWidthTextInput"
+							 	 text="{newRegistration.secondaryPhoneNumber}">
+						<j:beads>
+							<j:TextPrompt prompt="Phone Number"/>
+						</j:beads>		
+					</j:TextInput>	
+					<j:TextInput localId="extensionSecondaryPhoneTextInput" className="flexShrink minUnsetWidthTextInput maxWidthTextInputPhone"
+							 	 text="{newRegistration.extensionSecondaryPhone}">	 	 
+						<j:beads>
+							<j:TextPrompt prompt="Extension"/>
+						</j:beads>		 	
+					</j:TextInput>									
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="verticalContentFormItem">
+					<j:Label localId="phoneInfo1" multiline="true"/>
+					<j:Label text="If you share a phone line with another contact, you will each need to use a unique support PIN." multiline="true"/>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem required="true" labelClass="formNewRegistrationRequired"
+										 className="stackedShrinkFormItem"
+										 label="Support PIN:">							
+					<j:TextInput localId="supportPinTextInput" className="smallitem"
+									 text="{newRegistration.supportPin}">
+						<j:beads>
+							<j:StringValidator required="4" maxLength="4" validateFunction="{validatePIN}"/>
+							<j:TextPrompt prompt="Support PIN"/>
+						</j:beads>
+					</j:TextInput>
+					<j:Label className="bigitem" multiline="true"
+						 	 text="The support PIN will help us to verify your identity when you call our support line. This should be a 4 digit number, and it may not start with 0."/>
+				</controls:CustomFormItem>	
+				<controls:CustomFormItem className="horizontalContentShrinkFormItem">
+					<controls:CustomFormItem required="true" labelClass="formNewRegistrationRequired"  
+										     className="stackedShrinkFormItem"
+											 label="Password:" percentWidth="100">							
+						<j:TextInput localId="passwordTextInput" className="flexShrink"
+								     text="{newRegistration.password}">
+							<j:beads>
+								<j:StringValidator required="6" />
+								<j:PasswordInput />
+								<j:TextPrompt prompt="Password"/>
+							</j:beads>
+						</j:TextInput>
+					</controls:CustomFormItem>		
+					<controls:CustomFormItem required="true" labelClass="formNewRegistrationRequired"  
+										     className="stackedShrinkFormItem"
+											 label="Confirm Password:" percentWidth="100">							
+						<j:TextInput localId="confirmPasswordTextInput" className="flexShrink"
+									 text="{newRegistration.confirmPassword}">
+							<j:beads>
+								<j:StringValidator required="6" validateFunction="{validateConfirmPassword}"/>
+								<j:PasswordInput />
+								<j:TextPrompt prompt="Confirm Password"/>
+							</j:beads>
+						</j:TextInput>
+					</controls:CustomFormItem>	
+				</controls:CustomFormItem>
+				<controls:CustomFormItem labelClass="formNewRegistrationStackedNoRequired" 
+									     className="horizontalContentShrinkFormItem">							
+					<j:VGroup className="flexShrink">							
+						<j:HSlider percentWidth="100" minimum="0" maximum="200" className="sliderViewStyle noSliderInput sliderStyle"
+								  value="{passwordStrength}"/>
+						<j:Label text="{passwordStrengthMessage}" multiline="true"
+								 className="noWhiteSpace passwordStrengthLabel" percentWidth="87"/>									
+					</j:VGroup>										
+				</controls:CustomFormItem>										
+			</j:Form>		
+			<j:Label localId="codeFormErrorLabel" className="errorLabelResetPass"/>
+			<j:Button localId="registerButton" text="Register" emphasis="primary"/>			
+			<j:HGroup itemsExpand="true" itemsHorizontalAlign="itemsLeft">
+				<j:Label localId="backToLoginLink" className="cursorPointer loginPopupLinks biggerLink" text="Back to Login"/>
+			</j:HGroup>
+	</j:Card>
+</j:VGroup>

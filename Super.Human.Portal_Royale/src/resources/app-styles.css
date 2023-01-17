@@ -1,0 +1,378 @@
+@namespace "http://www.w3.org/1999/xhtml";
+@namespace j "library://ns.apache.org/royale/jewel";
+
+global { 
+	IStatesImpl: ClassReference("org.apache.royale.core.SimpleStatesImpl"); 
+}
+
+.jewel.tooltip 
+{
+  maxWidth: 25%;
+}
+
+a, a:visited {
+	color: #3CADF1;
+	textDecoration: underline;
+}
+
+a:hover {
+	color: #d64010;
+	textDecoration: underline;
+}
+
+.jewel.application {
+	overflow: hidden;
+}
+
+.Application {
+   overflow: hidden;
+}
+
+.bodyPadding
+{
+	padding: 20px;
+}
+
+.navIconLinkItemRenderer {
+	IBeadController: ClassReference("classes.beads.CollapsibleNavSingleSelectionMouseController");
+	IItemRenderer: ClassReference("view.renderers.navigation.CollapsibleDrawerLinkItemRenderer");
+	ISelectableItemRenderer: ClassReference("org.apache.royale.jewel.beads.itemRenderers.ClassSelectorListSelectableItemRendererBead");
+}
+
+.sliderViewStyle {
+	IBeadView: ClassReference("view.controls.SliderPasswordStrengthView");
+}
+
+.dx-datagrid-header-panel {
+	backgroundColor: #f5f8fa;
+	border-bottom: none;
+}
+
+.dx-datagrid-header-panel .dx-toolbar {
+	backgroundColor: #f5f8fa;
+}
+
+.dx-datagrid-nodata {
+	top: 30% !important;	
+}
+
+.jewel.button.lowercase {
+   textTransform: unset !important;
+}
+
+.formlabel.jewel.label {
+   fontWeight: bold;	
+}
+
+.jewel.label.cursorPointer {
+	cursor: pointer;
+}
+
+.jewel.label.smallFont {
+	fontSize: 12px !important;
+}
+
+.jewel.label.smallFontGrey {
+	fontSize: 12px !important;
+	color: #666666;
+}
+
+.loginBackground {
+  backgroundImage: url("resources/images/loginbackground.jpg");
+  backgroundRepeat: round;
+  height: 100%;
+}
+
+.jewel.card.loginViewBackground {
+  background: #FFFFFF !important;
+  padding: 20px;
+}
+
+.jewel.label.loginPopupLinks, .jewel.label.loginPopupLinks:visited {
+  color: #3CADF1;
+  textDecoration: underline;
+}
+
+.jewel.label.loginPopupLinks:hover {
+  color: #d64010;
+  textDecoration: underline;
+}
+
+.jewel.card.wizardCardSize {
+  maxWidth: 55%;
+  minWidth: 50%;
+}
+
+.jewel.card.wizardPasswordResetEmail {
+  height: 200px;
+}
+
+.jewel.card.wizardPasswordReset {
+  height: 460px;
+}
+
+.jewel.wizard.previous {
+  display: none;
+}
+
+.jewel.wizard.next {
+  display: none;
+}
+
+.jewel.barrow.footerStyle {
+   height: 45px !important;
+}
+
+.jewel.label.biggerLink {
+   font-size: 1.2em !important
+}
+
+.jewel.label.labelTextAlignRight {
+   textAlign: right !important;
+}
+
+.jewel.label.italic {
+	fontStyle: italic !important;
+}
+
+.jewel.tableitem.hovered {
+    background: #3CADF1;
+    color: #FFFFFF;
+}
+
+.jewel.tablecell.hovered {
+	background: #3CADF1;
+	color: #FFFFFF;
+}
+
+.jewel.tablecell.selected {
+	background: #24a3ef;
+	color: #FFFFFF;
+}
+
+.jewel.label.bold {
+	fontWeight: bold !important;
+}
+
+.jewel.tableheadercell.solidBackground {
+	background: #e6e6e6 !important;
+}
+
+.jewel.label.monospace
+{
+	fontFamily: "Courier New";
+}
+
+.jewel.navigationgroup.no-submenu.selected {
+    background: #24a3ef !important;
+}
+
+.jewel.navigationgroup.no-submenu.selected a {
+    color: #FFFFFF !important;
+}
+
+.layout.horizontal.drawerItem {
+	color: unset;
+}
+
+.layout.horizontal.drawerItem.selectedItem {
+	color: #FFFFFF !important;
+}
+
+.jewel.label.formPasswordResetRequired {
+    width: 6em;
+    fontWeight: bold;
+}
+
+.jewel.label.formPasswordResetNoRequired {
+    width: 6em;
+    fontWeight: bold;
+    marginRight: 15px !important;
+}
+
+.jewel.label.formNewRegistrationRequired {
+    width: 8em;
+    fontWeight: bold;
+}
+
+.jewel.label.formNewRegistrationStackedNoRequired {
+    width: 14em;
+    fontWeight: bold;
+    height: 22px;
+}
+
+.jewel.textinput.maxWidthTextInputPhone {
+  maxWidth: 100px !important;
+}
+
+.jewel.label.noWhiteSpace {
+	whiteSpace: unset !important;
+}
+
+.jewel.snackbar {
+    bottom: 66px;
+	zIndex: auto;
+}
+
+.jewel.slider.noSliderInput input {
+	visibility: hidden;
+	margin: 0px !important;
+}
+
+.jewel.slider.sliderStyle {
+    margin: 0;
+}
+
+.slider-track-container.sliderPasswordStrengthContainer {
+   margin: 0 !important;
+   width: 100%;
+}
+
+.slider-track-fill.sliderPasswordStrengthTrackFill {
+   borderRadius: 0 !important;
+}
+
+.slider-track.sliderPasswordStrengthTrack {
+   borderRadius: 0 !important;
+}
+
+.jewel.label.passwordStrengthLabel {
+  position: absolute;
+  marginTop: 25px;
+}
+
+.errorColorLabel.errorLabelResetPass {
+  marginTop: 35px !important;
+}
+
+.fixedWidthFont
+{
+	fontFamily: Courier, Courier New;
+}
+
+.jewel.label.red
+{
+	color: #ff0000 !important;
+}
+
+.jewel.tabbarbutton {
+   padding: 10px !important;
+   text-transform: none !important;
+}
+
+.jewel.tabbarbutton.buttonBar 
+{
+	borderWidth: 2px;
+	borderStyle: outset;
+	borderColor: buttonface;
+	borderImage: initial;
+	cursor: pointer;
+}
+
+.jewel.tabbar > .content {
+  display: flex;
+  position: relative;
+  flex: 1 0 auto;
+  transform: none;
+  will-change: transform;
+}
+
+.layout.horizontal.controlBarPopup {
+  borderTop: unset;
+  backgroundImage: none;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.jewel.titlebar.info {
+  background: linear-gradient(#54b7f3,#24a3ef);
+}
+
+.jewel.titlebar.success {
+  background: linear-gradient(#98cc50,#7eb435);
+}
+
+.jewel.titlebar.warning {
+  backgroundColor: #fb8c00;
+}
+
+.jewel.titlebar.error {
+  background: linear-gradient(#f16c42,#ed4812);
+}
+
+.jewel.button.noLinkStyle a {
+  color: #808080;
+  text-decoration: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.jewel.button.warn {
+    background: linear-gradient(#fb8c00, #fb8c00);
+    border-radius: 0.25rem;
+    border: unset;
+    box-shadow: inset 0 1px 0 #fb8c00;
+    color: #FFFFFF;
+    text-shadow: unset;
+}
+
+.jewel.card {
+	background: #ebebeb !important;
+}
+
+.jewel.textinput {
+	minWidth: 200px !important;
+}
+
+.flexShrink {
+   flex: 1 !important;
+}
+
+.jewel.drawer.fixed.open {
+   pointerEvents: unset !important;
+}
+
+.jewel.textinput.minUnsetWidthTextInput {
+  minWidth: unset !important;
+}
+
+.jewel.label.errorColorLabel {
+   color: #EC1C24 !important;
+}
+
+.mdi-18px { font-size: 18px; }
+.mdi-24px { font-size: 24px; }
+.mdi-36px { font-size: 36px; }
+.mdi-48px { font-size: 48px; }
+
+.layout.basic>* {
+	position: relative !important;
+}
+
+.flexScrollHelp {
+   marginTop: auto;
+   marginBottom: auto;
+   flexBasis: auto !important;
+   flexShrink: 0 !important;
+}
+
+.layout.basic.bigitem {
+   -webkit-flex: 2.5 0 0;
+   flex: 2.5 0 0;
+}
+
+.layout.basic.smallitem {
+   -webkit-flex: 0.5 0 0;
+   flex: 0.5 0 0;
+}
+
+.jewel.button {
+  text-transform: none;
+}
+
+.jewel.togglebutton {
+  text-transform: none;
+}

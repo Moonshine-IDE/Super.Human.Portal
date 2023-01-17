@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:validators="classes.validators.*" xmlns:beads="classes.beads.*"
+		 itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsCenter"
+		 implements="interfaces.ILoginView" visible="false"
+		 className="loginBackground" xmlns:controls="view.controls.*">
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>	
+	<fx:Script>
+		<![CDATA[
+			import interfaces.busy.IBusyOperator;
+
+			import org.apache.royale.core.IPopUpHost;
+			import org.apache.royale.core.IUIBase;
+			import org.apache.royale.events.IEventDispatcher;
+			import org.apache.royale.jewel.Button;
+			import org.apache.royale.utils.UIUtils;
+
+			import view.general.BusyOperator;
+			
+			//--------------------------------------------------------------------------
+			//
+			//  PUBLIC API
+			//
+			//--------------------------------------------------------------------------
+			
+			public function get username():String
+			{
+				return this.txtUsername.text;
+			}
+			
+			public function get loginBusyOperator():IBusyOperator
+			{
+				return new BusyOperator(btnLogin);
+			}
+
+			public function get password():String
+			{
+				return this.txtPassword.text;
+			}
+			
+			public function get usernameText():IEventDispatcher
+			{
+				return this.txtUsername;
+			}
+			
+			public function get passwordText():IEventDispatcher
+			{
+				return this.txtPassword;
+			}
+			
+			public function get formValidator():Object
+			{
+				return this.validatorForm;
+			}			
+			
+			public function get form():IEventDispatcher
+			{
+				return this.loginForm;
+			}
+			
+			public function get forgotPassword():IEventDispatcher
+			{
+				return this.forgotPasswordLabel;	
+			}
+
+			public function get newRegistration():IEventDispatcher
+			{
+				return this.newRegistrationLabel;	
+			}
+			
+			public function get isFormValid():Boolean
+			{
+				return !this.validatorForm.isError;	
+			}			
+			
+			private var _loginFailed:Boolean;
+			
+			public function get loginFailed():Boolean
+	        {
+	            return _loginFailed;
+	        }
+	
+			public function set loginFailed(value:Boolean):void
+	        {
+				if (_loginFailed != value)
+				{
+					_loginFailed = value;
+	            		loginFormValidator.loginFailed = value;
+					
+					dispatchEvent("loginFailed");
+				}
+	        }
+			
+			public function set errorMessage(value:String):void
+	        {
+				loginFormValidator.requiredFieldError = value;
+	        }
+	
+			public function resetView():void
+			{
+				txtUsername.text = txtPassword.text = "";
+				
+				resetValidation();
+			}
+			
+			public function resetValidation():void
+			{
+				var host:IPopUpHost = UIUtils.findPopUpHost(loginForm);
+				(host as IUIBase).dispatchEvent(new Event("cleanValidationErrors"));
+			}
+		]]>
+	</fx:Script>
+	<j:Card className="loginViewBackground" itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter">
+		<j:Image src="resources/images/loginlogo.jpg"/>
+		<j:Form localId="loginForm" percentWidth="100">
+			<j:beads>
+				<j:FormValidator id="validatorForm" trigger="{btnLogin}" triggerEvent="click" />
+				<validators:LoginFormValidator localId="loginFormValidator" trigger="{this}" triggerEvent="loginFailed"/>
+			</j:beads>
+			<controls:CustomFormItem required="true" className="horizontalContentItemsCenteredFormItem">
+				<j:TextInput id="txtUsername" percentWidth="100">
+					<j:beads>
+						<j:EmailValidator required="1"/>
+						<j:TextPrompt prompt="E-mail"/>
+						<beads:AutoFocusBead autoFocus="true"/>
+					</j:beads>
+				</j:TextInput>
+			</controls:CustomFormItem>
+			<controls:CustomFormItem required="true" className="horizontalContentItemsCenteredFormItem">
+				<j:TextInput id="txtPassword" percentWidth="100">
+					<j:beads>
+						<j:PasswordInput />
+						<j:StringValidator required="6" requiredFieldError="Must be at least 6 characters."/>
+						<j:TextPrompt prompt="Password"/>
+					</j:beads>
+				</j:TextInput>
+			</controls:CustomFormItem>
+		</j:Form>
+		<j:Button id="btnLogin" text="Login Now" className="lowercase"
+				  percentWidth="80" emphasis="primary"/>
+		<j:HGroup gap="1" itemsHorizontalAlign="itemsCenter">
+			<j:Label localId="forgotPasswordLabel" 
+					 className="cursor-pointer loginPopupLinks"
+					 text="Forgot Password?"/>
+			<j:Label text="|" />
+			<j:Label localId="newRegistrationLabel" text="New Registration" 
+					 className="cursor-pointer loginPopupLinks"/>
+		</j:HGroup>
+	</j:Card>
+</j:VGroup>

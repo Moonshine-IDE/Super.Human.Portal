@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:j="library://ns.apache.org/royale/jewel"
+			   xmlns:js="library://ns.apache.org/royale/basic" xmlns:view="view.*"
+			   xmlns:beads="classes.beads.*"
+			   applicationComplete="onAppComplete(event)"
+			   implements="interfaces.IApplication">
+
+	<fx:Style source="../../resources/app-styles.css"/>
+
+<!--START_GENERATED_SCRIPT_CSSSTYLES_Super.Human.Portal_Royale:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**-->
+<fx:Style source="../../generated/Super.Human.Portal_Royale/resources/export-app-styles.css"/>
+<!--END_GENERATED_SCRIPT_CSSSTYLES_Super.Human.Portal_Royale: **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
+	<!--APPLICATION_CSS_CURSOR:  New  snippets will be inserted here-->
+	
+	<j:beads>
+		<js:ApplicationDataBinding />
+	</j:beads>
+	<j:valuesImpl>
+		<js:SimpleCSSValuesImpl />
+	</j:valuesImpl>
+	<fx:Script>
+	<![CDATA[
+		import interfaces.IMainContentView;
+
+		import org.apache.royale.routing.IRouter;
+						
+		private var facade:ApplicationFacade = ApplicationFacade.getInstance("ApacheRoyaleTemplatedApp");
+			
+		public function get mainContent():IMainContentView
+		{
+			return this.mainContentView;
+		}		
+	
+		private function onAppComplete(event:Event):void
+		{
+            facade.startup(this);
+		}
+	]]>
+</fx:Script>
+	<j:initialView>
+		<view:MainContent id="mainContentView"/>
+	</j:initialView>
+</j:Application>

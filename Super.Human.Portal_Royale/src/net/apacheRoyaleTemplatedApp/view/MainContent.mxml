@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:ResponsiveView xmlns:fx="http://ns.adobe.com/mxml/2009"
+				  xmlns:j="library://ns.apache.org/royale/jewel"
+				  xmlns:js="library://ns.apache.org/royale/basic"
+				  xmlns:html="library://ns.apache.org/royale/html"
+				  xmlns:view="view.*" xmlns:general="view.general.*"
+				  xmlns:model="model.*" 
+				  xmlns:routing="org.apache.royale.routing.*" xmlns:beads="classes.beads.*" xmlns:hello="view.hello.*"
+				  implements="interfaces.IMainContentView"
+				  initComplete="onInitComplete(event)">
+	<j:beads>
+		<js:ContainerDataBinding/>
+	</j:beads>
+   <j:model>
+        <model:MainContentNavigationModel localId="mainNavigationModel"/>
+    </j:model>
+	<fx:Script>
+		<![CDATA[
+
+			import interfaces.ILoginView;
+			import interfaces.INewRegistration;
+			import interfaces.IPasswordReset;
+			import interfaces.IViewHello;
+
+			import mediator.MediatorNewRegistration;
+			import mediator.MediatorPasswordReset;
+			import mediator.MediatorViewHello;
+
+			import model.vo.ConstantsCoreVO;
+
+			import org.apache.royale.collections.ArrayList;
+			import org.apache.royale.events.IEventDispatcher;
+			import org.apache.royale.jewel.Alert;
+
+			import view.general.BusyOperator;
+																																																																																																						
+			private function onInitComplete(event:Event):void 
+			{
+			   drawer.close();
+			   navigation.selectedIndex = 0;
+	        }
+			
+			public function get selectedNavigation():Object
+			{
+				return this.navigation.selectedItem;
+			}			
+			
+			public function set selectedNavigation(value:Object):void
+			{
+				this.navigation.selectedItem = value;
+			}			
+			
+			public function get selectedContent():String
+			{
+				return mainContent.selectedContent;
+			}
+			
+			public function set selectedContent(value:String):void
+			{
+				mainContent.selectedContent = value;
+			}
+	
+			public function get login():ILoginView
+			{
+				return this.loginView;
+			}
+			
+			public function get newRegistration():INewRegistration
+			{
+				return this.newRegistrationView;	
+			}			
+
+			public function loadBusyOperator():BusyOperator
+			{
+				return new BusyOperator(this, ConstantsCoreVO.BUSY_INDICATOR_SCALE_FACTOR);
+			}
+			
+			public function get viewPasswordReset():IPasswordReset
+			{
+				return this.passwordReset;	
+			}
+			
+			public function set logoutVisible(value:Boolean):void
+			{
+				this.topappbar.visible = value;
+				this.topappbar.hasDrawer = value;
+				this.mainContent.hasTopAppBar = value;
+				
+				if (value && !drawer.isOpen)
+				{
+					drawer.open();
+				}
+				else if (!value)
+				{
+					drawer.close();
+				}
+			}
+			
+			public function get logout():IEventDispatcher
+			{
+				return lblLoginLogout;
+			}
+			
+			public function set loggedUsername(value:String):void
+			{
+				this.lblLoggedUser.text = "Hello, "+ value +"!";
+			}
+			
+			private var _authenticationId:String = "";
+			
+			[Bindable]
+			public function get authenticationId():String
+			{
+				return _authenticationId;
+			}
+			
+			public function set authenticationId(value:String):void
+			{
+				if (value) 
+				{
+					_authenticationId = "\n"+ value;
+				}
+				else
+				{
+					_authenticationId = "";
+				}
+			}
+			
+			private var _versionText:String;
+			[Bindable]
+			public function get versionText():String
+			{
+				return _versionText;
+			}
+			public function set versionText(value:String):void
+			{
+				_versionText = value;
+			}
+			
+			private var _footerText:String;
+			
+			[Bindable]
+			public function get footerText():String
+			{
+				return _footerText;
+			}
+
+			public function set footerText(value:String):void
+			{
+				_footerText = value;
+			}
+			
+			public function get viewDrawerNavigation():IEventDispatcher
+			{
+				return this.navigation;
+			}
+			
+			public function get viewDrawerContentNavigation():IEventDispatcher
+			{
+				return this.viewDrawerContent;
+			}
+			
+			public function get viewButtonDrawer():IEventDispatcher
+			{
+				return this.btnDrawer;
+			}
+			
+			public function get viewDrawer():Object
+			{
+				return this.drawer;
+			}			
+			
+			public function get viewHello():IViewHello
+			{
+				return this.helloView;	
+			}
+			
+			public function get footer():Object
+			{
+				return this.appFooter;
+			}			
+			
+			public function get isDrawerOpen():Boolean
+			{
+				return this.drawer.isOpen;
+			}
+			
+			public function notifyObsoleteCurrentVersion():void
+			{
+				var tmpMessage:String = "You have accessed an old version of the MyAccount application. You probably arrived here from a bookmark. Please update your bookmark to the always-current version by changing it to:<br/><br/><a href='https://Prominic.NET/MyAccount' target='blank'>https://Prominic.NET/MyAccount</a>";
+				var alert:Alert = Alert.show(tmpMessage, "Update Information");
+				alert.height = 300;
+			}
+			
+			public function toggleDrawerOpen(value:Boolean):void
+			{
+				if (value)
+				{
+					drawer.open();
+				}
+				else
+				{
+					drawer.close();
+				}
+			}
+			
+			public function set autoSizeDrawer(value:Boolean):void
+			{
+				drawerResponsive.auto = value;
+			}
+			
+		]]>
+	</fx:Script>
+
+	<j:FooterBar id="appFooter" fixed="true">
+		<j:BarRow>
+			<j:BarSection>
+				<j:Label className="smallFontGrey" text="{versionText}"/>
+			</j:BarSection>
+			<j:BarSection itemsHorizontalAlign="itemsCenter">
+				<j:Label className="smallFont" html="{footerText}" percentWidth="100">
+					<j:beads>
+						<j:TextAlign align="center"/>
+					</j:beads>
+				</j:Label>
+			</j:BarSection>
+			<j:BarSection itemsHorizontalAlign="itemsRight">
+				<j:Label id="authIdLabel" 
+						 className="smallFontGrey" text="{authenticationId}"/>
+			</j:BarSection>
+		</j:BarRow>
+	</j:FooterBar>
+	<j:Drawer id="drawer">
+		<j:beads>
+			<j:ResponsiveDrawer localId="drawerResponsive" auto="false"/>
+			<beads:HideDrawerOnMouseDownIfFixed/>
+			<beads:CloseDrawerOnNavigationLinkClick />
+		</j:beads>
+		<j:DrawerHeader height="66">
+			<j:Label text="Sections"/>
+		</j:DrawerHeader>
+		<j:DrawerContent localId="viewDrawerContent">	
+			<j:Navigation id="navigation" labelField="name" change="{function onMainNavChange(event:Event):void {
+                                                            var selectedContent:String = event.currentTarget.selectedItem.content;
+                                                            var mainContentView:Object = this[selectedContent + '_ID'];
+                                                            if (mainContentView)
+                                                            {
+                                                            	   mainContentView.cancelFormEdit();
+                                                        	   }
+                                                            this.mainContent.selectedContent = selectedContent;
+                                                        }; onMainNavChange(event);}" className="navIconLinkItemRenderer">
+				<j:beads>
+					<j:NavigationActionNotifier/>
+				</j:beads>
+				<j:dataProvider xmlns:j="library://ns.apache.org/royale/jewel">
+					<js:ArrayList>
+						<fx:Object name="Hello" content="MediatorViewHello" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"/>
+
+                            <!--START_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**-->
+<fx:Object name="DocumentationForm" content="DocumentationForm" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"/>
+<!--END_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
+						<!--GENERATED_MENU_CURSOR: New snippets will be inserted here-->
+					</js:ArrayList>
+				</j:dataProvider>
+			</j:Navigation>
+		</j:DrawerContent>
+	</j:Drawer>
+	<j:TopAppBar id="topappbar" hasDrawer="{drawer.isOpen}" visible="false">
+        <j:BarRow>
+			<j:BarSection itemsHorizontalAlign="itemsLeft">
+				<j:IconButton id="btnDrawer">
+					<j:icon>
+						<js:MaterialIcon text="{MaterialIconType.VIEW_HEADLINE}"/>
+					</j:icon>
+				</j:IconButton>
+				<html:H2 text="Apache Royale Templated Application"/>
+            </j:BarSection>
+			<j:BarSection itemsHorizontalAlign="itemsRight" gap="2">
+				<j:IconButton>
+                    <j:icon>
+                        <js:MaterialIcon text="{MaterialIconType.ACCOUNT_BOX}"/>
+                    </j:icon>
+                </j:IconButton>
+				<j:Label id="lblLoggedUser" className="smallFont">
+					<j:style>
+						<js:AllCSSStyles fontWeight="bold"/>
+					</j:style>
+				</j:Label>
+				<j:Label id="lblLoginLogout" text="Logout" className="cursorPointer">
+					<j:beads>
+						<j:ToolTip toolTip="Logout user"/>
+					</j:beads>
+				</j:Label>
+			</j:BarSection>
+        </j:BarRow>
+    </j:TopAppBar>
+    <j:ApplicationMainContent id="mainContent" hasTopAppBar="false" hasFooterBar="true" selectedContent="MediatorLoginPopup">
+		<j:ScrollableSectionContent name="MediatorLoginPopup">
+			<general:LoginPopUp id="loginView"/>
+		</j:ScrollableSectionContent>
+		<j:SectionContent name="{MediatorNewRegistration.NAME}">
+			<j:VGroup className="loginBackground" itemsHorizontalAlign="itemsCenter">
+				<j:beads>
+					<js:ScrollingViewport/>
+				</j:beads>
+				<general:NewRegistration localId="newRegistrationView"/>
+			</j:VGroup>
+		</j:SectionContent>
+		<j:SectionContent name="{MediatorPasswordReset.NAME}">
+			<j:VGroup className="loginBackground" itemsHorizontalAlign="itemsCenter">
+				<j:beads>
+					<js:ScrollingViewport/>
+				</j:beads>
+				<general:PasswordReset id="passwordReset"/>
+			</j:VGroup>
+		</j:SectionContent>
+		<j:ScrollableSectionContent name="{MediatorViewHello.NAME}">
+			<hello:ViewHello id="helloView"/>
+		</j:ScrollableSectionContent>
+
+		<!--START_GENERATED_SCROLLABLE_SECTION_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**-->
+<j:ScrollableSectionContent name="{Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.DocumentationForm.NAME}" className="sectionCenter">
+	<DocumentationForm:DocumentationForm localId="DocumentationForm_ID" xmlns:DocumentationForm="Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.*" />
+</j:ScrollableSectionContent>
+<!--END_GENERATED_SCROLLABLE_SECTION_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
+		<!--GENERATED_VIEWS_CURSOR:  New  snippets will be inserted here-->
+
+    </j:ApplicationMainContent>
+</j:ResponsiveView>

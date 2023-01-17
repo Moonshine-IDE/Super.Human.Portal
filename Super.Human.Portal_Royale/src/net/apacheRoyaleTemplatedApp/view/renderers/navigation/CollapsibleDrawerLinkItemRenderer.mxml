@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:CollapsibleNavigationSectionRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+									    xmlns:j="library://ns.apache.org/royale/jewel" 
+									    xmlns:js="library://ns.apache.org/royale/basic" 
+									    xmlns:html="library://ns.apache.org/royale/html" 
+									    xmlns="http://www.w3.org/1999/xhtml"
+									    visible="{data.visible}" 
+									    sectionClick="onRendererSectionClick(event)">
+	<j:beads>
+		<js:ItemRendererDataBinding />
+	</j:beads>
+	<fx:Script>
+		<![CDATA[
+			import org.apache.royale.jewel.Navigation;
+
+			private var _childNavClassName:String =  "navigation-section-group";
+
+			override public function get childNavClassName():String
+			{
+				return _childNavClassName + " navIconLinkItemRenderer";
+			}
+				
+			override public function get retainHover():Boolean
+			{
+            		return true;
+        		}
+				
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+
+				if (value.visible)
+				{
+					refreshEnabled();
+				}
+			}
+	
+        		override public function onChange(selectedItem:Object):void
+        		{
+        			super.onChange(selectedItem);
+        			
+	            var parentNav:Navigation = this.itemRendererOwnerView ? this.itemRendererOwnerView.host as Navigation : null;
+	            if (parentNav) 
+	            {
+	                //this hierarchy support is a bit kooky, and probably there will be something better later with Hierarchical data setup
+	                data.selectedChild = selectedItem;
+	                if (parentNav.selectedItem!= this.data) 
+	                {
+	                    parentNav.selectedItem = this.data;
+	                }
+	                parentNav.dispatchEvent(new Event('change'));
+	            }
+	        }			
+        		
+        		override public function getSelectedSubmenuItem():Object
+        		{
+        			if (childNavigation) 
+        			{
+        				return childNavigation.selectedItem;
+				}        			
+				return null;	
+        		}
+        		        		
+        		private function onRendererSectionClick(event:Event):void
+        		{
+	            if (event.target == this)
+	            {
+	                this.open = !this.open;
+	            }
+        		}
+        		
+			private function refreshEnabled():void
+			{			
+				if (data && data.enabled == false)
+				{
+					this.element.style["pointerEvents"] = "none";
+				}
+				else
+				{
+					this.element.style["pointerEvents"] = "";
+				}
+			}
+			
+			public function unsetSelectedSubmenuItem():void 
+			{
+				if (this.getSelectedSubmenuItem() && childNavigation) 
+				{
+					childNavigation.selectedItem = null;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<j:HGroup gap="2" itemsVerticalAlign="itemsCenter" height="48">
+		<html:Span class="{data ? data.icon : ''}" visible="{data ? data.icon != null : false}"/>
+		
+		<html:Span text="{data ? data.name : ''}"/>
+		<js:MaterialIcon text="{open? MaterialIconType.EXPAND_LESS: MaterialIconType.EXPAND_MORE}" className="hint" 
+                         visible="{data.subMenu != null}"/>
+	</j:HGroup>
+</j:CollapsibleNavigationSectionRenderer>
