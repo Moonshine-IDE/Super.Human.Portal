@@ -1,6 +1,7 @@
 .DS_Store
 **/.DS_Store
+**/*.swp
 
-target
-nsfs/nsf-moonshine/META-INF/MANIFEST.MF
-nsfs/nsf-moonshine/target
+Super.Human.Portal_DVE/target
+Super.Human.Portal_DVE/nsfs/nsf-moonshine/META-INF/MANIFEST.MF
+Super.Human.Portal_DVE/nsfs/nsf-moonshine/target
