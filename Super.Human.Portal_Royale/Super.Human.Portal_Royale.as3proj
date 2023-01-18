@@ -17,7 +17,7 @@
   </jsOutput>
   <classpaths>
     <class path="src/net/apacheRoyaleTemplatedApp"/>
-    <class path="../../workspace/puremvc-as3-multicore-framework/src"/>
+    <class path="../../puremvc-as3-multicore-framework/src"/>
     <class path="src/generated"/>
   </classpaths>
   <moonshineResourcePaths>
@@ -25,45 +25,45 @@
   </moonshineResourcePaths>
   <moonshineNativeExtensionPaths></moonshineNativeExtensionPaths>
   <build>
+    <option customSDK=""/>
     <option additional="-theme=${royalelib}/themes/JewelTheme/src/main/resources/defaults.css -html-template=src/resources/jewel-index-template.html -js-dynamic-access-unknown-members=true -debug=true"/>
-    <option showBindingWarnings="True"/>
-    <option compilerConstants=""/>
-    <option antBuildPath="build/build.xml"/>
-    <option loadConfig=""/>
-    <option showActionScriptWarnings="True"/>
     <option linkReport=""/>
-    <option useResourceBundleMetadata="True"/>
-    <option strict="True"/>
+    <option warnings="True"/>
+    <option allowSourcePathOverlap="False"/>
+    <option loadConfig=""/>
+    <option optimize="False"/>
+    <option useNetwork="True"/>
     <option accessible="False"/>
     <option locale=""/>
-    <option warnings="True"/>
-    <option staticLinkRSL="False"/>
-    <option allowSourcePathOverlap="False"/>
-    <option showUnusedTypeSelectorWarnings="True"/>
+    <option verboseStackTraces="False"/>
+    <option showBindingWarnings="True"/>
     <option es="False"/>
     <option showDeprecationWarnings="True"/>
-    <option useNetwork="True"/>
-    <option optimize="False"/>
     <option sourceMap="False"/>
+    <option staticLinkRSL="False"/>
     <option benchmark="False"/>
-    <option customSDK=""/>
-    <option verboseStackTraces="False"/>
+    <option useResourceBundleMetadata="True"/>
+    <option antBuildPath="build/build.xml"/>
+    <option compilerConstants=""/>
+    <option showUnusedTypeSelectorWarnings="True"/>
+    <option showActionScriptWarnings="True"/>
+    <option strict="True"/>
   </build>
   <mavenBuild>
-    <option settingsFilePath=""/>
     <option dominoNotesProgram=""/>
-    <option mavenBuildPath="."/>
     <option dominoNotesPlatform=""/>
+    <option mavenBuildPath="."/>
+    <option settingsFilePath=""/>
     <option commandLine="-s settings.xml -P build-dev-release clean package"/>
     <actions>
-      <action action="install" actionName="Build"/>
-      <action action="clean package" actionName="Clean and package"/>
-      <action action="clean" actionName="Clean"/>
-      <action action="clean install" actionName="Clean and Build"/>
-      <action action="war:exploded" actionName="Exploded"/>
-      <action action="-s settings.xml clean package" actionName="MyAccount Release"/>
-      <action action="-s settings.xml -P build-dev clean package" actionName="MyAccount Dev Debug"/>
-      <action action="-s settings.xml -P build-dev-release clean package" actionName="MyAccount Dev Release"/>
+      <action actionName="Build" action="install"/>
+      <action actionName="Clean and package" action="clean package"/>
+      <action actionName="Clean" action="clean"/>
+      <action actionName="Clean and Build" action="clean install"/>
+      <action actionName="Exploded" action="war:exploded"/>
+      <action actionName="MyAccount Release" action="-s settings.xml clean package"/>
+      <action actionName="MyAccount Dev Debug" action="-s settings.xml -P build-dev clean package"/>
+      <action actionName="MyAccount Dev Release" action="-s settings.xml -P build-dev-release clean package"/>
     </actions>
   </mavenBuild>
   <includeLibraries></includeLibraries>
@@ -85,26 +85,26 @@
   <postBuildCommand alwaysRun="False">null</postBuildCommand>
   <trustSVNCertificate>False</trustSVNCertificate>
   <options>
-    <option isRoyale="True"/>
-    <option isDominoVisualEditor="False"/>
-    <option isExportedToExistingSource="False"/>
-    <option visualEditorExportPath=""/>
-    <option testMovie=""/>
-    <option showHiddenPaths="False"/>
-    <option defaultBuildTargets=""/>
-    <option testMovieCommand=""/>
-    <option jdkType="default-java"/>
     <option isPrimeFacesVisualEditor="False"/>
+    <option defaultBuildTargets=""/>
+    <option testMovie=""/>
+    <option visualEditorExportPath=""/>
+    <option showHiddenPaths="False"/>
+    <option isDominoVisualEditor="False"/>
+    <option isRoyale="True"/>
+    <option jdkType="default-java"/>
+    <option testMovieCommand=""/>
+    <option isExportedToExistingSource="False"/>
   </options>
   <moonshineRunCustomization>
-    <option webBrowser="Google Chrome"/>
-    <option launchMethod="Simulator"/>
-    <option projectType="2"/>
-    <option urlToLaunch=""/>
-    <option targetPlatform="5"/>
     <option deviceConnectType="USB"/>
+    <option projectType="2"/>
     <option deviceSimulator="null"/>
     <option customUrlToLaunch=""/>
+    <option webBrowser="Google Chrome"/>
+    <option launchMethod="Simulator"/>
+    <option targetPlatform="5"/>
+    <option urlToLaunch=""/>
     <deviceSimulator>Apple iPad</deviceSimulator>
     <certAndroid>null</certAndroid>
     <certIos>null</certIos>
