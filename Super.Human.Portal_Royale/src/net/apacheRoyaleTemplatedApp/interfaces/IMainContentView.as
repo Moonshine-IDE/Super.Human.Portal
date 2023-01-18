@@ -33,6 +33,9 @@ package interfaces
 		function toggleDrawerOpen(value:Boolean):void;
 		function notifyObsoleteCurrentVersion():void;
 		
+		/*
+		Temporary hide Hello
 		function get viewHello():IViewHello;
+		*/
 	}
 }

@@ -114,7 +114,8 @@ package mediator
 						routeParamsToComponent(note.getBody() as ValueEvent);
 						break;
 					case ApplicationConstants.NOTE_OPEN_VIEW_HELLO:
-						initializeViewHello();
+						//initializeViewHello();
+						initializeViewGettingStarted();
 						break;
 				}
 			}		
@@ -178,12 +179,23 @@ package mediator
 				view.selectedContent = MediatorNewRegistration.NAME;
 			}
 			
+			/*
+			Temporary hide Hello
 			private function initializeViewHello():void
 			{
 				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
 					view: view,
 					currentView: view.viewHello,
 					currentSelection: MediatorViewHello.NAME
+				}, "mediator.MediatorViewHello");
+			}*/
+			
+			private function initializeViewGettingStarted():void
+			{
+				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
+					view: view,
+					currentView: null,
+					currentSelection: "DocumentationForm"
 				}, "mediator.MediatorViewHello");
 			}
 		

@@ -20,11 +20,9 @@
 			import interfaces.ILoginView;
 			import interfaces.INewRegistration;
 			import interfaces.IPasswordReset;
-			import interfaces.IViewHello;
 
 			import mediator.MediatorNewRegistration;
 			import mediator.MediatorPasswordReset;
-			import mediator.MediatorViewHello;
 
 			import model.vo.ConstantsCoreVO;
 
@@ -170,10 +168,12 @@
 				return this.drawer;
 			}			
 			
-			public function get viewHello():IViewHello
+			/*
+			Temporary hide Hello
+			public function get viewHello():IViewHello 
 			{
 				return this.helloView;	
-			}
+			}*/
 			
 			public function get footer():Object
 			{
@@ -254,7 +254,9 @@
 				</j:beads>
 				<j:dataProvider xmlns:j="library://ns.apache.org/royale/jewel">
 					<js:ArrayList>
-						<fx:Object name="Hello" content="MediatorViewHello" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"/>
+						<!---
+							Temporary hide Hello
+							<fx:Object name="Hello" content="MediatorViewHello" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"/>->
 
                             <!--START_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**-->
 <fx:Object name="DocumentationForm" content="DocumentationForm" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"/>
@@ -314,9 +316,11 @@
 				<general:PasswordReset id="passwordReset"/>
 			</j:VGroup>
 		</j:SectionContent>
+	<!--	
+		Temporary hide Hello
 		<j:ScrollableSectionContent name="{MediatorViewHello.NAME}">
 			<hello:ViewHello id="helloView"/>
-		</j:ScrollableSectionContent>
+		</j:ScrollableSectionContent>-->
 
 		<!--START_GENERATED_SCROLLABLE_SECTION_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**-->
 <j:ScrollableSectionContent name="{Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.DocumentationForm.NAME}" className="sectionCenter">
