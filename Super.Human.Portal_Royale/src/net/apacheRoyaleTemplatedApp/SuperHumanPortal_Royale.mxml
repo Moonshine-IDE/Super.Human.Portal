@@ -25,7 +25,7 @@
 
 		import org.apache.royale.routing.IRouter;
 						
-		private var facade:ApplicationFacade = ApplicationFacade.getInstance("ApacheRoyaleTemplatedApp");
+		private var facade:ApplicationFacade = ApplicationFacade.getInstance("SuperHumanPortal_Royale");
 			
 		public function get mainContent():IMainContentView
 		{
