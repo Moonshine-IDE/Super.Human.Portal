@@ -5,7 +5,7 @@
     <movie height="600"/>
     <movie version="20"/>
     <movie background="#FFFFFF"/>
-    <movie path="bin-debug/ApacheRoyaleTemplatedApp.swf"/>
+    <movie path="bin-debug/Super.Human.Portal_Royale.swf"/>
     <movie disabled="False"/>
     <movie input=""/>
     <movie width="800"/>
@@ -78,7 +78,7 @@
   <library></library>
   <modules/>
   <compileTargets>
-    <compile path="src/net/apacheRoyaleTemplatedApp/ApacheRoyaleTemplatedApp.mxml"/>
+    <compile path="src/net/apacheRoyaleTemplatedApp/Super.Human.Portal_Royale.mxml"/>
   </compileTargets>
   <hiddenPaths></hiddenPaths>
   <preBuildCommand>null</preBuildCommand>
