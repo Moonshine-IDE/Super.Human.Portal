@@ -193,5 +193,5 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
 </j:VGroup>
 
 
-  <dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName'},{caption: 'DocumentationUNID', dataField: 'DocumentationUNID'}]}" dataProvider="{this.proxy.items}" localId="dg" includeIn="dataGridState" className="dxDataGrid" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>
+  <dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName', allowSorting: false}, {caption: 'DocumentationUNID', dataField: 'DocumentationUNID', dataType: 'number', alignment: 'left', sortOrder: 'asc'}]}" dataProvider="{this.proxy.items}" localId="dg" includeIn="dataGridState" className="dxDataGrid" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>
 </j:VGroup>
