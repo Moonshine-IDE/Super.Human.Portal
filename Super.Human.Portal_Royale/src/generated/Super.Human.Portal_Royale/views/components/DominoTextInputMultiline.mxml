@@ -2,7 +2,7 @@
 <j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:js="library://ns.apache.org/royale/basic"
 		 xmlns:j="library://ns.apache.org/royale/jewel"
-		 percentHeight="100" percentWidth="100" currentState="normal">
+		 percentHeight="100" currentState="normal">
   <j:beads>
     <js:ContainerDataBinding/>
     <js:SimpleStatesImpl/>
@@ -19,6 +19,17 @@
     </fx:Metadata>
   <fx:Script>
 	<![CDATA[
+		
+		private var _isTextArea:Boolean;
+
+		public function set isTextArea(value:Boolean):void
+		{
+			if (_isTextArea != value)
+			{
+				_isTextArea = value;
+			}
+		}
+		
 		private var _text:String;
 		
 		[Bindable]
@@ -68,6 +79,7 @@
 		private function switchState():void
 		{
 			this.currentState = isDisabled ? "disabled" : "normal";
+			this.refreshTextArea();
 		}
 
 		private function onTextChange(event:Event):void
@@ -75,9 +87,22 @@
             this._text = event.currentTarget.text;
             dispatchEvent(new Event("change"));
         }
+        
+        private function refreshTextArea():void
+        {
+        		if (textInput)
+			{
+				textInput.visible = _isTextArea == false;
+			}
+			
+			if (descriptionInput)
+			{
+				descriptionInput.visible = _isTextArea;
+			}
+        }
 	]]>
 </fx:Script>
-  <j:TextInput text="{text}"
-  			   percentHeight="100" percentWidth="100" includeIn="normal" change="onTextChange(event)"/>
-  <j:Label text="{text}" multiline="true" percentHeight="100" percentWidth="100" includeIn="disabled"/>
+  <j:TextInput localId="textInput" text="{text}" includeIn="normal" change="onTextChange(event)"/>
+  <j:TextArea localId="descriptionInput" text="{text}" includeIn="normal" change="onTextChange(event)" minWidth="300"/>
+  <j:Label text="{text}" multiline="true" percentHeight="100" includeIn="disabled"/>
 </j:VGroup>
