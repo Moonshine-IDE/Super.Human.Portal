@@ -184,7 +184,13 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
 
   <j:HGroup percentWidth="100">
     
-    <joditeditor:RichTextEditor data="{itemVO.DocumentationBody}" textChange="{itemVO.DocumentationBody = event.target.data;}" readonly="{isDisabled}" options="{{allowResizeY: !isDisabled, showCharsCounter: false, showWordsCounter: false, showXPathInStatusbar: false, inline: isDisabled, defaultLineHeight: isDisabled ? 1 : null, minHeight: 40}}" className="" xmlns:joditeditor="Super.Human.Portal_Royale.classes.joditeditor.*"/>
+    <joditeditor:RichTextEditor data="{itemVO.DocumentationBody}" textChange="{itemVO.DocumentationBody = event.target.data;}" readonly="{isDisabled}" 
+    							   buttons="bold,italic,underline,strikethrough,font,fontsize,paragraph,file,cut,copy,paste,hr,table,link,undo,redo,print"
+    							   options="{{allowResizeY: !isDisabled, showCharsCounter: false, showWordsCounter: false, showXPathInStatusbar: false, inline: isDisabled, defaultLineHeight: isDisabled ? 1 : null, minHeight: 40}}" className="" xmlns:joditeditor="Super.Human.Portal_Royale.classes.joditeditor.*">
+    		<joditeditor:style>
+    			<js:AllCSSStyles minWidth="300"/>
+    		</joditeditor:style>
+    	</joditeditor:RichTextEditor>
     
   </j:HGroup>
   
