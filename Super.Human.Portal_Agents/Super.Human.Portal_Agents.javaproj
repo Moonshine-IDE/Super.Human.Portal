@@ -14,7 +14,7 @@
     <class path="src/main/java"/>
   </classpaths>
   <build>
-    <option mainclass="Super.Human.Portal_DVE_JavaAgents"/>
+    <option mainclass="Super.Human.Portal_Agents"/>
   </build>
   <options>
     <option projectType="java-domino"/>

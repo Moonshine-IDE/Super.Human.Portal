@@ -1,5 +1,5 @@
 /*
-Build script for Super.Human.Portal_DVE_JavaAgents
+Build script for Super.Human.Portal_Agents
 */
 plugins {
     id 'java'
