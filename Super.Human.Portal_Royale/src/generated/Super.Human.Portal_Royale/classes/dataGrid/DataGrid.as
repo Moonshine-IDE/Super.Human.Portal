@@ -59,6 +59,40 @@ package Super.Human.Portal_Royale.classes.dataGrid
 			}
 		}
 
+		private var _filterRow:Object = {};
+
+		public function get filterRow():Object
+		{
+			return _filterRow;
+		}
+
+		public function set filterRow(value:Object):void
+		{
+			if (_filterRow != value)
+			{
+				_filterRow = value;
+				
+				refreshFilterRow();
+			}
+		}
+		
+		private var _searchPanel:Object = {};
+
+		public function get searchPanel():Object
+		{
+			return _searchPanel;
+		}
+
+		public function set searchPanel(value:Object):void
+		{
+			if (_searchPanel != value)
+			{
+				_searchPanel = value;
+				
+				refreshSearchPanel();
+			}
+		}
+		
 		private var _dataProvider:Object;
 
 		public function get dataProvider():Object
@@ -97,6 +131,8 @@ package Super.Human.Portal_Royale.classes.dataGrid
 			});
 
 			this.refreshColumns();
+			this.refreshFilterRow();
+			this.refreshSearchPanel();
 			this.refreshCurrentDataProvider();
 		}
 
@@ -110,6 +146,26 @@ package Super.Human.Portal_Royale.classes.dataGrid
 			}
 		}
 
+		private function refreshFilterRow():void
+		{
+			if (this.dg && this.filterRow)
+			{
+				window["$"](this.element).dxDataGrid({
+					filterRow: this.filterRow
+				});
+			}	
+		}
+		
+		private function refreshSearchPanel():void
+		{
+			if (this.dg && this.searchPanel)
+			{
+				window["$"](this.element).dxDataGrid({
+					searchPanel: this.searchPanel
+				});
+			}
+		}
+		
 		public function refreshCurrentDataProvider():void
 		{
 			if (this.dg)

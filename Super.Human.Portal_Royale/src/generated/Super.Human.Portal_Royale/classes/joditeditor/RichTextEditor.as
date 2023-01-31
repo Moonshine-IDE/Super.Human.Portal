@@ -20,7 +20,7 @@ package Super.Human.Portal_Royale.classes.joditeditor
 		public function RichTextEditor()
 		{
 			super();
-
+			
 			addEventListener("beadsAdded", onJoditEditorInitComplete);
 		}
 
@@ -115,6 +115,7 @@ package Super.Human.Portal_Royale.classes.joditeditor
 					if (_buttons)
 					{
 						config.buttons = _buttons;
+						config.toolbarAdaptive = false;
 					}
 
 					for (var p:String in _options)

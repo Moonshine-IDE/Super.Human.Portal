@@ -158,7 +158,7 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
   </j:HGroup>
   
 <j:VGroup includeIn="contentState" percentWidth="100" percentHeight="100" xmlns:j="library://ns.apache.org/royale/jewel"
-		  gap="4">
+		  gap="6">
   
   <j:beads>
     
@@ -166,32 +166,37 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
     
   </j:beads>
   
-  <j:HGroup percentWidth="100">
+  <j:HGroup gap="2">
     
-    <components:DominoTextInputMultiline text="{itemVO.DocumentationName}" change="{itemVO.DocumentationName = event.currentTarget.text;}" isDisabled="{isDisabled}" width="138" height="30" xmlns:components="Super.Human.Portal_Royale.views.components.*"/>
+    <components:DominoTextInputMultiline text="{itemVO.DocumentationName}" change="{itemVO.DocumentationName = event.currentTarget.text;}" 
+    										isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
+    										isTextArea="true"/>
     
-    <j:Label text="(" className="cursor-pointer" multiline="true"/>
+    <j:Label text="(" className="cursor-pointer" visible="{isDisabled}"/>
     
-    <components:DominoTextInputMultiline text="{itemVO.DocumentationUNID}" change="{itemVO.DocumentationUNID = event.currentTarget.text;}" isDisabled="{isDisabled}" width="138" height="30" xmlns:components="Super.Human.Portal_Royale.views.components.*"/>
+    <components:DominoTextInputMultiline text="{itemVO.DocumentationUNID}" change="{itemVO.DocumentationUNID = event.currentTarget.text;}" 
+    										isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
+    										isTextArea="false"/>
     
-    <j:Label text=")" className="cursor-pointer" multiline="true"/>
-    
-  </j:HGroup>
-  
-  <j:HGroup percentWidth="100">
-    
-    <j:Label text=" " className="cursor-pointer" multiline="true"/>
+    <j:Label text=")" className="cursor-pointer" visible="{isDisabled}"/>
     
   </j:HGroup>
-  
+
   <j:HGroup percentWidth="100">
     
-    <joditeditor:RichTextEditor data="{itemVO.DocumentationBody}" textChange="{itemVO.DocumentationBody = event.target.data;}" readonly="{isDisabled}" options="{{allowResizeY: !isDisabled, showCharsCounter: false, showWordsCounter: false, showXPathInStatusbar: false, inline: isDisabled, defaultLineHeight: isDisabled ? 1 : null, minHeight: 40}}" className="" xmlns:joditeditor="Super.Human.Portal_Royale.classes.joditeditor.*"/>
+    <joditeditor:RichTextEditor data="{itemVO.DocumentationBody}" textChange="{itemVO.DocumentationBody = event.target.data;}" readonly="{isDisabled}" 
+    							   buttons="bold,italic,underline,strikethrough,font,fontsize,paragraph,file,cut,copy,paste,hr,table,link,undo,redo,print"
+    							   options="{{allowResizeY: !isDisabled, showCharsCounter: false, showWordsCounter: false, showXPathInStatusbar: false, inline: isDisabled, defaultLineHeight: isDisabled ? 1 : null, minHeight: 40}}" className="" xmlns:joditeditor="Super.Human.Portal_Royale.classes.joditeditor.*">
+    		<joditeditor:style>
+    			<js:AllCSSStyles minWidth="300"/>
+    		</joditeditor:style>
+    	</joditeditor:RichTextEditor>
     
   </j:HGroup>
   
 </j:VGroup>
 
 
-  <dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName'},{caption: 'DocumentationUNID', dataField: 'DocumentationUNID'}]}" dataProvider="{this.proxy.items}" localId="dg" includeIn="dataGridState" className="dxDataGrid" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>
+  <dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName', allowSorting: false, allowFiltering: true, filterType: 'exclude'}, {caption: 'DocumentationUNID', dataField: 'DocumentationUNID', dataType: 'number', alignment: 'left', sortOrder: 'asc', allowFiltering: false}]}" dataProvider="{this.proxy.items}" 
+  					 filterRow="{ {visible: true, applyFilter: 'auto'} }" localId="dg" includeIn="dataGridState" className="dxDataGrid" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>
 </j:VGroup>
