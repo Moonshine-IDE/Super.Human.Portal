@@ -68,6 +68,7 @@ package constants
 		public static const NOTE_SET_INITIAL_TICKET_SUPPORT:String = NAME + SEPARATOR + "NoteSetInitialTicketSupport";
 		
 		public static const NOTE_OPEN_VIEW_HELLO:String = NAME + SEPARATOR + "NoteOpenViewHello";
+		public static const NOTE_OPEN_GENESIS_APPLICATIONS:String = NAME + SEPARATOR + "NoteOpenGenesisApplications";
 		//----------------------------------
 		// Commands
 		//----------------------------------

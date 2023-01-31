@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
+		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
+		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
+		 implements="interfaces.IGenesisAppsView" className="bodyPadding"
+		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" gap="5">
+	<fx:Script>
+		<![CDATA[
+			import org.apache.royale.collections.ArrayList;
+			import org.apache.royale.core.StyledUIBase;
+			import org.apache.royale.events.IEventDispatcher;
+			import org.apache.royale.jewel.Snackbar;
+									
+			public function set genesisAppsDataProvider(value:Array):void
+			{
+				genesisApps.dataProvider = new ArrayList(value);
+			}
+				
+			public function get seeMoreDetails():IEventDispatcher
+			{
+				return this.seeMoreDetailsBtn;	
+			}
+			
+			public function get installApplicationButton():IEventDispatcher
+			{
+				return this.installAppBtn;
+			}
+
+			public function get refreshButton():IEventDispatcher
+			{
+				return this.refreshViewBtn;
+			}	
+			
+			public function get learnMore():IEventDispatcher
+			{
+				return this.learnMoreGenesis;
+			}
+			
+			public function get genesisAppsList():IEventDispatcher
+			{
+				return genesisApps;
+			}
+			
+			public function installationResult(message:String):void
+			{
+				Snackbar.show(message, 4000, null);
+			}
+			
+			[Bindable]
+			private var filterHeader:Object = { visible: true, texts: {
+				ok: "OK",
+				cancel: "Cancel"
+			} };
+
+			[Bindable]
+			private var filterRow:Object = { visible: true, applyFilter: "auto" };
+		]]>
+	</fx:Script>
+
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+
+	<j:Grid gap="false">
+		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
+			<j:HGroup percentWidth="100">
+				<html:H3 text="Genesis Directory Catalog" percentWidth="100"/>
+				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
+					<j:Button localId="learnMoreGenesis" className="noLinkStyle"/>
+				</j:HGroup>
+			</j:HGroup>
+		</j:GridCell>
+	</j:Grid>
+	
+	<j:Card percentWidth="100">
+		<j:Form>
+			<controls:CustomFormItem label="Select application to install:"
+									 labelClass="formItemPersonalInfo" className="horizontalContentFormItem">
+				<j:HGroup itemsVerticalAlign="itemsCenter">
+					<j:Button localId="seeMoreDetailsBtn" text="See more details" width="120" className="noLinkStyle"/>
+				</j:HGroup>
+				<j:HGroup percentHeight="100" gap="1" itemsHorizontalAlign="itemsRight" 
+						itemsVerticalAlign="itemsCenter">
+					<j:Button localId="refreshViewBtn" text="Refresh" width="130"/>
+					<j:Button localId="installAppBtn" text="Install" emphasis="{StyledUIBase.PRIMARY}" width="120">
+						<j:beads>
+							<j:Disabled localId="installDisabled" disabled="true"/>
+						</j:beads>
+					</j:Button>
+				</j:HGroup>
+			</controls:CustomFormItem>						
+		</j:Form>
+	</j:Card>	
+	<dataGrid:DataGrid localId="genesisApps" className="dataGridJS scrollHeightGridJS" filterRow="{filterRow}"
+					   headerFilter="{filterHeader}">
+			<dataGrid:beads>
+				<beads:JewelDataGridHeader />
+			</dataGrid:beads>
+			<dataGrid:columns>
+				<models:DataGridColumnModel caption="App Name" dataField="label" dataType="string" allowFiltering="true"/>
+			</dataGrid:columns>
+		</dataGrid:DataGrid>
+</j:VGroup>

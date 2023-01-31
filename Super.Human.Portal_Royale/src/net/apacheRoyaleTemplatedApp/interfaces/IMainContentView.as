@@ -33,6 +33,8 @@ package interfaces
 		function toggleDrawerOpen(value:Boolean):void;
 		function notifyObsoleteCurrentVersion():void;
 		
+		function get viewGenesisApps():IGenesisAppsView;
+		
 		/*
 		Temporary hide Hello
 		function get viewHello():IViewHello;

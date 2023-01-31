@@ -43,6 +43,15 @@ a:hover {
 	IBeadView: ClassReference("view.controls.SliderPasswordStrengthView");
 }
 
+.dataGridJS {
+	IBeadView: ClassReference("classes.com.devexpress.js.dataGrid.beads.DataGridView");
+	IBeadModel: ClassReference("classes.com.devexpress.js.dataGrid.beads.models.DataGridModel");
+}
+
+.scrollHeightGridJS {
+	height: 80vh;
+}
+
 .dx-datagrid-header-panel {
 	backgroundColor: #f5f8fa;
 	border-bottom: none;
@@ -375,4 +384,15 @@ a:hover {
 
 .jewel.togglebutton {
   text-transform: none;
+}
+
+.jewel.label.formItemPersonalInfo {
+    width: 16em;
+    fontWeight: bold;
+}
+
+.horizontalContentFormItem {
+	IBeadModel: ClassReference("classes.models.CustomFormItemModel");
+	IFormItemContentArea: ClassReference("view.controls.HGroupExpandedForm");
+	IBeadView: ClassReference("view.controls.FormItemView");
 }

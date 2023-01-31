@@ -17,6 +17,7 @@ package mediator
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+    import mediator.applications.MediatorGenesisApps;
                                                                                 
     public class MediatorMainContentView extends Mediator implements IMediator
     {
@@ -76,6 +77,7 @@ package mediator
 					interests.push(ApplicationConstants.NOTE_ROUTE_PARAMS_COMPONENT);
 					
 					interests.push(ApplicationConstants.NOTE_OPEN_VIEW_HELLO);
+					interests.push(ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS);
 					
 				return interests;
 			}
@@ -116,6 +118,9 @@ package mediator
 					case ApplicationConstants.NOTE_OPEN_VIEW_HELLO:
 						//initializeViewHello();
 						initializeViewGettingStarted();
+						break;
+					case ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS:
+						initializeGenesisApplicationsList();
 						break;
 				}
 			}		
@@ -197,6 +202,15 @@ package mediator
 					currentView: null,
 					currentSelection: "DocumentationForm"
 				}, "mediator.MediatorViewHello");
+			}
+			
+			private function initializeGenesisApplicationsList():void
+			{
+				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
+					view: view,
+					currentView: view.viewGenesisApps,
+					currentSelection: MediatorGenesisApps.NAME
+				}, "mediator.applications.MediatorGenesisApps");
 			}
 		
 	//----------------------------------

@@ -4,6 +4,7 @@ package controller.startup.prepareModel
 	import model.proxy.ProxyPasswordStrength;
 	import model.proxy.ProxySessionCheck;
 	import model.proxy.ProxyVersion;
+	import model.proxy.applicationsCatalog.ProxyGenesisApps;
 	import model.proxy.busy.ProxyBusyManager;
 	import model.proxy.login.ProxyLogin;
 	import model.proxy.login.ProxyNewRegistration;
@@ -34,6 +35,7 @@ package controller.startup.prepareModel
 			facade.registerProxy(new ProxyCreateAccount(dataUrl));
 			
 			facade.registerProxy(new ProxyPasswordStrength());
+			facade.registerProxy(new ProxyGenesisApps(dataUrl));
 		}
 	}
 }

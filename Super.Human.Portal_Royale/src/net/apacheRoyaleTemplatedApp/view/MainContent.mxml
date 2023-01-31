@@ -5,7 +5,7 @@
 				  xmlns:html="library://ns.apache.org/royale/html"
 				  xmlns:view="view.*" xmlns:general="view.general.*"
 				  xmlns:model="model.*" 
-				  xmlns:routing="org.apache.royale.routing.*" xmlns:beads="classes.beads.*" xmlns:hello="view.hello.*"
+				  xmlns:routing="org.apache.royale.routing.*" xmlns:beads="classes.beads.*" xmlns:hello="view.hello.*" xmlns:applications="view.applications.*"
 				  implements="interfaces.IMainContentView"
 				  initComplete="onInitComplete(event)">
 	<j:beads>
@@ -17,12 +17,14 @@
 	<fx:Script>
 		<![CDATA[
 
+			import interfaces.IGenesisAppsView;
 			import interfaces.ILoginView;
 			import interfaces.INewRegistration;
 			import interfaces.IPasswordReset;
 
 			import mediator.MediatorNewRegistration;
 			import mediator.MediatorPasswordReset;
+			import mediator.applications.MediatorGenesisApps;
 
 			import model.vo.ConstantsCoreVO;
 
@@ -31,6 +33,7 @@
 			import org.apache.royale.jewel.Alert;
 
 			import view.general.BusyOperator;
+			import constants.ApplicationConstants;
 																																																																																																						
 			private function onInitComplete(event:Event):void 
 			{
@@ -175,6 +178,11 @@
 				return this.helloView;	
 			}*/
 			
+			public function get viewGenesisApps():IGenesisAppsView 
+			{
+				return this.genesisAppsView;	
+			}
+			
 			public function get footer():Object
 			{
 				return this.appFooter;
@@ -259,9 +267,12 @@
 							<fx:Object name="Hello" content="MediatorViewHello" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"/>->
 
                             <!--START_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**-->
-<fx:Object name="Getting Started" content="DocumentationForm" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"/>
-<!--END_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
+							<fx:Object name="Getting Started" content="DocumentationForm" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"
+									   notificationName="{ApplicationConstants.NOTE_OPEN_VIEW_HELLO}"/>
+							<!--END_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
 						<!--GENERATED_MENU_CURSOR: New snippets will be inserted here-->
+						<fx:Object name="Genesis App" content="MediatorGenesisApps" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"
+								   notificationName="{ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS}"/>
 					</js:ArrayList>
 				</j:dataProvider>
 			</j:Navigation>
@@ -316,6 +327,9 @@
 				<general:PasswordReset id="passwordReset"/>
 			</j:VGroup>
 		</j:SectionContent>
+		<j:ScrollableSectionContent name="{MediatorGenesisApps.NAME}">
+			<applications:GenesisAppsList id="genesisAppsView"/>
+		</j:ScrollableSectionContent>
 	<!--	
 		Temporary hide Hello
 		<j:ScrollableSectionContent name="{MediatorViewHello.NAME}">
