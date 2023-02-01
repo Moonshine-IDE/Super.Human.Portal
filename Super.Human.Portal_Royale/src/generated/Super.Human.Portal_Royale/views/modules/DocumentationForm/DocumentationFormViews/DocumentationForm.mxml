@@ -22,7 +22,8 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
 
 	[Bindable] private var itemVO:DocumentationFormVO;
 	[Bindable] private var isDisabled:Boolean = false;
-
+	[Bindable] private var isReadonly:Boolean = false;
+	
     public static const NAME:String = "DocumentationForm";
 
     private function onViewInitComplete(event:Event):void
@@ -111,13 +112,13 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
           <js:SimpleCSSStyles padding="10"/>
       </j:style>
       <j:IconButton text="Add" includeIn="dataGridState"
-                    click="onAddItem(event)">
+                    click="onAddItem(event)" visible.dataGridState="{isReadonly == false}">
         <j:icon>
             <js:MaterialIcon text="{MaterialIconType.ADD}" />
         </j:icon>
       </j:IconButton>
       <j:IconButton text="Edit" includeIn="dataGridState"
-                    click="onEditItem(event)">
+                    click="onEditItem(event)" visible.dataGridState="{isReadonly == false}">
           <j:icon>
               <js:MaterialIcon text="{MaterialIconType.MODE_EDIT}" />
           </j:icon>
@@ -125,7 +126,7 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
                 <j:Disabled disabled="{dg.selectedIndex == -1}"/>
           </j:beads>
       </j:IconButton>
-       <j:IconButton text="Remove" includeIn="dataGridState" click="{removeItem()}" >
+       <j:IconButton text="Remove" includeIn="dataGridState" click="{removeItem()}" visible.dataGridState="{isReadonly == false}">
           <j:icon>
               <js:MaterialIcon text="{MaterialIconType.REMOVE}" />
           </j:icon>
@@ -144,13 +145,13 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
        <j:style>
            <js:SimpleCSSStyles paddingLeft="10" marginTop="0"/>
       </j:style>
-      <j:Button text="Save" click="onSaveClick(event)">
+      <j:Button text="Save" click="onSaveClick(event)" visible.contentState="{isReadonly == false}">
            <j:beads>
               <j:Disabled disabled="{isDisabled}"/>
            </j:beads>
       </j:Button>
-      <j:Button text="Cancel" click="onCancelClick(event)"/>
-      <j:Button text="Edit" click="onEditItem(event)">
+      <j:Button text="{isReadonly ? 'Back' : 'Cancel'}" click="onCancelClick(event)"/>
+      <j:Button text="Edit" click="onEditItem(event)" visible.contentState="{isReadonly == false}">
       	   <j:beads>
       		   <j:Disabled disabled="{isDisabled == false}"/>
       	   </j:beads>
