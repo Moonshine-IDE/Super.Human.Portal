@@ -72,6 +72,12 @@ dependencies {
     // New Dependencies for Domino 12.0.2
     dxlRuntime files("$notesJarExtDir/lwpd.domino.napi.jar")
     dxlRuntime files("$notesJarExtDir/lwpd.commons.jar")
+    
+    // Dependencies for SimpleHTTPClient
+    implementation 'commons-codec:commons-codec:1.4'
+    implementation 'commons-httpclient:commons-httpclient:3.1'  //newer versions in com.apache.httpcomponents
+    implementation 'org.apache.commons:commons-lang3:3.0.1'
+    implementation 'commons-logging:commons-logging:1.1.1'
 }
 
 /*
@@ -80,20 +86,34 @@ dependencies {
  * which will allow the library to be updated separately from the agents.
  * If you have additional dependencies to support, you can create more script libraries or enable the code below.
  */
-//jar {
-//	from { 
-//		// runtimeClasspath includes implementation and runtimeOnly dependencies
-//		// findResults allows using null to exclude results
-//		configurations.runtimeClasspath.findResults { File dependency ->
-//			if (dependency.getName().equalsIgnoreCase("Notes.jar")) {
-//				return null  // skip this entry
-//			}
-//			else {
-//				return dependency.isDirectory() ? dependency : zipTree(dependency) 
-//			}
-//		} 
-//	}
-//}
+// TODO:  not working in Gradle 7.5.1
+// jar {
+// 	
+// 	from { 
+// 		// runtimeClasspath includes implementation and runtimeOnly dependencies
+// 		// findResults allows using null to exclude results
+// 		configurations.runtimeClasspath.findResults { File dependency ->
+// 			if (dependency.getName().equalsIgnoreCase("Notes.jar")) {
+// 				return null  // skip this entry
+// 			}
+// 			else if (dependency.getName().equalsIgnoreCase("Moonshine-Domino-CRUD.jar")) {
+// 				return null  // skip this entry - it is covered by the Moonshine-Domino-CRUD script library
+// 			}
+// 			else {
+// 				println dependency.getName()
+// 				return dependency.isDirectory() ? dependency : zipTree(dependency) 
+// 			}
+// 		} 
+// 		
+// 		duplicatesStrategy DuplicatesStrategy.EXCLUDE
+// 		// setDuplicatesStrategy(DuplicatesStrategy.INCLUDE)
+// 	}
+// }
+
+task copyDependencies(type: Copy) {
+   from configurations.runtimeClasspath
+   into 'dependencies'
+}
 
 
 /* #### DXL Importer Configuration #### */
@@ -208,7 +228,10 @@ task importAll(dependsOn: [tasks.getByName('importAllScriptLibraries'), tasks.ge
 	// further dependencies should be added to importAllScriptLibraries or importAllAgents
 }
 
-// TODO: generate tasks for the script libraries
+task jarApacheCommons( dependsOn: copyDependencies) {
+	// This script library does not have any local code.  Instead, it imports some JARs from the dependencies.
+	// The JAR names need to be specified exactly in agentProperties/genesis/GenesisRead.properties
+}
 
 // generate tasks for agents
 String agentPropertiesDirName = project.findProperty('agentPropertiesDir') ?: 'agentProperties/'

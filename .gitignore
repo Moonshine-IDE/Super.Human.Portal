@@ -1,6 +1,7 @@
 .DS_Store
 **/.DS_Store
 **/*.swp
+**/tmp_unzip
 
 Super.Human.Portal_DVE/target
 Super.Human.Portal_DVE/nsfs/nsf-moonshine/META-INF/MANIFEST.MF
@@ -11,6 +12,7 @@ Super.Human.Portal_Royale/obj
 Super.Human.Portal_Royale/target
 
 Super.Human.Portal_Agents/build
+Super.Human.Portal_Agents/dependencies
 Super.Human.Portal_Agents/.classpath
 Super.Human.Portal_Agents/.gradle
 Super.Human.Portal_Agents/.importDxlDebugOutput/
