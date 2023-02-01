@@ -286,7 +286,7 @@
 						<js:MaterialIcon text="{MaterialIconType.VIEW_HEADLINE}"/>
 					</j:icon>
 				</j:IconButton>
-				<html:H2 text="Apache Royale Templated Application"/>
+				<html:H2 text="Super.Human.Portal"/>
             </j:BarSection>
 			<j:BarSection itemsHorizontalAlign="itemsRight" gap="2">
 				<j:IconButton>

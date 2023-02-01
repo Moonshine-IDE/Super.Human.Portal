@@ -166,7 +166,7 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
     
   </j:beads>
   
-  <j:HGroup gap="2">
+  <j:HGroup gap="2" itemsVerticalAlign="itemsCenter">
     
     <components:DominoTextInputMultiline text="{itemVO.DocumentationName}" change="{itemVO.DocumentationName = event.currentTarget.text;}" 
     										isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
@@ -178,7 +178,7 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
     										isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
     										isTextArea="false"/>
     
-    <j:Label text=")" className="cursor-pointer" visible="{isDisabled}"/>
+    <j:Label text="{isDisabled ? ')' : '(DocumentationUNID)'}" className="cursor-pointer"/>
     
   </j:HGroup>
 

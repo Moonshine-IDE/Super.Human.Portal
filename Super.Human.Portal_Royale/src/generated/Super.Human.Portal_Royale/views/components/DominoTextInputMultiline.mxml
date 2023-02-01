@@ -2,7 +2,7 @@
 <j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:js="library://ns.apache.org/royale/basic"
 		 xmlns:j="library://ns.apache.org/royale/jewel"
-		 percentHeight="100" currentState="normal">
+		 currentState="normal">
   <j:beads>
     <js:ContainerDataBinding/>
     <js:SimpleStatesImpl/>
@@ -102,7 +102,7 @@
         }
 	]]>
 </fx:Script>
-  <j:TextInput localId="textInput" text="{text}" includeIn="normal" change="onTextChange(event)"/>
-  <j:TextArea localId="descriptionInput" text="{text}" includeIn="normal" change="onTextChange(event)" minWidth="300"/>
+  <j:TextInput localId="textInput" text="{text}" change="onTextChange(event)" className="shortInput" includeIn="normal"/>
+  <j:TextArea localId="descriptionInput" text="{text}" includeIn="normal" change="onTextChange(event)" minWidth="500"/>
   <j:Label text="{text}" multiline="true" percentHeight="100" includeIn="disabled"/>
 </j:VGroup>

@@ -396,3 +396,8 @@ a:hover {
 	IFormItemContentArea: ClassReference("view.controls.HGroupExpandedForm");
 	IBeadView: ClassReference("view.controls.FormItemView");
 }
+
+.jewel.textinput.shortInput {
+	minWidth: 50px !important;
+	width: 45px;
+}
