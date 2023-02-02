@@ -2,7 +2,6 @@ package genesis;
 
 import java.io.IOException;
 
-import javax.xml.bind.ValidationException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +15,7 @@ import com.moonshine.domino.util.DominoUtils;
 
 import lotus.domino.NotesException;
 import util.SimpleHTTPClient;
+import util.ValidationException;
 
 /**
  * Return a list of available Genesis applications
