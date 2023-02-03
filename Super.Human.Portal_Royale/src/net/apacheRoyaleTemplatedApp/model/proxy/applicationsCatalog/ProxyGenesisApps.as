@@ -6,7 +6,6 @@ package model.proxy.applicationsCatalog
 
 	import model.proxy.ProxySessionCheck;
 	import model.proxy.busy.ProxyBusyManager;
-	import model.vo.AccountVO;
 	import model.vo.ApplicationVO;
 
 	import org.apache.royale.net.events.FaultEvent;
@@ -62,18 +61,10 @@ package model.proxy.applicationsCatalog
 
 		public function getGenesisAppsList():void
 		{
-			//var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onGenesisAppsListFetched);
-			//var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisAppsListFetchFailed);
-			
-			var apps:Array = [
-				new ApplicationVO("1", "https://genesis.directory/apps/absence", "Absence Mail"),
-				new ApplicationVO("2", "https://genesis.directory/apps/dbsigner", "Database Signer"),
-				new ApplicationVO("3", "https://genesis.directory/apps/peanuts-portal", "Peanuts Portal")
-			];
-			
-			setData(apps);
-			sendNotification(NOTE_GENESIS_APPS_LIST_FETCHED);
-			//genesisAppsDelegate.getGenesisCatalogList(successCallback, failureCallback);
+			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onGenesisAppsListFetched);
+			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisAppsListFetchFailed);
+		
+			genesisAppsDelegate.getGenesisCatalogList(successCallback, failureCallback);
 		}
 
 		public function installApplication():void
@@ -104,8 +95,7 @@ package model.proxy.applicationsCatalog
 				}
 				else
 				{
-					var apps:Array = [];
-					//ParseCentral.parseGenesisCatalogList(jsonData.apps);
+					var apps:Array = ParseCentral.parseGenesisCatalogList(jsonData.apps);
 					setData(apps);
 					sendNotification(NOTE_GENESIS_APPS_LIST_FETCHED);
 				}

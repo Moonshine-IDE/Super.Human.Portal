@@ -25,7 +25,7 @@ package services
 			
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = ""//UrlProvider.getInstance().genesisCatalogGetAll;
+			service.url = this.ipAddress + UrlProvider.getInstance().genesisCatalogGetAll;
 			service.method = "GET";
 			service.addEventListener("complete", resultCallback);
 			service.addEventListener("ioError", faultCallback);

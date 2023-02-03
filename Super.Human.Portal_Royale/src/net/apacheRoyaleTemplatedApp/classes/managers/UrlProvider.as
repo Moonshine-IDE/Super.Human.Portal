@@ -123,6 +123,13 @@ package classes.managers
 			_accountsposturl = value;
 		} 
 
+		private var _genesisCatalogGetAll:String = "/SuperHumanPortal.nsf/GenesisRead?OpenAgent";
+
+		public function get genesisCatalogGetAll():String
+		{
+			return _genesisCatalogGetAll;
+		}
+		
 		private var _appVersion:String;
 		
 		public function setAppVersion(value:String):void

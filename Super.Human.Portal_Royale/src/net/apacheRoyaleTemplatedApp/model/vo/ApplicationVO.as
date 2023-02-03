@@ -2,11 +2,13 @@ package model.vo
 {
 	public class ApplicationVO 
 	{
-		public function ApplicationVO(appId:String, detailsUrl:String, label:String) 
+		public function ApplicationVO(appId:String, detailsUrl:String, label:String, installCommand:String, installed:Boolean) 
 		{
 			this._appId = appId;
 			this._detailsUrl = detailsUrl;
 			this._label = label;
+			this._installCommand = installCommand;
+			this._installed = installed;
 		}
 		
 		
@@ -47,6 +49,27 @@ package model.vo
 		{
 			return _label;
 		}
+		
+		private var _installCommand:String;
+		public function set installCommand(value:String):void 
+		{
+			_installCommand = value;
+		}
+		
+		public function get installCommand():String
+		{
+			return _installCommand;
+		}
+		
+		private var _installed:Boolean;
+		public function set installed(value:Boolean):void 
+		{
+			_installed = value;
+		}
+		
+		public function get installed():Boolean
+		{
+			return _installed;
+		}
 	}
-	
 }
