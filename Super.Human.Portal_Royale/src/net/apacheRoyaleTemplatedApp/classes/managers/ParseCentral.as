@@ -108,7 +108,6 @@ package classes.managers
 
 			// server mapped agent URL setup
 			urlProvider.logoutUser = getURLbetweenProductionAndTest(xmlData.form.( @id == "LOGOUT_USER" ));
-			urlProvider.configagentNative = getURLbetweenProductionAndTest(xmlData.form.( @id == "CONFIGAGENT_NATIVE" ));
 			urlProvider.accountsdataurl = getURLbetweenProductionAndTest(xmlData.form.( @id == "ACCOUNTSDATAURL" ));
 
 			urlProvider.accountsposturl = getURLbetweenProductionAndTest(xmlData.form.( @id == "NewAccountRequest" ));

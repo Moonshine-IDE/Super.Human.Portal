@@ -46,6 +46,13 @@ package model.proxy.login
 			proxyUrlParams = facade.retrieveProxy(ProxyUrlParameters.NAME) as ProxyUrlParameters;
 		}
 		
+		private var _config:Object;
+		
+		public function get config():Object
+		{
+			return _config;	
+		}
+		
 		public function testAuthentication():void
 		{
 			if (proxyUrlParams.isPasswordReset) return;
@@ -128,20 +135,11 @@ package model.proxy.login
 			var config:Object = JSON.parse(event.target.data);
 			if (!config) return;
 			
-			ParseCentral.parseAppConfig(new XML(event.target["data"]));
-			
-			getNativeConfiguration();
+			_config = config;
+			sendNotification(ProxyLogin.NOTE_LOGIN_SUCCESS, this.getData() as UserVO);
+			//ParseCentral.parseAppConfig(new XML(event.target["data"]));
 		}
-		
-		private function onNativeConfigurationLoaded(event:Event):void
-		{
-			ParseCentral.parseNativeConfig(new XML(event.target["data"]));
-			
-			// Let's get the Accounts during authenticaiton as in Native
-			// as the data is in-need to most of the sections
-			getAccounts();			
-		}
-		
+
 		private function onAccountsLoadSuccess(event:Event):void
 		{
 			ParseCentral.parseAccounts(new XML(event.target["data"]));
@@ -169,14 +167,11 @@ package model.proxy.login
 		{
 			loginServiceDelegate.loadGeneralConfiguration(onGeneralConfigurationLoaded, onLoginFailed);
 		}
-		
-		private function getNativeConfiguration():void
-		{
-			loginServiceDelegate.loadNativeConfiguration(onNativeConfigurationLoaded, onLoginFailed);
-		}
 
 		private function parseUserAndConfigure(loginResult:Object):void
 		{
+			_config = null;
+			
 			var serverUserName:String = String(loginResult.username);
 			var commonName:String = String(loginResult.common_name);
 			var status:String = String(loginResult.status) ? String(loginResult.state) : "";
@@ -193,8 +188,7 @@ package model.proxy.login
 				
 				// get all the configuration before
 				// starting the applicaiton
-				//getGeneralConfiguration();
-				sendNotification(ProxyLogin.NOTE_LOGIN_SUCCESS, this.getData() as UserVO);
+				getGeneralConfiguration();
 			}
 			else
 			{

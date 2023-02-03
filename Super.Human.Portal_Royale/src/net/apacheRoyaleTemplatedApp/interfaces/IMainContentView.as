@@ -34,6 +34,9 @@ package interfaces
 		function notifyObsoleteCurrentVersion():void;
 		
 		function get viewGenesisApps():IGenesisAppsView;
+		function get viewDocumentationForm():Object;
+		
+		function set title(value:String):void;
 		
 		/*
 		Temporary hide Hello

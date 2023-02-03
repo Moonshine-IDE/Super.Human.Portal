@@ -41,6 +41,11 @@
 			   navigation.selectedIndex = 0;
 	        }
 			
+	        public function set title(value:String):void
+	        {
+	        		this.mainTitle.text = value;
+	        }
+	        
 			public function get selectedNavigation():Object
 			{
 				return this.navigation.selectedItem;
@@ -178,6 +183,11 @@
 				return this.helloView;	
 			}*/
 			
+			public function get viewDocumentationForm():Object
+			{
+				return this.DocumentationForm_ID;	
+			}
+			
 			public function get viewGenesisApps():IGenesisAppsView 
 			{
 				return this.genesisAppsView;	
@@ -286,7 +296,7 @@
 						<js:MaterialIcon text="{MaterialIconType.VIEW_HEADLINE}"/>
 					</j:icon>
 				</j:IconButton>
-				<html:H2 text="Super.Human.Portal"/>
+				<html:H2 localId="mainTitle" text="Super.Human.Portal"/>
             </j:BarSection>
 			<j:BarSection itemsHorizontalAlign="itemsRight" gap="2">
 				<j:IconButton>

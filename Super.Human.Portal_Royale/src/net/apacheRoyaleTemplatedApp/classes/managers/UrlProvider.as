@@ -79,19 +79,6 @@ package classes.managers
 		private var _configagentNative:String;
 		
 		/**
-		 * native-specific configurations
-		 **/
-		public function get configagentNative():String
-		{
-			return _configagentNative;
-		}
-
-		public function set configagentNative(value:String):void
-		{
-			_configagentNative = value;
-		}
-		
-		/**
 		 * LTPA token URL and other information
 		 */
 		private var _serverMessage:String;
@@ -149,9 +136,7 @@ package classes.managers
 		{
 			loginUser = value +"/names.nsf?login"; // Authentication Check
 			logoutUser = value + "/names.nsf?logout"; // Logout an user	
-			configagent = value + "/Flex.nsf/XMLMeFlexAppGeneralConfig_v2?OpenAgent&version=" + _appVersion + "&app=MyAccount";
-
-			// Dynamic URLs <<<--------- OLD Agent: Flex.nsf/XMLMeFlexAppGeneralConfig_v1b?OpenAgent
+			configagent = value + "/SuperHumanPortal.nsf/ConfigRead?OpenAgent";
 		}
 	}
 }

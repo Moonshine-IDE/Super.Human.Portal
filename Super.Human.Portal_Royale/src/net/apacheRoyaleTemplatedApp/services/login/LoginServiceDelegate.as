@@ -72,23 +72,7 @@ package services.login
 			service.addEventListener("ioError", faultCallback);
 			service.send();
 		}
-		
-		public function loadNativeConfiguration(resultCallback:Function, faultCallback:Function=null):void
-		{
-			if (faultCallback == null)
-			{
-				faultCallback = onFault;
-			}
-			
-			var service:HTTPService = new HTTPService();
-			service.addBead(new CORSCredentialsBead(true));
-			service.url = UrlProvider.getInstance().configagentNative;
-			service.method = "GET";
-			service.addEventListener("complete", resultCallback);
-			service.addEventListener("ioError", faultCallback);
-			service.send();
-		}
-		
+	
 		public function logout(resultCallback:Function, faultCallback:Function=null):void
 		{
 			if (faultCallback == null)

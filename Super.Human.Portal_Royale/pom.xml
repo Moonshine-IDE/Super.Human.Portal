@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>net.apacheRoyaleTemplatedApp</groupId>
-  <artifactId>ApacheRoyaleTemplatedApp</artifactId>
+  <artifactId>Super.Human.Portal</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>swf</packaging>
 
-  <name>Apache Royale Templated Application</name>
+  <name>Super.Human.Portal</name>
 	
  <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -121,7 +121,7 @@
  		<version>${royale.compiler.version}</version>
         <extensions>true</extensions>
         <configuration>
-          <mainClass>ApacheRoyaleTemplatedApp.mxml</mainClass>
+          <mainClass>SuperHumanPortal_Royale.mxml</mainClass>
           <targets>${royale.targets}</targets>
           <debug>${royale.debug}</debug>
           <htmlTemplate>${basedir}/src/resources/jewel-index-template.html</htmlTemplate>
@@ -204,7 +204,8 @@
 				    ${royale.sourceMapSettings}
 				    ${royale.jsDefaultInitializers}
 				    ${royale.jsDynamicAccessUnknownMembers}
-				    -source-path+=${basedir}/../puremvc-as3-multicore-framework/src
+				    -source-path+=${basedir}/../../puremvc-as3-multicore-framework/src
+				    -source-path+=${basedir}/src/generated
                 </royale.config>
             </properties>
         </profile>
@@ -224,7 +225,8 @@
 				    ${royale.sourceMapSettings}
 				    ${royale.jsDefaultInitializers}
 				    ${royale.jsDynamicAccessUnknownMembers}
-				    -source-path+=${basedir}/../puremvc-as3-multicore-framework/src
+				    -source-path+=${basedir}/../../puremvc-as3-multicore-framework/src
+				    -source-path+=${basedir}/src/generated
                 </royale.config>
         </properties>
         </profile>
@@ -240,7 +242,8 @@
                     ${royale.sourceMapSettings}
                     ${royale.jsDefaultInitializers}
                     ${royale.jsDynamicAccessUnknownMembers}
-                    -source-path+=${basedir}/../puremvc-as3-multicore-framework/src
+                    -source-path+=${basedir}/../../puremvc-as3-multicore-framework/src
+                    -source-path+=${basedir}/src/generated
                 </royale.config>
             </properties>
         </profile>

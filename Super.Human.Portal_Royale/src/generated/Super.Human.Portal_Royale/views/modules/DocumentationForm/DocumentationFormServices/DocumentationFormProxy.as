@@ -1,13 +1,16 @@
 package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormServices
 {
-    import org.apache.royale.events.EventDispatcher;
+    import Super.Human.Portal_Royale.classes.events.ErrorEvent;
+    import Super.Human.Portal_Royale.classes.utils.Utils;
     import Super.Human.Portal_Royale.classes.vo.Constants;
-    import org.apache.royale.jewel.Snackbar;
-	import org.apache.royale.net.events.FaultEvent;
-	import Super.Human.Portal_Royale.classes.events.ErrorEvent;
-	import Super.Human.Portal_Royale.classes.utils.Utils;
     import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormServices.DocumentationFormServices;
-import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormVO.DocumentationFormVO;
+    import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormVO.DocumentationFormVO;
+
+    import model.proxy.login.ProxyLogin;
+
+    import org.apache.royale.events.EventDispatcher;
+    import org.apache.royale.jewel.Snackbar;
+    import org.apache.royale.net.events.FaultEvent;
 
 	public class DocumentationFormProxy extends EventDispatcher
 	{
@@ -40,7 +43,34 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
             }
         }
         
+        private var _isViewEditable:Boolean;
+
+        [Bindable]
+        public function get isViewEditable():Boolean
+        {
+        		return _isViewEditable;
+        }
+        
+        public function set isViewEditable(value:Boolean):void
+        {
+        		_isViewEditable = value;
+        }
+        
+        private var _showUnid:Boolean;
+
+        [Bindable]
+        public function get showUnid():Boolean
+        {
+        		return _showUnid;
+        }
+        
+        public function set showUnid(value:Boolean):void
+        {
+        		_showUnid = value;
+        }
+
         private var _items:Array = new Array();
+        
         [Bindable]
         public function get items():Array
         {
@@ -56,6 +86,7 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
         {
             return _selectedIndex;
         }
+        
         public function set selectedIndex(value:int):void
         {
             _selectedIndex = value;
@@ -75,7 +106,7 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
             if (this.selectedIndex != -1)
             {
                 this.lastEditingItem = value;
-                if (Constants.AGENT_BASE_URL)
+            if (Constants.AGENT_BASE_URL)
             	{
             		Utils.setBusy();
             		this.serviceDelegate.updateDocumentationForm(value.toRequestObject(), onDocumentationFormUpdated, onDocumentationFormUpdateFailed);
@@ -145,6 +176,9 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
                                 DocumentationFormVO.getDocumentationFormVO(json.documents[i])
                             );
                         }
+        					
+                        loadConfig();
+                        
                         this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
                     }
                 }
@@ -158,32 +192,6 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
                         )
                     );
                 }
-
-                /*if (!sessionCheckProxy.checkUserSession(xmlData))
-                {
-                    return;
-                }
-
-                var errorMessage:String = xmlData["ErrorMessage"].toString();
-
-                if (!errorMessage)
-                {
-                    if (xmlData[0].Results.affectedObject == null)
-                    {
-                        sendNotification(NOTE_DISK_CREATE_FAILED, "Failed to add Disk! Please, try later.");
-                    }
-                    else
-                    {
-                        manageVmBaseProxy.selectedVM.disksAC = new ArrayList();
-                        ParseCentralVMs.parseVMDisks(xmlData[0].Results.affectedObject, manageVmBaseProxy.selectedVM.disksAC);
-
-                        sendNotification(NOTE_DISK_CREATE_COMPLETED);
-                    }
-                }
-                else
-                {
-                    sendNotification(NOTE_DISK_CREATE_FAILED, "Disk create request failed: " + errorMessage);
-                }*/
             }
             else
             {
@@ -224,32 +232,6 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
                         )
                     );
                 }
-
-				/*if (!sessionCheckProxy.checkUserSession(xmlData))
-				{
-					return;
-				}
-				
-				var errorMessage:String = xmlData["ErrorMessage"].toString();
-				
-				if (!errorMessage)
-				{
-					if (xmlData[0].Results.affectedObject == null)
-					{
-						sendNotification(NOTE_DISK_CREATE_FAILED, "Failed to add Disk! Please, try later.");
-					}
-					else
-					{
-						manageVmBaseProxy.selectedVM.disksAC = new Array();
-						ParseCentralVMs.parseVMDisks(xmlData[0].Results.affectedObject, manageVmBaseProxy.selectedVM.disksAC);
-						
-						sendNotification(NOTE_DISK_CREATE_COMPLETED);
-					}
-				}
-				else
-				{
-					sendNotification(NOTE_DISK_CREATE_FAILED, "Disk create request failed: " + errorMessage);
-				}*/
 			}
 			else
 			{
@@ -294,32 +276,6 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
                         )
                     );
                 }
-
-                /*if (!sessionCheckProxy.checkUserSession(xmlData))
-                {
-                    return;
-                }
-
-                var errorMessage:String = xmlData["ErrorMessage"].toString();
-
-                if (!errorMessage)
-                {
-                    if (xmlData[0].Results.affectedObject == null)
-                    {
-                        sendNotification(NOTE_DISK_CREATE_FAILED, "Failed to add Disk! Please, try later.");
-                    }
-                    else
-                    {
-                        manageVmBaseProxy.selectedVM.disksAC = new ArrayList();
-                        ParseCentralVMs.parseVMDisks(xmlData[0].Results.affectedObject, manageVmBaseProxy.selectedVM.disksAC);
-
-                        sendNotification(NOTE_DISK_CREATE_COMPLETED);
-                    }
-                }
-                else
-                {
-                    sendNotification(NOTE_DISK_CREATE_FAILED, "Disk create request failed: " + errorMessage);
-                }*/
             }
             else
             {
@@ -365,32 +321,6 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
                         )
                     );
                 }
-
-                /*if (!sessionCheckProxy.checkUserSession(xmlData))
-                {
-                    return;
-                }
-
-                var errorMessage:String = xmlData["ErrorMessage"].toString();
-
-                if (!errorMessage)
-                {
-                    if (xmlData[0].Results.affectedObject == null)
-                    {
-                        sendNotification(NOTE_DISK_CREATE_FAILED, "Failed to add Disk! Please, try later.");
-                    }
-                    else
-                    {
-                        manageVmBaseProxy.selectedVM.disksAC = new ArrayList();
-                        ParseCentralVMs.parseVMDisks(xmlData[0].Results.affectedObject, manageVmBaseProxy.selectedVM.disksAC);
-
-                        sendNotification(NOTE_DISK_CREATE_COMPLETED);
-                    }
-                }
-                else
-                {
-                    sendNotification(NOTE_DISK_CREATE_FAILED, "Disk create request failed: " + errorMessage);
-                }*/
             }
             else
             {
@@ -407,6 +337,18 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
                     "Removal of DocumentationForm failed!\n"+ event.message.toLocaleString()
                 )
             );
+        }
+        
+        private function loadConfig():void
+        {
+      		var facade:ApplicationFacade = ApplicationFacade.getInstance("SuperHumanPortal_Royale");
+			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
+			
+			if (loginProxy.config)
+			{
+				isViewEditable = loginProxy.config.config.ui_documentation_editable;
+				showUnid = loginProxy.config.config.ui_documentation_show_unid;
+    			}
         }
 	}
 }

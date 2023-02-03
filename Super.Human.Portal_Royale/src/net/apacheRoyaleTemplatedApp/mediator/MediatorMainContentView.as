@@ -4,6 +4,8 @@ package mediator
 
     import interfaces.IMainContentView;
 
+    import mediator.applications.MediatorGenesisApps;
+
     import model.proxy.ProxyVersion;
     import model.proxy.busy.ProxyBusyManager;
     import model.proxy.login.ProxyLogin;
@@ -14,10 +16,10 @@ package mediator
     import org.apache.royale.events.Event;
     import org.apache.royale.events.MouseEvent;
     import org.apache.royale.events.ValueEvent;
+    import org.apache.royale.reflection.getQualifiedClassName;
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-    import mediator.applications.MediatorGenesisApps;
                                                                                 
     public class MediatorMainContentView extends Mediator implements IMediator
     {
@@ -89,7 +91,6 @@ package mediator
 					case ProxyVersion.NOTE_VERSION_INFORMATION_LOADED:
 						var versionProxy:ProxyVersion = facade.retrieveProxy(ProxyVersion.NAME) as ProxyVersion;
 						view.versionText = "Version: "+ versionProxy.version.appVersion + (versionProxy.version.isDevelopment ? " (dev)" : "");
-						sendNotification(ApplicationConstants.COMMAND_APPLY_APP_TITLE);
 						break;
 					case ProxyVersion.NOTE_OBSOLETE_CURRENT_VERSION:
 						view.notifyObsoleteCurrentVersion();
@@ -105,6 +106,7 @@ package mediator
 						initializeNewRegistration();
 						break;					
 					case ProxyLogin.NOTE_LOGIN_SUCCESS:
+						sendNotification(ApplicationConstants.COMMAND_APPLY_APP_TITLE);
 						view.authenticationId = (loginProxy.getData() as UserVO).commonName;
 						sendNotification(ApplicationConstants.COMMAND_START_POST_LOGIN);
 						initializeLoggedUserInformation();
@@ -199,9 +201,9 @@ package mediator
 			{
 				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
 					view: view,
-					currentView: null,
+					currentView: view.viewDocumentationForm,
 					currentSelection: "DocumentationForm"
-				}, "mediator.MediatorViewHello");
+				}, getQualifiedClassName(MediatorViewGettingStarted));
 			}
 			
 			private function initializeGenesisApplicationsList():void

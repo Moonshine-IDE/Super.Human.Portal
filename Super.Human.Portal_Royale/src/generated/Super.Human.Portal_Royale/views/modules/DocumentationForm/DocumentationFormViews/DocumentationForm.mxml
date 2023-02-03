@@ -13,17 +13,17 @@
     <js:State name="contentState"/>
   </j:states>
   <fx:Script><![CDATA[
-	import org.apache.royale.jewel.Alert;
 	import Super.Human.Portal_Royale.classes.events.ErrorEvent;
 	import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormServices.DocumentationFormProxy;
-import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormVO.DocumentationFormVO;
+	import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormVO.DocumentationFormVO;
+
+	import org.apache.royale.jewel.Alert;
 
 	[Bindable] private var proxy:DocumentationFormProxy = DocumentationFormProxy.getInstance();
 
 	[Bindable] private var itemVO:DocumentationFormVO;
 	[Bindable] private var isDisabled:Boolean = false;
-	[Bindable] private var isReadonly:Boolean = false;
-	
+
     public static const NAME:String = "DocumentationForm";
 
     private function onViewInitComplete(event:Event):void
@@ -31,10 +31,13 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
         proxy.addEventListener(ErrorEvent.SERVER_ERROR, onServerError);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_UPDATED, onServerItemChanged);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_REMOVED, onServerItemChanged);
-
-        proxy.requestItems();
     }
 
+    public function refreshItems():void
+    {
+    		this.proxy.requestItems();
+    }
+    
     public function cancelFormEdit():void
     {
         this.currentState = 'dataGridState';
@@ -112,13 +115,13 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
           <js:SimpleCSSStyles padding="10"/>
       </j:style>
       <j:IconButton text="Add" includeIn="dataGridState"
-                    click="onAddItem(event)" visible.dataGridState="{isReadonly == false}">
+                    click="onAddItem(event)" visible.dataGridState="{this.proxy.isViewEditable == true}">
         <j:icon>
             <js:MaterialIcon text="{MaterialIconType.ADD}" />
         </j:icon>
       </j:IconButton>
       <j:IconButton text="Edit" includeIn="dataGridState"
-                    click="onEditItem(event)" visible.dataGridState="{isReadonly == false}">
+                    click="onEditItem(event)" visible.dataGridState="{this.proxy.isViewEditable == true}">
           <j:icon>
               <js:MaterialIcon text="{MaterialIconType.MODE_EDIT}" />
           </j:icon>
@@ -126,7 +129,7 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
                 <j:Disabled disabled="{dg.selectedIndex == -1}"/>
           </j:beads>
       </j:IconButton>
-       <j:IconButton text="Remove" includeIn="dataGridState" click="{removeItem()}" visible.dataGridState="{isReadonly == false}">
+       <j:IconButton text="Remove" includeIn="dataGridState" click="{removeItem()}" visible.dataGridState="{this.proxy.isViewEditable == true}">
           <j:icon>
               <js:MaterialIcon text="{MaterialIconType.REMOVE}" />
           </j:icon>
@@ -135,7 +138,7 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
           </j:beads>
         </j:IconButton>
       <j:IconButton text="Refresh" includeIn="dataGridState"
-                    click="{this.proxy.requestItems()}">
+                    click="{refreshItems()}">
         <j:icon>
             <js:MaterialIcon text="{MaterialIconType.REFRESH}" />
         </j:icon>
@@ -145,13 +148,13 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
        <j:style>
            <js:SimpleCSSStyles paddingLeft="10" marginTop="0"/>
       </j:style>
-      <j:Button text="Save" click="onSaveClick(event)" visible.contentState="{isReadonly == false}">
+      <j:Button text="Save" click="onSaveClick(event)" visible.contentState="{this.proxy.isViewEditable == true}">
            <j:beads>
               <j:Disabled disabled="{isDisabled}"/>
            </j:beads>
       </j:Button>
-      <j:Button text="{isReadonly ? 'Back' : 'Cancel'}" click="onCancelClick(event)"/>
-      <j:Button text="Edit" click="onEditItem(event)" visible.contentState="{isReadonly == false}">
+      <j:Button text="{this.proxy.isViewEditable == true ? 'Back' : 'Cancel'}" click="onCancelClick(event)"/>
+      <j:Button text="Edit" click="onEditItem(event)" visible.contentState="{this.proxy.isViewEditable == true}">
       	   <j:beads>
       		   <j:Disabled disabled="{isDisabled == false}"/>
       	   </j:beads>
@@ -198,6 +201,7 @@ import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFo
 </j:VGroup>
 
 
-  <dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName', allowSorting: false, allowFiltering: true, filterType: 'exclude'}, {caption: 'DocumentationUNID', dataField: 'DocumentationUNID', dataType: 'number', alignment: 'left', sortOrder: 'asc', allowFiltering: false}]}" dataProvider="{this.proxy.items}" 
+  <dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName', allowSorting: false, allowFiltering: true, filterType: 'exclude'}, 
+  							   {caption: 'DocumentationUNID', dataField: 'DocumentationUNID', dataType: 'number', alignment: 'left', sortOrder: 'asc', allowFiltering: false, visible: this.proxy.showUnid}]}" dataProvider="{this.proxy.items}" 
   					 filterRow="{ {visible: true, applyFilter: 'auto'} }" localId="dg" includeIn="dataGridState" className="dxDataGrid" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>
 </j:VGroup>
