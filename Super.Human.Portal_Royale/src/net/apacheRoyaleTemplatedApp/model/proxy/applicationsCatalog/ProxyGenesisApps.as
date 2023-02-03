@@ -72,8 +72,7 @@ package model.proxy.applicationsCatalog
 			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onGenesisAppInstalled);
 			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisAppInstallFailed);
 			
-			/*genesisAppsDelegate.getGenesisCatalogInstall(account.customerID, selectedServer.partitionUNID, selectedApplication.appId,
-			 successCallback, failureCallback);	*/
+			genesisAppsDelegate.getGenesisCatalogInstall(selectedApplication.appId, successCallback, failureCallback);	
 		}
 		
 		private function onGenesisAppsListFetched(event:Event):void
@@ -116,17 +115,17 @@ package model.proxy.applicationsCatalog
 			var fetchedData:String = event.target["data"];
 			if (fetchedData)
 			{
-				var xmlDetails:XML = new XML(fetchedData);
-				if (!sessionCheckProxy.checkUserSession(xmlDetails))
+				var jsonData:Object = JSON.parse(fetchedData);
+				if (!sessionCheckProxy.checkUserSession(jsonData))
 				{
 					return;
 				}
 				
-				var errorMessage:String = xmlDetails["ErrorMessage"].toString();
+				var errorMessage:String = jsonData["errorMessage"];
 				
 				if (!errorMessage)
 				{
-					sendNotification(NOTE_GENESIS_APP_INSTALLED, xmlDetails["successMessage"].text());
+					sendNotification(NOTE_GENESIS_APP_INSTALLED, jsonData["successMessage"]);
 				}
 				else
 				{

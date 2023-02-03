@@ -130,6 +130,13 @@ package classes.managers
 			return _genesisCatalogGetAll;
 		}
 		
+		private var _genesisCatalogInstall:String = "/SuperHumanPortal.nsf/GenesisInstall?OpenAgent";
+
+		public function get genesisCatalogInstall():String
+		{
+			return _genesisCatalogInstall;
+		}
+		
 		private var _appVersion:String;
 		
 		public function setAppVersion(value:String):void
