@@ -103,7 +103,6 @@ package mediator.applications
 			
 			var selectedApp:ApplicationVO = selectedItem as ApplicationVO;
 			genesisAppsProxy.selectedApplication = selectedApp;
-			view.seeMoreDetails["html"] = '<a height="100%" href="' + genesisAppsProxy.selectedApplication.detailsUrl + '" target="_blank">See more details</a>';
 		}
 		
 		private function updateView():void
@@ -124,6 +123,7 @@ package mediator.applications
 		{
 			view.genesisAppsDataProvider = genesisAppsProxy.getData() as Array;
 			refreshInstallButtonState();
+			refreshSeeMoreDetails();
 		}
 
 		private function refreshInstallButtonState():void
@@ -131,11 +131,28 @@ package mediator.applications
 			var disabled:Disabled = view.installApplicationButton["getBeadByType"](Disabled);
 			disabled.disabled = genesisAppsProxy.selectedApplication == null;
 		}
-	
+		
+		private function refreshSeeMoreDetails():void
+		{
+			var disabled:Disabled = view.seeMoreDetails["getBeadByType"](Disabled);
+			disabled.disabled = genesisAppsProxy.selectedApplication == null;	
+			
+			if (genesisAppsProxy.selectedApplication)
+			{
+				view.seeMoreDetails["html"] = '<a height="100%" href="' + genesisAppsProxy.selectedApplication.detailsUrl + '" target="_blank">See more details</a>';
+			}
+			else
+			{
+				view.seeMoreDetails["html"] = "";
+				view.seeMoreDetails["text"] = "See more details";
+			}
+		}
+		
 		private function onGenesisAppsListChange(event:DataGridEvent):void
 		{
 			updateSelectedAppToProxy(event.item);
 			refreshInstallButtonState();
+			refreshSeeMoreDetails();
 		}
 
 		private function onInstallAppClick(event:Event):void

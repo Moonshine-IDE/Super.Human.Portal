@@ -79,7 +79,11 @@
 			<controls:CustomFormItem label="Select application to install:"
 									 labelClass="formItemPersonalInfo" className="horizontalContentFormItem">
 				<j:HGroup itemsVerticalAlign="itemsCenter">
-					<j:Button localId="seeMoreDetailsBtn" text="See more details" width="120" className="noLinkStyle"/>
+					<j:Button localId="seeMoreDetailsBtn" text="See more details" width="120" className="noLinkStyle">
+						<j:beads>
+							<j:Disabled disabled="true"/>
+						</j:beads>
+					</j:Button>
 				</j:HGroup>
 				<j:HGroup percentHeight="100" gap="1" itemsHorizontalAlign="itemsRight" 
 						itemsVerticalAlign="itemsCenter">
