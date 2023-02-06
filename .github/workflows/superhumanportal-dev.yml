@@ -25,7 +25,7 @@ jobs:
           distribution: adopt
           java-version: ${{ matrix.java }}
     - name: Build Super.Human.Portal
-      run: mvn -s SuperHumanPortal/Super.Human.Portal_Royale/settings.xml -P build-dev-release clean package --file SuperHumanPortal/Super.Human.Portal/pom.xml
+      run: mvn -s SuperHumanPortal/Super.Human.Portal_Royale/settings.xml -P build-dev-release clean package --file SuperHumanPortal/Super.Human.Portal_Royale/pom.xml
     - name: Store artifact in GitHub
       uses: actions/upload-artifact@v3.1.2
       with:
