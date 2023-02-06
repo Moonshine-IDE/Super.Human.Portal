@@ -97,6 +97,10 @@
 			</controls:CustomFormItem>						
 		</j:Form>
 	</j:Card>	
+	<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
+		<j:Label percentWidth="100" text="* Select item to see more details and install application."
+				 className="smallFont italic brandColor labelTextAlignRight"/>
+	</j:HGroup>
 	<dataGrid:DataGrid localId="genesisApps" className="dataGridJS scrollHeightGridJS" filterRow="{filterRow}"
 					   headerFilter="{filterHeader}">
 			<dataGrid:beads>

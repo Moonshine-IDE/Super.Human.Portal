@@ -140,6 +140,10 @@ a:hover {
    textAlign: right !important;
 }
 
+.jewel.label.brandColor {
+	color: #811937 !important;
+}
+
 .jewel.label.italic {
 	fontStyle: italic !important;
 }
