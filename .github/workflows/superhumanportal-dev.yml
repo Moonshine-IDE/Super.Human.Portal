@@ -1,0 +1,35 @@
+name: Super.Human.Portal CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 16 ]
+    steps:
+    - name: Checkout Super.Human.Portal
+      uses: actions/checkout@v3.3.0
+      with:
+        path: './Super.Human.Portal_Royale'
+    - name: Checkout PureMVC
+      uses: actions/checkout@v3.3.0 
+      with:
+        repository: 'PureMVC/puremvc-as3-multicore-framework'
+        path: './puremvc-as3-multicore-framework'
+    - name: Set up JDK 
+      uses: actions/setup-java@v3.9.0
+      with:
+          distribution: adopt
+          java-version: ${{ matrix.java }}
+    - name: Build Super.Human.Portal
+      run: mvn -s Super.Human.Portal_Royale/settings.xml -P build-dev-release clean package --file Super.Human.Portal_Royale/pom.xml
+    - name: Store artifact in GitHub
+      uses: actions/upload-artifact@v3.1.2
+      with:
+        name: Super.Human.Portal-dev
+        path: './Super.Human.Portal_Royale/target/javascript/bin/js-release'
+        retention-days: 1
+        if-no-files-found: error
