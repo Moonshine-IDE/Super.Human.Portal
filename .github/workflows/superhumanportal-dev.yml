@@ -1,4 +1,4 @@
-name: Super.Human.Portal CI
+name: Super.Human.Portal Dev
 
 on: [push]
 
