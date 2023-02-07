@@ -31,5 +31,5 @@ jobs:
       with:
         name: Super.Human.Portal-dev
         path: './SuperHumanPortal/Super.Human.Portal_Royale/target/javascript/bin/js-release'
-        retention-days: 1
+        retention-days: 5
         if-no-files-found: error
