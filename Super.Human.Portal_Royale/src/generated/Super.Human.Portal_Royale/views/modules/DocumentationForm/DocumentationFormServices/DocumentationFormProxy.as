@@ -43,17 +43,17 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
             }
         }
         
-        private var _isViewEditable:Boolean;
+        private var _editable:Boolean;
 
         [Bindable]
-        public function get isViewEditable():Boolean
+        public function get editable():Boolean
         {
-        		return _isViewEditable;
+        		return _editable;
         }
         
-        public function set isViewEditable(value:Boolean):void
+        public function set editable(value:Boolean):void
         {
-        		_isViewEditable = value;
+        		_editable = value;
         }
         
         private var _showUnid:Boolean;
@@ -346,8 +346,8 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 			
 			if (loginProxy.config)
 			{
-				isViewEditable = loginProxy.config.config.ui_documentation_editable;
-				showUnid = loginProxy.config.config.ui_documentation_show_unid;
+				this.editable = loginProxy.config.config.ui_documentation_editable;
+				this.showUnid = loginProxy.config.config.ui_documentation_show_unid;
     			}
         }
 	}

@@ -115,13 +115,13 @@
           <js:SimpleCSSStyles padding="10"/>
       </j:style>
       <j:IconButton text="Add" 
-                    click="onAddItem(event)" visible="{this.proxy.isViewEditable}">
+                    click="onAddItem(event)" visible="{this.proxy.editable}">
         <j:icon>
             <js:MaterialIcon text="{MaterialIconType.ADD}" />
         </j:icon>
       </j:IconButton>
       <j:IconButton text="Edit"
-                    click="onEditItem(event)" visible="{this.proxy.isViewEditable}">
+                    click="onEditItem(event)" visible="{this.proxy.editable}">
           <j:icon>
               <js:MaterialIcon text="{MaterialIconType.MODE_EDIT}" />
           </j:icon>
@@ -129,7 +129,7 @@
                 <j:Disabled disabled="{dg.selectedIndex == -1}"/>
           </j:beads>
       </j:IconButton>
-       <j:IconButton text="Remove" click="{removeItem()}" visible="{this.proxy.isViewEditable}">
+       <j:IconButton text="Remove" click="{removeItem()}" visible="{this.proxy.editable}">
           <j:icon>
               <js:MaterialIcon text="{MaterialIconType.REMOVE}" />
           </j:icon>
@@ -148,13 +148,13 @@
        <j:style>
            <js:SimpleCSSStyles paddingLeft="10" paddingTop="10" marginTop="0"/>
       </j:style>
-      <j:Button text="Save" click="onSaveClick(event)" visible="{this.proxy.isViewEditable}">
+      <j:Button text="Save" click="onSaveClick(event)" visible="{this.proxy.editable}">
            <j:beads>
               <j:Disabled disabled="{isDisabled}"/>
            </j:beads>
       </j:Button>
-      <j:Button text="{this.proxy.isViewEditable == true ? 'Back' : 'Cancel'}" click="onCancelClick(event)"/>
-      <j:Button text="Edit" click="onEditItem(event)" visible="{this.proxy.isViewEditable}">
+      <j:Button text="{this.proxy.editable == true ? 'Back' : 'Cancel'}" click="onCancelClick(event)"/>
+      <j:Button text="Edit" click="onEditItem(event)" visible="{this.proxy.editable}">
       	   <j:beads>
       		   <j:Disabled disabled="{isDisabled == false}"/>
       	   </j:beads>
@@ -176,13 +176,13 @@
     										isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
     										isTextArea="true"/>
     
-    <j:Label text="(" className="cursor-pointer" visible="{isDisabled}"/>
+    <j:Label text="(" className="cursor-pointer" visible="{isDisabled &amp;&amp; this.proxy.showUnid}"/>
     
     <components:DominoTextInputMultiline text="{itemVO.DocumentationUNID}" change="{itemVO.DocumentationUNID = event.currentTarget.text;}" 
     										isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
-    										isTextArea="false"/>
+    										isTextArea="false" visible="{this.proxy.showUnid}"/>
     
-    <j:Label text="{isDisabled ? ')' : '(DocumentationUNID)'}" className="cursor-pointer"/>
+    <j:Label text="{isDisabled ? ')' : '(DocumentationUNID)'}" className="cursor-pointer" visible="{this.proxy.showUnid}"/>
     
   </j:HGroup>
 
