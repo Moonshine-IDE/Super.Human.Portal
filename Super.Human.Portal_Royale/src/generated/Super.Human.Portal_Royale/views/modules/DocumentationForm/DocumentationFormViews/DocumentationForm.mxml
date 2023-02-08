@@ -32,7 +32,7 @@
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_UPDATED, onServerItemChanged);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_REMOVED, onServerItemChanged);
     }
-
+    
     public function refreshItems():void
     {
     		this.proxy.requestItems();
@@ -110,18 +110,18 @@
 	}
 
 ]]></fx:Script>
-  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2">
+  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2" excludeFrom="contentState">
       <j:style>
           <js:SimpleCSSStyles padding="10"/>
       </j:style>
-      <j:IconButton text="Add" includeIn="dataGridState"
-                    click="onAddItem(event)" visible.dataGridState="{this.proxy.isViewEditable == true}">
+      <j:IconButton text="Add" 
+                    click="onAddItem(event)" visible="{this.proxy.isViewEditable}">
         <j:icon>
             <js:MaterialIcon text="{MaterialIconType.ADD}" />
         </j:icon>
       </j:IconButton>
-      <j:IconButton text="Edit" includeIn="dataGridState"
-                    click="onEditItem(event)" visible.dataGridState="{this.proxy.isViewEditable == true}">
+      <j:IconButton text="Edit"
+                    click="onEditItem(event)" visible="{this.proxy.isViewEditable}">
           <j:icon>
               <js:MaterialIcon text="{MaterialIconType.MODE_EDIT}" />
           </j:icon>
@@ -129,7 +129,7 @@
                 <j:Disabled disabled="{dg.selectedIndex == -1}"/>
           </j:beads>
       </j:IconButton>
-       <j:IconButton text="Remove" includeIn="dataGridState" click="{removeItem()}" visible.dataGridState="{this.proxy.isViewEditable == true}">
+       <j:IconButton text="Remove" click="{removeItem()}" visible="{this.proxy.isViewEditable}">
           <j:icon>
               <js:MaterialIcon text="{MaterialIconType.REMOVE}" />
           </j:icon>
@@ -137,7 +137,7 @@
             <j:Disabled disabled="{dg.selectedIndex == -1}"/>
           </j:beads>
         </j:IconButton>
-      <j:IconButton text="Refresh" includeIn="dataGridState"
+      <j:IconButton text="Refresh" 
                     click="{refreshItems()}">
         <j:icon>
             <js:MaterialIcon text="{MaterialIconType.REFRESH}" />
@@ -146,15 +146,15 @@
   </j:HGroup>
   <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2" includeIn="contentState">
        <j:style>
-           <js:SimpleCSSStyles paddingLeft="10" marginTop="0"/>
+           <js:SimpleCSSStyles paddingLeft="10" paddingTop="10" marginTop="0"/>
       </j:style>
-      <j:Button text="Save" click="onSaveClick(event)" visible.contentState="{this.proxy.isViewEditable == true}">
+      <j:Button text="Save" click="onSaveClick(event)" visible="{this.proxy.isViewEditable}">
            <j:beads>
               <j:Disabled disabled="{isDisabled}"/>
            </j:beads>
       </j:Button>
       <j:Button text="{this.proxy.isViewEditable == true ? 'Back' : 'Cancel'}" click="onCancelClick(event)"/>
-      <j:Button text="Edit" click="onEditItem(event)" visible.contentState="{this.proxy.isViewEditable == true}">
+      <j:Button text="Edit" click="onEditItem(event)" visible="{this.proxy.isViewEditable}">
       	   <j:beads>
       		   <j:Disabled disabled="{isDisabled == false}"/>
       	   </j:beads>
