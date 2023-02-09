@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:DataGridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  			 xmlns:j="library://ns.apache.org/royale/jewel" 
+		  			 xmlns:js="library://ns.apache.org/royale/basic" 
+		  			 xmlns:itemRenderers="org.apache.royale.jewel.beads.itemRenderers.*" 
+		  			 className="gridJSRendererClean" initComplete="onRendererInitComplete(event)">
+	<j:beads>
+		<j:VerticalCenteredLayout />
+		<j:Disabled disabled="true"/>
+	</j:beads>
+	<fx:Script>
+	<![CDATA[
+		override public function get data():Object
+		{
+			return _data;
+		}
+		
+		override public function set data(value:Object):void
+		{
+			if (_data != value)
+			{
+				_data = value;
+				
+				this.refreshCheckbox();
+			}
+		}	
+		
+		private function onRendererInitComplete(event:Event):void
+		{
+			this.refreshCheckbox();
+		}
+		
+		private function refreshCheckbox():void
+		{		
+			if (!checkbox) return;
+				
+			if (dataField && data)
+			{
+				checkbox.selected = data[dataField];
+			}
+			else
+			{
+				checkbox.selected = false;
+			}
+		}
+	]]>
+</fx:Script>
+    <j:CheckBox localId="checkbox" />
+</j:DataGridItemRenderer>
