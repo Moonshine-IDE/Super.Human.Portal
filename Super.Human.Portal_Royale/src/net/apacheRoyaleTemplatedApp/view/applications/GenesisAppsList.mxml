@@ -68,7 +68,7 @@
 			<j:HGroup percentWidth="100">
 				<html:H3 text="Genesis Directory Catalog" percentWidth="100"/>
 				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
-					<j:Button localId="learnMoreGenesis" className="noLinkStyle"/>
+					<j:Button localId="learnMoreGenesis" className="noLinkStyle" text="Learn More"/>
 				</j:HGroup>
 			</j:HGroup>
 		</j:GridCell>
