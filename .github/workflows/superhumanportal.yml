@@ -1,0 +1,62 @@
+name: Super.Human.Portal Prod
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 16 ]
+    steps:
+
+    - name: Checkout Super.Human.Portal
+      uses: actions/checkout@v3.3.0
+      with:
+        path: './SuperHumanPortal'
+
+    - name: Checkout PureMVC
+      uses: actions/checkout@v3.3.0 
+      with:
+        repository: 'PureMVC/puremvc-as3-multicore-framework'
+        path: './puremvc-as3-multicore-framework'
+
+    - name: Set up JDK 
+      uses: actions/setup-java@v3.9.0
+      with:
+          distribution: adopt
+          java-version: ${{ matrix.java }}
+
+    - name: Build Super.Human.Portal
+      run: mvn -s SuperHumanPortal/Super.Human.Portal_Royale/settings.xml clean package --file SuperHumanPortal/Super.Human.Portal_Royale/pom.xml
+
+    - name: Read version
+      id: readversion
+      uses: mavrosxristoforos/get-xml-info@1.1.1
+      with:
+        xml-file: SuperHumanPortal/Super.Human.Portal_Royale/target/classes/version.xml
+        xpath: '/root/version'
+
+    - name: Zip artifact
+      run: |
+        cd SuperHumanPortal/Super.Human.Portal_Royale/target/javascript/bin/
+        zip Super.Human.Portal.zip js-release/ -r
+
+    - name: Create release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: Super.Human.Portal ${{ steps.readversion.outputs.info }}
+        tag_name: ${{ github.ref_name }}
+        body: |
+          This is a Production Release of Super.Human.Portal.
+          [Changelog](https://github.com/Aszusz/Super.Human.Portal/blob/${{ github.ref_name }}/CHANGELOG.MD)
+
+        draft: true
+        prerelease: false
+        files: |
+          SuperHumanPortal/Super.Human.Portal_Royale/target/javascript/bin/Super.Human.Portal.zip          
+        fail_on_unmatched_files: true
