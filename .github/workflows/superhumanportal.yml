@@ -53,7 +53,7 @@ jobs:
         tag_name: ${{ github.ref_name }}
         body: |
           This is a Production Release of Super.Human.Portal.
-          [Changelog](https://github.com/Aszusz/Super.Human.Portal/blob/${{ github.ref_name }}/CHANGELOG.MD)
+          [Changelog](https://github.com/Moonshine-IDE/Super.Human.Portal/blob/${{ github.ref_name }}/CHANGELOG.MD)
 
         draft: true
         prerelease: false
