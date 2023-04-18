@@ -36,14 +36,16 @@
 				
 			if (dataField && data)
 			{
+				checkbox.visible = data[dataField] == true;
 				checkbox.selected = data[dataField];
 			}
 			else
 			{
+				checkbox.visible = false;
 				checkbox.selected = false;
 			}
 		}
 	]]>
 </fx:Script>
-    <j:CheckBox localId="checkbox" />
+    <j:CheckBox localId="checkbox" visible="false"/>
 </j:DataGridItemRenderer>

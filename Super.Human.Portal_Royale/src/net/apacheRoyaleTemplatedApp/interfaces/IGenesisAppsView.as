@@ -10,6 +10,7 @@ package interfaces
 		function get seeMoreDetails():IEventDispatcher;
 		function get installApplicationButton():IEventDispatcher;
 		function get refreshButton():IEventDispatcher;
+		function set selectedApp(value:String):void;
 		
 		function get learnMore():IEventDispatcher;
 		

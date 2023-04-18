@@ -108,7 +108,8 @@ package mediator.applications
 		private function updateView():void
 		{
 			view.learnMore["html"] = "<a href='http://genesis.directory/articles/what-is-genesis' target='_blank'>Learn More</a>";
-
+			view.selectedApp = "Select an application";
+			
 			if (!genesisAppsProxy.getData())
 			{
 				genesisAppsProxy.getGenesisAppsList();
@@ -150,6 +151,8 @@ package mediator.applications
 		
 		private function onGenesisAppsListChange(event:DataGridEvent):void
 		{
+			view.selectedApp = event.item.label;
+			
 			updateSelectedAppToProxy(event.item);
 			refreshInstallButtonState();
 			refreshSeeMoreDetails();

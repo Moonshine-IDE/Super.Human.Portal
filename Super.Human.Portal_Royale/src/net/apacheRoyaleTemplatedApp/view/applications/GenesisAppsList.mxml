@@ -43,6 +43,11 @@
 				return genesisApps;
 			}
 			
+			public function set selectedApp(value:String):void
+			{
+				this.selectedAppH.text = value;
+			}
+				
 			public function installationResult(message:String):void
 			{
 				Snackbar.show(message, 4000, null);
@@ -76,17 +81,17 @@
 	
 	<j:Card percentWidth="100">
 		<j:Form>
-			<controls:CustomFormItem label="Select application to install:"
-									 labelClass="formItemPersonalInfo" className="horizontalContentFormItem">
+			<controls:CustomFormItem labelClass="formItemPersonalInfo" className="horizontalContentFormItem">
 				<j:HGroup itemsVerticalAlign="itemsCenter">
+					<html:H4 localId="selectedAppH" text="Select an application"/>
+				</j:HGroup>
+				<j:HGroup percentHeight="100" gap="1" itemsHorizontalAlign="itemsRight" 
+						itemsVerticalAlign="itemsCenter">
 					<j:Button localId="seeMoreDetailsBtn" text="See more details" width="120" className="noLinkStyle">
 						<j:beads>
 							<j:Disabled disabled="true"/>
 						</j:beads>
 					</j:Button>
-				</j:HGroup>
-				<j:HGroup percentHeight="100" gap="1" itemsHorizontalAlign="itemsRight" 
-						itemsVerticalAlign="itemsCenter">
 					<j:Button localId="refreshViewBtn" text="Refresh" width="130"/>
 					<j:Button localId="installAppBtn" text="Install" emphasis="{StyledUIBase.PRIMARY}" width="120">
 						<j:beads>
