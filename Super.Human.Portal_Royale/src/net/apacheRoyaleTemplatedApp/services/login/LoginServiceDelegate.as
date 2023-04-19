@@ -9,13 +9,10 @@ package services.login
 
 	public class LoginServiceDelegate
 	{
-		protected var ipAddress:String;
-		
 		private const LOGIN_REDIRECTION:String = "/SuperHumanPortal.nsf/XMLAuthenticationTest?OpenAgent";
 		
-		public function LoginServiceDelegate(ipAddress:String) {
-
-			this.ipAddress = ipAddress;
+		public function LoginServiceDelegate() 
+		{
 		}
 		
 		public function testAuthentication(resultCallback:Function, faultCallback:Function=null):void
@@ -27,7 +24,7 @@ package services.login
 			
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = ipAddress + this.LOGIN_REDIRECTION;
+			service.url = this.LOGIN_REDIRECTION;
 			service.method = "GET";
 			service.addEventListener("complete", resultCallback);
 			service.addEventListener("ioError", faultCallback);

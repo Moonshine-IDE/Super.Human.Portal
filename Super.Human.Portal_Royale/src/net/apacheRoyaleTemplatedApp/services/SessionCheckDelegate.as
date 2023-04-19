@@ -8,11 +8,9 @@ package services
 
 	public class SessionCheckDelegate
 	{
-		protected var ipAddress:String;
-		
-		public function SessionCheckDelegate(ipAddress:String)
+		public function SessionCheckDelegate()
 		{
-			this.ipAddress = ipAddress;
+
 		}
 		
 		public function getLTPATokenFromServer(resultCallback:Function, faultCallback:Function=null):void 

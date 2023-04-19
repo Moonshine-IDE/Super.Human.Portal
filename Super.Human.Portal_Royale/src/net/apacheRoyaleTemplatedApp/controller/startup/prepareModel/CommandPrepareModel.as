@@ -21,21 +21,21 @@ package controller.startup.prepareModel
 		 */
 		override public function execute(note:INotification):void 
 		{	
-			var dataUrl:String = "http://127.0.0.1:8080";
+			var dataUrl:String = "";
 			
 			facade.registerProxy(new ProxyBusyManager());
-			facade.registerProxy(new ProxyVersion(dataUrl));
+			facade.registerProxy(new ProxyVersion());
 
 			facade.registerProxy(new ProxyUrlParameters());
-			facade.registerProxy(new ProxyLogin(dataUrl));
-			facade.registerProxy(new ProxyNewRegistration(dataUrl));
-			facade.registerProxy(new ProxySessionCheck(dataUrl));
-			facade.registerProxy(new ProxyPasswordReset(dataUrl));
+			facade.registerProxy(new ProxyLogin());
+			facade.registerProxy(new ProxyNewRegistration());
+			facade.registerProxy(new ProxySessionCheck());
+			facade.registerProxy(new ProxyPasswordReset());
 
-			facade.registerProxy(new ProxyCreateAccount(dataUrl));
+			facade.registerProxy(new ProxyCreateAccount());
 			
 			facade.registerProxy(new ProxyPasswordStrength());
-			facade.registerProxy(new ProxyGenesisApps(dataUrl));
+			facade.registerProxy(new ProxyGenesisApps());
 		}
 	}
 }

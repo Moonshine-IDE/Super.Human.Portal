@@ -9,9 +9,8 @@ package services.login
 	{
 		protected var ipAddress:String;
 
-		public function NewRegistrationServiceDelegate(ipAddress:String) 
+		public function NewRegistrationServiceDelegate() 
 		{
-			this.ipAddress = ipAddress;
 		}
 		
 		public function register(register:Object, resultCallback:Function, faultCallback:Function=null, apiKey:String = "knopigan09oeiuqp09jpiog"):void
@@ -32,7 +31,7 @@ package services.login
 			
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = this.ipAddress + "/webcm.nsf/APIRegister?CreateDocument";
+			service.url = "/webcm.nsf/APIRegister?CreateDocument";
 			service.contentData = urlParams;
 			service.method = "POST";
 			service.addEventListener("complete", resultCallback);
@@ -42,7 +41,7 @@ package services.login
 		
 		public function fetchPhoneCountries(resultCallback:Function, faultCallback:Function=null):void
 		{
-			var countryUrl:String = this.ipAddress + "/webcm.nsf/Countries?ReadViewEntries&Count=10000";
+			var countryUrl:String = "/webcm.nsf/Countries?ReadViewEntries&Count=10000";
 			
 			if (faultCallback == null)
 			{

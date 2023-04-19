@@ -30,10 +30,10 @@ package model.proxy
 		private var sessionDelegate:SessionCheckDelegate;
 		private var busyManagerProxy:ProxyBusyManager;
 		
-		public function ProxySessionCheck(dataUrl:String)
+		public function ProxySessionCheck()
 		{
 			super(NAME);
-			sessionDelegate = new SessionCheckDelegate(dataUrl);
+			sessionDelegate = new SessionCheckDelegate();
 		}
 		
 		override public function onRegister():void

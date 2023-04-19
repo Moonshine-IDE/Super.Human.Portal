@@ -18,11 +18,11 @@ package model.proxy.login
 		
 		protected var passwordResetServiceDelegate:PasswordResetServiceDelegate;
 
-		public function ProxyPasswordReset(dataUrl:String)
+		public function ProxyPasswordReset()
 		{
 			super(NAME);
 
-			passwordResetServiceDelegate = new PasswordResetServiceDelegate(dataUrl);
+			passwordResetServiceDelegate = new PasswordResetServiceDelegate();
 		}
 
 		public function get passwordReset():PasswordResetVO

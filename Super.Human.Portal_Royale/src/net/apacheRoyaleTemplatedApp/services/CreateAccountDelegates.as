@@ -9,11 +9,9 @@ package services
 	
 	public class CreateAccountDelegates
 	{
-		protected var ipAddress:String;
-		
-		public function CreateAccountDelegates(ipAddress:String)
+		public function CreateAccountDelegates()
 		{
-			this.ipAddress = ipAddress;
+
 		}
 		
 		public function submitRequest(submitObject:Object, resultCallback:Function, faultCallback:Function=null):void

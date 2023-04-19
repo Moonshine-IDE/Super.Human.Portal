@@ -8,11 +8,9 @@ package services
 
 	public class VersionServiceDelegate
 	{
-		protected var ipAddress:String;
-		
-		public function VersionServiceDelegate(ipAddress:String) {
+		public function VersionServiceDelegate() 
+		{
 
-			this.ipAddress = ipAddress;
 		}
 		
 		public function loadLocalVersionInformation(resultCallback:Function, faultCallback:Function=null):void

@@ -27,11 +27,11 @@ package model.proxy.login
 			
 		private var _phoneCountries:ArrayList = new ArrayList();
 			
-		public function ProxyNewRegistration(dataUrl:String)
+		public function ProxyNewRegistration()
 		{
 			super(NAME);
 			
-			newRegistrationServiceDelegate = new NewRegistrationServiceDelegate(dataUrl);
+			newRegistrationServiceDelegate = new NewRegistrationServiceDelegate();
 		}
 
 		override public function onRegister():void

@@ -31,11 +31,11 @@ package model.proxy.login
 		private var proxyUrlParams:ProxyUrlParameters;
 		private var busyManagerProxy:ProxyBusyManager;
 		
-		public function ProxyLogin(dataUrl:String)
+		public function ProxyLogin()
 		{
 			super(NAME);
 			
-			loginServiceDelegate = new LoginServiceDelegate(dataUrl);
+			loginServiceDelegate = new LoginServiceDelegate();
 		}
 		
 		override public function onRegister():void
@@ -172,9 +172,9 @@ package model.proxy.login
 		{
 			_config = null;
 			
-			var serverUserName:String = String(loginResult.username);
-			var commonName:String = String(loginResult.common_name);
-			var status:String = String(loginResult.status) ? String(loginResult.state) : "";
+			var serverUserName:String = loginResult.username;
+			var commonName:String = loginResult.common_name;
+			var status:String = loginResult.status ? loginResult.state : "";
 			
 			if (status.toLowerCase() == "authenticated")
 			{

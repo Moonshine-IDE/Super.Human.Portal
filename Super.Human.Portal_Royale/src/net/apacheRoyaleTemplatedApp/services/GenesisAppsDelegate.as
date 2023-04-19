@@ -9,11 +9,8 @@ package services
 	
 	public class GenesisAppsDelegate
 	{
-		protected var ipAddress:String;
-		
-		public function GenesisAppsDelegate(ipAddress:String)
+		public function GenesisAppsDelegate()
 		{
-			this.ipAddress = ipAddress;
 		}
 		
 		public function getGenesisCatalogList(resultCallback:Function, faultCallback:Function=null):void 
@@ -25,7 +22,7 @@ package services
 			
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = this.ipAddress + UrlProvider.getInstance().genesisCatalogGetAll;
+			service.url = UrlProvider.getInstance().genesisCatalogGetAll;
 			service.method = "GET";
 			service.addEventListener("complete", resultCallback);
 			service.addEventListener("ioError", faultCallback);
@@ -41,7 +38,7 @@ package services
 			
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = this.ipAddress + UrlProvider.getInstance().genesisCatalogInstall +"&AppID="+ appId;
+			service.url = UrlProvider.getInstance().genesisCatalogInstall +"&AppID="+ appId;
 			service.method = "GET";
 			service.addEventListener("complete", resultCallback);
 			service.addEventListener("ioError", faultCallback);

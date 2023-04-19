@@ -27,11 +27,11 @@ package model.proxy
 		private var createAccountDelegate:CreateAccountDelegates;
 		private var busyManagerProxy:ProxyBusyManager;
 		
-		public function ProxyCreateAccount(dataUrl:String)
+		public function ProxyCreateAccount()
 		{
 			super(NAME);
 			
-			createAccountDelegate = new CreateAccountDelegates(dataUrl);
+			createAccountDelegate = new CreateAccountDelegates();
 		}
 		
 		override public function onRegister():void

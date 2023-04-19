@@ -7,15 +7,12 @@ package services.login
 
 	public class PasswordResetServiceDelegate
 	{
-		protected var ipAddress:String;
-		
 		private static const API_KEY:String = "knopigan09oeiuqp09jpiog";
 		private static const RECOVERY_CODE:String = "/webcm.nsf/APIGetRecoveryCode?CreateDocument";
 		private static const PASSWORD_RESET:String = "/webcm.nsf/APIPasswordReset?CreateDocument";
 		
-		public function PasswordResetServiceDelegate(ipAddress:String) 
+		public function PasswordResetServiceDelegate() 
 		{
-			this.ipAddress = ipAddress;
 		}
 		
 		public function retrieveRecoveryCode(email:String, resultCallback:Function, faultCallback:Function=null):void 
@@ -31,7 +28,7 @@ package services.login
 				
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = this.ipAddress + RECOVERY_CODE;
+			service.url = RECOVERY_CODE;
 			service.contentData = urlParams;
 			service.method = "POST";
 			service.addEventListener("complete", resultCallback);
@@ -55,7 +52,7 @@ package services.login
 				
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = this.ipAddress + PASSWORD_RESET;
+			service.url = PASSWORD_RESET;
 			service.contentData = urlParams;
 			service.method = "POST";
 			service.addEventListener("complete", resultCallback);

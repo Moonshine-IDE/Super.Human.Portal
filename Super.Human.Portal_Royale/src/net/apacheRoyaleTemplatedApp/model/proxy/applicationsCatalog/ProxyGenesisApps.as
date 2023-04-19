@@ -27,11 +27,11 @@ package model.proxy.applicationsCatalog
 		private var sessionCheckProxy:ProxySessionCheck;
 		private var busyManagerProxy:ProxyBusyManager;
 		
-		public function ProxyGenesisApps(dataUrl:String)
+		public function ProxyGenesisApps()
 		{
 			super(NAME);
 			
-			genesisAppsDelegate = new GenesisAppsDelegate(dataUrl);
+			genesisAppsDelegate = new GenesisAppsDelegate();
 		}
 		
 		override public function onRegister():void

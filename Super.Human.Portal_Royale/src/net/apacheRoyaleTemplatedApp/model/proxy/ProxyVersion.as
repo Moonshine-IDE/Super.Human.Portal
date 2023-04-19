@@ -26,14 +26,11 @@ package model.proxy
 		
 		private var nativeLocator:NativeModelLocator;
 		
-		private var _dataUrl:String;
-		
-		public function ProxyVersion(dataUrl:String)
+		public function ProxyVersion()
 		{
 			super(NAME, new VersionVO());
 			
-			_dataUrl = dataUrl;
-			versionServiceDelegate = new VersionServiceDelegate(dataUrl);
+			versionServiceDelegate = new VersionServiceDelegate();
 		}
 		
 		public function get version():VersionVO
@@ -54,12 +51,12 @@ package model.proxy
 				parseVersion(new XML(fetchedData));
 			}
 
-			UrlProvider.getInstance(version.appVersion).setDomain(_dataUrl);
+			UrlProvider.getInstance(version.appVersion).setDomain("");
 		}
 		
 		private function onLocalVersionLoadFailed(event:FaultEvent):void
 		{			
-			UrlProvider.getInstance().setDomain(_dataUrl);
+			UrlProvider.getInstance().setDomain("");
 		}
 		
 		private function parseVersion(value:XML):void
