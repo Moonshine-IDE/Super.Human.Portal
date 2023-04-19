@@ -1,7 +1,9 @@
 package genesis;
 
+import java.io.File;
 import java.io.IOException;
-
+import java.util.Collection;
+import java.util.TreeSet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +25,8 @@ import util.ValidationException;
 public class GenesisRead extends CRUDAgentBase 
 {
 	protected static final String DEFAULT_GENESIS_REST_API = "http://appstore.dominogenesis.com/rest/v1/apps";
+	protected Collection<String> installedApps = new TreeSet<String>();
+	
 	
 	@Override
 	protected SecurityInterface createSecurityInterface() {
@@ -41,6 +45,7 @@ public class GenesisRead extends CRUDAgentBase
         JSONArray entries = new JSONArray();
         
         try {
+        		loadInstalledApps();
             JSONArray list = getGenesisAppList();
             
             for (Object entry : list) {
@@ -54,6 +59,7 @@ public class GenesisRead extends CRUDAgentBase
                     
                     // add info installation info
                     addInstallationInfo(newNode, node.get("id").toString());
+                    copyAccessInfo(newNode, node);
                     
                     entries.put(newNode);
                 }
@@ -106,6 +112,39 @@ public class GenesisRead extends CRUDAgentBase
         JSONArray list = (JSONArray)original.get("list");
         return list;
     }
+    
+    protected void loadInstalledApps() {
+    		File addinDir = new File("JavaAddin/");  // in the Data directory
+    		String[] addins = addinDir.list();
+    		for (String addin : addins) { 
+    			if (isAddin(addin)) {
+    				installedApps.add(cleanAddinName(addin));
+    			}
+    		}
+    }
+    
+    /**
+     * Check if the given filename should be treated as an addin.
+     */
+    protected boolean isAddin(String name) {
+    		return true;  // no checks for now
+    }
+    
+    protected String cleanAddinName(String raw) {
+    		if (null == raw) {
+    			return "null";
+    		}
+    		String cleaned = raw.toLowerCase();
+    		// TODO:  more checks;
+    		return cleaned;
+    }
+    
+    /**
+     * Determine if the addin is installed
+     */
+    protected boolean isInstalled(String addinName) {
+    		return installedApps.contains(cleanAddinName(addinName));
+    }
 	
 	/**
      * Get the API URL from the configuration.
@@ -134,7 +173,7 @@ public class GenesisRead extends CRUDAgentBase
     		// TODO:  lookup the installation status from the database
     		
     		// default to no configuration
-    		node.put("Installed", false);
+    		node.put("Installed", isInstalled(appID));
     		
     		
     		// TODO:  save the access node for the agent listing installed applications
@@ -152,6 +191,20 @@ public class GenesisRead extends CRUDAgentBase
     		// exampleLink.put("name", "Example Link");
     		// exampleLink.put("url", "/auth.nsf/XMLAuthenticationTest?OpenAgent");
     		
+    }
+    
+    protected void copyAccessInfo(JSONObject updateMe, JSONObject original) {
+    		try {
+    			Object accessInfo = original.get("access");
+    			if (null != accessInfo && (accessInfo instanceof JSONObject)) {
+    				updateMe.put("access", (JSONObject)accessInfo);
+    				
+    				// TODO:  replace insertion parameters
+    			}
+		}
+		catch (JSONException ex) {
+			// ignore
+		}
     }
 
 }
