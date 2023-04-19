@@ -108,7 +108,7 @@ package mediator.applications
 		private function updateView():void
 		{
 			view.learnMore["html"] = "<a href='http://genesis.directory/articles/what-is-genesis' target='_blank'>Learn More</a>";
-			view.selectedApp = "Select an application";
+			view.selectedApp = "Select an application from the list below";
 			
 			if (!genesisAppsProxy.getData())
 			{
@@ -140,12 +140,12 @@ package mediator.applications
 			
 			if (genesisAppsProxy.selectedApplication)
 			{
-				view.seeMoreDetails["html"] = '<a height="100%" href="' + genesisAppsProxy.selectedApplication.detailsUrl + '" target="_blank">See more details</a>';
+				view.seeMoreDetails["html"] = '<a height="100%" href="' + genesisAppsProxy.selectedApplication.detailsUrl + '" target="_blank">App details</a>';
 			}
 			else
 			{
 				view.seeMoreDetails["html"] = "";
-				view.seeMoreDetails["text"] = "See more details";
+				view.seeMoreDetails["text"] = "App details";
 			}
 		}
 		
