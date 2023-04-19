@@ -54,11 +54,11 @@ a:hover {
 }
 
 .scrollHeightDocFormGridJS {
-	height: 90%;
+	max-height: 95%;
 }
 
 .scrollHeightGenAppGridJS {
-	height: 65vh;
+	max-height: 79%;
 }
 
 .dx-datagrid-header-panel {
