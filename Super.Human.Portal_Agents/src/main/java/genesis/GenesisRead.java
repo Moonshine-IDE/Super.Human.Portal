@@ -63,6 +63,31 @@ public class GenesisRead extends CRUDAgentBase
                 }
             }
             
+            // add an example application
+			JSONObject newNode = new JSONObject();
+			newNode.put("AppID", "xampleaddin");
+			newNode.put("Label", "Xample Addin");
+			newNode.put("DetailsURL", "https://genesis.directory/apps/superhumanportal");
+			newNode.put("InstallCommand", "install superhumanportal");
+    			newNode.put("Installed", true);
+			JSONObject accessNode = new JSONObject();
+			newNode.put("access", accessNode);
+			accessNode.put("description", "This is not a real application.  It is being used for testing only, and will be removed at a later time.");
+			
+			JSONArray links = new JSONArray();
+			accessNode.put("links", links);
+			JSONObject exampleLink = new JSONObject();
+			links.put(exampleLink);
+			exampleLink.put("type", "browser");
+			exampleLink.put("name", "Example Link");
+			exampleLink.put("url", "/SuperHumanPortal.nsf/XMLAuthenticationTest?OpenAgent");	
+			exampleLink = new JSONObject();
+			links.put(exampleLink);
+			exampleLink.put("type", "database");
+			exampleLink.put("name", "Example Database");
+			exampleLink.put("url", "notes://demo.startcloud.com/SuperHumanPortal.nsf");  // NOTE:  this will fail for most users
+			
+			entries.put(newNode);		
      
             jsonRoot.put("apps", entries);
         }
@@ -110,6 +135,7 @@ public class GenesisRead extends CRUDAgentBase
     		
     		// default to no configuration
     		node.put("Installed", false);
+    		
     		
     		// TODO:  save the access node for the agent listing installed applications
     		// JSONObject accessNode = new JSONObject();
