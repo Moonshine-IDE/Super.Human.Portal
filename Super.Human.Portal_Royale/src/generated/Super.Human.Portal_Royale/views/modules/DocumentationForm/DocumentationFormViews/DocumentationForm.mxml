@@ -203,5 +203,5 @@
 
   <dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName', allowSorting: false, allowFiltering: true, filterType: 'exclude'}, 
   							   {caption: 'DocumentationUNID', dataField: 'DocumentationUNID', dataType: 'number', alignment: 'left', sortOrder: 'asc', allowFiltering: false, visible: this.proxy.showUnid}]}" dataProvider="{this.proxy.items}" 
-  					 filterRow="{ {visible: true, applyFilter: 'auto'} }" localId="dg" includeIn="dataGridState" className="dxDataGrid" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>
+  					 filterRow="{ {visible: true, applyFilter: 'auto'} }" localId="dg" includeIn="dataGridState" className="dxDataGrid scrollHeightDocFormGridJS" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>
 </j:VGroup>

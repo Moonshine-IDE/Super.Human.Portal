@@ -337,9 +337,9 @@
 				<general:PasswordReset id="passwordReset"/>
 			</j:VGroup>
 		</j:SectionContent>
-		<j:ScrollableSectionContent name="{MediatorGenesisApps.NAME}">
+		<j:SectionContent name="{MediatorGenesisApps.NAME}">
 			<applications:GenesisAppsList id="genesisAppsView"/>
-		</j:ScrollableSectionContent>
+		</j:SectionContent>
 	<!--	
 		Temporary hide Hello
 		<j:ScrollableSectionContent name="{MediatorViewHello.NAME}">
@@ -347,9 +347,9 @@
 		</j:ScrollableSectionContent>-->
 
 		<!--START_GENERATED_SCROLLABLE_SECTION_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**-->
-<j:ScrollableSectionContent name="{Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.DocumentationForm.NAME}" className="sectionCenter">
+<j:SectionContent name="{Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.DocumentationForm.NAME}" className="sectionCenter">
 	<DocumentationForm:DocumentationForm localId="DocumentationForm_ID" xmlns:DocumentationForm="Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.*" />
-</j:ScrollableSectionContent>
+</j:SectionContent>
 <!--END_GENERATED_SCROLLABLE_SECTION_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
 		<!--GENERATED_VIEWS_CURSOR:  New  snippets will be inserted here-->
 

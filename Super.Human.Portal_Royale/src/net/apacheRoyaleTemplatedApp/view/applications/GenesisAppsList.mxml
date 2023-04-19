@@ -5,7 +5,7 @@
 		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
 		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
 		 implements="interfaces.IGenesisAppsView" className="bodyPadding"
-		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" gap="5">
+		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" gap="5">
 	<fx:Script>
 		<![CDATA[
 			import org.apache.royale.collections.ArrayList;
@@ -106,7 +106,7 @@
 		<j:Label percentWidth="100" text="* Select item to see more details and install application."
 				 className="smallFont italic brandColor labelTextAlignRight"/>
 	</j:HGroup>
-	<dataGrid:DataGrid localId="genesisApps" className="dataGridJS scrollHeightGridJS" filterRow="{filterRow}"
+	<dataGrid:DataGrid localId="genesisApps" className="dataGridJS scrollHeightGenAppGridJS" filterRow="{filterRow}"
 					   headerFilter="{filterHeader}">
 			<dataGrid:beads>
 				<beads:JewelDataGridHeader />
