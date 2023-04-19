@@ -83,11 +83,11 @@
 		<j:Form>
 			<controls:CustomFormItem labelClass="formItemPersonalInfo" className="horizontalContentFormItem">
 				<j:HGroup itemsVerticalAlign="itemsCenter">
-					<html:H4 localId="selectedAppH" text="Select an application"/>
+					<html:H4 localId="selectedAppH" text="Select an application from the list below"/>
 				</j:HGroup>
 				<j:HGroup percentHeight="100" gap="1" itemsHorizontalAlign="itemsRight" 
 						itemsVerticalAlign="itemsCenter">
-					<j:Button localId="seeMoreDetailsBtn" text="See more details" width="120" className="noLinkStyle">
+					<j:Button localId="seeMoreDetailsBtn" text="App details" width="120" className="noLinkStyle">
 						<j:beads>
 							<j:Disabled disabled="true"/>
 						</j:beads>
