@@ -36,7 +36,8 @@ package mediator.applications
 
 			view.seeMoreDetails["html"] = "";
 			view.seeMoreDetails["text"] = "App details";
-				
+			view.appDescription = "No description";
+			
 			this.genesisAppsProxy = null;
 		}
 		
@@ -66,6 +67,12 @@ package mediator.applications
 			if (genesisAppsProxy.selectedApplication)
 			{
 				view.applicationName = genesisAppsProxy.selectedApplication.label;
+				view.appDescription = "No description";
+				
+				if (genesisAppsProxy.selectedApplication.access)
+				{
+					view.appDescription = genesisAppsProxy.selectedApplication.access.description;
+				}
 			}
 			
 			updateSeeDetails();

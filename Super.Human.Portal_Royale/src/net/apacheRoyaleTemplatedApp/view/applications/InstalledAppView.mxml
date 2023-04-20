@@ -21,6 +21,11 @@
 				this.nameApplication.text = value;	
 			}
 			
+			public function set appDescription(value:String):void
+			{
+				this.descriptionApp.text = value;	
+			}
+			
 			public function installationResult(message:String):void
 			{
 				Snackbar.show(message, 4000, null);
@@ -43,5 +48,7 @@
 			</j:HGroup>
 		</j:GridCell>
 	</j:Grid>
-	
+	<j:Card percentWidth="100" itemsHorizontalAlign="itemsLeft" itemsVerticalAlign="itemsCenter">
+		<html:H4 localId="descriptionApp" text="No description"/>
+	</j:Card>
 </j:VGroup>

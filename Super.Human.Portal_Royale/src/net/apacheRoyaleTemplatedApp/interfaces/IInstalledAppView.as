@@ -6,5 +6,6 @@ package interfaces
 	{
 		function get seeMoreDetails():IEventDispatcher;
 		function set applicationName(value:String):void;
+		function set appDescription(value:String):void
 	}
 }
