@@ -27,6 +27,7 @@ package interfaces
 		function get viewDrawerContentNavigation():IEventDispatcher;
 		function get viewButtonDrawer():IEventDispatcher;
 		function get viewDrawer():Object;
+		function get viewInstalledAppsNavigation():IEventDispatcher;
 		function get footer():Object;
 		function set autoSizeDrawer(value:Boolean):void;
 

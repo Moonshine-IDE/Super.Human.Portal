@@ -5,14 +5,14 @@
 				  xmlns:html="library://ns.apache.org/royale/html"
 				  xmlns:view="view.*" xmlns:general="view.general.*"
 				  xmlns:model="model.*" 
-				  xmlns:routing="org.apache.royale.routing.*" xmlns:beads="classes.beads.*" xmlns:hello="view.hello.*" xmlns:applications="view.applications.*"
+				  xmlns:routing="org.apache.royale.routing.*" xmlns:beads="classes.beads.*" xmlns:hello="view.hello.*" xmlns:applications="view.applications.*" xmlns:vo="model.vo.*"
 				  implements="interfaces.IMainContentView"
 				  initComplete="onInitComplete(event)">
 	<j:beads>
 		<js:ContainerDataBinding/>
 	</j:beads>
    <j:model>
-        <model:MainContentNavigationModel localId="mainNavigationModel"/>
+        <model:InstalledAppNavigationModel localId="installedAppNavModel"/>
     </j:model>
 	<fx:Script>
 		<![CDATA[
@@ -33,7 +33,6 @@
 			import org.apache.royale.jewel.Alert;
 
 			import view.general.BusyOperator;
-			import constants.ApplicationConstants;
 																																																																																																						
 			private function onInitComplete(event:Event):void 
 			{
@@ -176,6 +175,10 @@
 				return this.drawer;
 			}			
 			
+			public function get viewInstalledAppsNavigation():IEventDispatcher
+			{
+				return this.installedAppsNavigation;
+			}
 			/*
 			Temporary hide Hello
 			public function get viewHello():IViewHello 
@@ -277,14 +280,21 @@
 							<fx:Object name="Hello" content="MediatorViewHello" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"/>->
 
                             <!--START_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**-->
-							<fx:Object name="Getting Started" content="DocumentationForm" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"
+						<vo:NavigationLinkVO name="Getting Started" content="DocumentationForm" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"
 									   notificationName="Native/NoteOpenViewHello"/>
 							<!--END_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
 						<!--GENERATED_MENU_CURSOR: New snippets will be inserted here-->
-						<fx:Object name="Genesis App" content="MediatorGenesisApps" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"
+						<vo:NavigationLinkVO name="Genesis App" content="MediatorGenesisApps" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"
 								   notificationName="Native/NoteOpenGenesisApplications"/>
 					</js:ArrayList>
 				</j:dataProvider>
+			</j:Navigation>
+			<j:Navigation id="installedAppsNavigation" className="navIconLinkItemRenderer">
+				<j:beads>
+					<js:ConstantBinding sourceID="installedAppNavModel" sourcePropertyName="navigationLinks" destinationPropertyName="dataProvider"/>
+					<j:NavigationActionNotifier/>
+					<js:DynamicRemoveAllByNullItemRendererForArrayListData />
+				</j:beads>
 			</j:Navigation>
 		</j:DrawerContent>
 	</j:Drawer>

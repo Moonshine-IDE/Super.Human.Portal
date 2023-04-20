@@ -20,6 +20,7 @@ package mediator
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+    import model.proxy.applicationsCatalog.ProxyGenesisApps;
                                                                                 
     public class MediatorMainContentView extends Mediator implements IMediator
     {
@@ -120,6 +121,7 @@ package mediator
 					case ApplicationConstants.NOTE_OPEN_VIEW_HELLO:
 						//initializeViewHello();
 						initializeViewGettingStarted();
+						initializeListOfInstalledApps();
 						break;
 					case ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS:
 						initializeGenesisApplicationsList();
@@ -184,6 +186,8 @@ package mediator
 				}			
 				
 				view.selectedContent = MediatorNewRegistration.NAME;
+				
+				
 			}
 			
 			/*
@@ -204,6 +208,13 @@ package mediator
 					currentView: view.viewDocumentationForm,
 					currentSelection: "DocumentationForm"
 				}, getQualifiedClassName(MediatorViewGettingStarted));
+			}
+			
+
+			private function initializeListOfInstalledApps():void
+			{
+				var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
+					genesisAppsProxy.getGenesisAppsList();
 			}
 			
 			private function initializeGenesisApplicationsList():void
