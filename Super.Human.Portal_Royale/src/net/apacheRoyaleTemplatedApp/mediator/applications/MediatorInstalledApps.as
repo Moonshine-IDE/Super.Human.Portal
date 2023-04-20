@@ -34,6 +34,9 @@ package mediator.applications
 		{			
 			super.onRemove();
 
+			view.seeMoreDetails["html"] = "";
+			view.seeMoreDetails["text"] = "App details";
+				
 			this.genesisAppsProxy = null;
 		}
 		
@@ -60,7 +63,25 @@ package mediator.applications
 
 		private function updateView():void
 		{
+			if (genesisAppsProxy.selectedApplication)
+			{
+				view.applicationName = genesisAppsProxy.selectedApplication.label;
+			}
 			
+			updateSeeDetails();
+		}
+		
+		private function updateSeeDetails():void
+		{
+			if (genesisAppsProxy.selectedApplication)
+			{
+				view.seeMoreDetails["html"] = '<a height="100%" href="' + genesisAppsProxy.selectedApplication.detailsUrl + '" target="_blank">App details</a>';
+			}
+			else
+			{
+				view.seeMoreDetails["html"] = "";
+				view.seeMoreDetails["text"] = "App details";
+			}
 		}
     }
 }

@@ -38,7 +38,7 @@
 			<j:HGroup percentWidth="100">
 				<html:H3 localId="nameApplication" percentWidth="100"/>
 				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
-					<j:Button localId="moreDetails" className="noLinkStyle" text="See details"/>
+					<j:Button localId="moreDetails" className="noLinkStyle" text="App details"/>
 				</j:HGroup>
 			</j:HGroup>
 		</j:GridCell>

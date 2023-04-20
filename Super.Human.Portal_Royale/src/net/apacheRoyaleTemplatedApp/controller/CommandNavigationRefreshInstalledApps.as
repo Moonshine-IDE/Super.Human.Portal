@@ -27,7 +27,7 @@ package controller
 			for each (var app:ApplicationVO in apps)
 			{
 				var menuItem:NavigationLinkVO = new NavigationLinkVO(app.label, "", "mdi mdi-apps mdi-24px", 
-																	MediatorInstalledApps.NAME + app.label.replace(appWhiteSpaceRegExp, ""))
+																	MediatorInstalledApps.NAME + app.label.replace(appWhiteSpaceRegExp, ""), app);
 				installedApps.addItem(menuItem);
 			}
 			var installedAppsItem:NavigationLinkVO = installedAppNavModel.navigationLinks.getItemAt(0) as NavigationLinkVO;

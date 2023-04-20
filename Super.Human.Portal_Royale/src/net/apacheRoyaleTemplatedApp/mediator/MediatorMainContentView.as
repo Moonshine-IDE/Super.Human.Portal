@@ -7,10 +7,13 @@ package mediator
     import mediator.applications.MediatorGenesisApps;
 
     import model.proxy.ProxyVersion;
+    import model.proxy.applicationsCatalog.ProxyGenesisApps;
     import model.proxy.busy.ProxyBusyManager;
     import model.proxy.login.ProxyLogin;
     import model.proxy.login.ProxyPasswordReset;
     import model.proxy.urlParams.ProxyUrlParameters;
+    import model.vo.ApplicationVO;
+    import model.vo.NavigationLinkVO;
     import model.vo.UserVO;
 
     import org.apache.royale.events.Event;
@@ -20,9 +23,6 @@ package mediator
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-    import model.proxy.applicationsCatalog.ProxyGenesisApps;
-    import mediator.applications.MediatorInstalledApps;
-    import model.vo.NavigationLinkVO;
                                                                                 
     public class MediatorMainContentView extends Mediator implements IMediator
     {
@@ -313,6 +313,9 @@ package mediator
 				}	
 				
 				view.installedAppsSection["name"] = currentSelection.idSelectedItem;
+				var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
+					genesisAppsProxy.selectedApplication = currentSelection.data as ApplicationVO;
+					
 				//Finish up here
 				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
 					view: view,
