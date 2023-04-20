@@ -33,6 +33,7 @@
 			import org.apache.royale.jewel.Alert;
 
 			import view.general.BusyOperator;
+			import interfaces.IInstalledAppView;
 																																																																																																						
 			private function onInitComplete(event:Event):void 
 			{
@@ -196,6 +197,16 @@
 				return this.genesisAppsView;	
 			}
 			
+			public function get installedAppsView():IInstalledAppView
+			{
+				return this.viewInstalledApp;	
+			}
+			
+			public function get installedAppsSection():Object
+			{
+				return this.sectionInstalledApps;	
+			}
+			
 			public function get footer():Object
 			{
 				return this.appFooter;
@@ -350,6 +361,7 @@
 		<j:SectionContent name="{MediatorGenesisApps.NAME}">
 			<applications:GenesisAppsList id="genesisAppsView"/>
 		</j:SectionContent>
+	
 	<!--	
 		Temporary hide Hello
 		<j:ScrollableSectionContent name="{MediatorViewHello.NAME}">
@@ -357,11 +369,13 @@
 		</j:ScrollableSectionContent>-->
 
 		<!--START_GENERATED_SCROLLABLE_SECTION_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**-->
-<j:SectionContent name="{Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.DocumentationForm.NAME}" className="sectionCenter">
-	<DocumentationForm:DocumentationForm localId="DocumentationForm_ID" xmlns:DocumentationForm="Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.*" />
-</j:SectionContent>
-<!--END_GENERATED_SCROLLABLE_SECTION_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
+		<j:SectionContent name="{Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.DocumentationForm.NAME}" className="sectionCenter">
+			<DocumentationForm:DocumentationForm localId="DocumentationForm_ID" xmlns:DocumentationForm="Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.*" />
+		</j:SectionContent>
+		<!--END_GENERATED_SCROLLABLE_SECTION_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
 		<!--GENERATED_VIEWS_CURSOR:  New  snippets will be inserted here-->
-
+		<j:SectionContent localId="sectionInstalledApps">
+			<applications:InstalledAppView id="viewInstalledApp"/>
+		</j:SectionContent>
     </j:ApplicationMainContent>
 </j:ResponsiveView>

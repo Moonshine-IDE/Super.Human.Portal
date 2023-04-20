@@ -37,6 +37,9 @@ package interfaces
 		function get viewGenesisApps():IGenesisAppsView;
 		function get viewDocumentationForm():Object;
 		
+		function get installedAppsView():IInstalledAppView;
+		function get installedAppsSection():Object;
+			
 		function set title(value:String):void;
 		
 		/*

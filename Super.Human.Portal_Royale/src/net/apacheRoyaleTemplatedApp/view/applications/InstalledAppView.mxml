@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
+		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
+		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
+		 implements="interfaces.IInstalledAppView" className="bodyPadding"
+		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" gap="5">
+	<fx:Script>
+		<![CDATA[
+			import org.apache.royale.events.IEventDispatcher;
+			import org.apache.royale.jewel.Snackbar;
+
+			public function get seeMoreDetails():IEventDispatcher
+			{
+				return this.moreDetails;
+			}
+				
+			public function set applicationName(value:String):void
+			{
+				this.nameApplication.text = value;	
+			}
+			
+			public function installationResult(message:String):void
+			{
+				Snackbar.show(message, 4000, null);
+			}
+			
+		]]>
+	</fx:Script>
+
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+
+	<j:Grid gap="false">
+		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
+			<j:HGroup percentWidth="100">
+				<html:H3 localId="nameApplication" percentWidth="100"/>
+				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
+					<j:Button localId="moreDetails" className="noLinkStyle" text="See details"/>
+				</j:HGroup>
+			</j:HGroup>
+		</j:GridCell>
+	</j:Grid>
+	
+</j:VGroup>

@@ -15,6 +15,7 @@ package controller
 			if (!facade.hasMediator(viewClass["NAME"]))
 			{
 				var mainView:IMainContentView = note.getBody().view as IMainContentView;
+				var drawerNavigation:Object = note.getBody().drawerNavigation ? note.getBody().drawerNavigation : mainView["viewDrawerNavigation"];
 				
 				facade.removeMediator(mainView.selectedContent);
 				
@@ -22,11 +23,19 @@ package controller
 				
 				if (note.getType())
 				{
-					var view:Object = new viewClass(note.getBody().currentView);
+					var view:Object = null;
+					if(note.getBody().mediatorName)
+					{
+						view = new viewClass(note.getBody().mediatorName, note.getBody().currentView);
+					}
+					else
+					{
+						view = new viewClass(note.getBody().currentView);
+					}
 					facade.registerMediator(view as IMediator);
 				}
 	
-				var selectedItem:Object = mainView["viewDrawerNavigation"].dataProvider.source.filter(
+				var selectedItem:Object = drawerNavigation.dataProvider.source.filter(
 					function(item:Object, index:int, arr:Array):Boolean {
 						return item.idSelectedItem == mainView.selectedContent;
 					});
@@ -39,7 +48,7 @@ package controller
 						selectedChild = mainView.selectedNavigation.selectedChild;
 					}
 						
-					var proposedSelection:Object = setSelectedChild(mainView["viewDrawerNavigation"].dataProvider.source, mainView.selectedContent);
+					var proposedSelection:Object = setSelectedChild(drawerNavigation.dataProvider.source, mainView.selectedContent);
 						
 					if (proposedSelection == mainView.selectedNavigation &&
 						(proposedSelection && selectedChild != proposedSelection.selectedChild))
