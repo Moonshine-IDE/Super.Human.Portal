@@ -374,8 +374,8 @@
 		</j:SectionContent>
 		<!--END_GENERATED_SCROLLABLE_SECTION_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
 		<!--GENERATED_VIEWS_CURSOR:  New  snippets will be inserted here-->
-		<j:SectionContent localId="sectionInstalledApps">
+		<j:ScrollableSectionContent localId="sectionInstalledApps">
 			<applications:InstalledAppView id="viewInstalledApp"/>
-		</j:SectionContent>
+		</j:ScrollableSectionContent>
     </j:ApplicationMainContent>
 </j:ResponsiveView>

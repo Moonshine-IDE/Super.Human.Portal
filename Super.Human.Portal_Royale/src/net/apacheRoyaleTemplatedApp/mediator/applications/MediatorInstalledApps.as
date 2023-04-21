@@ -8,6 +8,8 @@ package mediator.applications
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+    import model.vo.ApplicationVO;
+    import org.apache.royale.jewel.IconButton;
     
     public class MediatorInstalledApps extends Mediator implements IMediator
     {
@@ -37,6 +39,7 @@ package mediator.applications
 			view.seeMoreDetails["html"] = "";
 			view.seeMoreDetails["text"] = "App details";
 			view.appDescription = "No description";
+			cleanUpInstalledAppLinks();
 			
 			this.genesisAppsProxy = null;
 		}
@@ -73,6 +76,8 @@ package mediator.applications
 				{
 					view.appDescription = genesisAppsProxy.selectedApplication.access.description;
 				}
+				
+				updateInstalledAppLinks();
 			}
 			
 			updateSeeDetails();
@@ -88,6 +93,45 @@ package mediator.applications
 			{
 				view.seeMoreDetails["html"] = "";
 				view.seeMoreDetails["text"] = "App details";
+			}
+		}
+
+		private function updateInstalledAppLinks():void
+		{
+			var selectedApp:ApplicationVO = genesisAppsProxy.selectedApplication;
+			
+			if(selectedApp && selectedApp.access && selectedApp.access.links)
+			{
+				view.installedAppLinksContainer.visible = true;
+				
+				var links:Array = selectedApp.access.links;
+				for (var i:int = 0; i < links.length; i++)
+				{
+					var link:Object = links[i];
+					
+					var linkButton:IconButton = new IconButton();
+						linkButton.className = "linksGapInstallApp noLinkStyleInstallApp";
+						linkButton.emphasis = "primary";
+						linkButton.html = '<a height="100%" width="100%" href="' + link.url + '" target="_blank">' + link.name + '</a>';
+						
+					view.installedAppLinks.addElement(linkButton);
+				}
+			}
+			else
+			{
+				view.installedAppLinksContainer.visible = false;
+			}
+		}
+
+		private function cleanUpInstalledAppLinks():void
+		{
+			view.installedAppLinksContainer.visible = false;
+			
+			var linksCount:int = view.installedAppLinks.numElements - 1;
+			for (var i:int = linksCount; i >= 0; i--)
+			{
+				var linkEl:Object = view.installedAppLinks.getElementAt(i);
+				view.installedAppLinks.removeElement(linkEl);
 			}
 		}
     }
