@@ -414,3 +414,20 @@ a:hover {
 	minWidth: 50px !important;
 	width: 45px;
 }
+
+.jewel.button.primary.linksGapInstallApp {
+	marginBottom: 4px !important;
+	marginLeft: 4px !important;
+	minWidth: 150px;
+	height: 40px;
+	padding: 0;
+}
+
+.jewel.button.primary.noLinkStyleInstallApp a {
+  color: #FFFFFF;
+  text-decoration: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
+}

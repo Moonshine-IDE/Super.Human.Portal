@@ -12,11 +12,11 @@ package model.proxy.applicationsCatalog
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
 	import services.GenesisAppsDelegate;
-	import constants.ApplicationConstants;
+	import services.InstalledAppsDelegate;
 						
-	public class ProxyGenesisApps extends Proxy implements IDisposable
+	public class ProxyInstalledApps extends Proxy implements IDisposable
 	{
-		public static const NAME:String = "ProxyGenesisApps";
+		public static const NAME:String = "ProxyInstalledApps";
 		
 		public static const NOTE_GENESIS_APPS_LIST_FETCHED:String = NAME + "NoteGenesisAppsListFetched";
 		public static const NOTE_GENESIS_APPS_LIST_FETCH_FAILED:String = NAME + "NoteGenesisAppsListFetchFailed";
@@ -24,15 +24,15 @@ package model.proxy.applicationsCatalog
 		public static const NOTE_GENESIS_APP_INSTALLED:String = NAME + "NoteGenesisAppInstalled";
 		public static const NOTE_GENESIS_APPS_INSTALL_FAILED:String = NAME + "NoteGenesisAppInstallFailed";
 		
-		private var genesisAppsDelegate:GenesisAppsDelegate;
+		private var installedAppsDelegate:InstalledAppsDelegate;
 		private var sessionCheckProxy:ProxySessionCheck;
 		private var busyManagerProxy:ProxyBusyManager;
 		
-		public function ProxyGenesisApps()
+		public function ProxyInstalledApps()
 		{
 			super(NAME);
 			
-			genesisAppsDelegate = new GenesisAppsDelegate();
+			installedAppsDelegate = new InstalledAppsDelegate();
 		}
 		
 		override public function onRegister():void
@@ -65,32 +65,15 @@ package model.proxy.applicationsCatalog
 			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onGenesisAppsListFetched);
 			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisAppsListFetchFailed);
 		
-			genesisAppsDelegate.getGenesisCatalogList(successCallback, failureCallback);
+			//genesisAppsDelegate.getGenesisCatalogList(successCallback, failureCallback);
 		}
 
-		public function getInstalledApps():void
-		{	
-			var installedApps:Array = this.getData() as Array;
-			if (installedApps)
-			{
-				installedApps = filterInstalledApps(installedApps);
-				sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_INSTALLED_APPS, installedApps);
-			}
-			else
-			{
-				var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onGenesisAppsListFetched);
-				var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisAppsListFetchFailed);
-		
-				genesisAppsDelegate.getGenesisCatalogList(successCallback, failureCallback);
-			}
-		}
-		
 		public function installApplication():void
 		{
 			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onGenesisAppInstalled);
 			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisAppInstallFailed);
 			
-			genesisAppsDelegate.getGenesisCatalogInstall(selectedApplication.appId, successCallback, failureCallback);	
+		//	genesisAppsDelegate.getGenesisCatalogInstall(selectedApplication.appId, successCallback, failureCallback);	
 		}
 		
 		private function onGenesisAppsListFetched(event:Event):void
@@ -115,9 +98,6 @@ package model.proxy.applicationsCatalog
 					var apps:Array = ParseCentral.parseGenesisCatalogList(jsonData.apps);
 					setData(apps);
 					sendNotification(NOTE_GENESIS_APPS_LIST_FETCHED);
-					
-					var installedApps:Array = filterInstalledApps(apps);
-					sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_INSTALLED_APPS, installedApps);
 				}
 			}
 			else
@@ -162,19 +142,6 @@ package model.proxy.applicationsCatalog
 		private function onGenesisAppInstallFailed(event:FaultEvent):void
 		{
 			sendNotification(NOTE_GENESIS_APPS_INSTALL_FAILED, "Installation of Genesis application failed: " + event.message.toLocaleString());
-		}
-		
-		private function filterInstalledApps(apps:Array):Array
-		{
-			var installedApps:Array = [];
-			if (apps)
-			{
-				installedApps = apps.filter(function(app:ApplicationVO, index:int, arr:Array):Boolean {
-					return app.installed;
-				});
-			}	
-			
-			return installedApps;
 		}
 	}
 }

@@ -7,10 +7,13 @@ package mediator
     import mediator.applications.MediatorGenesisApps;
 
     import model.proxy.ProxyVersion;
+    import model.proxy.applicationsCatalog.ProxyGenesisApps;
     import model.proxy.busy.ProxyBusyManager;
     import model.proxy.login.ProxyLogin;
     import model.proxy.login.ProxyPasswordReset;
     import model.proxy.urlParams.ProxyUrlParameters;
+    import model.vo.ApplicationVO;
+    import model.vo.NavigationLinkVO;
     import model.vo.UserVO;
 
     import org.apache.royale.events.Event;
@@ -46,6 +49,7 @@ package mediator
 				view.logout.addEventListener(MouseEvent.CLICK, onLogoutClick);
 				view.viewButtonDrawer.addEventListener(MouseEvent.CLICK, onDrawerButtonShowHide);
 				view.viewDrawerNavigation.addEventListener(Event.CHANGE, onNavigationSectionChange);
+				view.viewInstalledAppsNavigation.addEventListener(Event.CHANGE, onNavigationInstalledAppSectionChange);
 				
 				view.loggedUsername = "Prominic User";
 				
@@ -120,6 +124,7 @@ package mediator
 					case ApplicationConstants.NOTE_OPEN_VIEW_HELLO:
 						//initializeViewHello();
 						initializeViewGettingStarted();
+						initializeListOfInstalledApps();
 						break;
 					case ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS:
 						initializeGenesisApplicationsList();
@@ -184,6 +189,8 @@ package mediator
 				}			
 				
 				view.selectedContent = MediatorNewRegistration.NAME;
+				
+				
 			}
 			
 			/*
@@ -206,8 +213,27 @@ package mediator
 				}, getQualifiedClassName(MediatorViewGettingStarted));
 			}
 			
+
+			private function initializeListOfInstalledApps():void
+			{
+				var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
+					genesisAppsProxy.getGenesisAppsList();
+			}
+			
 			private function initializeGenesisApplicationsList():void
 			{
+				//Remove mediator from second navigation
+				var selectedItem:NavigationLinkVO = view.viewInstalledAppsNavigation["selectedItem"];
+				if (selectedItem)
+				{
+					var currentSelection:NavigationLinkVO = selectedItem;
+					if (selectedItem.selectedChild)
+					{
+						currentSelection = selectedItem.selectedChild;
+					}	
+					facade.removeMediator(currentSelection.idSelectedItem);
+				}
+				
 				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
 					view: view,
 					currentView: view.viewGenesisApps,
@@ -229,7 +255,7 @@ package mediator
 
 				view.logoutVisible = true;
 				view.autoSizeDrawer = true;
-				
+				this.mediatorName
 				var proxyUrlParams:ProxyUrlParameters = facade.retrieveProxy(ProxyUrlParameters.NAME) as ProxyUrlParameters;
 				if (proxyUrlParams.component)
 				{
@@ -275,6 +301,29 @@ package mediator
 				
 				sendNotification(ApplicationConstants.COMMAND_DRAWER_CHANGED, false);
 				sendNotification(currentSelection.notificationName);
+			}
+			
+			private function onNavigationInstalledAppSectionChange(event:Event):void
+			{
+				var selectedItem:NavigationLinkVO = view.viewInstalledAppsNavigation["selectedItem"];
+				var currentSelection:NavigationLinkVO = selectedItem;
+				if (selectedItem.selectedChild)
+				{
+					currentSelection = selectedItem.selectedChild;
+				}	
+				
+				view.installedAppsSection["name"] = currentSelection.idSelectedItem;
+				var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
+					genesisAppsProxy.selectedApplication = currentSelection.data as ApplicationVO;
+					
+				//Finish up here
+				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
+					view: view,
+					currentView: view.installedAppsView,
+					currentSelection: currentSelection.idSelectedItem,
+					drawerNavigation: view.viewInstalledAppsNavigation,
+					mediatorName: currentSelection.idSelectedItem
+				}, "mediator.applications.MediatorInstalledApps");
 			}
 			
 			private function onDrawerButtonShowHide(event:MouseEvent):void
