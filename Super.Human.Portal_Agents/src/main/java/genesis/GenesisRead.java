@@ -2,6 +2,8 @@ package genesis;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.TreeSet;
 
@@ -15,6 +17,7 @@ import com.moonshine.domino.security.SecurityInterface;
 import com.moonshine.domino.util.ConfigurationUtils;
 import com.moonshine.domino.util.DominoUtils;
 
+import lotus.domino.Name;
 import lotus.domino.NotesException;
 import util.SimpleHTTPClient;
 import util.ValidationException;
@@ -27,6 +30,8 @@ public class GenesisRead extends CRUDAgentBase
 	protected static final String DEFAULT_GENESIS_REST_API = "http://appstore.dominogenesis.com/rest/v1/apps";
 	protected Collection<String> installedApps = new TreeSet<String>();
 	
+	protected String serverAbbr = null;
+	protected String serverCommon = null;
 	
 	@Override
 	protected SecurityInterface createSecurityInterface() {
@@ -46,6 +51,7 @@ public class GenesisRead extends CRUDAgentBase
         
         try {
         		loadInstalledApps();
+        		initializeInsertionParameters();
             JSONArray list = getGenesisAppList();
             
             for (Object entry : list) {
@@ -124,6 +130,26 @@ public class GenesisRead extends CRUDAgentBase
     }
     
     /**
+     * Initialize insertion parameters that can be applied to the Genesis application list, including the local server name.
+     */
+    protected void initializeInsertionParameters() {
+    		Name nameObj = null;
+    		try {
+    			String name = session.getServerName();
+    			nameObj = session.createName(name);
+    			serverAbbr = nameObj.getAbbreviated();
+    			serverCommon = nameObj.getCommon();
+    		}
+    		catch (NotesException ex) {
+    			getLog().err("Exception in initializeInsertionParameters.  They will be skipped:  ", ex);
+    			
+    		}
+    		finally {
+    			DominoUtils.recycle(session, nameObj);
+    		}
+    }
+    
+    /**
      * Check if the given filename should be treated as an addin.
      */
     protected boolean isAddin(String name) {
@@ -195,15 +221,82 @@ public class GenesisRead extends CRUDAgentBase
     
     protected void copyAccessInfo(JSONObject updateMe, JSONObject original) {
     		try {
-    			Object accessInfo = original.get("access");
-    			if (null != accessInfo && (accessInfo instanceof JSONObject)) {
-    				updateMe.put("access", (JSONObject)accessInfo);
+    			Object accessInfoObj = original.get("access");
+    			if (null != accessInfoObj && (accessInfoObj instanceof JSONObject)) {
+    				JSONObject accessInfo = (JSONObject) accessInfoObj;
+    				updateMe.put("access", accessInfo);
     				
-    				// TODO:  replace insertion parameters
+    				Object linksObj = accessInfo.get("links");
+    				if (null != linksObj && linksObj instanceof JSONArray) {
+    					JSONArray links = (JSONArray) linksObj;
+    					for (Object linkObj : links) {
+    						if (linkObj instanceof JSONObject) {
+    							cleanupLink((JSONObject) linkObj);
+    						}
+    						else {
+    							getLog().err("Skipping invalid link:  not a JSON object.");
+    						}
+    					}
+    				}
     			}
 		}
 		catch (JSONException ex) {
 			// ignore
+		}
+    }
+    
+    protected void cleanupLink(JSONObject link) {
+    		String identifier = "UNKNOWN";
+    		try {
+    			identifier = getStringSafe(link, "name");
+    			String type = getStringSafe(link, "type");
+    			if (null != type && type.equalsIgnoreCase("database")) {
+    				// Update database links so that they can work in Super.Human.Portal
+    				String database = getStringSafe(link, "database");
+    				if (DominoUtils.isValueEmpty(database)) {
+    					//  TODO:  remove this early workaround - we had not decided on the format yet.
+    					database = getStringSafe(link, "url");
+    				}
+    				
+				if (!DominoUtils.isValueEmpty(database) && database.toLowerCase().endsWith(".nsf")) {
+					// Configure url as a notes:// URL for now
+					// TODO:  support NomadWeb
+					
+					// URL-encode the database name
+					String databaseEnc = database;
+					try {
+						databaseEnc = URLEncoder.encode(database, "utf-8");
+					}
+					catch (UnsupportedEncodingException ex) {
+						getLog().err("Encoding exception:  ", ex);
+					}
+					
+					// TODO:  handle the FQDN in a better way?  The format is enforces for Super.Human.Installer, but we'll needs something more generic for other servers.
+					String url = "notes://" + serverCommon + "/" + databaseEnc;
+					// TODO:  support "view" parameter
+					link.put("url", url);
+				}
+				
+				// add local server name
+				link.put("server", serverAbbr);
+				
+				// TODO:  replace insertion parameters
+    			}
+    			
+    			
+		}
+		catch (JSONException ex) {
+			getLog().err("Error when processing link '" + identifier + "':  ", ex);
+		}
+    }
+    
+    protected String getStringSafe(JSONObject object, String key) {
+    		try {
+    			return object.getString(key);
+    		}
+    		catch (JSONException ex) {
+    			// this fails if the key was not found.  Return null instead.
+    			return null;
 		}
     }
 
