@@ -27,6 +27,7 @@ package interfaces
 		function get viewDrawerContentNavigation():IEventDispatcher;
 		function get viewButtonDrawer():IEventDispatcher;
 		function get viewDrawer():Object;
+		function get viewInstalledAppsNavigation():IEventDispatcher;
 		function get footer():Object;
 		function set autoSizeDrawer(value:Boolean):void;
 
@@ -36,6 +37,9 @@ package interfaces
 		function get viewGenesisApps():IGenesisAppsView;
 		function get viewDocumentationForm():Object;
 		
+		function get installedAppsView():IInstalledAppView;
+		function get installedAppsSection():Object;
+			
 		function set title(value:String):void;
 		
 		/*
