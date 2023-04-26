@@ -213,11 +213,10 @@ package mediator
 				}, getQualifiedClassName(MediatorViewGettingStarted));
 			}
 			
-
 			private function initializeListOfInstalledApps():void
 			{
 				var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
-					genesisAppsProxy.getGenesisAppsList();
+					genesisAppsProxy.getInstalledApps();
 			}
 			
 			private function initializeGenesisApplicationsList():void

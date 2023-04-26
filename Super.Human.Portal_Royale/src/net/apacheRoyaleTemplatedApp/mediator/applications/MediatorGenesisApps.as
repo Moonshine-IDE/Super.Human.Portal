@@ -81,6 +81,9 @@ package mediator.applications
 					break;
 				case ProxyGenesisApps.NOTE_GENESIS_APP_INSTALLED:
 					view.installationResult(String(note.getBody()));
+					setTimeout(function():void{
+						genesisAppsProxy.getInstalledApps(true);
+					}, 800)
 					break;
 				case ProxyGenesisApps.NOTE_GENESIS_APPS_LIST_FETCH_FAILED:
 				case ProxyGenesisApps.NOTE_GENESIS_APPS_INSTALL_FAILED:
@@ -96,11 +99,6 @@ package mediator.applications
 
 		private function updateSelectedAppToProxy(selectedItem:Object):void
 		{
-			if (!selectedItem)
-			{
-				return;
-			}
-			
 			var selectedApp:ApplicationVO = selectedItem as ApplicationVO;
 			genesisAppsProxy.selectedApplication = selectedApp;
 		}
@@ -151,7 +149,7 @@ package mediator.applications
 		
 		private function onGenesisAppsListChange(event:DataGridEvent):void
 		{
-			view.selectedApp = event.item.label;
+			view.selectedApp = event.item ? event.item.label : "";
 			
 			updateSelectedAppToProxy(event.item);
 			refreshInstallButtonState();

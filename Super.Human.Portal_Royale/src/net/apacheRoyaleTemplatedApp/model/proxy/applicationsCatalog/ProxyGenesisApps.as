@@ -2,6 +2,8 @@ package model.proxy.applicationsCatalog
 {
 	import classes.managers.ParseCentral;
 
+	import constants.ApplicationConstants;
+
 	import interfaces.IDisposable;
 
 	import model.proxy.ProxySessionCheck;
@@ -12,7 +14,6 @@ package model.proxy.applicationsCatalog
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
 	import services.GenesisAppsDelegate;
-	import constants.ApplicationConstants;
 						
 	public class ProxyGenesisApps extends Proxy implements IDisposable
 	{
@@ -68,8 +69,13 @@ package model.proxy.applicationsCatalog
 			genesisAppsDelegate.getGenesisCatalogList(successCallback, failureCallback);
 		}
 
-		public function getInstalledApps():void
+		public function getInstalledApps(forceRefresh:Boolean = false):void
 		{	
+			if (forceRefresh)
+			{
+				this.setData(null);	
+			}
+			
 			var installedApps:Array = this.getData() as Array;
 			if (installedApps)
 			{
@@ -78,8 +84,8 @@ package model.proxy.applicationsCatalog
 			}
 			else
 			{
-				var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onGenesisAppsListFetched);
-				var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisAppsListFetchFailed);
+				var successCallback:Function = forceRefresh ? onGenesisAppsListFetched : this.busyManagerProxy.wrapSuccessFunction(onGenesisAppsListFetched);
+				var failureCallback:Function = forceRefresh ? onGenesisAppsListFetchFailed : this.busyManagerProxy.wrapFailureFunction(onGenesisAppsListFetchFailed);
 		
 				genesisAppsDelegate.getGenesisCatalogList(successCallback, failureCallback);
 			}
