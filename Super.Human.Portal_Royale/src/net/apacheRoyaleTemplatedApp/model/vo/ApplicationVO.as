@@ -2,6 +2,9 @@ package model.vo
 {
 	public class ApplicationVO 
 	{
+		public static const LINK_BROWSER:String = "browser";
+		public static const LINK_DATABASE:String = "database";
+		
 		public function ApplicationVO(appId:String, detailsUrl:String, label:String, installCommand:String, installed:Boolean, access:Object = null) 
 		{
 			this._appId = appId;

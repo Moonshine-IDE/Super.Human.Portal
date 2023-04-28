@@ -410,6 +410,17 @@ a:hover {
 	IBeadView: ClassReference("view.controls.FormItemView");
 }
 
+.horizontalContentNonExpandFormItem {
+	IBeadModel: ClassReference("classes.models.CustomFormItemModel");
+	IFormItemContentArea: ClassReference("view.controls.HGroupItemsCenterExpandForm");
+	IBeadView: ClassReference("view.controls.FormItemView");
+}
+
+.jewel.label.formItemAppDetailsLabel {
+    width: 5em;
+    fontWeight: bold;
+}
+
 .jewel.textinput.shortInput {
 	minWidth: 50px !important;
 	width: 45px;

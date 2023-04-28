@@ -10,6 +10,7 @@ package mediator.applications
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
     import model.vo.ApplicationVO;
     import org.apache.royale.jewel.IconButton;
+    import view.applications.ConfigurationAppDetails;
     
     public class MediatorInstalledApps extends Mediator implements IMediator
     {
@@ -109,12 +110,28 @@ package mediator.applications
 				{
 					var link:Object = links[i];
 					
-					var linkButton:IconButton = new IconButton();
-						linkButton.className = "linksGapInstallApp noLinkStyleInstallApp";
-						linkButton.emphasis = "primary";
-						linkButton.html = '<a height="100%" width="100%" href="' + link.url + '" target="_blank">' + link.name + '</a>';
+					if (link.type == ApplicationVO.LINK_BROWSER)
+					{
+						var linkButton:IconButton = new IconButton();
+							linkButton.height = 40;
+							linkButton.className = "linksGapInstallApp noLinkStyleInstallApp";
+							linkButton.emphasis = "primary";
+							linkButton.html = '<a height="100%" width="100%" href="' + link.url + '" target="_blank">' + link.name + '</a>';
+							
+						view.installedAppLinks.addElement(linkButton);
+					}
+					else if (link.type == ApplicationVO.LINK_DATABASE)
+					{
+						var configurationDetails:ConfigurationAppDetails = new ConfigurationAppDetails();
+							configurationDetails.percentWidth = 100;
+							configurationDetails.server = link.server;
+							configurationDetails.database = link.database;
+							configurationDetails.viewName = link.view;
+							configurationDetails.clientOpenLink = link.url ? '<a height="100%" width="100%" href="' + link.url + '" target="_blank">Open in Client</a>' : null;
+							configurationDetails.nomadOpenLink = link.nomadURL ? '<a height="100%" width="100%" href="' + link.nomadURL + '" target="_blank">Open in Nomad</a>' : null;
 						
-					view.installedAppLinks.addElement(linkButton);
+						view.installedAppLinks.addElement(configurationDetails);
+					}
 				}
 			}
 			else

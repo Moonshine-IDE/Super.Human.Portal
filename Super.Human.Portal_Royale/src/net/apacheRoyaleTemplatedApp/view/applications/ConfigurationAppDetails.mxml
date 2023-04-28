@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
+		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
+		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
+		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop">
+	<fx:Script>
+		<![CDATA[
+			import utils.ClipboardText;
+			import org.apache.royale.events.MouseEvent;
+
+			[Bindable]
+			public var server:String;
+			[Bindable]
+			public var database:String;
+			[Bindable]
+			public var viewName:String;
+			
+			[Bindable]
+			public var clientOpenLink:String;
+			[Bindable]
+			public var nomadOpenLink:String;
+
+			private function onCopyToClipboardServerClick(event:MouseEvent):void
+			{
+				ClipboardText.copyToClipboard(server);
+			}
+
+			private function onCopyToClipboardDatabaseClick(event:MouseEvent):void
+			{
+				ClipboardText.copyToClipboard(database);
+			}
+			
+		]]>
+	</fx:Script>
+
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+
+	<j:Card>
+		<j:CardHeader>
+			<html:H4 text="Configuration" percentWidth="100"/>
+		</j:CardHeader>
+		<j:CardPrimaryContent>
+			<j:Form>
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemAppDetailsLabel"
+										label="Server:" visible="{server != null}">							
+					<j:Label html="{server}" />
+					<j:HGroup itemsHorizontalAlign="itemsRight">
+						<j:Button text="Copy to Clipboard" width="135" click="onCopyToClipboardServerClick(event)"/>
+					</j:HGroup>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemAppDetailsLabel"
+										label="Database:" visible="{database != null}">							
+					<j:Label text="SuperHumanPortal.nsf" />
+					<j:HGroup itemsHorizontalAlign="itemsRight">
+						<j:Button text="Copy to Clipboard" width="135" click="onCopyToClipboardDatabaseClick(event)"/>
+					</j:HGroup>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemAppDetailsLabel"
+										label="View:" visible="{viewName != null}">							
+					<j:Label localId="viewTextInput" text="{viewName}"/>
+				</controls:CustomFormItem>
+			</j:Form>
+		</j:CardPrimaryContent>
+		<j:CardActions itemsHorizontalAlign="itemsRight" visible="{clientOpenLink != null || nomadOpenLink != null}">
+			<j:Button className="noLinkStyle" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
+			<j:Button className="noLinkStyle" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
+		</j:CardActions>
+	</j:Card>
+</j:VGroup>

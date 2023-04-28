@@ -38,7 +38,7 @@
 			
 			public function get installedAppLinksLayout():Object
 			{
-				return this.linksInstalledAppLayout;	
+				return null;
 			}
 			
 			public function installationResult(message:String):void
@@ -69,30 +69,8 @@
 	<j:Card localId="linksInstalledAppContainer" percentWidth="100" percentHeight="100" itemsVerticalAlign="itemsCenter"
 			visible="false">
 		<j:CardPrimaryContent>
-			<j:Group localId="linksInstalledApp" maxHeight="500">
-				<j:beads>
-					<j:TileVerticalLayout localId="linksInstalledAppLayout"/>
-					<js:BrowserResizeListener/>
-				</j:beads>
-			<!--	<j:IconButton text="Example Link" emphasis="primary" height="40" className="linksGapInstallApp" minWidth="150"/>
-				<j:IconButton text="Example Database" emphasis="primary" height="40" className="linksGapInstallApp"  minWidth="150"/>
-				<j:IconButton text="Example Link" emphasis="primary" height="40" className="linksGapInstallApp"  minWidth="150"/>
-				<j:IconButton text="Example Database" emphasis="primary" height="40" className="linksGapInstallApp"  minWidth="150"/>
-				<j:IconButton text="Example Link" emphasis="primary" height="40" className="linksGapInstallApp"  minWidth="150"/>
-				<j:Button text="Example Database" emphasis="primary" height="40" className="linksGapInstallApp"/>
-				<j:Button text="Example Link" emphasis="primary" height="40" className="linksGapInstallApp"  minWidth="150"/>
-				<j:Button text="Example Database" emphasis="primary" height="40" className="linksGapInstallApp"/>
-				<j:Button text="Example Link" emphasis="primary" height="40" className="linksGapInstallApp"/>
-				<j:Button text="Example Database" emphasis="primary" height="40" className="linksGapInstallApp"/>
-				<j:Button text="Example Link" emphasis="primary" height="40" className="linksGapInstallApp"/>
-				<j:Button text="Example Database" emphasis="primary" height="40" className="linksGapInstallApp"/>
-				<j:Button text="Example Link" emphasis="primary" height="40" className="linksGapInstallApp"/>
-				<j:Button text="Example Database" emphasis="primary" height="40" className="linksGapInstallApp"/>
-				<j:Button text="Example Link" emphasis="primary" height="40" className="linksGapInstallApp"/>
-				<j:Button text="Example Database" emphasis="primary" height="40" className="linksGapInstallApp"/>
-				<j:Button text="Example Link" emphasis="primary" height="40" className="linksGapInstallApp"/>
-				<j:Button text="Example Database" emphasis="primary" height="40" className="linksGapInstallApp"/>-->
-			</j:Group>
+			<j:VGroup localId="linksInstalledApp">
+			</j:VGroup>
 		</j:CardPrimaryContent>
 	</j:Card>
 </j:VGroup>
