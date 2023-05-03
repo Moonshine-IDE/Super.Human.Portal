@@ -56,7 +56,7 @@
 				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
 										labelClass="formItemAppDetailsLabel"
 										label="Database:" visible="{database != null}">							
-					<j:Label text="SuperHumanPortal.nsf" />
+					<j:Label html="{database}" />
 					<j:HGroup itemsHorizontalAlign="itemsRight">
 						<j:Button text="Copy to Clipboard" width="135" click="onCopyToClipboardDatabaseClick(event)"/>
 					</j:HGroup>

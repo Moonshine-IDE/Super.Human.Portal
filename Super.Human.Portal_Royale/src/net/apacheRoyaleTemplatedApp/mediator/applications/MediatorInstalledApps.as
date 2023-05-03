@@ -11,6 +11,9 @@ package mediator.applications
     import model.vo.ApplicationVO;
     import org.apache.royale.jewel.IconButton;
     import view.applications.ConfigurationAppDetails;
+    import org.apache.royale.icons.MaterialIcon;
+    import org.apache.royale.events.MouseEvent;
+    import org.apache.royale.jewel.VGroup;
     
     public class MediatorInstalledApps extends Mediator implements IMediator
     {
@@ -109,19 +112,38 @@ package mediator.applications
 				for (var i:int = 0; i < links.length; i++)
 				{
 					var link:Object = links[i];
+					var iconButton:IconButton = null;
 					
 					if (link.type == ApplicationVO.LINK_BROWSER)
 					{
-						var linkButton:IconButton = new IconButton();
-							linkButton.height = 40;
-							linkButton.className = "linksGapInstallApp noLinkStyleInstallApp";
-							linkButton.emphasis = "primary";
-							linkButton.html = '<a height="100%" width="100%" href="' + link.url + '" target="_blank">' + link.name + '</a>';
+						iconButton = new IconButton();
+						iconButton.height = 40;
+						iconButton.className = "linksGapInstallApp noLinkStyleInstallApp";
+						iconButton.emphasis = "primary";
+						iconButton.html = '<a height="100%" width="100%" href="' + link.url + '" target="_blank">' + link.name + '</a>';
 							
-						view.installedAppLinks.addElement(linkButton);
+						view.installedAppLinks.addElement(iconButton);
 					}
 					else if (link.type == ApplicationVO.LINK_DATABASE)
 					{
+						var dbContainer:VGroup = new VGroup();
+							dbContainer.percentWidth = 100;
+							dbContainer.gap = 2;
+							
+						var icon:MaterialIcon = new MaterialIcon();
+							icon.text = MaterialIconType.ARROW_DROP_DOWN;
+							
+						iconButton = new IconButton();
+						iconButton.height = 40;
+						iconButton.className = "linksGapInstallApp";
+						iconButton.emphasis = "primary";
+						iconButton.text = "Database";
+						iconButton.rightPosition = true;
+						iconButton.icon = icon;
+						iconButton.addEventListener(MouseEvent.CLICK, onShowHideDbConfigClick);
+							
+						dbContainer.addElement(iconButton);
+						
 						var configurationDetails:ConfigurationAppDetails = new ConfigurationAppDetails();
 							configurationDetails.percentWidth = 100;
 							configurationDetails.server = link.server;
@@ -129,8 +151,11 @@ package mediator.applications
 							configurationDetails.viewName = link.view;
 							configurationDetails.clientOpenLink = link.url ? '<a height="100%" width="100%" href="' + link.url + '" target="_blank">Open in Client</a>' : null;
 							configurationDetails.nomadOpenLink = link.nomadURL ? '<a height="100%" width="100%" href="' + link.nomadURL + '" target="_blank">Open in Nomad</a>' : null;
+							configurationDetails.visible = false;
+							
+						dbContainer.addElement(configurationDetails);
 						
-						view.installedAppLinks.addElement(configurationDetails);
+						view.installedAppLinks.addElement(dbContainer);
 					}
 				}
 			}
@@ -148,7 +173,42 @@ package mediator.applications
 			for (var i:int = linksCount; i >= 0; i--)
 			{
 				var linkEl:Object = view.installedAppLinks.getElementAt(i);
+				
+				for (var j:int = 0; j < linkEl.numElements; j++)
+				{
+					var internalItem:Object = linkEl.getElementAt(j);
+						internalItem.removeEventListener(MouseEvent.CLICK, onShowHideDbConfigClick);
+				}
+					
 				view.installedAppLinks.removeElement(linkEl);
+			}
+		}
+
+		private function onShowHideDbConfigClick(event:MouseEvent):void
+		{
+			var iconButton:IconButton = event.currentTarget as IconButton;
+			var currentIcon:MaterialIcon = iconButton.icon as MaterialIcon;
+			var showHideConfig:Boolean = false;
+			
+			if (currentIcon.text == MaterialIconType.ARROW_DROP_DOWN)
+			{
+				currentIcon.text = MaterialIconType.ARROW_DROP_UP;
+				showHideConfig = true;
+			}
+			else
+			{
+				currentIcon.text = MaterialIconType.ARROW_DROP_DOWN;
+			}
+			
+			var configContainer:Object = iconButton.parent;
+			for (var i:int = 0; i < configContainer.numElements; i++)
+			{
+				var config:Object = configContainer.getElementAt(i);
+				if (config is ConfigurationAppDetails)
+				{
+					config.visible = showHideConfig;
+					break;
+				}
 			}
 		}
     }

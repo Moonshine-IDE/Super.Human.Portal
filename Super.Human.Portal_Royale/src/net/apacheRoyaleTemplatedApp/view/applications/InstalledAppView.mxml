@@ -69,7 +69,7 @@
 	<j:Card localId="linksInstalledAppContainer" percentWidth="100" percentHeight="100" itemsVerticalAlign="itemsCenter"
 			visible="false">
 		<j:CardPrimaryContent>
-			<j:VGroup localId="linksInstalledApp">
+			<j:VGroup localId="linksInstalledApp" gap="2">
 			</j:VGroup>
 		</j:CardPrimaryContent>
 	</j:Card>
