@@ -20,6 +20,11 @@ class GenesisReadSpec extends Specification {
 	private class GenesisReadTest extends GenesisRead {
 		private JSONArray testData = null;
 		
+		public GenesisReadTest() {
+			super();
+			initializeInsertionParameters();
+		}
+		
 		@Override
 		protected JSONArray getGenesisAppList()
 				throws NotesException, Exception, ValidationException, IOException {
@@ -101,8 +106,101 @@ class GenesisReadSpec extends Specification {
 		test.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dombackup.nsf"
 		test.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dombackup.nsf"
 		test.getStringSafe(testLink, 'database') == 'dombackup.nsf'
-		test.getStringSafe(testLink, 'server') == test.serverCommon
+		test.getStringSafe(testLink, 'server') == test.serverAbbr
 		!test.getStringSafe(testLink, 'view')
+	}
+	
+	def 'link database populated'() {
+		// when the database is set already, it should not be overwritten
+		when:
+		GenesisReadTest test = new GenesisReadTest();
+		JSONObject testLink = new JSONObject("""{
+			"name": "NotesDatabase Link",
+			"type": "database",
+			"url": "dombackup.nsf",
+			"database": "actual.nsf"		
+		}""")
+		test.cleanupLink(testLink);
+		
+		then:
+		test.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
+		test.getStringSafe(testLink, 'type') == 'database'
+		test.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/actual.nsf"
+		test.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/actual.nsf"
+		test.getStringSafe(testLink, 'database') == 'actual.nsf'
+		test.getStringSafe(testLink, 'server') == test.serverAbbr
+		!test.getStringSafe(testLink, 'view')
+	}
+	
+	def 'link database valid url'() {
+		// does not match database
+		when:
+		GenesisReadTest test = new GenesisReadTest();
+		JSONObject testLink = new JSONObject("""{
+			"name": "NotesDatabase Link",
+			"type": "database",
+			"url": "notes://${test.serverCommon}/dombackup.nsf",  
+			"database": "actual.nsf"		
+		}""")
+		test.cleanupLink(testLink);
+		
+		then:
+		test.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
+		test.getStringSafe(testLink, 'type') == 'database'
+		test.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dombackup.nsf"
+		test.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dombackup.nsf"
+		test.getStringSafe(testLink, 'database') == 'actual.nsf'
+		test.getStringSafe(testLink, 'server') == test.serverAbbr
+		!test.getStringSafe(testLink, 'view')
+	}
+	
+	def 'link database encode'() {
+		when:
+		GenesisReadTest test = new GenesisReadTest();
+		JSONObject testLink = new JSONObject("""{
+			"name": "NotesDatabase Link",
+			"type": "database",
+			"url": "dom backup.nsf"			
+		}""")
+		test.cleanupLink(testLink);
+		
+		then:
+		test.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
+		test.getStringSafe(testLink, 'type') == 'database'
+		test.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dom+backup.nsf"
+		test.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dom+backup.nsf"
+		test.getStringSafe(testLink, 'database') == 'dom backup.nsf'
+		test.getStringSafe(testLink, 'server') == test.serverAbbr
+		!test.getStringSafe(testLink, 'view')
+	}
+	
+	
+	def 'test notesPattern'() {
+		// regex tests - serve as documentation for the intention of the regex
+		expect:
+		GenesisRead.notesURLPattern.matcher('notes://test-1.test.com/test.nsf').matches()
+		GenesisRead.notesURLPattern.matcher('notes://test-1.test.com/test/folders/test.nsf').matches()  // database in folders
+		GenesisRead.notesURLPattern.matcher('notes://test-1.test.com/test.nsf/agent').matches()  // trailing design element (alias)
+		GenesisRead.notesURLPattern.matcher('notes://test-1.test.com/test.nsf?param1=foo').matches()  // parameters
+		GenesisRead.notesURLPattern.matcher('notes://test-1.test.com/test.nsf/agent?OpenAgent').matches()  // trailing design element and action
+		
+		
+		!GenesisRead.notesURLPattern.matcher('test.nsf').matches()  // old design - database only
+		!GenesisRead.notesURLPattern.matcher('test/folders/test.nsf').matches()  // more complicated database
+		!GenesisRead.notesURLPattern.matcher('https://test-1.test.com/test.nsf').matches()  // https
+	}
+	
+	def 'test isDatabaseName'() {
+		when:
+		GenesisReadTest test = new GenesisReadTest()
+		
+		then:
+		test.isDatabaseName('test.nsf')
+		test.isDatabaseName('foo/bar/test.nsf')
+		
+		!test.isDatabaseName('test.nsf/trailing')
+		!test.isDatabaseName('https://test-1.test.com/test.nsf')
+		!test.isDatabaseName('notes://test-1.test.com/test.nsf')
 	}
 	
 }

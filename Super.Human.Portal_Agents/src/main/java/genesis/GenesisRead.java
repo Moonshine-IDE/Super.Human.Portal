@@ -6,6 +6,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +36,8 @@ public class GenesisRead extends CRUDAgentBase
 	
 	protected String serverAbbr = null;
 	protected String serverCommon = null;
+	
+	protected static final Pattern notesURLPattern = Pattern.compile("notes://([^/]+)/([^?]+.nsf)(?:/[^/?])?(?:.*)?$", Pattern.CASE_INSENSITIVE);
 	
 	@Override
 	protected SecurityInterface createSecurityInterface() {
@@ -261,28 +267,42 @@ public class GenesisRead extends CRUDAgentBase
     					link.put("database", database);
     				}
     				
-				if (!DominoUtils.isValueEmpty(database) && database.toLowerCase().endsWith(".nsf")) {
-					// Configure url as a notes:// URL for now
-					// TODO:  support NomadWeb
-					
-					// URL-encode the database name
-					String databaseEnc = database;
-					try {
-						databaseEnc = URLEncoder.encode(database, "utf-8");
+				if (isDatabaseName(database)) {
+					String origURL = getStringSafe(link, "url");
+					if (DominoUtils.isValueEmpty(origURL) || isDatabaseName(origURL)) {
+						// build a notes:// URL based on the database
+						// This will be obsolete once the url logic is updated in the Genesis API
+						
+						// URL-encode the database name
+						String databaseEnc = database;
+						try {
+							databaseEnc = URLEncoder.encode(database, "utf-8");
+						}
+						catch (UnsupportedEncodingException ex) {
+							getLog().err("Encoding exception:  ", ex);
+						}
+						
+						// TODO:  handle the FQDN in a better way?  The format is enforces for Super.Human.Installer, but we'll needs something more generic for other servers.
+						String url = "notes://" + serverCommon + "/" + databaseEnc;
+						// TODO:  support "view" parameter
+						link.put("url", url);
 					}
-					catch (UnsupportedEncodingException ex) {
-						getLog().err("Encoding exception:  ", ex);
-					}
+					// else: url was already set "properly", so keep the original value
 					
-					// TODO:  handle the FQDN in a better way?  The format is enforces for Super.Human.Installer, but we'll needs something more generic for other servers.
-					String url = "notes://" + serverCommon + "/" + databaseEnc;
-					// TODO:  support "view" parameter
-					link.put("url", url);
-					
+				}
+				// else:  not a database.  No way to populate the url anyway
+				
+				String nomadURL = getStringSafe(link, "nomadURL");
+				if (DominoUtils.isValueEmpty(nomadURL)) {
 					// Compute the Nomad URL
 					// https://nomadweb.%SERVER_COMMON%/nomad/#/%NOTES_URL%
-					String nomadURL = "https://nomadweb." + serverCommon + "/nomad/#/" + url;
-					link.put("nomadURL", nomadURL);
+					String url = getStringSafe(link, "url");
+					if (!DominoUtils.isValueEmpty(url)) {
+						nomadURL = "https://nomadweb." + serverCommon + "/nomad/#/" + url;
+						link.put("nomadURL", nomadURL);
+					}
+					// else:  if we could not generate a Notes URL, we can't generate a Nomad URL.
+					
 				}
 				
 				// add local server name
@@ -299,6 +319,32 @@ public class GenesisRead extends CRUDAgentBase
 		catch (JSONException ex) {
 			getLog().err("Error when processing link '" + identifier + "':  ", ex);
 		}
+    }
+    
+    /**
+     * Check if this valid is a valid database name (including an optional path).  Rejects URIs.
+     */
+    protected boolean isDatabaseName(String value) {
+    		if ( DominoUtils.isValueEmpty(value)) {
+			return false;
+    		} 
+    		if (!value.toLowerCase().endsWith(".nsf")) {
+    			return false;
+    		}
+    		
+    		// check for URI with a defined scheme (i.e https:// or notes://)
+    		try {
+    			URI uri = new URI(value);
+    			if (!DominoUtils.isValueEmpty(uri.getScheme())) {
+    				return false;
+    			}
+    		}
+    		catch (URISyntaxException ex) {
+    			//ex.printStackTrace();
+    		}
+    		
+    		// no problems found
+		return true;
     }
     
     protected String getStringSafe(JSONObject object, String key) {
