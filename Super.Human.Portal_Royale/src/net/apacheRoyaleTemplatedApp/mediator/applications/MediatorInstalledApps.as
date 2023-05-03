@@ -135,9 +135,9 @@ package mediator.applications
 							
 						iconButton = new IconButton();
 						iconButton.height = 40;
-						iconButton.className = "linksGapInstallApp";
+						iconButton.className = "linksGapInstallApp paddingConfigButton";
 						iconButton.emphasis = "primary";
-						iconButton.text = "Database";
+						iconButton.text = link.name;
 						iconButton.rightPosition = true;
 						iconButton.icon = icon;
 						iconButton.addEventListener(MouseEvent.CLICK, onShowHideDbConfigClick);
@@ -146,6 +146,7 @@ package mediator.applications
 						
 						var configurationDetails:ConfigurationAppDetails = new ConfigurationAppDetails();
 							configurationDetails.percentWidth = 100;
+							configurationDetails.configTitle = link.name;
 							configurationDetails.server = link.server;
 							configurationDetails.database = link.database;
 							configurationDetails.viewName = link.view;
@@ -176,8 +177,11 @@ package mediator.applications
 				
 				for (var j:int = 0; j < linkEl.numElements; j++)
 				{
-					var internalItem:Object = linkEl.getElementAt(j);
+					var internalItem:Object = linkEl.getElementAt(j) as IconButton;
+					if (internalItem)
+					{
 						internalItem.removeEventListener(MouseEvent.CLICK, onShowHideDbConfigClick);
+					}
 				}
 					
 				view.installedAppLinks.removeElement(linkEl);
