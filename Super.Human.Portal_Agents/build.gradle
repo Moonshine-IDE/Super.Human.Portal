@@ -78,6 +78,13 @@ dependencies {
     implementation 'commons-httpclient:commons-httpclient:3.1'  //newer versions in com.apache.httpcomponents
     implementation 'org.apache.commons:commons-lang3:3.0.1'
     implementation 'commons-logging:commons-logging:1.1.1'
+
+    
+    // Use the latest Groovy version for Spock testing
+    testImplementation 'org.codehaus.groovy:groovy-all:2.5.6'
+    // Use the Spock testing and specification framework even with Java
+    testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
+    testImplementation 'junit:junit:4.12'
 }
 
 /*

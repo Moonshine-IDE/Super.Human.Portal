@@ -256,6 +256,9 @@ public class GenesisRead extends CRUDAgentBase
     				if (DominoUtils.isValueEmpty(database)) {
     					//  TODO:  remove this early workaround - we had not decided on the format yet.
     					database = getStringSafe(link, "url");
+    					
+    					// TODO: cleanup the URL format before setting database
+    					link.put("database", database);
     				}
     				
 				if (!DominoUtils.isValueEmpty(database) && database.toLowerCase().endsWith(".nsf")) {
@@ -275,10 +278,18 @@ public class GenesisRead extends CRUDAgentBase
 					String url = "notes://" + serverCommon + "/" + databaseEnc;
 					// TODO:  support "view" parameter
 					link.put("url", url);
+					
+					// Compute the Nomad URL
+					// https://nomadweb.%SERVER_COMMON%/nomad/#/%NOTES_URL%
+					String nomadURL = "https://nomadweb." + serverCommon + "/nomad/#/" + url;
+					link.put("nomadURL", nomadURL);
 				}
 				
 				// add local server name
 				link.put("server", serverAbbr);
+				
+				// // This was added to test the GUI logic for views.  Remove this and configure a real example
+				// link.put("view", "Configuration");
 				
 				// TODO:  replace insertion parameters
     			}
