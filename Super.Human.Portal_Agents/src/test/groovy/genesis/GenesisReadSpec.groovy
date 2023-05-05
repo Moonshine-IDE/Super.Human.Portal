@@ -41,6 +41,8 @@ class GenesisReadSpec extends Specification {
 		protected void initializeInsertionParameters() {
 			serverAbbr = 'test-1.test.com/test';
 			serverCommon = 'test-1.test.com';
+    			addInsertionParameter("%SERVER_ABBR%", serverAbbr);
+    			addInsertionParameter("%SERVER_COMMON%", serverCommon);
 		}
 		
 		protected void setTestData(JSONArray testData) {
@@ -175,6 +177,73 @@ class GenesisReadSpec extends Specification {
 	}
 	
 	
+	def 'insertion parameters'() {
+		when:
+		GenesisReadTest test = new GenesisReadTest();
+		test.addInsertionParameter("%TEST%", "foo");
+		JSONObject testAccess = new JSONObject("""{
+			"access": {
+				"description": "This is a %TEST% addin on server %SERVER_ABBR% that will be accessible from https://%SERVER_COMMON%/%TEST%",
+				"links": [{
+					"name": "Test addin on server %SERVER_ABBR%",
+					"type": "database",
+					"url": "notes://%SERVER_COMMON%/dombackup.nsf", 
+					"nomadURL": "https://nomadweb.%SERVER_COMMON%/nomad/#/notes://%SERVER_COMMON%/dombackup.nsf", 
+					"server": "%SERVER_ABBR%", 
+					"database": "%TEST%actual.nsf",
+					"view": "View%TEST%"
+				}]
+			}
+		}""")
+		// JSONObject expected = new JSONObject("""{
+		// 	"access": {
+		// 		"description": "This is a foo addin on server ${test.serverAbbr} that will be accessible from https://${test.serverCommon}/foo",
+		// 		"links": [{
+		// 			"name": "Test addin on server ${test.serverAbbr}",
+		// 			"type": "database",
+		// 			"url": "notes://${test.serverCommon}/dombackup.nsf", 
+		// 			"nomadURL": "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}dombackup.nsf", 
+		// 			"server": "${test.serverAbbr}", 
+		// 			"database": "fooactual.nsf",
+		// 			"view": "Viewfoo"
+		// 		}]
+		// 	}	
+		// }""")
+		JSONObject target = new JSONObject()
+		test.copyAccessInfo(target, testAccess)
+		
+		then:
+		// I found it too difficult to debug errors like this
+		//expected == target
+		target.get("access")
+		target.get("access") instanceof JSONObject
+		
+		when:
+		JSONObject access = (JSONObject) target.get("access")
+		
+		then:
+		// replace multiple parameters
+		test.getStringSafe(access, "description") == "This is a foo addin on server ${test.serverAbbr} that will be accessible from https://${test.serverCommon}/foo"
+		access.get("links")
+		access.get("links") instanceof JSONArray
+		
+		when:
+		JSONArray links = (JSONArray) access.get('links')
+		JSONObject testLink = links.get(0)
+		
+		then:
+		test.getStringSafe(testLink, 'name') == "Test addin on server ${test.serverAbbr}"
+		test.getStringSafe(testLink, 'type') == "database"
+		test.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dombackup.nsf"
+		// replace same parameter more than once
+		test.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dombackup.nsf"
+		test.getStringSafe(testLink, 'server') == "${test.serverAbbr}"
+		test.getStringSafe(testLink, 'database') == "fooactual.nsf"
+		test.getStringSafe(testLink, 'view') == "Viewfoo"
+		
+	}
+	
+	
 	def 'test notesPattern'() {
 		// regex tests - serve as documentation for the intention of the regex
 		expect:
@@ -201,6 +270,7 @@ class GenesisReadSpec extends Specification {
 		!test.isDatabaseName('test.nsf/trailing')
 		!test.isDatabaseName('https://test-1.test.com/test.nsf')
 		!test.isDatabaseName('notes://test-1.test.com/test.nsf')
+		!test.isDatabaseName("notes://%SERVER_COMMON%/dombackup.nsf")  // URL before insertion parameters
 	}
 	
 }

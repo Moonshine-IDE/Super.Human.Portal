@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collection;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -33,11 +35,14 @@ public class GenesisRead extends CRUDAgentBase
 {
 	protected static final String DEFAULT_GENESIS_REST_API = "http://appstore.dominogenesis.com/rest/v1/apps";
 	protected Collection<String> installedApps = new TreeSet<String>();
+	protected Map<String, String> insertionParameters = new TreeMap<String, String>();
 	
 	protected String serverAbbr = null;
 	protected String serverCommon = null;
 	
 	protected static final Pattern notesURLPattern = Pattern.compile("notes://([^/]+)/([^?]+.nsf)(?:/[^/?])?(?:.*)?$", Pattern.CASE_INSENSITIVE);
+	/** Detect a URI based on the protocol only.  The rest of the URL does not have to be valid */
+	protected static final Pattern uriPattern = Pattern.compile("^\\w+://.*$", Pattern.CASE_INSENSITIVE);
 	
 	@Override
 	protected SecurityInterface createSecurityInterface() {
@@ -144,7 +149,9 @@ public class GenesisRead extends CRUDAgentBase
     			String name = session.getServerName();
     			nameObj = session.createName(name);
     			serverAbbr = nameObj.getAbbreviated();
+    			addInsertionParameter("%SERVER_ABBR%", serverAbbr);
     			serverCommon = nameObj.getCommon();
+    			addInsertionParameter("%SERVER_COMMON%", serverCommon);
     		}
     		catch (NotesException ex) {
     			getLog().err("Exception in initializeInsertionParameters.  They will be skipped:  ", ex);
@@ -244,6 +251,8 @@ public class GenesisRead extends CRUDAgentBase
     						}
     					}
     				}
+    				
+    				processInsertionParameters(accessInfo, "description");
     			}
 		}
 		catch (JSONException ex) {
@@ -311,7 +320,15 @@ public class GenesisRead extends CRUDAgentBase
 				// // This was added to test the GUI logic for views.  Remove this and configure a real example
 				// link.put("view", "Configuration");
 				
-				// TODO:  replace insertion parameters
+				// replace insertion parameters
+				// ignore type
+				// name, server, and database are overkill, but I include this for future changes.
+				processInsertionParameters(link, "name");
+				processInsertionParameters(link, "server");
+				processInsertionParameters(link, "database");
+				processInsertionParameters(link, "view");
+				processInsertionParameters(link, "url");
+				processInsertionParameters(link, "nomadURL");
     			}
     			
     			
@@ -333,14 +350,18 @@ public class GenesisRead extends CRUDAgentBase
     		}
     		
     		// check for URI with a defined scheme (i.e https:// or notes://)
-    		try {
-    			URI uri = new URI(value);
-    			if (!DominoUtils.isValueEmpty(uri.getScheme())) {
-    				return false;
-    			}
-    		}
-    		catch (URISyntaxException ex) {
-    			//ex.printStackTrace();
+    		// This was too restrictive.  For example, a URL with insertion parameter was not considered valid
+    		// try {
+    		// 	URI uri = new URI(value);
+    		// 	if (!DominoUtils.isValueEmpty(uri.getScheme())) {
+    		// 		return false;
+    		// 	}
+    		// }
+    		// catch (URISyntaxException ex) {
+    		// 	//ex.printStackTrace();
+    		// }
+    		if (uriPattern.matcher(value).matches()) {
+    			return false;
     		}
     		
     		// no problems found
@@ -354,6 +375,29 @@ public class GenesisRead extends CRUDAgentBase
     		catch (JSONException ex) {
     			// this fails if the key was not found.  Return null instead.
     			return null;
+		}
+    }
+    
+    protected void addInsertionParameter(String param, String replacement) {
+    		insertionParameters.put(param, replacement);
+    }
+    
+    protected void processInsertionParameters(JSONObject object, String key) {
+    		try {
+    			String value = getStringSafe(object, key);
+    			if (DominoUtils.isValueEmpty(value)) {
+    				return;  // nothing to do
+    			}
+    			
+    			// do a search/replace for each insertion parameter
+    			// Note that the key is treated as a regular expression
+    			for (Map.Entry<String, String> entry : insertionParameters.entrySet()) {
+    				value = value.replaceAll(entry.getKey(), entry.getValue());
+    			}
+    			object.put(key, value);
+    		}
+    		catch (JSONException ex) {
+    			getLog().err("Failed to update key '" + key + "'");
 		}
     }
 
