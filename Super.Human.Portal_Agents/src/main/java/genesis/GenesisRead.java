@@ -34,6 +34,7 @@ import util.ValidationException;
 public class GenesisRead extends CRUDAgentBase 
 {
 	protected static final String DEFAULT_GENESIS_REST_API = "http://appstore.dominogenesis.com/rest/v1/apps";
+	protected static final int API_TIMEOUT_MS = 5000;
 	protected Collection<String> installedApps = new TreeSet<String>();
 	protected Map<String, String> insertionParameters = new TreeMap<String, String>();
 	
@@ -123,7 +124,7 @@ public class GenesisRead extends CRUDAgentBase
     protected JSONArray getGenesisAppList()
             throws NotesException, Exception, ValidationException, IOException {
         String url = getDataURL();
-        SimpleHTTPClient http = new SimpleHTTPClient(2000, 2000, 0);
+        SimpleHTTPClient http = new SimpleHTTPClient(API_TIMEOUT_MS, API_TIMEOUT_MS, 0);
         String data = http.getPage(url);
         JSONObject original = new JSONObject(data);
         JSONArray list = (JSONArray)original.get("list");
