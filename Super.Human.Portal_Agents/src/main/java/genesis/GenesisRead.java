@@ -294,7 +294,16 @@ public class GenesisRead extends CRUDAgentBase
 						
 						// TODO:  handle the FQDN in a better way?  The format is enforces for Super.Human.Installer, but we'll needs something more generic for other servers.
 						String url = "notes://" + serverCommon + "/" + databaseEnc;
-						// TODO:  support "view" parameter
+						// Add view if available
+						String view = getStringSafe(link, "view");
+						if (!DominoUtils.isValueEmpty(view)) {
+							try {
+								url += "/" + URLEncoder.encode(view, "utf-8") + "?OpenView";
+							}
+							catch (UnsupportedEncodingException ex) {
+								getLog().err("Encoding exception:  ", ex);
+							}
+						}
 						link.put("url", url);
 					}
 					// else: url was already set "properly", so keep the original value

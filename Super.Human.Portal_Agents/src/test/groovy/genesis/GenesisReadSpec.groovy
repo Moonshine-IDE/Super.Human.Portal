@@ -177,6 +177,73 @@ class GenesisReadSpec extends Specification {
 	}
 	
 	
+	
+	def 'link view simple'() {
+		when:
+		GenesisReadTest test = new GenesisReadTest();
+		JSONObject testLink = new JSONObject("""{
+			"name": "NotesDatabase Link",
+			"type": "database",
+			"url": "dombackup.nsf",
+			"view": "TestView"			
+		}""")
+		test.cleanupLink(testLink);
+		
+		then:
+		test.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
+		test.getStringSafe(testLink, 'type') == 'database'
+		test.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dombackup.nsf/TestView?OpenView"
+		test.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dombackup.nsf/TestView?OpenView"
+		test.getStringSafe(testLink, 'database') == 'dombackup.nsf'
+		test.getStringSafe(testLink, 'server') == test.serverAbbr
+		test.getStringSafe(testLink, 'view') == "TestView"
+	}	
+	
+	def 'link view encoded'() {
+		when:
+		GenesisReadTest test = new GenesisReadTest();
+		// using example view from Genesis API
+		JSONObject testLink = new JSONObject("""{
+			"name": "NotesDatabase Link",
+			"type": "database",
+			"url": "dombackup.nsf",
+			"view": "8. Config"			
+		}""")
+		test.cleanupLink(testLink);
+		
+		then:
+		test.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
+		test.getStringSafe(testLink, 'type') == 'database'
+		test.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dombackup.nsf/8.+Config?OpenView"
+		test.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dombackup.nsf/8.+Config?OpenView"
+		test.getStringSafe(testLink, 'database') == 'dombackup.nsf'
+		test.getStringSafe(testLink, 'server') == test.serverAbbr
+		test.getStringSafe(testLink, 'view') == "8. Config"
+	}
+	
+	def 'link encoded nested'() {
+		when:
+		GenesisReadTest test = new GenesisReadTest();
+		// NOTE:  nested views work with `\` in my test, but not `/`
+		JSONObject testLink = new JSONObject("""{
+			"name": "NotesDatabase Link",
+			"type": "database",
+			"url": "test/dombackup.nsf",
+			"view": "foo\\\\bar\\\\testview"	
+		}""")
+		test.cleanupLink(testLink);
+		
+		then:
+		test.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
+		test.getStringSafe(testLink, 'type') == 'database'
+		test.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/test%2Fdombackup.nsf/foo%5Cbar%5Ctestview?OpenView"
+		test.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/test%2Fdombackup.nsf/foo%5Cbar%5Ctestview?OpenView"
+		test.getStringSafe(testLink, 'database') == 'test/dombackup.nsf'
+		test.getStringSafe(testLink, 'server') == test.serverAbbr
+		test.getStringSafe(testLink, 'view') == "foo\\bar\\testview"
+	}
+	
+	
 	def 'insertion parameters'() {
 		when:
 		GenesisReadTest test = new GenesisReadTest();
