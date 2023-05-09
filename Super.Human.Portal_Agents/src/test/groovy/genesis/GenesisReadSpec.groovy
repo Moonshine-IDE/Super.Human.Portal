@@ -254,6 +254,7 @@ class GenesisReadSpec extends Specification {
 				"links": [{
 					"name": "Test addin on server %SERVER_ABBR%",
 					"type": "database",
+					"description": "This is a placeholder (%TEST%) description.  %THIS% is not an insertion parameter.",
 					"url": "notes://%SERVER_COMMON%/dombackup.nsf", 
 					"nomadURL": "https://nomadweb.%SERVER_COMMON%/nomad/#/notes://%SERVER_COMMON%/dombackup.nsf", 
 					"server": "%SERVER_ABBR%", 
@@ -301,6 +302,7 @@ class GenesisReadSpec extends Specification {
 		then:
 		test.getStringSafe(testLink, 'name') == "Test addin on server ${test.serverAbbr}"
 		test.getStringSafe(testLink, 'type') == "database"
+		test.getStringSafe(testLink, 'description') == "This is a placeholder (foo) description.  %THIS% is not an insertion parameter."
 		test.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dombackup.nsf"
 		// replace same parameter more than once
 		test.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dombackup.nsf"

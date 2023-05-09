@@ -330,18 +330,30 @@ public class GenesisRead extends CRUDAgentBase
 				
 				// // This was added to test the GUI logic for views.  Remove this and configure a real example
 				// link.put("view", "Configuration");
-				
-				// replace insertion parameters
-				// ignore type
-				// name, server, and database are overkill, but I include this for future changes.
-				processInsertionParameters(link, "name");
-				processInsertionParameters(link, "server");
-				processInsertionParameters(link, "database");
-				processInsertionParameters(link, "view");
-				processInsertionParameters(link, "url");
-				processInsertionParameters(link, "nomadURL");
     			}
     			
+    			
+				
+			// Replace insertion parameters
+			// Note that not all of these properties will exist for all links
+			// ignore type
+			// name, server, and database are overkill, but I include this for future changes.
+			processInsertionParameters(link, "name");
+			processInsertionParameters(link, "description");
+			processInsertionParameters(link, "server");
+			processInsertionParameters(link, "database");
+			processInsertionParameters(link, "view");
+			processInsertionParameters(link, "url");
+			processInsertionParameters(link, "nomadURL");
+    			
+			
+			// temporary test data for #19
+			String description = getStringSafe(link, "description");
+			String url = getStringSafe(link, "url");
+			if (DominoUtils.isValueEmpty(description) &&
+				(!DominoUtils.isValueEmpty(url) && (url.contains("Super.Human.Portal") || url.contains("SuperHumanPortal")))) {
+				link.put("description", "This is an example link description for Super.Human.Portal.");
+			}
     			
 		}
 		catch (JSONException ex) {
