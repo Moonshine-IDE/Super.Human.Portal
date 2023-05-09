@@ -14,6 +14,7 @@ package model.proxy.busy
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
 	import view.general.BusyOperator;
+	import org.apache.royale.utils.Timer;
 						
 	public class ProxyBusyManager extends Proxy 
 	{
@@ -29,10 +30,44 @@ package model.proxy.busy
 			super.onRegister();
 		}
 		
-		public function getNewBusyOperator():IBusyOperator
+		public function getNewBusyOperator(message:String = null):IBusyOperator
 		{
-			return new BusyOperator(this.getData(), ConstantsCoreVO.BUSY_INDICATOR_SCALE_FACTOR);	
+			return new BusyOperator(this.getData(), ConstantsCoreVO.BUSY_INDICATOR_SCALE_FACTOR, message);	
 		}		
+		
+		public function wrapSuccessFunctionWithCustomDelay(originalSuccessCallback:Function, delay:Number = 1000, message:String = "Loading..."):Function
+		{
+            var operator:IBusyOperator = this.getNewBusyOperator(message);
+            
+            if (!operator)
+            {
+                return originalSuccessCallback;
+            }
+
+            operator.showBusy();
+			
+			//Hack for disabling drawer menu, cause simple disble bead doesn't work on it
+			sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_ITEMS_ENABLED, false);
+			
+            var successFun:Function = function successFunction(e:Event):void
+							           {
+							           		var timer:Timer = new Timer(delay);
+                        
+											var delayFun:Function = function delayTimer(event:Event):void {
+												timer.stop();
+												timer.removeEventListener(Timer.TIMER, delayFun);
+												
+												originalSuccessCallback(e);
+							                		operator.hideBusy();
+							                
+										    		sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_ITEMS_ENABLED, true);
+											}
+											
+											timer.addEventListener(Timer.TIMER, delayFun);
+											timer.start();
+							           }
+			return successFun;
+		}
 		
 		public function wrapSuccessFunction(originalSuccessCallback:Function):Function
 		{

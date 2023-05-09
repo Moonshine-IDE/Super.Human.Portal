@@ -66,7 +66,7 @@ package model.proxy.applicationsCatalog
 			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onGenesisAppsListFetched);
 			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisAppsListFetchFailed);
 		
-			genesisAppsDelegate.getGenesisCatalogList(successCallback, failureCallback);
+			genesisAppsDelegate.getGenesisCatalogList(successCallback, onGenesisAppsListFetchFailed);
 		}
 
 		public function getInstalledApps(forceRefresh:Boolean = false):void
@@ -92,10 +92,10 @@ package model.proxy.applicationsCatalog
 		}
 		
 		public function installApplication():void
-		{
-			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onGenesisAppInstalled);
+		{			
 			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisAppInstallFailed);
-			
+			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunctionWithCustomDelay(onGenesisAppInstalled, 15000, "Installation is in progress...");
+
 			genesisAppsDelegate.getGenesisCatalogInstall(selectedApplication.appId, successCallback, failureCallback);	
 		}
 		

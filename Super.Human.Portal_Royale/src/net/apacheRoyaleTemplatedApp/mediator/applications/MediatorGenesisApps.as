@@ -80,10 +80,7 @@ package mediator.applications
 					updateGenesisList();
 					break;
 				case ProxyGenesisApps.NOTE_GENESIS_APP_INSTALLED:
-					view.installationResult(String(note.getBody()));
-					setTimeout(function():void{
-						genesisAppsProxy.getInstalledApps(true);
-					}, 1000);
+					genesisAppsProxy.getInstalledApps(true);
 					break;
 				case ProxyGenesisApps.NOTE_GENESIS_APPS_LIST_FETCH_FAILED:
 				case ProxyGenesisApps.NOTE_GENESIS_APPS_INSTALL_FAILED:

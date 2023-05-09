@@ -9,16 +9,30 @@ package classes.beads
 	import org.apache.royale.core.IUIBase;
 	import org.apache.royale.html.beads.ShrinkableDisableLoaderBead;
 	import org.apache.royale.core.IChild;
+	import org.apache.royale.jewel.Label;
 	/**
 	 *  The AppDisableLoaderBead extends ShrinkableDisableLoaderBead to search parent path for platform of load indicator
 	 */
 	public class AppDisableLoaderBead extends ShrinkableDisableLoaderBead
 	{
-		public function AppDisableLoaderBead()
+		private var _label:Label;
+		private var _loaderText:String;
+		
+		public function get loaderText():String
 		{
-            super();
+			return _loaderText;
 		}
 
+		public function set loaderText(value:String):void
+		{
+			_loaderText = value;
+			
+			if (_label)
+			{
+				_label.text = value;
+			}	
+		}
+		
         override protected function addLoadIndicator():void
 		{
             var platform:IUIBase = getPlatform();
@@ -34,8 +48,31 @@ package classes.beads
 			}
 			var popupHost:IPopUpHost = UIUtils.findPopUpHost(platform);
 			popupHost.popUpParent.addElement(_loader);
+			
+			_label = new Label();
+			_label.element.style.position = "absolute";
+			_label.element.style.textAlign = "center";
+			_label.element.style.fontWeight = "bold";
+			
+			_label.height = _loader.height;
+			_label.minWidth = _loader.width;
+			_label.x = _loader.x;
+			_label.y = _loader.y + _loader.height + 10;
+			_label.text = loaderText;
+							
+			popupHost.popUpParent.addElement(_label);
 		}
 		
+		override protected function removeLoadIndicator():void
+		{
+			super.removeLoadIndicator();
+			
+			if (_label)
+			{
+				_label.parent.removeElement(_label);
+				this.loaderText = null;
+			}
+		}
 
         private function getPlatform():IUIBase
         {
