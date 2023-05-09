@@ -70,10 +70,11 @@ public class GenesisRead extends CRUDAgentBase
                 try {
                     JSONObject node = (JSONObject) entry;
                     JSONObject newNode = new JSONObject();
-                    newNode.put("AppID", node.get("id"));
-                    newNode.put("Label", node.get("title"));
-                    newNode.put("DetailsURL", node.get("url"));
-                    newNode.put("InstallCommand", node.get("install"));
+                    copyPropertySafe(node, "id", newNode, "AppID", null);
+                    copyPropertySafe(node, "title", newNode, "Label", null);
+                    copyPropertySafe(node, "url", newNode, "DetailsURL", null);
+                    copyPropertySafe(node, "install", newNode, "InstallCommand", null);
+                    copyPropertySafe(node, "installTime", newNode, "InstallTimeS", 15);
                     
                     // add info installation info
                     addInstallationInfo(newNode, node.get("id").toString());
@@ -386,6 +387,43 @@ public class GenesisRead extends CRUDAgentBase
     			// this fails if the key was not found.  Return null instead.
     			return null;
 		}
+    }
+    
+    /**
+     * Copy the indicated property from one object to another.
+     * If the property was not found in the original, then set the default value, or do not set the property if <code>defaultValue == null</code>
+     * @param orig  the original object
+     * @param origName  the original property name
+     * @param target  the target object
+     * @param targetName  the new property name
+     * @param defaultValue  the default value to use, or <code>null</code> to leave the property unset.
+     */
+    protected void copyPropertySafe(JSONObject orig, String origName, JSONObject target, String targetName, Object defaultValue) {
+    		Object value = null;
+    		try {
+    			value = orig.get(origName);
+    		}
+    		catch (JSONException ex) {
+    			// key not found
+    		}
+    		
+    		if (null == value) {
+    			if (null == defaultValue) {
+    				return; // do not set the property
+    			}
+    			else {
+    				value = defaultValue;
+    			}
+    		}
+    		
+    		// safely update the property
+    		try {
+    			target.put(targetName, value);
+    		}
+    		catch (JSONException ex) {
+    			// unexpected error - probably an invalid value
+    			getLog().err("Could not set property '" + targetName + "' to '" + value.toString() + "'.");
+    		}
     }
     
     protected void addInsertionParameter(String param, String replacement) {
