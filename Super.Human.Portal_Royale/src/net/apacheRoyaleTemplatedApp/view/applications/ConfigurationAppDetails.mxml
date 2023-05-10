@@ -11,7 +11,7 @@
 			import org.apache.royale.events.MouseEvent;
 
 			[Bindable]
-			public var configTitle:String;
+			public var description:String;
 			[Bindable]
 			public var server:String;
 			[Bindable]
@@ -42,8 +42,8 @@
 	</j:beads>
 
 	<j:Card>
-		<j:CardHeader>
-			<html:H4 text="{configTitle}" percentWidth="100"/>
+		<j:CardHeader visible="{description != null}">
+			<html:H4 text="{description}" percentWidth="100"/>
 		</j:CardHeader>
 		<j:CardPrimaryContent>
 			<j:Form>

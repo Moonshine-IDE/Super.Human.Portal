@@ -146,7 +146,7 @@ package mediator.applications
 						
 						var configurationDetails:ConfigurationAppDetails = new ConfigurationAppDetails();
 							configurationDetails.percentWidth = 100;
-							configurationDetails.configTitle = link.name;
+							configurationDetails.description = link.description;
 							configurationDetails.server = link.server;
 							configurationDetails.database = link.database;
 							configurationDetails.viewName = link.view;
