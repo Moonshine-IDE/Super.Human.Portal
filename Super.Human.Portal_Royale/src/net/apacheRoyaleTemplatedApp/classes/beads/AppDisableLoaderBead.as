@@ -53,14 +53,14 @@ package classes.beads
 			_label.element.style.position = "absolute";
 			_label.element.style.textAlign = "center";
 			_label.element.style.fontWeight = "bold";
-			
+			_label.x = _loader.x - _loader.width / 2 + 50;
+			_label.y = _loader.y + _loader.height + 10;
 			_label.height = _loader.height;
 			_label.minWidth = _loader.width;
-			_label.x = _loader.x;
-			_label.y = _loader.y + _loader.height + 10;
 			_label.text = loaderText;
-							
+
 			popupHost.popUpParent.addElement(_label);
+			
 		}
 		
 		override protected function removeLoadIndicator():void
