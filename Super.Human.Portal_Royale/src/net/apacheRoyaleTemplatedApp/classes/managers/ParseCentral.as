@@ -256,7 +256,7 @@ package classes.managers
 			{
 				// finding the category articles
 				var app:Object = jsonData[i];
-				var tmpVO:ApplicationVO = new ApplicationVO(app.AppID, app.DetailsURL, app.Label, app.InstallCommand, app.Installed, app.access);
+				var tmpVO:ApplicationVO = new ApplicationVO(app.AppID, app.DetailsURL, app.Label, app.InstallCommand, app.Installed, app.InstallTimeS, app.access);
 				
 				tmpArr.push(tmpVO);
 			}

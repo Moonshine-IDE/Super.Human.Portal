@@ -4,5 +4,6 @@ package interfaces.busy
 	{
 		function showBusy():void;
 		function hideBusy():void;
+		function setMessage(message:String):void;
 	}
 }

@@ -35,10 +35,12 @@ package model.proxy.busy
 			return new BusyOperator(this.getData(), ConstantsCoreVO.BUSY_INDICATOR_SCALE_FACTOR, message);	
 		}		
 		
-		public function wrapSuccessFunctionWithCustomDelay(originalSuccessCallback:Function, delay:Number = 1000, message:String = "Loading..."):Function
+		public function wrapSuccessFunctionWithCustomDelay(originalSuccessCallback:Function, delay:Number = 1, message:String = "Loading..."):Function
 		{
-            var operator:IBusyOperator = this.getNewBusyOperator(message);
-            
+       		var repeatCount:Number = delay;
+       		var delayM:Number = Math.round(delay * 1000);
+            var operator:IBusyOperator = this.getNewBusyOperator(message + " " + delay + " seconds...");
+
             if (!operator)
             {
                 return originalSuccessCallback;
@@ -51,16 +53,23 @@ package model.proxy.busy
 			
             var successFun:Function = function successFunction(e:Event):void
 							           {
-							           		var timer:Timer = new Timer(delay);
+							           		var timer:Timer = new Timer(1000, repeatCount);
                         
 											var delayFun:Function = function delayTimer(event:Event):void {
-												timer.stop();
-												timer.removeEventListener(Timer.TIMER, delayFun);
+												if (!timer.running)
+												{
+													timer.removeEventListener(Timer.TIMER, delayFun);
+													
+													originalSuccessCallback(e);
+													operator.hideBusy();
 												
-												originalSuccessCallback(e);
-							                		operator.hideBusy();
-							                
-										    		sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_ITEMS_ENABLED, true);
+													sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_ITEMS_ENABLED, true);
+									    			}
+									    			else
+									    			{
+													var currentTime:String = getCurrentDelayTimeInSeconds(repeatCount, timer.currentCount);
+													operator.setMessage(message + " " + currentTime + " seconds...");
+									    			}
 											}
 											
 											timer.addEventListener(Timer.TIMER, delayFun);
@@ -122,6 +131,13 @@ package model.proxy.busy
 		private function onFault(event:FaultEvent):void 
         {
         		sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, MediatorMainContentView.NAME, "Submission failed: " + String(event.message)));
+		}
+		
+		private function getCurrentDelayTimeInSeconds(repeatCount:int, currentCount:int):String
+		{
+			var currentMiliseconds:int = repeatCount - currentCount;
+
+			return String(currentMiliseconds);									
 		}
 	}
 }

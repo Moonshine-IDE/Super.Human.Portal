@@ -5,13 +5,14 @@ package model.vo
 		public static const LINK_BROWSER:String = "browser";
 		public static const LINK_DATABASE:String = "database";
 		
-		public function ApplicationVO(appId:String, detailsUrl:String, label:String, installCommand:String, installed:Boolean, access:Object = null) 
+		public function ApplicationVO(appId:String, detailsUrl:String, label:String, installCommand:String, installed:Boolean, installTimeS:Number, access:Object = null) 
 		{
 			this._appId = appId;
 			this._detailsUrl = detailsUrl;
 			this._label = label;
 			this._installCommand = installCommand;
 			this._installed = installed;
+			this._installTimeS = installTimeS;
 			this._access = access;
 		}
 		
@@ -74,6 +75,18 @@ package model.vo
 		public function get installed():Boolean
 		{
 			return _installed;
+		}
+		
+		private var _installTimeS:Number;
+
+		public function get installTimeS():Number
+		{
+			return _installTimeS;
+		}
+
+		public function set installTimeS(value:Number):void
+		{
+			_installTimeS = value;
 		}
 		
 		private var _access:Object;
