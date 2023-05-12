@@ -38,6 +38,9 @@ public class GenesisRead extends CRUDAgentBase
 	protected Collection<String> installedApps = new TreeSet<String>();
 	protected Map<String, String> insertionParameters = new TreeMap<String, String>();
 	
+	protected static final int DEFAULT_INSTALL_TIME_S = 15;
+	protected int configInstallTimeS = -1;
+	
 	protected String serverAbbr = null;
 	protected String serverCommon = null;
 	
@@ -74,7 +77,7 @@ public class GenesisRead extends CRUDAgentBase
                     copyPropertySafe(node, "title", newNode, "Label", null);
                     copyPropertySafe(node, "url", newNode, "DetailsURL", null);
                     copyPropertySafe(node, "install", newNode, "InstallCommand", null);
-                    copyPropertySafe(node, "installTime", newNode, "InstallTimeS", 15);
+                    copyPropertySafe(node, "installTime", newNode, "InstallTimeS", getDefaultInstallTimeS());
                     
                     // add info installation info
                     addInstallationInfo(newNode, node.get("id").toString());
@@ -208,6 +211,26 @@ public class GenesisRead extends CRUDAgentBase
     		}
     		
     		return url;
+    }
+    
+    protected int getDefaultInstallTimeS() {
+    		if (configInstallTimeS >= 0) {
+    			return configInstallTimeS;
+    		} 
+    		
+    		// attempt to read the configuration
+    		try {
+    			configInstallTimeS = ConfigurationUtils.getConfigAsInt(agentDatabase, "default_install_time_s");
+    			if (configInstallTimeS < 0) {
+    				configInstallTimeS = DEFAULT_INSTALL_TIME_S;
+    			}
+		}
+		catch (Exception ex) {
+			// no configured value - use default
+			configInstallTimeS = DEFAULT_INSTALL_TIME_S;
+		}
+    		
+		return configInstallTimeS;
     }
     
     protected void addInstallationInfo(JSONObject node, String appID) {
