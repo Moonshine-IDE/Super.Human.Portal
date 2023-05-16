@@ -39,7 +39,7 @@ package model.proxy.busy
 		{
        		var repeatCount:Number = delay;
        		var delayM:Number = Math.round(delay * 1000);
-            var operator:IBusyOperator = this.getNewBusyOperator(message + " " + delay + " seconds...");
+            var operator:IBusyOperator = this.getNewBusyOperator(message + " " + delay + " seconds remaining.");
 
             if (!operator)
             {
@@ -67,8 +67,11 @@ package model.proxy.busy
 									    			}
 									    			else
 									    			{
-													var currentTime:String = getCurrentDelayTimeInSeconds(repeatCount, timer.currentCount);
-													operator.setMessage(message + " " + currentTime + " seconds...");
+													var currentTime:Number = getCurrentDelayTimeInSeconds(repeatCount, timer.currentCount);
+													var currentMessage:String = message + " " + currentTime;
+														currentMessage += currentTime == 1 ? " second remaining." : " seconds remaining.";
+													
+													operator.setMessage(currentMessage);
 									    			}
 											}
 											
@@ -133,11 +136,11 @@ package model.proxy.busy
         		sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, MediatorMainContentView.NAME, "Submission failed: " + String(event.message)));
 		}
 		
-		private function getCurrentDelayTimeInSeconds(repeatCount:int, currentCount:int):String
+		private function getCurrentDelayTimeInSeconds(repeatCount:int, currentCount:int):Number
 		{
-			var currentMiliseconds:int = repeatCount - currentCount;
+			var currentMiliseconds:Number = repeatCount - currentCount;
 
-			return String(currentMiliseconds);									
+			return currentMiliseconds;									
 		}
 	}
 }
