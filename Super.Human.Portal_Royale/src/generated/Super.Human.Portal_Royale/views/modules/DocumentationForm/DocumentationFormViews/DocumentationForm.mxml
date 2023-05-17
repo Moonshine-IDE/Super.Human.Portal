@@ -42,8 +42,13 @@
     {
         this.currentState = 'dataGridState';
         this.proxy.selectedIndex = -1;
-        this.itemVO.DocumentationName = null;
-        this.itemVO.DocumentationUNID = null;
+        
+        if (this.itemVO)
+        {
+        		this.itemVO.DocumentationName = null;
+        		this.itemVO.DocumentationUNID = null;
+    		}
+    		
         this.itemVO = null;
     }
 
