@@ -23,3 +23,8 @@
     color: #808080;
     padding: 0;
 }
+
+.scrollHeightDocFormGridJS {
+	maxHeight: calc(100% - 30px);
+	minHeight: 105px;
+}

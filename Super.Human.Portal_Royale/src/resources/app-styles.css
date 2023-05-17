@@ -53,12 +53,9 @@ a:hover {
 	box-shadow: none;	
 }
 
-.scrollHeightDocFormGridJS {
-	max-height: 95%;
-}
-
 .scrollHeightGenAppGridJS {
-	max-height: 79%;
+	maxHeight: calc(100% - 10px);
+	minHeight: 120px;
 }
 
 .dx-datagrid-header-panel {
@@ -343,6 +340,10 @@ a:hover {
 
 .jewel.card {
 	background: #ebebeb !important;
+}
+
+.jewel.card.minHeaderHeight{
+	minHeight: 80px !important;
 }
 
 .jewel.textinput {

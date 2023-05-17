@@ -4,7 +4,7 @@
 		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
 		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
 		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
-		 implements="interfaces.IGenesisAppsView" className="bodyPadding"
+		 implements="interfaces.IGenesisAppsView" className="bodyPadding" percentHeight="100"
 		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" gap="5">
 	<fx:Script>
 		<![CDATA[
@@ -68,7 +68,7 @@
 		<js:ContainerDataBinding />
 	</j:beads>
 
-	<j:Grid gap="false">
+	<j:Grid gap="false" minHeight="40">
 		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
 			<j:HGroup percentWidth="100">
 				<html:H3 text="Genesis Directory Catalog" percentWidth="100"/>
@@ -79,8 +79,8 @@
 		</j:GridCell>
 	</j:Grid>
 	
-	<j:Card percentWidth="100">
-		<j:Form>
+	<j:Card percentWidth="100" className="minHeaderHeight">
+		<j:Form className="bodyPadding">
 			<controls:CustomFormItem labelClass="formItemPersonalInfo" className="horizontalContentFormItem">
 				<j:HGroup itemsVerticalAlign="itemsCenter">
 					<html:H4 localId="selectedAppH" text="Select an application from the list below"/>
