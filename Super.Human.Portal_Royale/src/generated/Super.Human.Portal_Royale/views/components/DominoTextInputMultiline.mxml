@@ -27,6 +27,8 @@
 			if (_isTextArea != value)
 			{
 				_isTextArea = value;
+				
+				switchState();
 			}
 		}
 		
@@ -43,6 +45,8 @@
 			if (_text != value)
 			{
 				_text = value;
+				
+				switchState();
 			}
 		}
 		
