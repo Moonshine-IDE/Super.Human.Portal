@@ -174,7 +174,7 @@
     
     <components:DominoTextInputMultiline text="{itemVO.DocumentationName}" change="{itemVO.DocumentationName = event.currentTarget.text;}" 
     										isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
-    										isTextArea="true"/>
+    										isTextArea="true" fontSize="x-large"/>
     
     <j:Label text="(" className="cursor-pointer" visible="{isDisabled &amp;&amp; this.proxy.showUnid}"/>
     

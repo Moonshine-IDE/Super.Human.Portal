@@ -12,7 +12,7 @@
     <js:State name="disabled"/>
   </j:states>
   <j:style>
-   	<js:SimpleCSSStyles fontFamily="{fontFamily}"/>
+   	<js:SimpleCSSStyles localId="textMultiLineStyle" fontFamily="{fontFamily}" fontSize="{fontSize}"/>
   </j:style>
   <fx:Metadata>
       [Event("change")]
@@ -73,9 +73,32 @@
 
         public function set fontFamily(value:String):void
         {
-            _fontFamily = value;
+        		if (_fontFamily != value)
+        		{
+            		_fontFamily = value;
+            		
+            		textMultiLineStyle.fontFamily = value;
+    			}
         }
 
+        private var _fontSize:String = "14px";
+
+        [Bindable]
+        public function get fontSize():String
+        {
+            return _fontSize;
+        }
+
+        public function set fontSize(value:String):void
+        {
+        		if (_fontSize != value)
+        		{
+            		_fontSize = value;
+            		
+            		textMultiLineStyle.fontSize = value;
+        		}
+        }
+        
 		private function switchState():void
 		{
 			this.currentState = isDisabled ? "disabled" : "normal";
@@ -104,5 +127,5 @@
 </fx:Script>
   <j:TextInput localId="textInput" text="{text}" change="onTextChange(event)" className="shortInput" includeIn="normal"/>
   <j:TextArea localId="descriptionInput" text="{text}" includeIn="normal" change="onTextChange(event)" minWidth="500"/>
-  <j:Label text="{text}" multiline="true" percentHeight="100" includeIn="disabled"/>
+  <j:Label text="{text}" multiline="true" percentHeight="100" includeIn="disabled" />
 </j:VGroup>
