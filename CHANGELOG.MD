@@ -3,6 +3,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
 
+## Super.Human.Portal [0.1.5]
+
+### Summary
+
+Testing release GitHub action. More in milestone [Super.Human.Portal v0.1.5](https://github.com/Moonshine-IDE/Super.Human.Portal/milestone/3)
+
+### Added
+
+* Portal: Display application in installed list after click on "Install" ([#21](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/21))
+
+### Changed
+
+* Portal: Extend information information about installed Genesis Applications ([#19](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/19))
+
+### Fixed
+
+* Portal: Duplicate fields for new documentation document ([#25](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/25))
+* Portal: Miscellaneous UI fixes ([#26](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/26))
+
 ## Super.Human.Portal [0.1.4]
 
 ### Summary
