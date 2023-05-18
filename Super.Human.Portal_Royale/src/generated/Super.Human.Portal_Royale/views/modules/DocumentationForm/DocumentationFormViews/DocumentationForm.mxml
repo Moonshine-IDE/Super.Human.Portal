@@ -3,7 +3,7 @@
 			xmlns:joditeditor="Super.Human.Portal_Royale.classes.joditeditor.*" xmlns:dataGrid="Super.Human.Portal_Royale.classes.dataGrid.*"
 			xmlns:components="Super.Human.Portal_Royale.views.components.*"
 			currentState="dataGridState" gap="5" stateChangeComplete="{this.dispatchEvent(new Event('valueChange'))}"
-			itemsVerticalAlign="itemsTop" initComplete="onViewInitComplete(event)" percentHeight="100">
+			itemsVerticalAlign="itemsTop" initComplete="onViewInitComplete(event)" percentHeight="100" className="bodyPadding">
   <j:beads>
     <js:ContainerDataBinding/>
     <js:SimpleStatesImpl/>

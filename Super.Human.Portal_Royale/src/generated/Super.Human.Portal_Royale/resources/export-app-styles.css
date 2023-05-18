@@ -25,6 +25,6 @@
 }
 
 .scrollHeightDocFormGridJS {
-	maxHeight: calc(100% - 30px);
-	minHeight: 105px;
+	maxHeight: calc(100% - 10px);
+	minHeight: 90%;
 }

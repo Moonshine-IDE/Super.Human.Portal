@@ -30,7 +30,7 @@ a:hover {
 
 .bodyPadding
 {
-	padding: 20px;
+	padding: 15px;
 }
 
 .navIconLinkItemRenderer {
@@ -55,7 +55,7 @@ a:hover {
 
 .scrollHeightGenAppGridJS {
 	maxHeight: calc(100% - 10px);
-	minHeight: 120px;
+	minHeight: 75%;
 }
 
 .dx-datagrid-header-panel {
