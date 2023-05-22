@@ -51,12 +51,12 @@ package model.proxy
 				parseVersion(new XML(fetchedData));
 			}
 
-			UrlProvider.getInstance(version.appVersion).setDomain("");
+			UrlProvider.getInstance().setAppVersion(version.appVersion);
 		}
 		
 		private function onLocalVersionLoadFailed(event:FaultEvent):void
 		{			
-			UrlProvider.getInstance().setDomain("");
+			UrlProvider.getInstance().setAppVersion("");
 		}
 		
 		private function parseVersion(value:XML):void

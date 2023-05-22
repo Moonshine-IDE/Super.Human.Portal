@@ -16,22 +16,17 @@ package classes.managers
         		_instance = this;
     		}
 
-	    public static function getInstance(version:String = null):UrlProvider 
+	    public static function getInstance():UrlProvider 
 		{
 	        if(!_instance)
 			{
 	            new UrlProvider();
 	        } 
-	        
-	        if (version)
-	        {
-        		   _instance.setAppVersion(version);		
-	        }	
-	                
+  
 	        return _instance;
 	    }
 	
-		private var _loginUser:String;
+		private var _loginUser:String = "/names.nsf?login";
 		
 		/**
 		 * authentication check
@@ -46,7 +41,7 @@ package classes.managers
 			_loginUser = value;
 		} 
 		
-		private var _logoutUser:String;
+		private var _logoutUser:String = "/names.nsf?logout";
 		
 		/**
 		 * logout an user
@@ -61,7 +56,7 @@ package classes.managers
 			_logoutUser = value;
 		} 
 
-		private var _configagent:String;
+		private var _configagent:String = "/SuperHumanPortal.nsf/ConfigRead?OpenAgent";
 
 		/**
 		 * general configuration
@@ -142,15 +137,6 @@ package classes.managers
 		public function setAppVersion(value:String):void
 		{
 			_appVersion = value == null || value.indexOf("${pom.version}") > -1 ? "5.6.0" : value;
-		}
-		/**
-		 * Sets the domain and URLs
-		 */
-		public function setDomain(value:String):void
-		{
-			loginUser = value +"/names.nsf?login"; // Authentication Check
-			logoutUser = value + "/names.nsf?logout"; // Logout an user	
-			configagent = value + "/SuperHumanPortal.nsf/ConfigRead?OpenAgent";
 		}
 	}
 }
