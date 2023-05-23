@@ -7,20 +7,30 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Summary
 
-Testing release GitHub action. More in milestone [Super.Human.Portal v0.1.5](https://github.com/Moonshine-IDE/Super.Human.Portal/milestone/3)
+Key Updates:
+- Improvements to Getting Started and Genesis app UI
+- Fixed issues with converting rich text in Getting Started editing
+- Database access links for installed Genesis applications
+
+See more in milestone [Super.Human.Portal v0.1.5](https://github.com/Moonshine-IDE/Super.Human.Portal/milestone/3)
 
 ### Added
 
-* Portal: Display application in installed list after click on "Install" ([#21](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/21))
+* Show progress and update the sidebar after clicking Install in Genesis App ([#21](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/21))
 
 ### Changed
 
-* Portal: Extend information information about installed Genesis Applications ([#19](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/19))
+* Expandable UI that gives the user options to open database links for installed Genesis applications ([#19](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/19))
+* Updated to [Moonshine-Domino-CRUD v0.7]() to fix RichText conversion:  ([#24](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/24))
 
 ### Fixed
 
-* Portal: Duplicate fields for new documentation document ([#25](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/25))
-* Portal: Miscellaneous UI fixes ([#26](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/26))
+* Removed duplicate fields when editing page in Getting Started ([#25](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/25))
+* Miscellaneous UI Fixes ([#26](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/26))
+* "undefined" URL on page refresh ([#29](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/29))
+* Loading error when switching back to Getting Started page ([#28](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/28))
+* Preserve expanded/collapsed status for Installed Apps  after refreshing Genesis App ([#23](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/23))
+* Version is now visible in the bottom left of the interface ([#20](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/20))
 
 ## Super.Human.Portal [0.1.4]
 
