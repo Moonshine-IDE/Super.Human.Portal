@@ -52,6 +52,7 @@ package Super.Human.Portal_Royale.classes.htmlEditor.beads
 				value: _model.data,
 				readOnly: _model.readOnly,
 				onValueChanged: function(event:Object):void {
+					_model.data = event.value;
 					host.dispatchEvent(new HtmlEditorEvent(HtmlEditorEvent.TEXT_CHANGE, event.value));
 				}
 			});		

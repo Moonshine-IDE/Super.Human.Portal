@@ -4,7 +4,7 @@ package Super.Human.Portal_Royale.classes.htmlEditor.events
 
 	public class HtmlEditorEvent extends Event
 	{
-		public static const TEXT_CHANGE:String = "TEXT_CHANGE_HTMLEDITOR";
+		public static const TEXT_CHANGE:String = "textChange";
 		
 		public function HtmlEditorEvent(type:String, text:String)
 		{
