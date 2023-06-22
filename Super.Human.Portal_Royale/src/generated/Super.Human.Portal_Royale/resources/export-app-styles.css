@@ -28,3 +28,8 @@
 	maxHeight: calc(100% - 10px);
 	minHeight: 90%;
 }
+
+.htmlEditorJS {
+	IBeadView: ClassReference("Super.Human.Portal_Royale.classes.htmlEditor.beads.HtmlEditorView");
+	IBeadModel: ClassReference("Super.Human.Portal_Royale.classes.htmlEditor.beads.models.HtmlEditorModel");
+}

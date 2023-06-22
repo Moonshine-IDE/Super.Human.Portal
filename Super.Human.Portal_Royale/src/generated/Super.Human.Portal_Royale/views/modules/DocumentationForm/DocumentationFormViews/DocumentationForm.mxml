@@ -1,7 +1,7 @@
 <j:VGroup  xmlns:j="library://ns.apache.org/royale/jewel" xmlns:fx="http://ns.adobe.com/mxml/2009"
 			xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html"
-			xmlns:joditeditor="Super.Human.Portal_Royale.classes.joditeditor.*" xmlns:dataGrid="Super.Human.Portal_Royale.classes.dataGrid.*"
-			xmlns:components="Super.Human.Portal_Royale.views.components.*"
+			xmlns:dataGrid="Super.Human.Portal_Royale.classes.dataGrid.*"
+			xmlns:components="Super.Human.Portal_Royale.views.components.*" xmlns:htmlEditor="Super.Human.Portal_Royale.classes.htmlEditor.*"
 			currentState="dataGridState" gap="5" stateChangeComplete="{this.dispatchEvent(new Event('valueChange'))}"
 			itemsVerticalAlign="itemsTop" initComplete="onViewInitComplete(event)" percentHeight="100" className="bodyPadding">
   <j:beads>
@@ -18,6 +18,8 @@
 	import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormVO.DocumentationFormVO;
 
 	import org.apache.royale.jewel.Alert;
+	import Super.Human.Portal_Royale.classes.htmlEditor.events.HtmlEditorEvent;
+	import Super.Human.Portal_Royale.classes.htmlEditor.helpers.ToolbarItems;
 
 	[Bindable] private var proxy:DocumentationFormProxy = DocumentationFormProxy.getInstance();
 
@@ -116,6 +118,11 @@
     									}});
 	}
 
+	private function onHtmlEditorTextChange(event:HtmlEditorEvent):void
+	{
+		this.itemVO.DocumentationBody = event.text;
+	}
+
 ]]></fx:Script>
   <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2" excludeFrom="contentState">
       <j:style>
@@ -194,15 +201,9 @@
   </j:HGroup>
 
   <j:HGroup percentWidth="100">
-    
-    <joditeditor:RichTextEditor data="{itemVO.DocumentationBody}" textChange="{itemVO.DocumentationBody = event.target.data;}" readonly="{isDisabled}" 
-    							   buttons="bold,italic,underline,strikethrough,font,fontsize,paragraph,file,cut,copy,paste,hr,table,link,undo,redo,print"
-    							   options="{{allowResizeY: !isDisabled, showCharsCounter: false, showWordsCounter: false, showXPathInStatusbar: false, inline: isDisabled, defaultLineHeight: isDisabled ? 1 : null, minHeight: 40}}" className="" xmlns:joditeditor="Super.Human.Portal_Royale.classes.joditeditor.*">
-    		<joditeditor:style>
-    			<js:AllCSSStyles minWidth="300"/>
-    		</joditeditor:style>
-    	</joditeditor:RichTextEditor>
-    
+    <htmlEditor:HtmlEditor data="{itemVO.DocumentationBody}" readOnly="{isDisabled}" 
+    						  toolbarItems="{isDisabled ? [] : ToolbarItems.ALL_ITEMS}"
+    						  textChange="onHtmlEditorTextChange(event)" />
   </j:HGroup>
   
 </j:VGroup>
