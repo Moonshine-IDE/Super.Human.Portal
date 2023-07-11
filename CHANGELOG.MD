@@ -3,6 +3,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
 
+## Super.Human.Portal [0.1.6]
+
+### Summary
+
+For this release, we switched from the Jodit editor to DevExpress to improve the process of editing the documentation on the Getting Started page.
+
+### Added
+
+
+### Changed
+
+* Switched DevExpress Rich Text Editor ([#31](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/310))
+
+### Fixed
+
+
 ## Super.Human.Portal [0.1.5]
 
 ### Summary
