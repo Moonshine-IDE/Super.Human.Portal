@@ -1,0 +1,94 @@
+<mockup>
+  <MainApplication title="" windowsTitle="IkN1c3RvbUJvb2ttYXJrIg==" width="700" height="450" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+    <Paragraph percentWidth="100" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop" wrap="true">
+      <Label size="12" color="system" fontStyle="normal" fontName="serif">Custom%20Bookmark</Label>
+    </Paragraph>
+    <Paragraph percentWidth="100" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop" wrap="true"/>
+    <Grid width="480" height="240">
+      <Row class="ui-g">
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">Group/Category</Label>
+          </Div>
+        </Column>
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="group" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+          </Div>
+        </Column>
+      </Row>
+      <Row class="ui-g">
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">Type</Label>
+          </Div>
+        </Column>
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="type" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+          </Div>
+        </Column>
+      </Row>
+      <Row class="ui-g">
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">URL%20%28url%20type%29</Label>
+          </Div>
+        </Column>
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="url" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+          </Div>
+        </Column>
+      </Row>
+      <Row class="ui-g">
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">Server%20%28database%20type%2C%20empty%20for%20this%20server%29</Label>
+          </Div>
+        </Column>
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="server" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+          </Div>
+        </Column>
+      </Row>
+      <Row class="ui-g">
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">Database%20%28database%20type%29</Label>
+          </Div>
+        </Column>
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="database" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+          </Div>
+        </Column>
+      </Row>
+      <Row class="ui-g">
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">View%20%28database%20type%2C%20optional%29</Label>
+          </Div>
+        </Column>
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="view" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+          </Div>
+        </Column>
+      </Row>
+      <Row class="ui-g">
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">Bookmark%20Name</Label>
+          </Div>
+        </Column>
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="name" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+          </Div>
+        </Column>
+      </Row>
+    </Grid>
+  </MainApplication>
+</mockup>
