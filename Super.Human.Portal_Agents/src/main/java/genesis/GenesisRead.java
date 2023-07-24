@@ -25,6 +25,7 @@ import com.moonshine.domino.util.DominoUtils;
 
 import lotus.domino.Name;
 import lotus.domino.NotesException;
+import util.JSONUtils;
 import util.SimpleHTTPClient;
 import util.ValidationException;
 
@@ -36,17 +37,11 @@ public class GenesisRead extends CRUDAgentBase
 	protected static final String DEFAULT_GENESIS_REST_API = "http://appstore.dominogenesis.com/rest/v1/apps";
 	protected static final int API_TIMEOUT_MS = 5000;
 	protected Collection<String> installedApps = new TreeSet<String>();
-	protected Map<String, String> insertionParameters = new TreeMap<String, String>();
 	
 	protected static final int DEFAULT_INSTALL_TIME_S = 15;
 	protected int configInstallTimeS = -1;
 	
-	protected String serverAbbr = null;
-	protected String serverCommon = null;
-	
-	protected static final Pattern notesURLPattern = Pattern.compile("notes://([^/]+)/([^?]+.nsf)(?:/[^/?])?(?:.*)?$", Pattern.CASE_INSENSITIVE);
-	/** Detect a URI based on the protocol only.  The rest of the URL does not have to be valid */
-	protected static final Pattern uriPattern = Pattern.compile("^\\w+://.*$", Pattern.CASE_INSENSITIVE);
+	protected LinkProcessor linkProcessor = null;
 	
 	@Override
 	protected SecurityInterface createSecurityInterface() {
@@ -66,18 +61,18 @@ public class GenesisRead extends CRUDAgentBase
         
         try {
         		loadInstalledApps();
-        		initializeInsertionParameters();
+        		linkProcessor = new LinkProcessor(session, getLog());
             JSONArray list = getGenesisAppList();
             
             for (Object entry : list) {
                 try {
                     JSONObject node = (JSONObject) entry;
                     JSONObject newNode = new JSONObject();
-                    copyPropertySafe(node, "id", newNode, "AppID", null);
-                    copyPropertySafe(node, "title", newNode, "Label", null);
-                    copyPropertySafe(node, "url", newNode, "DetailsURL", null);
-                    copyPropertySafe(node, "install", newNode, "InstallCommand", null);
-                    copyPropertySafe(node, "installTime", newNode, "InstallTimeS", getDefaultInstallTimeS());
+                    JSONUtils.copyPropertySafe(node, "id", newNode, "AppID", null, getLog());
+                    JSONUtils.copyPropertySafe(node, "title", newNode, "Label", null, getLog());
+                    JSONUtils.copyPropertySafe(node, "url", newNode, "DetailsURL", null, getLog());
+                    JSONUtils.copyPropertySafe(node, "install", newNode, "InstallCommand", null, getLog());
+                    JSONUtils.copyPropertySafe(node, "installTime", newNode, "InstallTimeS", getDefaultInstallTimeS(), getLog());
                     
                     // add info installation info
                     addInstallationInfo(newNode, node.get("id").toString());
@@ -142,28 +137,6 @@ public class GenesisRead extends CRUDAgentBase
     			if (isAddin(addin)) {
     				installedApps.add(cleanAddinName(addin));
     			}
-    		}
-    }
-    
-    /**
-     * Initialize insertion parameters that can be applied to the Genesis application list, including the local server name.
-     */
-    protected void initializeInsertionParameters() {
-    		Name nameObj = null;
-    		try {
-    			String name = session.getServerName();
-    			nameObj = session.createName(name);
-    			serverAbbr = nameObj.getAbbreviated();
-    			addInsertionParameter("%SERVER_ABBR%", serverAbbr);
-    			serverCommon = nameObj.getCommon();
-    			addInsertionParameter("%SERVER_COMMON%", serverCommon);
-    		}
-    		catch (NotesException ex) {
-    			getLog().err("Exception in initializeInsertionParameters.  They will be skipped:  ", ex);
-    			
-    		}
-    		finally {
-    			DominoUtils.recycle(session, nameObj);
     		}
     }
     
@@ -269,7 +242,7 @@ public class GenesisRead extends CRUDAgentBase
     					JSONArray links = (JSONArray) linksObj;
     					for (Object linkObj : links) {
     						if (linkObj instanceof JSONObject) {
-    							cleanupLink((JSONObject) linkObj);
+    							linkProcessor.cleanupLink((JSONObject) linkObj);
     						}
     						else {
     							getLog().err("Skipping invalid link:  not a JSON object.");
@@ -277,210 +250,11 @@ public class GenesisRead extends CRUDAgentBase
     					}
     				}
     				
-    				processInsertionParameters(accessInfo, "description");
+    				linkProcessor.processInsertionParameters(accessInfo, "description");
     			}
 		}
 		catch (JSONException ex) {
 			// ignore
-		}
-    }
-    
-    protected void cleanupLink(JSONObject link) {
-    		String identifier = "UNKNOWN";
-    		try {
-    			identifier = getStringSafe(link, "name");
-    			String type = getStringSafe(link, "type");
-    			if (null != type && type.equalsIgnoreCase("database")) {
-    				// Update database links so that they can work in Super.Human.Portal
-    				String database = getStringSafe(link, "database");
-    				if (DominoUtils.isValueEmpty(database)) {
-    					//  TODO:  remove this early workaround - we had not decided on the format yet.
-    					database = getStringSafe(link, "url");
-    					
-    					// TODO: cleanup the URL format before setting database
-    					link.put("database", database);
-    				}
-    				
-				if (isDatabaseName(database)) {
-					String origURL = getStringSafe(link, "url");
-					if (DominoUtils.isValueEmpty(origURL) || isDatabaseName(origURL)) {
-						// build a notes:// URL based on the database
-						// This will be obsolete once the url logic is updated in the Genesis API
-						
-						// URL-encode the database name
-						String databaseEnc = database;
-						try {
-							databaseEnc = URLEncoder.encode(database, "utf-8");
-						}
-						catch (UnsupportedEncodingException ex) {
-							getLog().err("Encoding exception:  ", ex);
-						}
-						
-						// TODO:  handle the FQDN in a better way?  The format is enforces for Super.Human.Installer, but we'll needs something more generic for other servers.
-						String url = "notes://" + serverCommon + "/" + databaseEnc;
-						// Add view if available
-						String view = getStringSafe(link, "view");
-						if (!DominoUtils.isValueEmpty(view)) {
-							try {
-								url += "/" + URLEncoder.encode(view, "utf-8") + "?OpenView";
-							}
-							catch (UnsupportedEncodingException ex) {
-								getLog().err("Encoding exception:  ", ex);
-							}
-						}
-						link.put("url", url);
-					}
-					// else: url was already set "properly", so keep the original value
-					
-				}
-				// else:  not a database.  No way to populate the url anyway
-				
-				String nomadURL = getStringSafe(link, "nomadURL");
-				if (DominoUtils.isValueEmpty(nomadURL)) {
-					// Compute the Nomad URL
-					// https://nomadweb.%SERVER_COMMON%/nomad/#/%NOTES_URL%
-					String url = getStringSafe(link, "url");
-					if (!DominoUtils.isValueEmpty(url)) {
-						nomadURL = "https://nomadweb." + serverCommon + "/nomad/#/" + url;
-						link.put("nomadURL", nomadURL);
-					}
-					// else:  if we could not generate a Notes URL, we can't generate a Nomad URL.
-					
-				}
-				
-				// add local server name
-				link.put("server", serverAbbr);
-				
-				// // This was added to test the GUI logic for views.  Remove this and configure a real example
-				// link.put("view", "Configuration");
-    			}
-    			
-    			
-				
-			// Replace insertion parameters
-			// Note that not all of these properties will exist for all links
-			// ignore type
-			// name, server, and database are overkill, but I include this for future changes.
-			processInsertionParameters(link, "name");
-			processInsertionParameters(link, "description");
-			processInsertionParameters(link, "server");
-			processInsertionParameters(link, "database");
-			processInsertionParameters(link, "view");
-			processInsertionParameters(link, "url");
-			processInsertionParameters(link, "nomadURL");
-    			
-			
-			// temporary test data for #19
-			String description = getStringSafe(link, "description");
-			String url = getStringSafe(link, "url");
-			if (DominoUtils.isValueEmpty(description) &&
-				(!DominoUtils.isValueEmpty(url) && (url.contains("Super.Human.Portal") || url.contains("SuperHumanPortal")))) {
-				link.put("description", "This is an example link description for Super.Human.Portal.");
-			}
-    			
-		}
-		catch (JSONException ex) {
-			getLog().err("Error when processing link '" + identifier + "':  ", ex);
-		}
-    }
-    
-    /**
-     * Check if this valid is a valid database name (including an optional path).  Rejects URIs.
-     */
-    protected boolean isDatabaseName(String value) {
-    		if ( DominoUtils.isValueEmpty(value)) {
-			return false;
-    		} 
-    		if (!value.toLowerCase().endsWith(".nsf")) {
-    			return false;
-    		}
-    		
-    		// check for URI with a defined scheme (i.e https:// or notes://)
-    		// This was too restrictive.  For example, a URL with insertion parameter was not considered valid
-    		// try {
-    		// 	URI uri = new URI(value);
-    		// 	if (!DominoUtils.isValueEmpty(uri.getScheme())) {
-    		// 		return false;
-    		// 	}
-    		// }
-    		// catch (URISyntaxException ex) {
-    		// 	//ex.printStackTrace();
-    		// }
-    		if (uriPattern.matcher(value).matches()) {
-    			return false;
-    		}
-    		
-    		// no problems found
-		return true;
-    }
-    
-    protected String getStringSafe(JSONObject object, String key) {
-    		try {
-    			return object.getString(key);
-    		}
-    		catch (JSONException ex) {
-    			// this fails if the key was not found.  Return null instead.
-    			return null;
-		}
-    }
-    
-    /**
-     * Copy the indicated property from one object to another.
-     * If the property was not found in the original, then set the default value, or do not set the property if <code>defaultValue == null</code>
-     * @param orig  the original object
-     * @param origName  the original property name
-     * @param target  the target object
-     * @param targetName  the new property name
-     * @param defaultValue  the default value to use, or <code>null</code> to leave the property unset.
-     */
-    protected void copyPropertySafe(JSONObject orig, String origName, JSONObject target, String targetName, Object defaultValue) {
-    		Object value = null;
-    		try {
-    			value = orig.get(origName);
-    		}
-    		catch (JSONException ex) {
-    			// key not found
-    		}
-    		
-    		if (null == value) {
-    			if (null == defaultValue) {
-    				return; // do not set the property
-    			}
-    			else {
-    				value = defaultValue;
-    			}
-    		}
-    		
-    		// safely update the property
-    		try {
-    			target.put(targetName, value);
-    		}
-    		catch (JSONException ex) {
-    			// unexpected error - probably an invalid value
-    			getLog().err("Could not set property '" + targetName + "' to '" + value.toString() + "'.");
-    		}
-    }
-    
-    protected void addInsertionParameter(String param, String replacement) {
-    		insertionParameters.put(param, replacement);
-    }
-    
-    protected void processInsertionParameters(JSONObject object, String key) {
-    		try {
-    			String value = getStringSafe(object, key);
-    			if (DominoUtils.isValueEmpty(value)) {
-    				return;  // nothing to do
-    			}
-    			
-    			// do a search/replace for each insertion parameter
-    			// Note that the key is treated as a regular expression
-    			for (Map.Entry<String, String> entry : insertionParameters.entrySet()) {
-    				value = value.replaceAll(entry.getKey(), entry.getValue());
-    			}
-    			object.put(key, value);
-    		}
-    		catch (JSONException ex) {
-    			getLog().err("Failed to update key '" + key + "'");
 		}
     }
 
