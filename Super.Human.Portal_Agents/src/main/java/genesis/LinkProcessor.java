@@ -43,7 +43,7 @@ public class LinkProcessor
 		return log;
 	}
     
-    protected void cleanupLink(JSONObject link) {
+    public void cleanupLink(JSONObject link) {
     		String identifier = "UNKNOWN";
     		try {
     			identifier = JSONUtils.getStringSafe(link, "name");
@@ -145,7 +145,7 @@ public class LinkProcessor
     /**
      * Check if this valid is a valid database name (including an optional path).  Rejects URIs.
      */
-    protected boolean isDatabaseName(String value) {
+    public boolean isDatabaseName(String value) {
     		if ( DominoUtils.isValueEmpty(value)) {
 			return false;
     		} 
@@ -194,11 +194,11 @@ public class LinkProcessor
     		}
     }
     
-    protected void addInsertionParameter(String param, String replacement) {
+    public void addInsertionParameter(String param, String replacement) {
     		insertionParameters.put(param, replacement);
     }
     
-    protected void processInsertionParameters(JSONObject object, String key) {
+    public void processInsertionParameters(JSONObject object, String key) {
     		try {
     			String value = JSONUtils.getStringSafe(object, key);
     			if (DominoUtils.isValueEmpty(value)) {
