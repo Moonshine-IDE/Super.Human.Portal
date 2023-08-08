@@ -81,7 +81,7 @@ package mediator.bookmarks
 		
 		private function updateView():void
 		{
-			this.view.titleBookmark = bookmarksProxy.selectedBookmark.dominoUniversalID ? "Add Bookmark" : "Edit Bookmark";
+			this.view.titleBookmark = bookmarksProxy.selectedBookmark.dominoUniversalID ? "Edit Bookmark" : "Add Bookmark";
 			this.view.bookmark = bookmarksProxy.selectedBookmark;
 			this.view.typeBookmark.dataProvider = new ArrayList([
 				{label: "URL", type: ApplicationVO.LINK_BROWSER},
