@@ -90,7 +90,7 @@ package mediator.bookmarks
 				var bookmark:BookmarkVO = bookmarks[i];
 				var bookmarkView:Bookmark = null;
 						
-				if (bookmark.type == ApplicationVO.LINK_BROWSER || bookmark.type == "url")
+				if (bookmark.type == ApplicationVO.LINK_BROWSER)
 				{
 					bookmarkView = new Bookmark();
 					bookmarkView.bookmark = bookmark;

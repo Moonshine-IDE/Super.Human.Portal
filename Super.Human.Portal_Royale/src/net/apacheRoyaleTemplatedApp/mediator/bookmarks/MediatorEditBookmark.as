@@ -107,7 +107,7 @@ package mediator.bookmarks
 			for (var i:int = 0; i < this.view.typeBookmark.dataProvider.length; i++)
 			{
 				var bookmarkType:Object = this.view.typeBookmark.dataProvider.getItemAt(i);
-				if (bookmarkType.type == type || (type == "url" && bookmarkType.type == ApplicationVO.LINK_BROWSER))
+				if (bookmarkType.type == type)
 				{
 					selectBookmarkType = bookmarkType;
 					break;
