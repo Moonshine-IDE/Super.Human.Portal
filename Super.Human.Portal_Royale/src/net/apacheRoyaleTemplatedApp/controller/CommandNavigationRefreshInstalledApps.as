@@ -1,16 +1,16 @@
 package controller
 {
 	import mediator.MediatorMainContentView;
+	import mediator.applications.MediatorInstalledApps;
 
-	import org.puremvc.as3.multicore.interfaces.INotification;
-	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
-	import model.InstalledAppNavigationModel;
+	import model.LeftMenuNavigationModel;
 	import model.proxy.applicationsCatalog.ProxyGenesisApps;
 	import model.vo.ApplicationVO;
-	import org.apache.royale.collections.ArrayList;
-	import mediator.applications.MediatorInstalledApps;
-	import org.apache.royale.events.Event;
 	import model.vo.NavigationLinkVO;
+
+	import org.apache.royale.collections.ArrayList;
+	import org.puremvc.as3.multicore.interfaces.INotification;
+	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 
 	public class CommandNavigationRefreshInstalledApps extends SimpleCommand
 	{
@@ -20,7 +20,7 @@ package controller
 			var mainMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;
 			var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
 			
-			var installedAppNavModel:InstalledAppNavigationModel = mainMediator.view["model"] as InstalledAppNavigationModel;
+			var installedAppNavModel:LeftMenuNavigationModel = mainMediator.view["model"] as LeftMenuNavigationModel;
 
 			var installedApps:ArrayList = new ArrayList();
 			var appWhiteSpaceRegExp:RegExp = new RegExp(/\s+/gi);

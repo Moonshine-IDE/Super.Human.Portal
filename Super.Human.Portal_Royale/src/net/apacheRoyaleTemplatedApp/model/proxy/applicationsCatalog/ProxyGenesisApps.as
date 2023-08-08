@@ -66,7 +66,7 @@ package model.proxy.applicationsCatalog
 			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onGenesisAppsListFetched);
 			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisAppsListFetchFailed);
 		
-			genesisAppsDelegate.getGenesisCatalogList(successCallback, onGenesisAppsListFetchFailed);
+			genesisAppsDelegate.getGenesisCatalogList(successCallback, failureCallback);
 		}
 
 		public function getInstalledApps(forceRefresh:Boolean = false):void

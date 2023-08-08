@@ -3,13 +3,14 @@ package classes.managers
 	import classes.locator.NativeModelLocator;
 
 	import model.vo.AccountVO;
+	import model.vo.ApplicationVO;
+	import model.vo.BookmarkVO;
 	import model.vo.CountriesDataModelVO;
 
 	import org.apache.royale.collections.ArrayList;
 	import org.apache.royale.utils.StringUtil;
 
 	import utils.UtilsCore;
-	import model.vo.ApplicationVO;
 	
 	/**
 	 * ParseCentral
@@ -241,10 +242,9 @@ package classes.managers
 		}
 		
 		/**
-		 * Parse the uploaded id files
-		 * list
+		 * Parse genesis application catalog list
 		 *
-		 * @return ArrayList
+		 * @return Array
 		 */
 		public static function parseGenesisCatalogList(jsonData:Array):Array 
 		{
@@ -254,7 +254,6 @@ package classes.managers
 			
 			for (var i:int = 0; i < viewEntryCount; i++)
 			{
-				// finding the category articles
 				var app:Object = jsonData[i];
 				var tmpVO:ApplicationVO = new ApplicationVO(app.AppID, app.DetailsURL, app.Label, app.InstallCommand, app.Installed, app.InstallTimeS, app.access);
 				
@@ -262,6 +261,30 @@ package classes.managers
 			}
 			
 			UtilsCore.sortItems(tmpArr, "label");
+			return tmpArr;
+		}
+		
+		/**
+		 * Parse Custom bookmarks list
+		 *
+		 * @return Array
+		 */
+		public static function parseCustomBookmarksList(jsonData:Array):Array 
+		{
+			var tmpArr:Array = [];
+			
+			var viewEntryCount:int = jsonData.length;
+			
+			for (var i:int = 0; i < viewEntryCount; i++)
+			{
+				var bookmark:Object = jsonData[i];
+				var tmpVO:BookmarkVO = new BookmarkVO(bookmark.group, bookmark.DominoUniversalID, bookmark.name,
+																 bookmark.server, bookmark.database, bookmark.view,
+																 bookmark.type, bookmark.url, bookmark.nomadUrl, bookmark.description);
+				
+				tmpArr.push(tmpVO);
+			}
+
 			return tmpArr;
 		}
 		

@@ -132,6 +132,13 @@ package classes.managers
 			return _genesisCatalogInstall;
 		}
 		
+		private var _customBookmarksGetAll:String = "/SuperHumanPortal.nsf/CustomBookmarkRead?OpenAgent";
+
+		public function get customBookmarksGetAll():String
+		{
+			return _customBookmarksGetAll;
+		}
+		
 		private var _appVersion:String;
 		
 		public function setAppVersion(value:String):void

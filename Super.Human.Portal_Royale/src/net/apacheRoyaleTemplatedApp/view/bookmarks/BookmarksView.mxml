@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
+		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
+		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
+		 implements="interfaces.IBookmarksView" className="bodyPadding"
+		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" gap="5">
+	<fx:Script>
+		<![CDATA[
+			import org.apache.royale.events.IEventDispatcher;
+			import org.apache.royale.jewel.Snackbar;
+
+			private var _groupName:String;
+			
+			public function get addBookmark():IEventDispatcher
+			{
+				return this.bookmarkAdd;
+			}
+			
+			public function get bookmarksList():Object
+			{
+				return this.listBookmarks;	
+			}
+			
+			[Bindable]
+			public function get groupName():String
+			{
+				return _groupName;	
+			}
+			
+			public function set groupName(value:String):void
+			{
+				_groupName = value;	
+			}
+			
+			public function installationResult(message:String):void
+			{
+				Snackbar.show(message, 4000, null);
+			}
+			
+		]]>
+	</fx:Script>
+
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+
+	<j:Grid gap="false" minHeight="40">
+		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
+			<j:HGroup percentWidth="100">
+				<html:H3 text="Bookmarks" percentWidth="100"/>
+				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
+					<j:Button localId="bookmarkAdd" className="noLinkStyle" text="Add a Bookmark"/>
+				</j:HGroup>
+			</j:HGroup>
+		</j:GridCell>
+	</j:Grid>
+	<j:Card percentWidth="100">
+		<j:CardHeader>
+			<html:H3 localId="nameGroup" text="{groupName}" percentWidth="100"/>
+		</j:CardHeader>
+		<j:CardPrimaryContent>
+			<j:VGroup localId="listBookmarks" gap="2">
+			</j:VGroup>
+		</j:CardPrimaryContent>
+	</j:Card>
+</j:VGroup>

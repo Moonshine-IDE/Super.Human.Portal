@@ -9,6 +9,7 @@ package mediator
     import model.proxy.ProxyVersion;
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
     import model.proxy.busy.ProxyBusyManager;
+    import model.proxy.customBookmarks.ProxyBookmarks;
     import model.proxy.login.ProxyLogin;
     import model.proxy.login.ProxyPasswordReset;
     import model.proxy.urlParams.ProxyUrlParameters;
@@ -49,6 +50,7 @@ package mediator
 				view.logout.addEventListener(MouseEvent.CLICK, onLogoutClick);
 				view.viewButtonDrawer.addEventListener(MouseEvent.CLICK, onDrawerButtonShowHide);
 				view.viewDrawerNavigation.addEventListener(Event.CHANGE, onNavigationSectionChange);
+				view.viewBookmarksNavigation.addEventListener(Event.CHANGE, onNavigationBookmarksSelectionChange);
 				view.viewInstalledAppsNavigation.addEventListener(Event.CHANGE, onNavigationInstalledAppSectionChange);
 				
 				view.loggedUsername = "Prominic User";
@@ -125,6 +127,7 @@ package mediator
 						//initializeViewHello();
 						initializeViewGettingStarted();
 						initializeListOfInstalledApps();
+						initializeListOfBookmarks();
 						break;
 					case ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS:
 						initializeGenesisApplicationsList();
@@ -219,6 +222,12 @@ package mediator
 					genesisAppsProxy.getInstalledApps();
 			}
 			
+			private function initializeListOfBookmarks():void
+			{
+				var bookmarksProxy:ProxyBookmarks = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
+					bookmarksProxy.getCustomBookmarksList();	
+			}
+			
 			private function initializeGenesisApplicationsList():void
 			{
 				//Remove mediator from second navigation
@@ -300,6 +309,28 @@ package mediator
 				
 				sendNotification(ApplicationConstants.COMMAND_DRAWER_CHANGED, false);
 				sendNotification(currentSelection.notificationName);
+			}
+			
+			private function onNavigationBookmarksSelectionChange(event:Event):void
+			{
+				var selectedItem:NavigationLinkVO = view.viewBookmarksNavigation["selectedItem"];
+				var currentSelection:NavigationLinkVO = selectedItem;
+				if (selectedItem.selectedChild)
+				{
+					currentSelection = selectedItem.selectedChild;
+				}	
+				
+				view.bookmarksViewSection["name"] = currentSelection.idSelectedItem;
+				var bookmarksProxy:ProxyBookmarks = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
+					bookmarksProxy.selectedGroup = currentSelection.name;
+					
+				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
+					view: view,
+					currentView: view.bookmarksView,
+					currentSelection: currentSelection.idSelectedItem,
+					drawerNavigation: view.viewBookmarksNavigation,
+					mediatorName: currentSelection.idSelectedItem
+				}, "mediator.bookmarks.MediatorBookmarks");
 			}
 			
 			private function onNavigationInstalledAppSectionChange(event:Event):void
