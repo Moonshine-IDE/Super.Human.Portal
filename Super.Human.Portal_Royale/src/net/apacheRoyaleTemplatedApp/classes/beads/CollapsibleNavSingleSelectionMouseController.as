@@ -7,6 +7,8 @@ package classes.beads
     import org.apache.royale.html.beads.IListView;
     import org.apache.royale.jewel.beads.controllers.ListSingleSelectionMouseController;
     import org.apache.royale.jewel.beads.models.IJewelSelectionModel;
+
+    import view.renderers.navigation.CollapsibleDrawerLinkItemRenderer;
                                 
 	public class CollapsibleNavSingleSelectionMouseController extends ListSingleSelectionMouseController 
 	{
@@ -35,16 +37,18 @@ package classes.beads
 			var dataGroup:IItemRendererOwnerView = view.dataGroup;
 			
 			var ir:Object = null;
+			var selectedSubMenu:Object = null;
 			
 			var n:int = dataGroup.numItemRenderers;
 			var selectedItem:Object = view.host["selectedItem"];
+
 			if (selectedItem)
 			{
 				for (var i:int = 0; i < n; i++)
 				{
 					ir = dataGroup.getItemRendererAt(i);
 	
-					var selectedSubMenu:Object = ir.getSelectedSubmenuItem();
+					selectedSubMenu = ir.getSelectedSubmenuItem();
 					if (selectedSubMenu && selectedItem != ir.data)
 					{
 						ir.unsetSelectedSubmenuItem();
@@ -55,6 +59,19 @@ package classes.beads
 						ir.open = true;	
 						ir.childNavigation.selectedItem = selectedItem.selectedChild;
 					}			
+				}
+			}
+			else
+			{
+				for (var j:int = 0; j < n; j++)
+				{
+					ir = dataGroup.getItemRendererAt(j);
+	
+					selectedSubMenu = ir.getSelectedSubmenuItem();
+					if (selectedSubMenu && selectedItem != ir.data)
+					{
+						ir.unsetSelectedSubmenuItem();
+					}		
 				}
 			}
 		}

@@ -13,6 +13,7 @@ package model.proxy.customBookmarks
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
 	import services.CustomBookmarksDelegate;
+	import model.vo.BookmarkVO;
 						
 	public class ProxyBookmarks extends Proxy implements IDisposable
 	{
@@ -42,6 +43,18 @@ package model.proxy.customBookmarks
 		public function set selectedGroup(value:String):void
 		{
 			_selectedGroup = value;
+		}
+		
+		private var _selectedBookmark:BookmarkVO;
+
+		public function get selectedBookmark():BookmarkVO
+		{
+			return _selectedBookmark;
+		}
+
+		public function set selectedBookmark(value:BookmarkVO):void
+		{
+			_selectedBookmark = value;
 		}
 		
 		override public function onRegister():void

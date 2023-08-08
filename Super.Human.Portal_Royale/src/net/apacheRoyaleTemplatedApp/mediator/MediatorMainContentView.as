@@ -5,6 +5,7 @@ package mediator
     import interfaces.IMainContentView;
 
     import mediator.applications.MediatorGenesisApps;
+    import mediator.bookmarks.MediatorEditBookmark;
 
     import model.proxy.ProxyVersion;
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
@@ -18,12 +19,14 @@ package mediator
     import model.vo.UserVO;
 
     import org.apache.royale.events.Event;
+    import org.apache.royale.events.IEventDispatcher;
     import org.apache.royale.events.MouseEvent;
     import org.apache.royale.events.ValueEvent;
     import org.apache.royale.reflection.getQualifiedClassName;
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+    import org.apache.royale.collections.ArrayList;
                                                                                 
     public class MediatorMainContentView extends Mediator implements IMediator
     {
@@ -86,6 +89,8 @@ package mediator
 					
 					interests.push(ApplicationConstants.NOTE_OPEN_VIEW_HELLO);
 					interests.push(ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS);
+					interests.push(ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK);
+					interests.push(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP);
 					
 				return interests;
 			}
@@ -131,6 +136,12 @@ package mediator
 						break;
 					case ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS:
 						initializeGenesisApplicationsList();
+						break;
+					case ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK:
+						initializeAddEditBookmark();
+						break;
+					case ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP:
+						selectBookmarkGroup(String(note.getBody()));
 						break;
 				}
 			}		
@@ -192,8 +203,6 @@ package mediator
 				}			
 				
 				view.selectedContent = MediatorNewRegistration.NAME;
-				
-				
 			}
 			
 			/*
@@ -230,23 +239,60 @@ package mediator
 			
 			private function initializeGenesisApplicationsList():void
 			{
-				//Remove mediator from second navigation
-				var selectedItem:NavigationLinkVO = view.viewInstalledAppsNavigation["selectedItem"];
-				if (selectedItem)
-				{
-					var currentSelection:NavigationLinkVO = selectedItem;
-					if (selectedItem.selectedChild)
-					{
-						currentSelection = selectedItem.selectedChild;
-					}	
-					facade.removeMediator(currentSelection.idSelectedItem);
-				}
-				
+				this.removeMediatorFromAdditionalNavigation(view.viewInstalledAppsNavigation);
+				this.removeMediatorFromAdditionalNavigation(view.viewBookmarksNavigation);
 				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
 					view: view,
 					currentView: view.viewGenesisApps,
 					currentSelection: MediatorGenesisApps.NAME
 				}, "mediator.applications.MediatorGenesisApps");
+			}
+			
+			private function initializeAddEditBookmark():void
+			{
+				this.removeMediatorFromAdditionalNavigation(view.viewBookmarksNavigation);
+				
+				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
+					view: view,
+					currentView: view.viewEditBookmark,
+					currentSelection: MediatorEditBookmark.NAME,
+					mediatorName: MediatorEditBookmark.NAME
+				}, "mediator.bookmarks.MediatorEditBookmark");
+			}
+			
+			private function selectBookmarkGroup(group:String):void
+			{
+				var bookmarkGroup:NavigationLinkVO = null;
+				var bookmarkNavGroup:ArrayList = view.viewBookmarksNavigation["dataProvider"];
+				
+				for (var i:int = 0; i < bookmarkNavGroup.length; i++)
+				{
+					bookmarkGroup = bookmarkNavGroup.getItemAt(i) as NavigationLinkVO;
+					if (bookmarkGroup.subMenu)
+					{
+						for (var j:int = 0; j < bookmarkGroup.subMenu.length; j++)
+						{
+							var subBookmarkNav:NavigationLinkVO = bookmarkGroup.subMenu.getItemAt(j) as NavigationLinkVO;
+							if (subBookmarkNav.name == subBookmarkNav.data.name)
+							{
+								bookmarkGroup.selectedChild = subBookmarkNav;
+								break;
+							}
+						}
+					}
+					else
+					{
+						bookmarkGroup = null;
+					}
+					
+					if (bookmarkGroup != null && bookmarkGroup.selectedChild != null)
+					{
+						break;
+					}
+				}
+				
+				view.viewBookmarksNavigation["selectedItem"] = bookmarkGroup;
+				onNavigationBookmarksSelectionChange(null);
 			}
 		
 	//----------------------------------
@@ -313,6 +359,8 @@ package mediator
 			
 			private function onNavigationBookmarksSelectionChange(event:Event):void
 			{
+				this.removeMediatorFromAdditionalNavigation(view.viewInstalledAppsNavigation);
+				
 				var selectedItem:NavigationLinkVO = view.viewBookmarksNavigation["selectedItem"];
 				var currentSelection:NavigationLinkVO = selectedItem;
 				if (selectedItem.selectedChild)
@@ -335,6 +383,8 @@ package mediator
 			
 			private function onNavigationInstalledAppSectionChange(event:Event):void
 			{
+				this.removeMediatorFromAdditionalNavigation(view.viewBookmarksNavigation);
+				
 				var selectedItem:NavigationLinkVO = view.viewInstalledAppsNavigation["selectedItem"];
 				var currentSelection:NavigationLinkVO = selectedItem;
 				if (selectedItem.selectedChild)
@@ -372,5 +422,26 @@ package mediator
 			{
 				sendNotification(ApplicationConstants.COMMAND_ADJUST_TAB_BAR_SIZE);	
 			}						
+
+			private function removeMediatorFromAdditionalNavigation(navigation:IEventDispatcher):void
+			{
+				//Remove mediator from second navigation
+				var selectedItem:NavigationLinkVO = navigation["selectedItem"];
+				if (selectedItem)
+				{
+					var currentSelection:NavigationLinkVO = selectedItem;
+					if (selectedItem.selectedChild)
+					{
+						currentSelection = selectedItem.selectedChild;
+					}	
+					
+					if (facade.hasMediator(currentSelection.idSelectedItem))
+					{
+						facade.removeMediator(currentSelection.idSelectedItem);
+						
+						navigation["selectedItem"] = null;
+					}
+				}
+			}
     }
 }

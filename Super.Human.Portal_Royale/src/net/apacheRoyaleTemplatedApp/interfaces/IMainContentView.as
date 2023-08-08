@@ -43,6 +43,7 @@ package interfaces
 			
 		function get bookmarksView():IBookmarksView;
 		function get bookmarksViewSection():Object;
+		function get viewEditBookmark():IEditBookmarkView;
 		
 		function set title(value:String):void;
 		

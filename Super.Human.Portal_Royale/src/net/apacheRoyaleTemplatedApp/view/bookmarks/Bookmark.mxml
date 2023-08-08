@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:applications="view.applications.*"
+		 itemsVerticalAlign="itemsCenter" gap="5" initComplete="onBookmarkInitComplete(event)"
+		 currentState="browser">
+	<j:states>
+		<js:State name="browser"/>
+		<js:State name="database"/>
+	</j:states>
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+	
+	<fx:Metadata>
+		[Event(name="editBookmark", type="view.bookmarks.event.BookmarkEvent")]
+		[Event(name="deleteBookmark", type="view.bookmarks.event.BookmarkEvent")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import model.vo.BookmarkVO;
+			import org.apache.royale.events.MouseEvent;
+			import view.bookmarks.event.BookmarkEvent;
+						
+			private var _bookmark:BookmarkVO;
+
+			[Bindable]
+			public function get bookmark():BookmarkVO
+			{
+				return _bookmark;
+			}
+
+			public function set bookmark(value:BookmarkVO):void
+			{
+				_bookmark = value;
+			}
+
+			private function onBookmarkInitComplete(event:Event):void
+			{
+				if (currentState == "browser")
+				{
+					this.browserHtmlButton.html = '<a height="100%" width="100%" href="' + bookmark.url + '" target="_blank">' + bookmark.name + '</a>';
+				}
+				else if (currentState == "database")
+				{
+					this.configurationDetails.clientOpenLink = bookmark.url ? '<a height="100%" width="100%" href="' + bookmark.url + '" target="_blank">Open in Client</a>' : null;
+					this.configurationDetails.nomadOpenLink = bookmark.nomadURL ? '<a height="100%" width="100%" href="' + bookmark.nomadURL + '" target="_blank">Open in Nomad</a>' : null;
+				}
+			}
+			
+			private function onShowHideDbConfigClick(event:MouseEvent):void
+			{
+				var iconButton:IconButton = event.currentTarget as IconButton;
+				var currentIcon:MaterialIcon = iconButton.icon as MaterialIcon;
+				var showHideConfig:Boolean = false;
+				
+				if (currentIcon.text == MaterialIconType.ARROW_DROP_DOWN)
+				{
+					currentIcon.text = MaterialIconType.ARROW_DROP_UP;
+					showHideConfig = true;
+				}
+				else
+				{
+					currentIcon.text = MaterialIconType.ARROW_DROP_DOWN;
+				}
+				
+				var configContainer:Object = iconButton.parent;
+				for (var i:int = 0; i < configContainer.numElements; i++)
+				{
+					var config:Object = configContainer.getElementAt(i);
+					if (config is ConfigurationAppDetails)
+					{
+						config.visible = showHideConfig;
+						break;
+					}
+				}
+			}
+
+			private function onEditBookmark(event:MouseEvent):void
+			{
+				this.dispatchEvent(new BookmarkEvent(BookmarkEvent.EDIT_BOOKMARK, this.bookmark));
+			}
+			
+			private function onDeleteBookmark(event:MouseEvent):void
+			{
+				this.dispatchEvent(new BookmarkEvent(BookmarkEvent.DELETE_BOOKMARK, this.bookmark));
+			}
+		]]>
+	</fx:Script>
+	<j:IconButton localId="browserHtmlButton" html="{browserHtmlButton}" className="linksGapInstallApp noLinkStyleInstallApp"
+				  emphasis="primary" height="40" includeIn="browser" />
+	<j:VGroup includeIn="database">
+		<j:IconButton html="{bookmark.name}" className="linksGapInstallApp noLinkStyleInstallApp"
+				  emphasis="primary" height="40" rightPosition="true"
+				  click="onShowHideDbConfigClick(event)">
+			<j:icon>
+				<js:MaterialIcon text="{MaterialIconType.ARROW_DROP_DOWN}"/>
+			</j:icon>
+		</j:IconButton>
+		<applications:ConfigurationAppDetails localId="configurationDetails" description="{bookmark.description}" server="{bookmark.server}"
+											 database="{bookmark.database}" viewName="{bookmark.view}"
+											 percentWidth="100" visible="false"/>
+	</j:VGroup>
+	<j:IconButton click="onEditBookmark(event)">
+		<j:icon>
+			<js:MaterialIcon text="{MaterialIconType.EDIT}"/>
+		</j:icon>
+	</j:IconButton>
+	<j:IconButton click="onDeleteBookmark(event)">
+		<j:icon>
+			<js:MaterialIcon text="{MaterialIconType.DELETE}"/>
+		</j:icon>
+	</j:IconButton>
+</j:HGroup>

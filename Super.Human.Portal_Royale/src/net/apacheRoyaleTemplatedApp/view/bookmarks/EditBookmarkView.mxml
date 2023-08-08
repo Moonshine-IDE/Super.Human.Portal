@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
+		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
+		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
+		 implements="interfaces.IEditBookmarkView" className="bodyPadding"
+		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" gap="5">
+	<fx:Script>
+		<![CDATA[
+			import model.vo.BookmarkVO;
+
+			import org.apache.royale.events.IEventDispatcher;
+			import org.apache.royale.jewel.Snackbar;
+
+			private var _bookmark:BookmarkVO;
+
+			[Bindable]
+			public function get bookmark():BookmarkVO
+			{
+				return _bookmark;
+			}
+
+			public function set bookmark(value:BookmarkVO):void
+			{
+				_bookmark = value;
+			}
+			
+			public function get saveBookmark():IEventDispatcher
+			{
+				return this.bookmarkSave;
+			}
+			
+			public function get cancelBookmark():IEventDispatcher
+			{
+				return this.bookmarkCancel;	
+			}
+			
+			private var _titleBookmark:String;
+			
+			[Bindable]
+			public function get titleBookmark():String
+			{
+				return _titleBookmark;	
+			}
+			
+			public function set titleBookmark(value:String):void
+			{
+				_titleBookmark = value;	
+			}
+			
+			public function get typeBookmark():Object
+			{
+				return this.typeDropDown;	
+			}
+			
+			public function get browserForm():Object
+			{
+				return this.formBrowserType;
+			}
+			
+			public function get databaseForm():Object
+			{
+				return this.formDatabaseType;	
+			}
+			
+			public function installationResult(message:String):void
+			{
+				Snackbar.show(message, 4000, null);
+			}
+			
+		]]>
+	</fx:Script>
+
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+
+	<j:Grid gap="false" minHeight="40">
+		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
+			<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2">
+				 <j:style>
+           			<js:SimpleCSSStyles paddingLeft="10" paddingTop="10" marginTop="0"/>
+				</j:style>
+				<j:Button localId="bookmarkSave" text="Save"/>
+				<j:Button localId="bookmarkCancel" text="Cancel"/>
+			</j:HGroup>
+		</j:GridCell>
+	</j:Grid>
+	<j:Card percentWidth="100">
+		<j:CardHeader>
+			<html:H3 localId="bookmarkTitle" text="{titleBookmark}" percentWidth="100"/>
+		</j:CardHeader>
+		<j:CardPrimaryContent>
+			<j:Form>
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemAppDetailsLabel"
+										label="Group:">							
+					<j:TextInput localId="groupTextInput" className="flexShrink"
+								 text="{bookmark.group}"/>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemAppDetailsLabel"
+										label="Name:" >							
+					<j:TextInput localId="nameTextInput" className="flexShrink"
+							     text="{bookmark.name}"/>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemAppDetailsLabel"
+										label="Type:">							
+					<j:DropDownList localId="typeDropDown" labelField="label" className="flexShrink" selectedIndex="0"/>
+				</controls:CustomFormItem>
+			</j:Form>
+			<j:Form localId="formBrowserType">
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemAppDetailsLabel"
+										label="Url:">							
+					<j:TextInput localId="urlTextInput" className="flexShrink"
+								 text="{bookmark.url}"/>
+				</controls:CustomFormItem>
+			</j:Form>
+			<j:Form localId="formDatabaseType">
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemAppDetailsLabel"
+										label="Server:">							
+					<j:TextInput localId="serverTextInput" className="flexShrink"
+								 text="{bookmark.server}"/>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemAppDetailsLabel"
+										label="Database:">							
+					<j:TextInput localId="databaseTextInput" className="flexShrink"
+								 text="{bookmark.database}"/>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemAppDetailsLabel"
+										label="View:">							
+					<j:TextInput localId="viewTextInput" className="flexShrink"
+								 text="{bookmark.view}"/>
+				</controls:CustomFormItem>
+			</j:Form>
+		</j:CardPrimaryContent>
+	</j:Card>
+</j:VGroup>

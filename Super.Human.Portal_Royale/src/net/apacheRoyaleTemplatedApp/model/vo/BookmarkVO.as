@@ -1,5 +1,6 @@
 package model.vo
 {
+	[Bindable]
 	public class BookmarkVO  
 	{
 		public var group:String;

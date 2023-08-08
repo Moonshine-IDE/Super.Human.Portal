@@ -20,6 +20,7 @@
 		<![CDATA[
 
 			import interfaces.IBookmarksView;
+			import interfaces.IEditBookmarkView;
 			import interfaces.IGenesisAppsView;
 			import interfaces.IInstalledAppView;
 			import interfaces.ILoginView;
@@ -29,10 +30,10 @@
 			import mediator.MediatorNewRegistration;
 			import mediator.MediatorPasswordReset;
 			import mediator.applications.MediatorGenesisApps;
+			import mediator.bookmarks.MediatorEditBookmark;
 
 			import model.vo.ConstantsCoreVO;
 
-			import org.apache.royale.collections.ArrayList;
 			import org.apache.royale.events.IEventDispatcher;
 			import org.apache.royale.jewel.Alert;
 
@@ -225,6 +226,11 @@
 				return this.viewBookmarksSection;	
 			}
 			
+			public function get viewEditBookmark():IEditBookmarkView
+			{
+				return this.editBookmarkView;
+			}
+			
 			public function get footer():Object
 			{
 				return this.appFooter;
@@ -404,6 +410,9 @@
 		</j:ScrollableSectionContent>
 		<j:ScrollableSectionContent localId="viewBookmarksSection">
 			<bookmarks:BookmarksView id="viewBookmarks"/>
+		</j:ScrollableSectionContent>
+		<j:ScrollableSectionContent name="{MediatorEditBookmark.NAME}">
+			<bookmarks:EditBookmarkView localId="editBookmarkView"/>
 		</j:ScrollableSectionContent>
     </j:ApplicationMainContent>
 </j:ResponsiveView>
