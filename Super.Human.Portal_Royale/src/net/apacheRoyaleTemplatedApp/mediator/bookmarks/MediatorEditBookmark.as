@@ -14,6 +14,8 @@ package mediator.bookmarks
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
     import view.bookmarks.event.BookmarkEvent;
+    import constants.PopupType;
+    import model.vo.PopupVO;
     
     public class MediatorEditBookmark extends Mediator implements IMediator
     {
@@ -71,14 +73,15 @@ package mediator.bookmarks
 				case ProxyBookmarks.NOTE_BOOKMARK_CREATE_SUCCESS:
 					this.bookmarksProxy.getCustomBookmarksList();
 					break;
-				case ProxyBookmarks.NOTE_BOOKMARK_CREATE_FAILED:
-					
-					break;
 				case ProxyBookmarks.NOTE_BOOKMARK_UPDATE_SUCCESS:
 					sendNotification(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP, this.bookmarksProxy.selectedGroup);
 					break;
 				case ProxyBookmarks.NOTE_CUSTOM_BOOKMARKS_LIST_FETCHED:
 					sendNotification(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP, this.bookmarksProxy.selectedGroup);
+					break;
+				case ProxyBookmarks.NOTE_BOOKMARK_CREATE_FAILED:
+				case ProxyBookmarks.NOTE_BOOKMARK_UPDATE_FAILED:
+					sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, this.getMediatorName(), String(note.getBody())));
 					break;
 			}
 		}		

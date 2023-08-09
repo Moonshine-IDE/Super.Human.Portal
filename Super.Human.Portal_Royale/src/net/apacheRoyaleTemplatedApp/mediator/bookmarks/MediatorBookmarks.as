@@ -79,6 +79,9 @@ package mediator.bookmarks
 					this.updateListOfBookmarks();
 					this.bookmarksProxy.selectedBookmark = null;
 					break;
+				case ProxyBookmarks.NOTE_BOOKMARK_DELETE_FAILED:
+					sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, this.getMediatorName(), String(note.getBody())));
+					break;
 			}
 		}		
 		
