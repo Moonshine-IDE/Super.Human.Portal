@@ -160,6 +160,7 @@ package mediator.bookmarks
 		private function onAddBookmarkClick(event:MouseEvent):void
 		{
 			this.bookmarksProxy.selectedBookmark = new BookmarkVO(this.bookmarksProxy.selectedGroup);
+			this.bookmarksProxy.selectedBookmark.type = ApplicationVO.LINK_BROWSER;
 			sendNotification(ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK);
 		}
     }
