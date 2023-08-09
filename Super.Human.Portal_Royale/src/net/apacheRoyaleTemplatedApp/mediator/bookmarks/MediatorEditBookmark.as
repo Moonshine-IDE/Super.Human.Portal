@@ -127,8 +127,8 @@ package mediator.bookmarks
 			this.view.titleBookmark = bookmarksProxy.selectedBookmark.dominoUniversalID ? "Edit Bookmark" : "Add Bookmark";
 			this.view.bookmark = bookmarksProxy.selectedBookmark;
 			this.view.setBookmarkTypes([
-				{label: "Browser", type: ApplicationVO.LINK_BROWSER, selected: true},
-				{label: "Database", type: ApplicationVO.LINK_DATABASE, selected: false }
+				{label: "Browser", type: ApplicationVO.LINK_BROWSER, selected: this.view.bookmark.type == ApplicationVO.LINK_BROWSER},
+				{label: "Database", type: ApplicationVO.LINK_DATABASE, selected: this.view.bookmark.type == ApplicationVO.LINK_DATABASE }
 			]);
 
 			this.typeBookmarkChangeRefresh(view.selectedBookmarkType);
