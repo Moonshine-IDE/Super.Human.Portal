@@ -10,8 +10,12 @@
 		<![CDATA[
 			import model.vo.BookmarkVO;
 
+			import org.apache.royale.events.Event;
 			import org.apache.royale.events.IEventDispatcher;
+			import org.apache.royale.jewel.RadioButton;
 			import org.apache.royale.jewel.Snackbar;
+
+			import view.bookmarks.event.BookmarkEvent;
 
 			private var _bookmark:BookmarkVO;
 
@@ -24,6 +28,11 @@
 			public function set bookmark(value:BookmarkVO):void
 			{
 				_bookmark = value;
+			}
+			
+			public function get bookmarkForm():IEventDispatcher
+			{
+				return this.formBookmark;	
 			}
 			
 			public function get saveBookmark():IEventDispatcher
@@ -49,24 +58,129 @@
 				_titleBookmark = value;	
 			}
 			
-			public function get typeBookmark():Object
+			private var _selectedBookmarkType:String;
+			public function get selectedBookmarkType():String
 			{
-				return this.typeDropDown;	
+				return _selectedBookmarkType;	
 			}
 			
-			public function get browserForm():Object
+			private var _browserFormVisible:Boolean;
+			
+			[Bindable]
+			public function get browserFormVisible():Boolean
 			{
-				return this.formBrowserType;
+				return _browserFormVisible;
 			}
 			
-			public function get databaseForm():Object
+			public function set browserFormVisible(value:Boolean):void
 			{
-				return this.formDatabaseType;	
+				_browserFormVisible = value;
+			}
+			
+			[Bindable]
+			private var _databaseFormVisible:Boolean;
+			
+			[Bindable]
+			public function get databaseFormVisible():Boolean
+			{
+				return _databaseFormVisible;
+			}
+			
+			public function set databaseFormVisible(value:Boolean):void
+			{
+				_databaseFormVisible = value;
+			}
+				
+			public function setBookmarkTypes(types:Array):void
+			{	
+				for (var i:int = 0; i < types.length; i++)
+				{
+					var type:Object = types[i];
+		
+					var bookmarkTypeRadio:RadioButton = new RadioButton();
+						bookmarkTypeRadio.text = type.label;
+						bookmarkTypeRadio.value = type.type;
+						bookmarkTypeRadio.selected = type.selected;
+						bookmarkTypeRadio.groupName = this.bookmark.group;
+						bookmarkTypeRadio.addEventListener(Event.CHANGE, onTypeChange);
+	
+					this.bookmarkTypeFormItem.addElement(bookmarkTypeRadio);	
+										
+					if (type.selected)
+					{
+						_selectedBookmarkType = type.type;
+					}
+				}	
+			}
+			
+			public function get groupText():String
+			{
+				if (!this.groupTextInput) return "";
+				
+				return this.groupTextInput.text;
+			}
+			
+			public function get nameText():String
+			{
+				if (!this.nameTextInput) return "";
+				
+				return this.nameTextInput.text;
+			}
+			
+			public function get urlText():String
+			{
+				if (!this.urlTextInput) return "";
+				
+				return this.urlTextInput.text;
+			}
+			
+			public function get serverText():String
+			{
+				if (!this.serverTextInput) return "";
+				
+				return this.serverTextInput.text;
+			}
+			
+			public function get databaseText():String
+			{
+				if (!this.databaseTextInput) return "";
+				
+				return this.databaseTextInput.text;	
+			}
+			
+			public function get viewText():String
+			{
+				if (!this.viewTextInput) return "";
+				
+				return this.viewTextInput.text;
 			}
 			
 			public function installationResult(message:String):void
 			{
 				Snackbar.show(message, 4000, null);
+			}
+
+			public function resetView():void
+			{
+				var bookmarkTypesCount:int = this.bookmarkTypeFormItem.numElements;
+				for (var i:int = bookmarkTypesCount - 1; i >= 0; i--)
+				{
+					var bookmarkTypeRadio:RadioButton = this.bookmarkTypeFormItem.getElementAt(i) as RadioButton;
+					if (bookmarkTypeRadio)
+					{
+						bookmarkTypeRadio.removeEventListener(Event.CHANGE, onTypeChange);
+						this.bookmarkTypeFormItem.removeElement(bookmarkTypeRadio);
+					}
+				}		
+			}
+			
+			private function onTypeChange(event:Event):void
+			{
+				var bookmarkTypeRadio:RadioButton = event.target as RadioButton;
+				_selectedBookmarkType = String(bookmarkTypeRadio.value)
+				this.dispatchEvent(new BookmarkEvent(BookmarkEvent.BOOKMARK_TYPE_CHANGE, this.bookmark, _selectedBookmarkType));
+				
+				this.formBookmarkValidator.removeAllErrorTips();
 			}
 			
 		]]>
@@ -92,49 +206,65 @@
 			<html:H3 localId="bookmarkTitle" text="{titleBookmark}" percentWidth="100"/>
 		</j:CardHeader>
 		<j:CardPrimaryContent>
-			<j:Form>
+			<j:Form localId="formBookmark">
+				<j:beads>
+					<j:FormValidator localId="formBookmarkValidator" trigger="{bookmarkSave}" triggerEvent="click"/>
+				</j:beads>
 				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
+										labelClass="formItemNonRequiredBookmarkLabel"
 										label="Group:">							
 					<j:TextInput localId="groupTextInput" className="flexShrink"
 								 text="{bookmark.group}"/>
 				</controls:CustomFormItem>
 				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
-										label="Name:" >							
+										labelClass="formItemRequiredBookmarkLabel"
+										label="Name:" required="true">							
 					<j:TextInput localId="nameTextInput" className="flexShrink"
-							     text="{bookmark.name}"/>
+							     text="{bookmark.name}">
+						<j:beads>
+							<j:StringValidator required="1"/>
+						</j:beads>
+					</j:TextInput>
 				</controls:CustomFormItem>
 				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
+										labelClass="formItemNonRequiredBookmarkLabel"
 										label="Type:">							
-					<j:DropDownList localId="typeDropDown" labelField="label" className="flexShrink" selectedIndex="0"/>
+					<j:HGroup localId="bookmarkTypeFormItem" gap="2">
+					</j:HGroup>
 				</controls:CustomFormItem>
-			</j:Form>
-			<j:Form localId="formBrowserType">
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
-										label="Url:">							
+				<controls:CustomFormItem localId="formBrowserType" className="horizontalContentNonExpandFormItem"
+										labelClass="formItemRequiredBookmarkLabel"
+										label="URL:" visible="{browserFormVisible}" required="{browserFormVisible}">							
 					<j:TextInput localId="urlTextInput" className="flexShrink"
-								 text="{bookmark.url}"/>
+								 text="{bookmark.url}">
+						<j:beads>
+							<j:StringValidator required="1"/>
+						</j:beads>
+					</j:TextInput>
 				</controls:CustomFormItem>
-			</j:Form>
-			<j:Form localId="formDatabaseType">
 				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
-										label="Server:">							
+										labelClass="formItemRequiredBookmarkLabel"
+										label="Server:" visible="{databaseFormVisible}" required="{databaseFormVisible}">							
 					<j:TextInput localId="serverTextInput" className="flexShrink"
-								 text="{bookmark.server}"/>
+								 text="{bookmark.server}">
+						<j:beads>
+							<j:StringValidator required="1"/>
+						</j:beads>
+					</j:TextInput>
 				</controls:CustomFormItem>
 				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
-										label="Database:">							
+										labelClass="formItemRequiredBookmarkLabel"
+										label="Database:" visible="{databaseFormVisible}" required="{databaseFormVisible}">							
 					<j:TextInput localId="databaseTextInput" className="flexShrink"
-								 text="{bookmark.database}"/>
+								 text="{bookmark.database}">
+						<j:beads>
+							<j:StringValidator required="1"/>
+						</j:beads>
+					</j:TextInput>
 				</controls:CustomFormItem>
 				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
-										label="View:">							
+										labelClass="formItemNonRequiredBookmarkLabel"
+										label="View:" visible="{databaseFormVisible}">							
 					<j:TextInput localId="viewTextInput" className="flexShrink"
 								 text="{bookmark.view}"/>
 				</controls:CustomFormItem>

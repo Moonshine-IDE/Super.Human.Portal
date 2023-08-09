@@ -79,6 +79,14 @@ package view.controls
 			super.textChangeHandler(event);			
 		}		
 		
+		override public function requiredChangeHandler(event:Event):void
+		{
+			createLabels();
+			addLabels();
+			
+			super.requiredChangeHandler(event);	
+		}
+		
 		protected function addLabels():void
         {
             if (textLabel && !textLabelCreated)

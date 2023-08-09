@@ -22,7 +22,7 @@
 			{
 				return this.listBookmarks;	
 			}
-			
+
 			[Bindable]
 			public function get groupName():String
 			{
@@ -33,7 +33,7 @@
 			{
 				_groupName = value;	
 			}
-			
+
 			public function installationResult(message:String):void
 			{
 				Snackbar.show(message, 4000, null);

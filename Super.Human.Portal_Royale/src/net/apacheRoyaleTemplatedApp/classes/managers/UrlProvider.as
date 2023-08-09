@@ -132,11 +132,25 @@ package classes.managers
 			return _genesisCatalogInstall;
 		}
 		
-		private var _customBookmarksGetAll:String = "/SuperHumanPortal.nsf/CustomBookmarkRead?OpenAgent";
+		private var _bookmarksGetAll:String = "/SuperHumanPortal.nsf/CustomBookmarkRead?OpenAgent";
 
-		public function get customBookmarksGetAll():String
+		public function get bookmarksGetAll():String
 		{
-			return _customBookmarksGetAll;
+			return _bookmarksGetAll;
+		}
+		
+		private var _bookmarksDelete:String = "/SuperHumanPortal.nsf/CustomBookmarkDelete?OpenAgent";
+
+		public function get bookmarksDelete():String
+		{
+			return _bookmarksDelete;
+		}
+		
+		private var _bookmarksCreate:String = "/SuperHumanPortal.nsf/CustomBookmarkCreate?OpenAgent";
+
+		public function get bookmarksCreate():String
+		{
+			return _bookmarksCreate;
 		}
 		
 		private var _appVersion:String;

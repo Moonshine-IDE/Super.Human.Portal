@@ -8,12 +8,12 @@ package model.proxy.customBookmarks
 
 	import model.proxy.ProxySessionCheck;
 	import model.proxy.busy.ProxyBusyManager;
+	import model.vo.BookmarkVO;
 
 	import org.apache.royale.net.events.FaultEvent;
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
-	import services.CustomBookmarksDelegate;
-	import model.vo.BookmarkVO;
+	import services.BookmarksDelegate;
 						
 	public class ProxyBookmarks extends Proxy implements IDisposable
 	{
@@ -21,8 +21,14 @@ package model.proxy.customBookmarks
 		
 		public static const NOTE_CUSTOM_BOOKMARKS_LIST_FETCHED:String = NAME + "NoteCustomBookmarksListFetched";
 		public static const NOTE_CUSTOM_BOOKMARKS_LIST_FAILED:String = NAME + "NoteCustomBookmarksListFailed";
+		
+		public static const NOTE_BOOKMARK_DELETE_SUCCESS:String = NAME + "NoteBookmarkDeleteSuccess";
+		public static const NOTE_BOOKMARK_DELETE_FAILED:String = NAME + "NoteBookmarkDeleteFailed";
 
-		private var customBookmarksDelegate:CustomBookmarksDelegate;
+		public static const NOTE_BOOKMARK_CREATE_SUCCESS:String = NAME + "NoteBookmarkCreateSuccess";
+		public static const NOTE_BOOKMARK_CREATE_FAILED:String = NAME + "NoteBookmarkCreateFailed";
+		
+		private var customBookmarksDelegate:BookmarksDelegate;
 		private var sessionCheckProxy:ProxySessionCheck;
 		private var busyManagerProxy:ProxyBusyManager;
 		
@@ -30,7 +36,7 @@ package model.proxy.customBookmarks
 		{
 			super(NAME);
 			
-			customBookmarksDelegate = new CustomBookmarksDelegate();
+			customBookmarksDelegate = new BookmarksDelegate();
 		}
 		
 		private var _selectedGroup:String;
@@ -78,6 +84,22 @@ package model.proxy.customBookmarks
 			customBookmarksDelegate.getCustomBookmarksList(successCallback, failureCallback);
 		}
 
+		public function deleteBookmark():void
+		{
+			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onBookmarkDeleteSuccess);
+			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onBookmarkDeleteFailed);
+			
+			customBookmarksDelegate.deleteBookmark(this.selectedBookmark.dominoUniversalID, successCallback, failureCallback);
+		}
+		
+		public function createBookmark():void
+		{
+			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onCreateBookmarkSuccess);
+			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onCreateBookmarkFailed);
+			
+			customBookmarksDelegate.createBookmark(this.selectedBookmark.toRequestObject(), successCallback, failureCallback);	
+		}
+		
 		private function onCustomBookmarksListFetched(event:Event):void
 		{
 			var fetchedData:String = event.target["data"];
@@ -99,8 +121,8 @@ package model.proxy.customBookmarks
 				{
 					var bookmarks:Array = ParseCentral.parseCustomBookmarksList(jsonData.documents);
 					setData(bookmarks);
-					sendNotification(NOTE_CUSTOM_BOOKMARKS_LIST_FETCHED);
 					sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_BOOKMARKS, bookmarks);
+					sendNotification(NOTE_CUSTOM_BOOKMARKS_LIST_FETCHED);
 				}
 			}
 			else
@@ -112,6 +134,76 @@ package model.proxy.customBookmarks
 		private function onCustomBookmarksListFailed(event:FaultEvent):void
 		{
 			sendNotification(NOTE_CUSTOM_BOOKMARKS_LIST_FAILED, "Getting custom bookmarks list failed: " + event.message.toLocaleString());
+		}
+		
+		private function onBookmarkDeleteSuccess(event:Event):void
+		{
+			var fetchedData:String = event.target["data"];
+			if (fetchedData)
+			{
+				var jsonData:Object = JSON.parse(fetchedData);
+				if (!sessionCheckProxy.checkUserSession(jsonData))
+				{
+					return;
+				}
+				
+				var errorMessage:String = jsonData["errorMessage"];
+				
+				if (errorMessage)
+				{
+					sendNotification(NOTE_BOOKMARK_DELETE_FAILED, "Deleting Bookmark failed: " + errorMessage);
+				}
+				else
+				{
+					var bookmarks:Array = getData() as Array;
+					var deleteBookmarkIndex:int = bookmarks.indexOf(this.selectedBookmark);
+						bookmarks.splice(deleteBookmarkIndex, 1);
+						
+					sendNotification(NOTE_BOOKMARK_DELETE_SUCCESS);
+				}
+			}
+			else
+			{
+				sendNotification(NOTE_BOOKMARK_DELETE_FAILED, "Deleting Bookmark failed");
+			}
+		}
+		
+		private function onBookmarkDeleteFailed(event:FaultEvent):void
+		{
+			sendNotification(NOTE_BOOKMARK_DELETE_FAILED, "Deleting Bookmark failed: " + event.message.toLocaleString());
+		}
+		
+		private function onCreateBookmarkSuccess(event:Event):void
+		{
+			var fetchedData:String = event.target["data"];
+			if (fetchedData)
+			{
+				var jsonData:Object = JSON.parse(fetchedData);
+				if (!sessionCheckProxy.checkUserSession(jsonData))
+				{
+					return;
+				}
+				
+				var errorMessage:String = jsonData["errorMessage"];
+				
+				if (errorMessage)
+				{
+					sendNotification(NOTE_BOOKMARK_CREATE_FAILED, "Creating Bookmark failed: " + errorMessage);
+				}
+				else
+				{
+					sendNotification(NOTE_BOOKMARK_CREATE_SUCCESS);
+				}
+			}
+			else
+			{
+				sendNotification(NOTE_BOOKMARK_CREATE_FAILED, "Creating Bookmark failed");
+			}
+		}
+		
+		private function onCreateBookmarkFailed(event:FaultEvent):void
+		{
+			sendNotification(NOTE_BOOKMARK_CREATE_FAILED, "Creating Bookmark failed: " + event.message.toLocaleString());
 		}
 	}
 }

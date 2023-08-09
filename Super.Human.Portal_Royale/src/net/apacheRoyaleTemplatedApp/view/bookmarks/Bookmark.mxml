@@ -89,7 +89,7 @@
 	</fx:Script>
 	<j:IconButton localId="browserHtmlButton" html="{browserHtmlButton}" className="linksGapInstallApp noLinkStyleInstallApp"
 				  emphasis="primary" height="40" includeIn="browser" />
-	<j:VGroup includeIn="database">
+	<j:VGroup includeIn="database" itemsVerticalAlign="itemsCenter">
 		<j:IconButton html="{bookmark.name}" className="linksGapInstallApp noLinkStyleInstallApp"
 				  emphasis="primary" height="40" rightPosition="true"
 				  click="onShowHideDbConfigClick(event)">

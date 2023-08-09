@@ -29,5 +29,21 @@ package model.vo
 			this.nomadURL = nomadURL;
 			this.description = description;
 		}
+		
+		public function toRequestObject():Object
+		{
+			return {
+				group: this.group,
+				DominoUniversalID: this.dominoUniversalID,
+				name: this.name,
+				server: this.server,
+				database: this.database,
+				view: this.view,
+				type: this.type,
+				url: this.url,
+				nomadlUrl: this.nomadURL,
+				description: this.description
+			}
+		}
 	}
 }

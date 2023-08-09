@@ -1,18 +1,19 @@
 package mediator.bookmarks
 {
+    import constants.ApplicationConstants;
+
     import interfaces.IEditBookmarkView;
 
     import model.proxy.customBookmarks.ProxyBookmarks;
     import model.proxy.urlParams.ProxyUrlParameters;
     import model.vo.ApplicationVO;
 
-    import org.apache.royale.collections.ArrayList;
-    import org.apache.royale.events.Event;
+    import org.apache.royale.events.MouseEvent;
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-    import org.apache.royale.events.MouseEvent;
-    import constants.ApplicationConstants;
+
+    import view.bookmarks.event.BookmarkEvent;
     
     public class MediatorEditBookmark extends Mediator implements IMediator
     {
@@ -32,8 +33,9 @@ package mediator.bookmarks
 			
 			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
 			
+			this.view.bookmarkForm.addEventListener("valid", onBookmarkFormValid);
 			this.view.cancelBookmark.addEventListener(MouseEvent.CLICK, onCancelEditBookmark);
-			this.view.typeBookmark.addEventListener(Event.CHANGE, onTypeBookmarkChange);
+			this.view.addEventListener(BookmarkEvent.BOOKMARK_TYPE_CHANGE, onTypeBookmarkChange);
 			
 			updateView();
 		}
@@ -42,8 +44,9 @@ package mediator.bookmarks
 		{			
 			super.onRemove();
 
+			this.view.resetView();
+			this.view.bookmarkForm.removeEventListener("valid", onBookmarkFormValid);
 			this.view.cancelBookmark.removeEventListener(MouseEvent.CLICK, onCancelEditBookmark);
-			this.view.typeBookmark.removeEventListener(Event.CHANGE, onTypeBookmarkChange);
 			this.bookmarksProxy.selectedBookmark = null;
 			this.bookmarksProxy = null;
 		}
@@ -52,7 +55,10 @@ package mediator.bookmarks
 		override public function listNotificationInterests():Array 
 		{
 			var interests:Array = super.listNotificationInterests();
-	
+				interests.push(ProxyBookmarks.NOTE_BOOKMARK_CREATE_SUCCESS);
+				interests.push(ProxyBookmarks.NOTE_BOOKMARK_CREATE_FAILED);
+				interests.push(ProxyBookmarks.NOTE_CUSTOM_BOOKMARKS_LIST_FETCHED);
+				
 			return interests;
 		}
 		
@@ -60,7 +66,15 @@ package mediator.bookmarks
 		{
 			switch (note.getName()) 
 			{
-				
+				case ProxyBookmarks.NOTE_BOOKMARK_CREATE_SUCCESS:
+					this.bookmarksProxy.getCustomBookmarksList();
+					break;
+				case ProxyBookmarks.NOTE_BOOKMARK_CREATE_FAILED:
+					
+					break;
+				case ProxyBookmarks.NOTE_CUSTOM_BOOKMARKS_LIST_FETCHED:
+					sendNotification(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP, this.bookmarksProxy.selectedGroup);
+					break;
 			}
 		}		
 		
@@ -69,52 +83,45 @@ package mediator.bookmarks
 			return viewComponent as IEditBookmarkView;
 		}
 
+		private function onBookmarkFormValid(event:Event):void
+		{
+			bookmarksProxy.selectedBookmark.group = view.groupText;
+			bookmarksProxy.selectedBookmark.name = view.nameText;
+			bookmarksProxy.selectedBookmark.type = view.selectedBookmarkType;
+			bookmarksProxy.selectedBookmark.url = view.urlText;
+			bookmarksProxy.selectedBookmark.server = view.serverText;
+			bookmarksProxy.selectedBookmark.database = view.databaseText;
+			bookmarksProxy.selectedBookmark.view = view.viewText;
+			
+			bookmarksProxy.createBookmark();
+		}
+		
 		private function onCancelEditBookmark(event:MouseEvent):void
 		{
 			sendNotification(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP, this.bookmarksProxy.selectedGroup);
 		}
 		
-		private function onTypeBookmarkChange(event:Event):void
+		private function onTypeBookmarkChange(event:BookmarkEvent):void
 		{
-			this.typeBookmarkChangeRefresh();	
+			this.typeBookmarkChangeRefresh(event.bookmarkType);	
 		}
 		
 		private function updateView():void
 		{
 			this.view.titleBookmark = bookmarksProxy.selectedBookmark.dominoUniversalID ? "Edit Bookmark" : "Add Bookmark";
 			this.view.bookmark = bookmarksProxy.selectedBookmark;
-			this.view.typeBookmark.dataProvider = new ArrayList([
-				{label: "URL", type: ApplicationVO.LINK_BROWSER},
-				{label: "Database", type: ApplicationVO.LINK_DATABASE }
+			this.view.setBookmarkTypes([
+				{label: "Browser", type: ApplicationVO.LINK_BROWSER, selected: true},
+				{label: "Database", type: ApplicationVO.LINK_DATABASE, selected: false }
 			]);
-			
-			this.selectTypeBookmark(bookmarksProxy.selectedBookmark.type);
-			this.typeBookmarkChangeRefresh();
+
+			this.typeBookmarkChangeRefresh(view.selectedBookmarkType);
 		}
 
-		private function typeBookmarkChangeRefresh():void
+		private function typeBookmarkChangeRefresh(bookmarkType:String):void
 		{
-			var selectedType:Object = this.view.typeBookmark.selectedItem;
-			if (!selectedType) return;
-			
-			view.browserForm.visible = selectedType.type == ApplicationVO.LINK_BROWSER;
-			view.databaseForm.visible = selectedType.type == ApplicationVO.LINK_DATABASE;
-		}
-		
-		private function selectTypeBookmark(type:String):void
-		{
-			var selectBookmarkType:Object = null;
-			for (var i:int = 0; i < this.view.typeBookmark.dataProvider.length; i++)
-			{
-				var bookmarkType:Object = this.view.typeBookmark.dataProvider.getItemAt(i);
-				if (bookmarkType.type == type)
-				{
-					selectBookmarkType = bookmarkType;
-					break;
-				}
-			}
-			
-			view.typeBookmark.selectedItem = selectBookmarkType;
+			view.browserFormVisible = bookmarkType == ApplicationVO.LINK_BROWSER;
+			view.databaseFormVisible = bookmarkType == ApplicationVO.LINK_DATABASE;
 		}
     }
 }
