@@ -58,6 +58,8 @@ package mediator.bookmarks
 				interests.push(ProxyBookmarks.NOTE_BOOKMARK_CREATE_SUCCESS);
 				interests.push(ProxyBookmarks.NOTE_BOOKMARK_CREATE_FAILED);
 				interests.push(ProxyBookmarks.NOTE_CUSTOM_BOOKMARKS_LIST_FETCHED);
+				interests.push(ProxyBookmarks.NOTE_BOOKMARK_UPDATE_SUCCESS);
+				interests.push(ProxyBookmarks.NOTE_BOOKMARK_UPDATE_FAILED);
 				
 			return interests;
 		}
@@ -72,6 +74,9 @@ package mediator.bookmarks
 				case ProxyBookmarks.NOTE_BOOKMARK_CREATE_FAILED:
 					
 					break;
+				case ProxyBookmarks.NOTE_BOOKMARK_UPDATE_SUCCESS:
+					sendNotification(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP, this.bookmarksProxy.selectedGroup);
+					break;
 				case ProxyBookmarks.NOTE_CUSTOM_BOOKMARKS_LIST_FETCHED:
 					sendNotification(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP, this.bookmarksProxy.selectedGroup);
 					break;
@@ -85,6 +90,7 @@ package mediator.bookmarks
 
 		private function onBookmarkFormValid(event:Event):void
 		{
+			this.bookmarksProxy.selectedGroup = view.groupText;
 			bookmarksProxy.selectedBookmark.group = view.groupText;
 			bookmarksProxy.selectedBookmark.name = view.nameText;
 			bookmarksProxy.selectedBookmark.type = view.selectedBookmarkType;
@@ -93,7 +99,14 @@ package mediator.bookmarks
 			bookmarksProxy.selectedBookmark.database = view.databaseText;
 			bookmarksProxy.selectedBookmark.view = view.viewText;
 			
-			bookmarksProxy.createBookmark();
+			if (bookmarksProxy.selectedBookmark.dominoUniversalID)
+			{
+				bookmarksProxy.updateBookmark();
+			}
+			else
+			{
+				bookmarksProxy.createBookmark();
+			}
 		}
 		
 		private function onCancelEditBookmark(event:MouseEvent):void

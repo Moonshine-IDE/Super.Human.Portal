@@ -45,7 +45,6 @@ package services
 			service.send();
 		}
 		
-		//&name=NamesDatabase&group=group1&type=database&server=&database=names.nsf
 		public function createBookmark(bookmark:Object, resultCallback:Function, faultCallback:Function=null):void 
 		{
 			if (faultCallback == null)
@@ -62,6 +61,29 @@ package services
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
 			service.url = UrlProvider.getInstance().bookmarksCreate;
+			service.method = "POST";
+			service.contentData = urlParams;
+			service.addEventListener("complete", resultCallback);
+			service.addEventListener("ioError", faultCallback);
+			service.send();
+		}
+		
+		public function updateBookmark(dominoUniversalID:String, bookmark:Object, resultCallback:Function, faultCallback:Function=null):void 
+		{
+			if (faultCallback == null)
+			{
+				faultCallback = onFault;
+			}
+			
+			var urlParams:URLSearchParams = new URLSearchParams();
+			for (var property:String in bookmark) 
+			{
+				urlParams.set(property, bookmark[property]);
+			}
+			
+			var service:HTTPService = new HTTPService();
+			service.addBead(new CORSCredentialsBead(true));
+			service.url = UrlProvider.getInstance().bookmarksUpdate + "&DominoUniversalID=" + dominoUniversalID;
 			service.method = "POST";
 			service.contentData = urlParams;
 			service.addEventListener("complete", resultCallback);

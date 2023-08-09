@@ -28,6 +28,9 @@ package model.proxy.customBookmarks
 		public static const NOTE_BOOKMARK_CREATE_SUCCESS:String = NAME + "NoteBookmarkCreateSuccess";
 		public static const NOTE_BOOKMARK_CREATE_FAILED:String = NAME + "NoteBookmarkCreateFailed";
 		
+		public static const NOTE_BOOKMARK_UPDATE_SUCCESS:String = NAME + "NoteBookmarkUpdateSuccess";
+		public static const NOTE_BOOKMARK_UPDATE_FAILED:String = NAME + "NoteBookmarkUpdateFailed";
+		
 		private var customBookmarksDelegate:BookmarksDelegate;
 		private var sessionCheckProxy:ProxySessionCheck;
 		private var busyManagerProxy:ProxyBusyManager;
@@ -98,6 +101,14 @@ package model.proxy.customBookmarks
 			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onCreateBookmarkFailed);
 			
 			customBookmarksDelegate.createBookmark(this.selectedBookmark.toRequestObject(), successCallback, failureCallback);	
+		}
+		
+		public function updateBookmark():void
+		{
+			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onUpdateBookmarkSuccess);
+			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onUpdateBookmarkFailed);
+			
+			customBookmarksDelegate.updateBookmark(this.selectedBookmark.dominoUniversalID, this.selectedBookmark.toRequestObject(), successCallback, failureCallback);	
 		}
 		
 		private function onCustomBookmarksListFetched(event:Event):void
@@ -204,6 +215,39 @@ package model.proxy.customBookmarks
 		private function onCreateBookmarkFailed(event:FaultEvent):void
 		{
 			sendNotification(NOTE_BOOKMARK_CREATE_FAILED, "Creating Bookmark failed: " + event.message.toLocaleString());
+		}
+		
+		private function onUpdateBookmarkSuccess(event:Event):void
+		{
+			var fetchedData:String = event.target["data"];
+			if (fetchedData)
+			{
+				var jsonData:Object = JSON.parse(fetchedData);
+				if (!sessionCheckProxy.checkUserSession(jsonData))
+				{
+					return;
+				}
+				
+				var errorMessage:String = jsonData["errorMessage"];
+				
+				if (errorMessage)
+				{
+					sendNotification(NOTE_BOOKMARK_UPDATE_FAILED, "Updating Bookmark failed: " + errorMessage);
+				}
+				else
+				{
+					sendNotification(NOTE_BOOKMARK_UPDATE_SUCCESS);
+				}
+			}
+			else
+			{
+				sendNotification(NOTE_BOOKMARK_UPDATE_FAILED, "Updating Bookmark failed");
+			}
+		}
+		
+		private function onUpdateBookmarkFailed(event:FaultEvent):void
+		{
+			sendNotification(NOTE_BOOKMARK_UPDATE_FAILED, "Updating Bookmark failed: " + event.message.toLocaleString());
 		}
 	}
 }

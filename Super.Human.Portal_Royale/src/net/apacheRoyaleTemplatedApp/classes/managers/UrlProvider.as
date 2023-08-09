@@ -153,6 +153,13 @@ package classes.managers
 			return _bookmarksCreate;
 		}
 		
+		private var _bookmarksUpdate:String = "/SuperHumanPortal.nsf/CustomBookmarkUpdate?OpenAgent";
+
+		public function get bookmarksUpdate():String
+		{
+			return _bookmarksUpdate;
+		}
+		
 		private var _appVersion:String;
 		
 		public function setAppVersion(value:String):void
