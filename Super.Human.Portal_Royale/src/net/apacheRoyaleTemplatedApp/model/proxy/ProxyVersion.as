@@ -83,6 +83,8 @@ package model.proxy
 				_currentMinor = parseInt(tmpArr[1]);
 				_currentRevision = parseInt(tmpArr[2]);
 			}
+			
+			sendNotification(NOTE_VERSION_INFORMATION_LOADED);
 		}
 		
 		private function validateVersion(value:String):void
