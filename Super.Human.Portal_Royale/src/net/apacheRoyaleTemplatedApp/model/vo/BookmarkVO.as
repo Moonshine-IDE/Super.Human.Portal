@@ -3,7 +3,7 @@ package model.vo
 	[Bindable]
 	public class BookmarkVO  
 	{
-		public var group:String;
+		public var group:String = "Default";
 		public var dominoUniversalID:String;
 		public var name:String;
 		public var server:String;
@@ -14,7 +14,7 @@ package model.vo
 		public var nomadURL:String
 		public var description:String;
       
-		public function BookmarkVO(group:String = "", dominoUniversalID:String = "", name:String = "", 
+		public function BookmarkVO(group:String = "Default", dominoUniversalID:String = "", name:String = "", 
 										server:String = "", database:String = "", view:String = "",
 										type:String = "", url:String = "", nomadUrl:String = "", description:String = "")
 		{

@@ -93,8 +93,14 @@ package mediator.bookmarks
 
 		private function onBookmarkFormValid(event:Event):void
 		{
-			this.bookmarksProxy.selectedGroup = view.groupText;
-			bookmarksProxy.selectedBookmark.group = view.groupText;
+			var groupName:String = "Default";
+			if (view.groupText)
+			{
+				groupName = view.groupText;	
+			}
+			
+			this.bookmarksProxy.selectedGroup = groupName;
+			bookmarksProxy.selectedBookmark.group = groupName;
 			bookmarksProxy.selectedBookmark.name = view.nameText;
 			bookmarksProxy.selectedBookmark.type = view.selectedBookmarkType;
 			bookmarksProxy.selectedBookmark.url = view.urlText;
