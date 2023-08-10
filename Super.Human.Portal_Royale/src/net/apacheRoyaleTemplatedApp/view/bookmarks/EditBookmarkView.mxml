@@ -171,7 +171,9 @@
 						bookmarkTypeRadio.removeEventListener(Event.CHANGE, onTypeChange);
 						this.bookmarkTypeFormItem.removeElement(bookmarkTypeRadio);
 					}
-				}		
+				}
+				
+				this.formBookmarkValidator.removeAllErrorTips();		
 			}
 			
 			private function onTypeChange(event:Event):void
@@ -205,8 +207,8 @@
 		<j:CardHeader>
 			<html:H3 localId="bookmarkTitle" text="{titleBookmark}" percentWidth="100"/>
 		</j:CardHeader>
-		<j:CardPrimaryContent>
-			<j:Form localId="formBookmark">
+		<j:CardPrimaryContent itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsCenter">
+			<j:Form localId="formBookmark" percentWidth="80">
 				<j:beads>
 					<j:FormValidator localId="formBookmarkValidator" trigger="{bookmarkSave}" triggerEvent="click"/>
 				</j:beads>

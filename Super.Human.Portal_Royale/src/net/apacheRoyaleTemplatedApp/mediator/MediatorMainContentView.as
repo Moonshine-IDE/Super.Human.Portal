@@ -18,6 +18,7 @@ package mediator
     import model.vo.NavigationLinkVO;
     import model.vo.UserVO;
 
+    import org.apache.royale.collections.ArrayList;
     import org.apache.royale.events.Event;
     import org.apache.royale.events.IEventDispatcher;
     import org.apache.royale.events.MouseEvent;
@@ -26,7 +27,6 @@ package mediator
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-    import org.apache.royale.collections.ArrayList;
                                                                                 
     public class MediatorMainContentView extends Mediator implements IMediator
     {
@@ -353,6 +353,11 @@ package mediator
 					currentSelection = selectedItem.selectedChild;
 				}				
 				
+				if (facade.hasMediator(MediatorEditBookmark.NAME))
+				{
+					facade.removeMediator(MediatorEditBookmark.NAME);	
+				}
+				
 				sendNotification(ApplicationConstants.COMMAND_DRAWER_CHANGED, false);
 				sendNotification(currentSelection.notificationName);
 			}
@@ -391,6 +396,11 @@ package mediator
 				{
 					currentSelection = selectedItem.selectedChild;
 				}	
+				
+				if (facade.hasMediator(MediatorEditBookmark.NAME))
+				{
+					facade.removeMediator(MediatorEditBookmark.NAME);	
+				}
 				
 				view.installedAppsSection["name"] = currentSelection.idSelectedItem;
 				var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
