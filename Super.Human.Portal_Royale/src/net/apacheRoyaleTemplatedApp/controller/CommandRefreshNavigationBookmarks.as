@@ -23,13 +23,6 @@ package controller
 			
 			var leftMenuNavModel:LeftMenuNavigationModel = mainMediator.view["model"] as LeftMenuNavigationModel;
 			var bookmarksNav:Object = mainMediator.view.viewBookmarksNavigation;
-			if (!bookmarks || bookmarks.length == 0) 
-			{
-				bookmarksNav.visible = false;
-				return;
-			}
-			
-			bookmarksNav.visible = true;
 			var bookmarksList:ArrayList = new ArrayList();
 			var appWhiteSpaceRegExp:RegExp = new RegExp(/\s+/gi);
 
@@ -43,6 +36,11 @@ package controller
 				{
 					groups.push({name: bookmark.group});	
 				}
+			}
+			
+			if (groups.length == 0)
+			{
+				groups.push({name: "Default"});	
 			}
 			
 			groups.forEach(function(group:Object, index:int, arr:Array):void{
