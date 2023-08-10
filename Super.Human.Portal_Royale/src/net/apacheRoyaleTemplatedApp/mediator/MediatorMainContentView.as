@@ -273,7 +273,7 @@ package mediator
 						for (var j:int = 0; j < bookmarkGroup.subMenu.length; j++)
 						{
 							var subBookmarkNav:NavigationLinkVO = bookmarkGroup.subMenu.getItemAt(j) as NavigationLinkVO;
-							if (subBookmarkNav.name == subBookmarkNav.data.name)
+							if (group == subBookmarkNav.data.name)
 							{
 								bookmarkGroup.selectedChild = subBookmarkNav;
 								break;
