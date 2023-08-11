@@ -251,7 +251,7 @@ class LinkProcessorSpec extends Specification {
 		JSONUtils.getStringSafe(testLink, 'name') == "Test Insertion:  'test/TEST', 'test'"
 		JSONUtils.getStringSafe(testLink, 'type') == 'database'
 		JSONUtils.getStringSafe(testLink, 'url') == "notes://test/dombackup.nsf/TestView?OpenView"
-		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.test/nomad/#/notes://test/dombackup.nsf/TestView?OpenView"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://test/dombackup.nsf/TestView?OpenView"
 		JSONUtils.getStringSafe(testLink, 'database') == 'dombackup.nsf'
 		JSONUtils.getStringSafe(testLink, 'server') == 'test/TEST'
 		JSONUtils.getStringSafe(testLink, 'view') == "TestView"

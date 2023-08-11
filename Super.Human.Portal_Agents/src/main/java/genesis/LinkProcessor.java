@@ -143,7 +143,10 @@ public class LinkProcessor
 					// https://nomadweb.%SERVER_COMMON%/nomad/#/%NOTES_URL%
 					String url = JSONUtils.getStringSafe(link, "url");
 					if (!DominoUtils.isValueEmpty(url)) {
-						nomadURL = "https://nomadweb." + serverCommon + "/nomad/#/" + url;
+						// NOTE:  I am intentionally using the member instead of the local serverCommon variable.
+						// This determines the Nomad server, rather than the server for the link.
+						// Maybe this should be a separate configured (or user-specific) value instead, but that can be a future update.
+						nomadURL = "https://nomadweb." + this.serverCommon + "/nomad/#/" + url;
 						link.put("nomadURL", nomadURL);
 					}
 					// else:  if we could not generate a Notes URL, we can't generate a Nomad URL.
