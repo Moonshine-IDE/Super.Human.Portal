@@ -98,7 +98,7 @@
 			</j:icon>
 		</j:IconButton>
 		<applications:ConfigurationAppDetails localId="configurationDetails" description="{bookmark.description}" server="{bookmark.server}"
-											 database="{bookmark.database}" viewName="{bookmark.view}"
+											 database="{bookmark.database}" viewName="{bookmark.view}" nomadOpenLink="{bookmark.nomadURL}"
 											 percentWidth="100" visible="false"/>
 	</j:VGroup>
 	<j:IconButton click="onEditBookmark(event)">
