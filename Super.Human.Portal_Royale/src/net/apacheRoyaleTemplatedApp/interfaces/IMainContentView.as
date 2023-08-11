@@ -27,6 +27,7 @@ package interfaces
 		function get viewDrawerContentNavigation():IEventDispatcher;
 		function get viewButtonDrawer():IEventDispatcher;
 		function get viewDrawer():Object;
+		function get viewBookmarksNavigation():IEventDispatcher;
 		function get viewInstalledAppsNavigation():IEventDispatcher;
 		function get footer():Object;
 		function set autoSizeDrawer(value:Boolean):void;
@@ -40,6 +41,10 @@ package interfaces
 		function get installedAppsView():IInstalledAppView;
 		function get installedAppsSection():Object;
 			
+		function get bookmarksView():IBookmarksView;
+		function get bookmarksViewSection():Object;
+		function get viewEditBookmark():IEditBookmarkView;
+		
 		function set title(value:String):void;
 		
 		/*

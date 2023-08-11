@@ -11,8 +11,8 @@ package controller
 	{
 		override public function execute(note: INotification):void	
 		{
-			var viewClass:Class = getDefinitionByName(note.getType()) as Class;
-			if (!facade.hasMediator(viewClass["NAME"]))
+			var mediatorClass:Class = getDefinitionByName(note.getType()) as Class;
+			if (!facade.hasMediator(mediatorClass["NAME"]))
 			{
 				var mainView:IMainContentView = note.getBody().view as IMainContentView;
 				var drawerNavigation:Object = note.getBody().drawerNavigation ? note.getBody().drawerNavigation : mainView["viewDrawerNavigation"];
@@ -26,11 +26,11 @@ package controller
 					var view:Object = null;
 					if(note.getBody().mediatorName)
 					{
-						view = new viewClass(note.getBody().mediatorName, note.getBody().currentView);
+						view = new mediatorClass(note.getBody().mediatorName, note.getBody().currentView);
 					}
 					else
 					{
-						view = new viewClass(note.getBody().currentView);
+						view = new mediatorClass(note.getBody().currentView);
 					}
 					facade.registerMediator(view as IMediator);
 				}

@@ -9,7 +9,9 @@ package controller.startup.pepareController
 	import controller.CommandGetLTPAToken;
 	import controller.CommandLogoutCleanUp;
 	import controller.CommandNavigationItemsEnabled;
+	import controller.CommandNavigationRefreshInstalledApps;
 	import controller.CommandProxyManager;
+	import controller.CommandRefreshNavigationBookmarks;
 	import controller.CommandRemoveRegisterMainContentView;
 	import controller.CommandShowPopup;
 	import controller.startup.start.CommandPostLogin;
@@ -18,7 +20,6 @@ package controller.startup.pepareController
 
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
-	import controller.CommandNavigationRefreshInstalledApps;
 									
 	public class CommandPrepareController extends SimpleCommand
 	{
@@ -31,7 +32,8 @@ package controller.startup.pepareController
 			facade.registerCommand(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, CommandRemoveRegisterMainContentView);
 			facade.registerCommand(ApplicationConstants.COMMAND_LOGOUT_CLEANUP, CommandLogoutCleanUp);
 			facade.registerCommand(ApplicationConstants.COMMAND_REFRESH_NAV_ITEMS_ENABLED, CommandNavigationItemsEnabled);
-			facade.registerCommand(ApplicationConstants.COMMAND_REFRESH_NAV_INSTALLED_APPS, CommandNavigationRefreshInstalledApps)
+			facade.registerCommand(ApplicationConstants.COMMAND_REFRESH_NAV_INSTALLED_APPS, CommandNavigationRefreshInstalledApps);
+			facade.registerCommand(ApplicationConstants.COMMAND_REFRESH_NAV_BOOKMARKS, CommandRefreshNavigationBookmarks);
 			facade.registerCommand(ApplicationConstants.COMMAND_SHOW_POPUP, CommandShowPopup);
 			facade.registerCommand(ApplicationConstants.COMMAND_APPLY_APP_TITLE, CommandAppTitle);
 			

@@ -190,6 +190,11 @@ a:hover {
     color: #FFFFFF !important;
 }
 
+.jewel.alert .jewel.titlebar.titleTextColor {
+  color: #FFFFFF;
+  padding: 10px;
+}
+
 .layout.horizontal.drawerItem {
 	color: unset;
 }
@@ -419,6 +424,16 @@ a:hover {
 
 .jewel.label.formItemAppDetailsLabel {
     width: 5em;
+    fontWeight: bold;
+}
+
+.jewel.label.formItemNonRequiredBookmarkLabel {
+    width: 7em;
+    fontWeight: bold;
+}
+
+.jewel.label.formItemRequiredBookmarkLabel {
+    width: 6em;
     fontWeight: bold;
 }
 

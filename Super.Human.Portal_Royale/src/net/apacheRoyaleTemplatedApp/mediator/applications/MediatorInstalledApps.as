@@ -4,16 +4,17 @@ package mediator.applications
 
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
     import model.proxy.urlParams.ProxyUrlParameters;
+    import model.vo.ApplicationVO;
 
+    import org.apache.royale.events.MouseEvent;
+    import org.apache.royale.icons.MaterialIcon;
+    import org.apache.royale.jewel.IconButton;
+    import org.apache.royale.jewel.VGroup;
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-    import model.vo.ApplicationVO;
-    import org.apache.royale.jewel.IconButton;
+
     import view.applications.ConfigurationAppDetails;
-    import org.apache.royale.icons.MaterialIcon;
-    import org.apache.royale.events.MouseEvent;
-    import org.apache.royale.jewel.VGroup;
     
     public class MediatorInstalledApps extends Mediator implements IMediator
     {
@@ -113,7 +114,7 @@ package mediator.applications
 				{
 					var link:Object = links[i];
 					var iconButton:IconButton = null;
-					
+						
 					if (link.type == ApplicationVO.LINK_BROWSER)
 					{
 						iconButton = new IconButton();

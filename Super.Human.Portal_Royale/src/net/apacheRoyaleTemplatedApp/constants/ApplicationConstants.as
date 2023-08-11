@@ -69,6 +69,10 @@ package constants
 		
 		public static const NOTE_OPEN_VIEW_HELLO:String = NAME + SEPARATOR + "NoteOpenViewHello";
 		public static const NOTE_OPEN_GENESIS_APPLICATIONS:String = NAME + SEPARATOR + "NoteOpenGenesisApplications";
+		
+		public static const NOTE_OPEN_ADD_EDIT_BOOKMARK:String = NAME + SEPARATOR + "NoteOpenAddEditBookmark";
+		public static const NOTE_OPEN_SELECTED_BOOKMARK_GROUP:String = NAME + SEPARATOR + "NoteOpenSelectedBookmarkGroup";
+		
 		//----------------------------------
 		// Commands
 		//----------------------------------
@@ -78,6 +82,7 @@ package constants
 		public static const COMMAND_LOGOUT_CLEANUP:String = NAME + SEPARATOR + "CommandLogoutCleanup";
 		public static const COMMAND_REFRESH_NAV_ITEMS_ENABLED:String = NAME + SEPARATOR + "CommandRefreshNavItemsEnabled";
 		public static const COMMAND_REFRESH_NAV_INSTALLED_APPS:String = NAME + SEPARATOR + "CommandRefreshNavInstalledApps";
+		public static const COMMAND_REFRESH_NAV_BOOKMARKS:String = NAME + SEPARATOR + "CommandRefreshNavBookmarks";
 
 		public static const COMMAND_REMOVE_REGISTER_MAIN_VIEW:String = NAME + SEPARATOR + "CommandRemoveRegisterMainView";
 

@@ -5,10 +5,12 @@ package mediator
     import interfaces.IMainContentView;
 
     import mediator.applications.MediatorGenesisApps;
+    import mediator.bookmarks.MediatorEditBookmark;
 
     import model.proxy.ProxyVersion;
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
     import model.proxy.busy.ProxyBusyManager;
+    import model.proxy.customBookmarks.ProxyBookmarks;
     import model.proxy.login.ProxyLogin;
     import model.proxy.login.ProxyPasswordReset;
     import model.proxy.urlParams.ProxyUrlParameters;
@@ -16,7 +18,9 @@ package mediator
     import model.vo.NavigationLinkVO;
     import model.vo.UserVO;
 
+    import org.apache.royale.collections.ArrayList;
     import org.apache.royale.events.Event;
+    import org.apache.royale.events.IEventDispatcher;
     import org.apache.royale.events.MouseEvent;
     import org.apache.royale.events.ValueEvent;
     import org.apache.royale.reflection.getQualifiedClassName;
@@ -49,6 +53,7 @@ package mediator
 				view.logout.addEventListener(MouseEvent.CLICK, onLogoutClick);
 				view.viewButtonDrawer.addEventListener(MouseEvent.CLICK, onDrawerButtonShowHide);
 				view.viewDrawerNavigation.addEventListener(Event.CHANGE, onNavigationSectionChange);
+				view.viewBookmarksNavigation.addEventListener(Event.CHANGE, onNavigationBookmarksSelectionChange);
 				view.viewInstalledAppsNavigation.addEventListener(Event.CHANGE, onNavigationInstalledAppSectionChange);
 				
 				view.loggedUsername = "Prominic User";
@@ -84,6 +89,8 @@ package mediator
 					
 					interests.push(ApplicationConstants.NOTE_OPEN_VIEW_HELLO);
 					interests.push(ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS);
+					interests.push(ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK);
+					interests.push(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP);
 					
 				return interests;
 			}
@@ -125,9 +132,16 @@ package mediator
 						//initializeViewHello();
 						initializeViewGettingStarted();
 						initializeListOfInstalledApps();
+						initializeListOfBookmarks();
 						break;
 					case ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS:
 						initializeGenesisApplicationsList();
+						break;
+					case ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK:
+						initializeAddEditBookmark();
+						break;
+					case ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP:
+						selectBookmarkGroup(String(note.getBody()));
 						break;
 				}
 			}		
@@ -189,8 +203,6 @@ package mediator
 				}			
 				
 				view.selectedContent = MediatorNewRegistration.NAME;
-				
-				
 			}
 			
 			/*
@@ -219,25 +231,68 @@ package mediator
 					genesisAppsProxy.getInstalledApps();
 			}
 			
+			private function initializeListOfBookmarks():void
+			{
+				var bookmarksProxy:ProxyBookmarks = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
+					bookmarksProxy.getCustomBookmarksList();	
+			}
+			
 			private function initializeGenesisApplicationsList():void
 			{
-				//Remove mediator from second navigation
-				var selectedItem:NavigationLinkVO = view.viewInstalledAppsNavigation["selectedItem"];
-				if (selectedItem)
-				{
-					var currentSelection:NavigationLinkVO = selectedItem;
-					if (selectedItem.selectedChild)
-					{
-						currentSelection = selectedItem.selectedChild;
-					}	
-					facade.removeMediator(currentSelection.idSelectedItem);
-				}
-				
+				this.removeMediatorFromAdditionalNavigation(view.viewInstalledAppsNavigation);
+				this.removeMediatorFromAdditionalNavigation(view.viewBookmarksNavigation);
 				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
 					view: view,
 					currentView: view.viewGenesisApps,
 					currentSelection: MediatorGenesisApps.NAME
 				}, "mediator.applications.MediatorGenesisApps");
+			}
+			
+			private function initializeAddEditBookmark():void
+			{
+				this.removeMediatorFromAdditionalNavigation(view.viewBookmarksNavigation);
+				
+				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
+					view: view,
+					currentView: view.viewEditBookmark,
+					currentSelection: MediatorEditBookmark.NAME,
+					mediatorName: MediatorEditBookmark.NAME
+				}, "mediator.bookmarks.MediatorEditBookmark");
+			}
+			
+			private function selectBookmarkGroup(group:String):void
+			{
+				var bookmarkGroup:NavigationLinkVO = null;
+				var bookmarkNavGroup:ArrayList = view.viewBookmarksNavigation["dataProvider"];
+				
+				for (var i:int = 0; i < bookmarkNavGroup.length; i++)
+				{
+					bookmarkGroup = bookmarkNavGroup.getItemAt(i) as NavigationLinkVO;
+					if (bookmarkGroup.subMenu)
+					{
+						for (var j:int = 0; j < bookmarkGroup.subMenu.length; j++)
+						{
+							var subBookmarkNav:NavigationLinkVO = bookmarkGroup.subMenu.getItemAt(j) as NavigationLinkVO;
+							if (group == subBookmarkNav.data.name)
+							{
+								bookmarkGroup.selectedChild = subBookmarkNav;
+								break;
+							}
+						}
+					}
+					else
+					{
+						bookmarkGroup = null;
+					}
+					
+					if (bookmarkGroup != null && bookmarkGroup.selectedChild != null)
+					{
+						break;
+					}
+				}
+				
+				view.viewBookmarksNavigation["selectedItem"] = bookmarkGroup;
+				onNavigationBookmarksSelectionChange(null);
 			}
 		
 	//----------------------------------
@@ -298,18 +353,54 @@ package mediator
 					currentSelection = selectedItem.selectedChild;
 				}				
 				
+				if (facade.hasMediator(MediatorEditBookmark.NAME))
+				{
+					facade.removeMediator(MediatorEditBookmark.NAME);	
+				}
+				
 				sendNotification(ApplicationConstants.COMMAND_DRAWER_CHANGED, false);
 				sendNotification(currentSelection.notificationName);
 			}
 			
+			private function onNavigationBookmarksSelectionChange(event:Event):void
+			{
+				this.removeMediatorFromAdditionalNavigation(view.viewInstalledAppsNavigation);
+				
+				var selectedItem:NavigationLinkVO = view.viewBookmarksNavigation["selectedItem"];
+				var currentSelection:NavigationLinkVO = selectedItem;
+				if (selectedItem.selectedChild)
+				{
+					currentSelection = selectedItem.selectedChild;
+				}	
+				
+				view.bookmarksViewSection["name"] = currentSelection.idSelectedItem;
+				var bookmarksProxy:ProxyBookmarks = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
+					bookmarksProxy.selectedGroup = currentSelection.name;
+					
+				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
+					view: view,
+					currentView: view.bookmarksView,
+					currentSelection: currentSelection.idSelectedItem,
+					drawerNavigation: view.viewBookmarksNavigation,
+					mediatorName: currentSelection.idSelectedItem
+				}, "mediator.bookmarks.MediatorBookmarks");
+			}
+			
 			private function onNavigationInstalledAppSectionChange(event:Event):void
 			{
+				this.removeMediatorFromAdditionalNavigation(view.viewBookmarksNavigation);
+				
 				var selectedItem:NavigationLinkVO = view.viewInstalledAppsNavigation["selectedItem"];
 				var currentSelection:NavigationLinkVO = selectedItem;
 				if (selectedItem.selectedChild)
 				{
 					currentSelection = selectedItem.selectedChild;
 				}	
+				
+				if (facade.hasMediator(MediatorEditBookmark.NAME))
+				{
+					facade.removeMediator(MediatorEditBookmark.NAME);	
+				}
 				
 				view.installedAppsSection["name"] = currentSelection.idSelectedItem;
 				var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
@@ -341,5 +432,26 @@ package mediator
 			{
 				sendNotification(ApplicationConstants.COMMAND_ADJUST_TAB_BAR_SIZE);	
 			}						
+
+			private function removeMediatorFromAdditionalNavigation(navigation:IEventDispatcher):void
+			{
+				//Remove mediator from second navigation
+				var selectedItem:NavigationLinkVO = navigation["selectedItem"];
+				if (selectedItem)
+				{
+					var currentSelection:NavigationLinkVO = selectedItem;
+					if (selectedItem.selectedChild)
+					{
+						currentSelection = selectedItem.selectedChild;
+					}	
+					
+					if (facade.hasMediator(currentSelection.idSelectedItem))
+					{
+						facade.removeMediator(currentSelection.idSelectedItem);
+						
+						navigation["selectedItem"] = null;
+					}
+				}
+			}
     }
 }

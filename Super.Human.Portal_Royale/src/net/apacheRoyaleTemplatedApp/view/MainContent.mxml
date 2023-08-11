@@ -5,19 +5,24 @@
 				  xmlns:html="library://ns.apache.org/royale/html"
 				  xmlns:view="view.*" xmlns:general="view.general.*"
 				  xmlns:model="model.*" 
-				  xmlns:routing="org.apache.royale.routing.*" xmlns:beads="classes.beads.*" xmlns:hello="view.hello.*" xmlns:applications="view.applications.*" xmlns:vo="model.vo.*"
+				  xmlns:routing="org.apache.royale.routing.*" xmlns:beads="classes.beads.*" 
+				  xmlns:hello="view.hello.*" xmlns:applications="view.applications.*" 
+				  xmlns:vo="model.vo.*" xmlns:bookmarks="view.bookmarks.*"
 				  implements="interfaces.IMainContentView"
 				  initComplete="onInitComplete(event)">
 	<j:beads>
 		<js:ContainerDataBinding/>
 	</j:beads>
    <j:model>
-        <model:InstalledAppNavigationModel localId="installedAppNavModel"/>
+        <model:LeftMenuNavigationModel localId="leftMenuNavModel"/>
     </j:model>
 	<fx:Script>
 		<![CDATA[
 
+			import interfaces.IBookmarksView;
+			import interfaces.IEditBookmarkView;
 			import interfaces.IGenesisAppsView;
+			import interfaces.IInstalledAppView;
 			import interfaces.ILoginView;
 			import interfaces.INewRegistration;
 			import interfaces.IPasswordReset;
@@ -25,15 +30,14 @@
 			import mediator.MediatorNewRegistration;
 			import mediator.MediatorPasswordReset;
 			import mediator.applications.MediatorGenesisApps;
+			import mediator.bookmarks.MediatorEditBookmark;
 
 			import model.vo.ConstantsCoreVO;
 
-			import org.apache.royale.collections.ArrayList;
 			import org.apache.royale.events.IEventDispatcher;
 			import org.apache.royale.jewel.Alert;
 
 			import view.general.BusyOperator;
-			import interfaces.IInstalledAppView;
 																																																																																																						
 			private function onInitComplete(event:Event):void 
 			{
@@ -176,6 +180,11 @@
 				return this.drawer;
 			}			
 			
+			public function get viewBookmarksNavigation():IEventDispatcher
+			{
+				return this.bookmarksNavigation;
+			}
+			
 			public function get viewInstalledAppsNavigation():IEventDispatcher
 			{
 				return this.installedAppsNavigation;
@@ -205,6 +214,21 @@
 			public function get installedAppsSection():Object
 			{
 				return this.sectionInstalledApps;	
+			}
+			
+			public function get bookmarksView():IBookmarksView
+			{
+				return this.viewBookmarks;	
+			}
+			
+			public function get bookmarksViewSection():Object
+			{
+				return this.viewBookmarksSection;	
+			}
+			
+			public function get viewEditBookmark():IEditBookmarkView
+			{
+				return this.editBookmarkView;
 			}
 			
 			public function get footer():Object
@@ -300,9 +324,16 @@
 					</js:ArrayList>
 				</j:dataProvider>
 			</j:Navigation>
-			<j:Navigation id="installedAppsNavigation" className="navIconLinkItemRenderer">
+			<j:Navigation id="bookmarksNavigation" labelField="name" className="navIconLinkItemRenderer">
 				<j:beads>
-					<js:ConstantBinding sourceID="installedAppNavModel" sourcePropertyName="navigationLinks" destinationPropertyName="dataProvider"/>
+					<js:ConstantBinding sourceID="leftMenuNavModel" sourcePropertyName="customBookmarks" destinationPropertyName="dataProvider"/>
+					<j:NavigationActionNotifier/>
+					<js:DynamicRemoveAllByNullItemRendererForArrayListData />
+				</j:beads>
+			</j:Navigation>
+			<j:Navigation id="installedAppsNavigation" labelField="name" className="navIconLinkItemRenderer">
+				<j:beads>
+					<js:ConstantBinding sourceID="leftMenuNavModel" sourcePropertyName="navigationLinks" destinationPropertyName="dataProvider"/>
 					<j:NavigationActionNotifier/>
 					<js:DynamicRemoveAllByNullItemRendererForArrayListData />
 				</j:beads>
@@ -376,6 +407,12 @@
 		<!--GENERATED_VIEWS_CURSOR:  New  snippets will be inserted here-->
 		<j:ScrollableSectionContent localId="sectionInstalledApps">
 			<applications:InstalledAppView id="viewInstalledApp"/>
+		</j:ScrollableSectionContent>
+		<j:ScrollableSectionContent localId="viewBookmarksSection">
+			<bookmarks:BookmarksView id="viewBookmarks"/>
+		</j:ScrollableSectionContent>
+		<j:ScrollableSectionContent name="{MediatorEditBookmark.NAME}">
+			<bookmarks:EditBookmarkView localId="editBookmarkView"/>
 		</j:ScrollableSectionContent>
     </j:ApplicationMainContent>
 </j:ResponsiveView>

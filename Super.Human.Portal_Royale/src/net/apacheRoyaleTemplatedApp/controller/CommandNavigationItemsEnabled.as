@@ -2,9 +2,10 @@ package controller
 {
 	import mediator.MediatorMainContentView;
 
+	import model.LeftMenuNavigationModel;
+
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
-	import model.InstalledAppNavigationModel;
 
 	public class CommandNavigationItemsEnabled extends SimpleCommand
 	{
@@ -12,7 +13,7 @@ package controller
 		{	
 			var mainMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;
 			
-			var mainModel:InstalledAppNavigationModel = mainMediator.view["model"] as InstalledAppNavigationModel;
+			var mainModel:LeftMenuNavigationModel = mainMediator.view["model"] as LeftMenuNavigationModel;
 
 			var itemsCount:int = mainModel.navigationLinks.length;
 			for (var i:int = 0; i < itemsCount; i++)

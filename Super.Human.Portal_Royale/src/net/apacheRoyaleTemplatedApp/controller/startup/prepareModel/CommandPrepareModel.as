@@ -13,6 +13,7 @@ package controller.startup.prepareModel
 
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
+	import model.proxy.customBookmarks.ProxyBookmarks;
 				
 	public class CommandPrepareModel extends SimpleCommand
 	{
@@ -36,6 +37,7 @@ package controller.startup.prepareModel
 			
 			facade.registerProxy(new ProxyPasswordStrength());
 			facade.registerProxy(new ProxyGenesisApps());
+			facade.registerProxy(new ProxyBookmarks());
 		}
 	}
 }
