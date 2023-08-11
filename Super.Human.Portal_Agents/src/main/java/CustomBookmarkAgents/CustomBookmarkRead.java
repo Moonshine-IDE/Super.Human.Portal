@@ -19,6 +19,7 @@ public class CustomBookmarkRead extends CustomBookmarkReadBase {
 	@Override
     protected void writeDocuments(ViewEntryCollection entries, Collection<FieldDefinition> fieldList) throws NotesException {
     		LinkProcessor linkProcessor = new LinkProcessor(session, getLog());
+    		linkProcessor.setAllowRemoteServer(true);
     		
     		super.writeDocuments(entries, fieldList);
     		

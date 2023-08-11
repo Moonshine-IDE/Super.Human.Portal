@@ -17,6 +17,7 @@ public class CustomBookmarkCreate extends CustomBookmarkCreateBase {
     		
     		// update with link logic
     		LinkProcessor linkProcessor = new LinkProcessor(session, getLog());
+    		linkProcessor.setAllowRemoteServer(true);
     		JSONObject link = (JSONObject) jsonRoot.get("document");
     		linkProcessor.cleanupLink(link);
 	}
