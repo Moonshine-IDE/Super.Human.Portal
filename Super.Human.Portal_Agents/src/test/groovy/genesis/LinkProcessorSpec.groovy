@@ -204,6 +204,72 @@ class LinkProcessorSpec extends Specification {
 		JSONUtils.getStringSafe(testLink, 'view') == "foo\\bar\\testview"
 	}
 	
+	def 'test allowRemoteServer'() {
+		when: 'default'
+		LinkProcessorTest test = new LinkProcessorTest();
+		// test defaults
+		String testJSONOriginal = """{
+			"name": "Test Insertion:  '%SERVER_ABBR%', '%SERVER_COMMON%'",
+			"type": "database",
+			"server": "test/TEST",
+			"database": "dombackup.nsf",
+			"view": "TestView"		
+		}"""
+		
+		JSONObject testLink = new JSONObject(testJSONOriginal);
+		test.cleanupLink(testLink);
+		
+		then:
+		JSONUtils.getStringSafe(testLink, 'name') == "Test Insertion:  '${test.serverAbbr}', '${test.serverCommon}'"
+		JSONUtils.getStringSafe(testLink, 'type') == 'database'
+		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dombackup.nsf/TestView?OpenView"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dombackup.nsf/TestView?OpenView"
+		JSONUtils.getStringSafe(testLink, 'database') == 'dombackup.nsf'
+		JSONUtils.getStringSafe(testLink, 'server') == test.serverAbbr
+		JSONUtils.getStringSafe(testLink, 'view') == "TestView"
+		
+		when: 'false'
+		
+		test.setAllowRemoteServer(false)  // this is the default, so the results should match
+		JSONObject testLinkDefault = testLink;
+		testLink = new JSONObject(testJSONOriginal)
+		test.cleanupLink(testLink);
+		
+		then:
+		
+		//testLink == testLinkDefault
+		testLink.toString() == testLinkDefault.toString()
+		
+		when: 'true with server'
+		
+		test.setAllowRemoteServer(true)
+		testLink = new JSONObject(testJSONOriginal)
+		test.cleanupLink(testLink);
+		
+		then:
+		
+		JSONUtils.getStringSafe(testLink, 'name') == "Test Insertion:  'test/TEST', 'test'"
+		JSONUtils.getStringSafe(testLink, 'type') == 'database'
+		JSONUtils.getStringSafe(testLink, 'url') == "notes://test/dombackup.nsf/TestView?OpenView"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.test/nomad/#/notes://test/dombackup.nsf/TestView?OpenView"
+		JSONUtils.getStringSafe(testLink, 'database') == 'dombackup.nsf'
+		JSONUtils.getStringSafe(testLink, 'server') == 'test/TEST'
+		JSONUtils.getStringSafe(testLink, 'view') == "TestView"
+		
+		when: 'true with no server'
+		
+		test.setAllowRemoteServer(true)
+		testLink = new JSONObject(testJSONOriginal)
+		testLink.put('server', '');  // use default server if server is blank
+		test.cleanupLink(testLink);
+		
+		then:
+		
+		testLink.toString() == testLinkDefault.toString()
+		
+		
+	}
+	
 	
 	def 'test notesPattern'() {
 		// regex tests - serve as documentation for the intention of the regex

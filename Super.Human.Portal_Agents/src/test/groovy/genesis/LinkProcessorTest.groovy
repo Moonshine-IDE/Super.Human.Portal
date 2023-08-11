@@ -47,4 +47,17 @@ public class LinkProcessorTest extends LinkProcessor {
 	protected void addInstalledApp(String appName) {
 		installedApps.add(appName);
 	}		
+	
+	@Override // remove Notes API reference
+    protected String getAbbrNameSafe(String name) {
+    		//return name.replaceAll("^(.*)/(.*)$", "$1/$2");
+    		// assume original is abbreviated already for test
+    		return name;
+    }
+    
+	@Override // remove Notes API reference
+    protected String getCommonNameSafe(String name) {
+    		// simplified solution to work with test case
+    		return name.replaceAll('^(.*)/(.*)$', '$1');
+	}
 }
