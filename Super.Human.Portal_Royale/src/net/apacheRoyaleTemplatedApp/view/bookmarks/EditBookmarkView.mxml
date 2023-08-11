@@ -173,6 +173,7 @@
 					}
 				}
 				
+				this.bookmark = null;
 				this.formBookmarkValidator.removeAllErrorTips();		
 			}
 			

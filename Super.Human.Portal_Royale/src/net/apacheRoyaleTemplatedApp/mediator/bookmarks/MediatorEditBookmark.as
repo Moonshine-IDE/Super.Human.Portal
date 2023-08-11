@@ -103,11 +103,24 @@ package mediator.bookmarks
 			bookmarksProxy.selectedBookmark.group = groupName;
 			bookmarksProxy.selectedBookmark.name = view.nameText;
 			bookmarksProxy.selectedBookmark.type = view.selectedBookmarkType;
-			bookmarksProxy.selectedBookmark.url = view.urlText;
-			bookmarksProxy.selectedBookmark.server = view.serverText;
-			bookmarksProxy.selectedBookmark.database = view.databaseText;
-			bookmarksProxy.selectedBookmark.view = view.viewText;
 			
+			if (view.selectedBookmarkType == ApplicationVO.LINK_BROWSER)
+			{
+				bookmarksProxy.selectedBookmark.url = view.urlText;
+				
+				bookmarksProxy.selectedBookmark.server = "";
+				bookmarksProxy.selectedBookmark.database = "";
+				bookmarksProxy.selectedBookmark.view = "";
+			}
+			else if (view.selectedBookmarkType == ApplicationVO.LINK_DATABASE)
+			{
+				bookmarksProxy.selectedBookmark.server = view.serverText;
+				bookmarksProxy.selectedBookmark.database = view.databaseText;
+				bookmarksProxy.selectedBookmark.view = view.viewText;
+				
+				bookmarksProxy.selectedBookmark.url = "";			
+			}
+
 			if (bookmarksProxy.selectedBookmark.dominoUniversalID)
 			{
 				bookmarksProxy.updateBookmark();
