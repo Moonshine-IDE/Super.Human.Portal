@@ -66,6 +66,18 @@ package model.proxy.customBookmarks
 			_selectedBookmark = value;
 		}
 		
+		private var _groups:Array = [];
+
+		public function get groups():Array
+		{
+			return _groups;
+		}
+
+		public function set groups(value:Array):void
+		{
+			_groups = value;
+		}
+		
 		override public function onRegister():void
 		{
 			super.onRegister();
@@ -109,6 +121,13 @@ package model.proxy.customBookmarks
 			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onUpdateBookmarkFailed);
 			
 			customBookmarksDelegate.updateBookmark(this.selectedBookmark.dominoUniversalID, this.selectedBookmark.toRequestObject(), successCallback, failureCallback);	
+		}
+		
+		public function hasGroup(groupName:String):Boolean
+		{
+			return this.groups.some(function(item:Object, index:int, arr:Array):Boolean {
+				return item.name == groupName;
+			});
 		}
 		
 		private function onCustomBookmarksListFetched(event:Event):void

@@ -1,12 +1,14 @@
 package mediator.bookmarks
 {
     import constants.ApplicationConstants;
+    import constants.PopupType;
 
     import interfaces.IEditBookmarkView;
 
     import model.proxy.customBookmarks.ProxyBookmarks;
     import model.proxy.urlParams.ProxyUrlParameters;
     import model.vo.ApplicationVO;
+    import model.vo.PopupVO;
 
     import org.apache.royale.events.MouseEvent;
     import org.puremvc.as3.multicore.interfaces.IMediator;
@@ -14,8 +16,6 @@ package mediator.bookmarks
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
     import view.bookmarks.event.BookmarkEvent;
-    import constants.PopupType;
-    import model.vo.PopupVO;
     
     public class MediatorEditBookmark extends Mediator implements IMediator
     {
@@ -74,7 +74,14 @@ package mediator.bookmarks
 					this.bookmarksProxy.getCustomBookmarksList();
 					break;
 				case ProxyBookmarks.NOTE_BOOKMARK_UPDATE_SUCCESS:
-					sendNotification(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP, this.bookmarksProxy.selectedGroup);
+					if (!this.bookmarksProxy.hasGroup(this.bookmarksProxy.selectedGroup))
+					{
+						this.bookmarksProxy.getCustomBookmarksList();
+					}
+					else
+					{
+						sendNotification(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP, this.bookmarksProxy.selectedGroup);
+					}
 					break;
 				case ProxyBookmarks.NOTE_CUSTOM_BOOKMARKS_LIST_FETCHED:
 					sendNotification(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP, this.bookmarksProxy.selectedGroup);

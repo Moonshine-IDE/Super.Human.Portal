@@ -52,6 +52,7 @@ package controller
 				bookmarksList.addItem(menuItem);
 			});
 			
+			bookmarksProxy.groups = groups;
 			var bookmarksItem:NavigationLinkVO = leftMenuNavModel.customBookmarks.getItemAt(0) as NavigationLinkVO;
 				bookmarksItem.enabled = true;
 			leftMenuNavModel.customBookmarksGroups = bookmarksList;

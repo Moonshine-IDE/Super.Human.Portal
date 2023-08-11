@@ -2,7 +2,7 @@
 <j:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:j="library://ns.apache.org/royale/jewel"
 		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:applications="view.applications.*"
-		 itemsVerticalAlign="itemsCenter" gap="5" initComplete="onBookmarkInitComplete(event)"
+		 itemsVerticalAlign="itemsCenter" gap="4" initComplete="onBookmarkInitComplete(event)"
 		 currentState="browser">
 	<j:states>
 		<js:State name="browser"/>
