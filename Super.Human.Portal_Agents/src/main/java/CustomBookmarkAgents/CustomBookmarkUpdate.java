@@ -166,4 +166,9 @@ public class CustomBookmarkUpdate extends CustomBookmarkUpdateBase {
 		return fields;
 		
 	}
+	
+	@Override
+	protected boolean shouldReturnUniversalID() {
+		return true;
+	}
 }
