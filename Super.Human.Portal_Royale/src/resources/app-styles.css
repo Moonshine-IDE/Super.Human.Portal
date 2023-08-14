@@ -447,7 +447,6 @@ a:hover {
 	marginLeft: 4px !important;
 	minWidth: 150px;
 	height: 40px;
-	padding: 0;
 }
 
 .jewel.button.primary.noLinkStyleInstallApp a {
@@ -457,8 +456,4 @@ a:hover {
   padding-bottom: 10px;
   padding-left: 25px;
   padding-right: 25px;
-}
-
-.jewel.button.primary.paddingConfigButton {
-	paddingLeft: 5px !important;
 }
