@@ -136,7 +136,7 @@ package mediator.applications
 							
 						iconButton = new IconButton();
 						iconButton.height = 40;
-						iconButton.className = "linksGapInstallApp paddingConfigButton";
+						iconButton.className = "linksGapInstallApp";
 						iconButton.emphasis = "primary";
 						iconButton.text = link.name;
 						iconButton.rightPosition = true;
