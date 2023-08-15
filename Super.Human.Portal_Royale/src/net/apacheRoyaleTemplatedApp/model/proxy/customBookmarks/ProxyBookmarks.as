@@ -247,6 +247,7 @@ package model.proxy.customBookmarks
 					return;
 				}
 				
+		
 				var errorMessage:String = jsonData["errorMessage"];
 				
 				if (errorMessage)
@@ -255,7 +256,24 @@ package model.proxy.customBookmarks
 				}
 				else
 				{
-					sendNotification(NOTE_BOOKMARK_UPDATE_SUCCESS);
+					var updatedBookmark:Object = jsonData.document;
+					var bookmark:BookmarkVO = (this.getData() as Array).find(function(item:BookmarkVO, index:int, arr:Array):Boolean {
+						return item.dominoUniversalID == updatedBookmark.DominoUniversalID;
+					});
+				
+					if (bookmark)
+					{
+						bookmark.database = updatedBookmark.database;
+						bookmark.group = updatedBookmark.group;
+						bookmark.name = updatedBookmark.name;
+						bookmark.nomadURL = updatedBookmark.nomadURL;
+						bookmark.server = updatedBookmark.server;
+						bookmark.type = updatedBookmark.type;
+						bookmark.url = updatedBookmark.url;
+						bookmark.view = updatedBookmark.view;
+					}
+				
+					sendNotification(NOTE_BOOKMARK_UPDATE_SUCCESS, bookmark);
 				}
 			}
 			else
