@@ -457,3 +457,7 @@ a:hover {
   padding-left: 25px;
   padding-right: 25px;
 }
+
+.jewel.button.primary.linkAppButton {
+	textWrap: wrap;
+}

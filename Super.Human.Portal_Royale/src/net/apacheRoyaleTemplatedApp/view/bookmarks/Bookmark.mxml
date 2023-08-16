@@ -87,12 +87,12 @@
 			}
 		]]>
 	</fx:Script>
-	<j:IconButton localId="browserHtmlButton" html="{browserHtmlButton}" className="linksGapInstallApp noLinkStyleInstallApp"
-				  emphasis="primary" height="40" includeIn="browser" />
+	<j:IconButton localId="browserHtmlButton" html="{browserHtmlButton}" className="noLinkStyleInstallApp linkAppButton"
+					emphasis="primary" minHeight="40" width="220" includeIn="browser" />
 	<j:VGroup includeIn="database" itemsVerticalAlign="itemsCenter">
-		<j:IconButton html="{bookmark.name}" className="linksGapInstallApp noLinkStyleInstallApp"
-				  emphasis="primary" height="40" rightPosition="true"
-				  click="onShowHideDbConfigClick(event)">
+		<j:IconButton html="{bookmark.name}" className="noLinkStyleInstallApp linkAppButton"
+				emphasis="primary" minHeight="40" width="220" rightPosition="true"
+				click="onShowHideDbConfigClick(event)">
 			<j:icon>
 				<js:MaterialIcon text="{MaterialIconType.ARROW_DROP_DOWN}"/>
 			</j:icon>
