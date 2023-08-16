@@ -459,5 +459,5 @@ a:hover {
 }
 
 .jewel.button.primary.linkAppButton {
-	textWrap: wrap;
+	textWrap: wrap !important;
 }
