@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Summary
 
-This release brings new feature called "Bookmarks" - allows save favorite Domino applications data as favorite to have quick access.
+This release added the Bookmarks interface.  This allows the user to create bookmarks for databases or URLs.  For now, these bookmarks are only available on the local database, but we intend to expand this to support bookmarks across an organization.
 
 ### Added
 
@@ -17,7 +17,7 @@ This release brings new feature called "Bookmarks" - allows save favorite Domino
 
 ### Fixed
 
-* Fixed issue where version of Super.Human.Portal was not visible in production ([#20](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/20))
+* Fixed issue where the version of Super.Human.Portal was not visible in production build ([#20](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/20))
 
 ## Super.Human.Portal [0.1.6]
 
