@@ -3,6 +3,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
 
+## Super.Human.Portal [0.1.7]
+
+### Summary
+
+This release brings new feature called "Bookmarks" - allows save favorite Domino applications data as favorite to have quick access.
+
+### Added
+
+* Custom Bookmarks ([#30](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/30))
+
+### Changed
+
+### Fixed
+
+* Fixed issue where version of Super.Human.Portal was not visible in production ([#20](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/20))
+
 ## Super.Human.Portal [0.1.6]
 
 ### Summary
