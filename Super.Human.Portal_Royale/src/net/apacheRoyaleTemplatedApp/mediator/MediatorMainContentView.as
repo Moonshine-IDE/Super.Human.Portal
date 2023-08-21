@@ -224,6 +224,9 @@ package mediator
 			
 			private function initializeViewGettingStarted():void
 			{
+				this.removeMediatorFromAdditionalNavigation(view.viewInstalledAppsNavigation);
+				this.removeMediatorFromAdditionalNavigation(view.viewBookmarksNavigation);
+				
 				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
 					view: view,
 					currentView: view.viewDocumentationForm,
@@ -371,6 +374,16 @@ package mediator
 					currentSelection = selectedItem.selectedChild;
 				}				
 				
+				if (facade.hasMediator(MediatorViewGettingStarted.NAME))
+				{
+					facade.removeMediator(MediatorViewGettingStarted.NAME);	
+				}
+				
+				if (facade.hasMediator(MediatorGenesisAdditionalDir.NAME))
+				{
+					facade.removeMediator(MediatorGenesisAdditionalDir.NAME);	
+				}
+				
 				if (facade.hasMediator(MediatorEditBookmark.NAME))
 				{
 					facade.removeMediator(MediatorEditBookmark.NAME);	
@@ -382,6 +395,7 @@ package mediator
 			
 			private function onNavigationBookmarksSelectionChange(event:Event):void
 			{
+				this.removeMediatorFromAdditionalNavigation(view.viewDrawerNavigation);
 				this.removeMediatorFromAdditionalNavigation(view.viewInstalledAppsNavigation);
 				
 				var selectedItem:NavigationLinkVO = view.viewBookmarksNavigation["selectedItem"];
@@ -406,6 +420,7 @@ package mediator
 			
 			private function onNavigationInstalledAppSectionChange(event:Event):void
 			{
+				this.removeMediatorFromAdditionalNavigation(view.viewDrawerNavigation);
 				this.removeMediatorFromAdditionalNavigation(view.viewBookmarksNavigation);
 				
 				var selectedItem:NavigationLinkVO = view.viewInstalledAppsNavigation["selectedItem"];

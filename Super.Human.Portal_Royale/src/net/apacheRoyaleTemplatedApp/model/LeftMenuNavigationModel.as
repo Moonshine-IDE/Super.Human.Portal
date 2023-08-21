@@ -10,10 +10,10 @@ package model
 	public class LeftMenuNavigationModel  
 	{	
 		private var genesisDirectories:ArrayList = new ArrayList([
-			new NavigationLinkVO("Additional directories", ApplicationConstants.NOTE_OPEN_GENESIS_ADDITIONAL_DIR, "mdi mdi-apps mdi-24px", MediatorGenesisAdditionalDir.NAME)
+			new NavigationLinkVO("Additional directories", ApplicationConstants.NOTE_OPEN_GENESIS_ADDITIONAL_DIR, "mdi mdi-apps mdi-24px", MediatorGenesisAdditionalDir.NAME, null, MediatorGenesisAdditionalDir.NAME)
 		]);
 		
-		private var genesisApps:NavigationLinkVO = new NavigationLinkVO("Genesis App", ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS, "mdi mdi-apps mdi-24px", "", null, MediatorGenesisApps.NAME);
+		private var genesisApps:NavigationLinkVO = new NavigationLinkVO("Genesis App", ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS, "mdi mdi-apps mdi-24px", MediatorGenesisApps.NAME, null, MediatorGenesisApps.NAME);
 		
 		private var _mainNavigation:ArrayList = new ArrayList([
 			new NavigationLinkVO("Getting Started", ApplicationConstants.NOTE_OPEN_VIEW_HELLO, "mdi mdi-apps mdi-24px", "", null, "DocumentationForm"),

@@ -7,8 +7,6 @@ package classes.beads
     import org.apache.royale.html.beads.IListView;
     import org.apache.royale.jewel.beads.controllers.ListSingleSelectionMouseController;
     import org.apache.royale.jewel.beads.models.IJewelSelectionModel;
-
-    import view.renderers.navigation.CollapsibleDrawerLinkItemRenderer;
                                 
 	public class CollapsibleNavSingleSelectionMouseController extends ListSingleSelectionMouseController 
 	{
@@ -31,7 +29,7 @@ package classes.beads
             }
 		}
 		
-		private function onSelectionChanged(event:Event):void
+		protected function onSelectionChanged(event:Event):void
 		{
 			var view:IListView = (_strand as IStrandWithModelView).view as IListView;
 			var dataGroup:IItemRendererOwnerView = view.dataGroup;

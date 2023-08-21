@@ -40,7 +40,7 @@ a:hover {
 }
 
 .navWithClickableSectionItemRenderer {
-	IBeadController: ClassReference("classes.beads.CollapsibleNavSingleSelectionMouseController");
+	IBeadController: ClassReference("classes.beads.CollapsibleNavSingleSelectionWithSectionClickMouseController");
 	IItemRenderer: ClassReference("view.renderers.navigation.CollapsibleDrawerLinkWitSectionClickItemRenderer");
 	ISelectableItemRenderer: ClassReference("org.apache.royale.jewel.beads.itemRenderers.ClassSelectorListSelectableItemRendererBead");
 }

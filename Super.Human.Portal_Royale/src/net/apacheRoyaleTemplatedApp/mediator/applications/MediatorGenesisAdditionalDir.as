@@ -17,9 +17,9 @@ package mediator.applications
 		private var genesisAppsProxy:ProxyGenesisApps;
 		private var urlParamsProxy:ProxyUrlParameters;
 		
-		public function MediatorGenesisAdditionalDir(mediatorName:String, component:IGenesisAdditionalDirView) 
+		public function MediatorGenesisAdditionalDir(component:IGenesisAdditionalDirView) 
 		{
-			super(mediatorName, component);
+			super(NAME, component);
 		}
 		
 		override public function onRegister():void 
