@@ -4,13 +4,14 @@ package model.vo
 
 	public class NavigationLinkVO
 	{
-		public function NavigationLinkVO(name:String, notificationName:String, icon:String, idSelectedItem:String, data:Object = null) 
+		public function NavigationLinkVO(name:String, notificationName:String, icon:String, idSelectedItem:String, data:Object = null, content:String = "") 
 		{
 			this.name = name;
 			this.notificationName = notificationName;
 			this.icon = icon;
 			this._idSelectedItem = idSelectedItem;
 			this.data = data;
+			this.content = content;
 		}
 		
 		 //for collapsible example

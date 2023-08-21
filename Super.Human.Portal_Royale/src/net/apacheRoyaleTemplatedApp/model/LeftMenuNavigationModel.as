@@ -3,9 +3,38 @@ package model
 	import model.vo.NavigationLinkVO;
 
 	import org.apache.royale.collections.ArrayList;
+	import constants.ApplicationConstants;
+	import mediator.applications.MediatorGenesisAdditionalDir;
+	import mediator.applications.MediatorGenesisApps;
 										
 	public class LeftMenuNavigationModel  
 	{	
+		private var genesisDirectories:ArrayList = new ArrayList([
+			new NavigationLinkVO("Additional directories", ApplicationConstants.NOTE_OPEN_GENESIS_ADDITIONAL_DIR, "mdi mdi-apps mdi-24px", MediatorGenesisAdditionalDir.NAME)
+		]);
+		
+		private var genesisApps:NavigationLinkVO = new NavigationLinkVO("Genesis App", ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS, "mdi mdi-apps mdi-24px", "", null, MediatorGenesisApps.NAME);
+		
+		private var _mainNavigation:ArrayList = new ArrayList([
+			new NavigationLinkVO("Getting Started", ApplicationConstants.NOTE_OPEN_VIEW_HELLO, "mdi mdi-apps mdi-24px", "", null, "DocumentationForm"),
+			genesisApps
+		]);
+
+		public function get mainNavigation():ArrayList
+		{
+			if (!genesisApps.subMenu)
+			{
+				this.genesisApps.subMenu = genesisDirectories;
+			}
+			
+			return _mainNavigation;
+		}
+
+		public function set mainNavigation(value:ArrayList):void
+		{
+			_mainNavigation = value;
+		}
+		
 		private var installedApp:NavigationLinkVO = new NavigationLinkVO("Installed Apps", "$collapsible", "mdi mdi-folder mdi-24px", "");
 		
 		private var _navigationLinks:ArrayList = new ArrayList([

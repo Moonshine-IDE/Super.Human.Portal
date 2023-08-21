@@ -255,7 +255,7 @@ package classes.managers
 			for (var i:int = 0; i < viewEntryCount; i++)
 			{
 				var app:Object = jsonData[i];
-				var tmpVO:ApplicationVO = new ApplicationVO(app.AppID, app.DetailsURL, app.Label, app.InstallCommand, app.Installed, app.InstallTimeS, app.access);
+				var tmpVO:ApplicationVO = new ApplicationVO(app.AppID, app.DetailsURL, app.Label, app.InstallCommand, app.Installed, app.InstallTimeS, app.access, app.directory);
 				
 				tmpArr.push(tmpVO);
 			}

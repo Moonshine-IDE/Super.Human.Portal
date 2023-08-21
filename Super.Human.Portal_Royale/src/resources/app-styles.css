@@ -39,6 +39,12 @@ a:hover {
 	ISelectableItemRenderer: ClassReference("org.apache.royale.jewel.beads.itemRenderers.ClassSelectorListSelectableItemRendererBead");
 }
 
+.navWithClickableSectionItemRenderer {
+	IBeadController: ClassReference("classes.beads.CollapsibleNavSingleSelectionMouseController");
+	IItemRenderer: ClassReference("view.renderers.navigation.CollapsibleDrawerLinkWitSectionClickItemRenderer");
+	ISelectableItemRenderer: ClassReference("org.apache.royale.jewel.beads.itemRenderers.ClassSelectorListSelectableItemRendererBead");
+}
+
 .sliderViewStyle {
 	IBeadView: ClassReference("view.controls.SliderPasswordStrengthView");
 }

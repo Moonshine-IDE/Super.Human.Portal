@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
+		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
+		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
+		 implements="interfaces.IGenesisAdditionalDirView" className="bodyPadding" percentHeight="100"
+		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" gap="5">
+	<fx:Script>
+		<![CDATA[
+			import org.apache.royale.collections.ArrayList;
+			import org.apache.royale.core.StyledUIBase;
+			import org.apache.royale.events.IEventDispatcher;
+			import org.apache.royale.jewel.Snackbar;
+
+			public function get newDir():IEventDispatcher
+			{
+				return this.dirNew;
+			}
+			
+			public function get genesisDirsList():IEventDispatcher
+			{
+				return genesisDirs;
+			}
+										
+			public function set genesisDirsListProvider(value:Array):void
+			{
+				genesisDirs.dataProvider = new ArrayList(value);
+			}
+
+			public function installationResult(message:String):void
+			{
+				Snackbar.show(message, 4000, null);
+			}
+			
+			[Bindable]
+			private var filterHeader:Object = { visible: true, texts: {
+				ok: "OK",
+				cancel: "Cancel"
+			} };
+
+			[Bindable]
+			private var filterRow:Object = { visible: true, applyFilter: "auto" };
+		]]>
+	</fx:Script>
+
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+
+	<j:Grid gap="false" minHeight="40">
+		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
+			<j:HGroup percentWidth="100">
+				<html:H3 text="Genesis Directories" percentWidth="100"/>
+				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
+					<j:Button localId="dirNew" className="noLinkStyle" text="Learn More"/>
+				</j:HGroup>
+			</j:HGroup>
+		</j:GridCell>
+	</j:Grid>
+
+	<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
+		<j:Label percentWidth="100" text="* Select item to see more details and install application."
+				 className="smallFont italic brandColor labelTextAlignRight"/>
+	</j:HGroup>
+	<dataGrid:DataGrid localId="genesisDirs" className="dataGridJS scrollHeightGenAppGridJS" filterRow="{filterRow}"
+					   headerFilter="{filterHeader}">
+			<dataGrid:beads>
+				<beads:JewelDataGridHeader />
+			</dataGrid:beads>
+			<dataGrid:columns>
+				<models:DataGridColumnModel caption="Label" dataField="label" dataType="string" allowFiltering="true"/>
+				<models:DataGridColumnModel caption="URL" dataField="url" dataType="string" allowFiltering="true"/>
+			</dataGrid:columns>
+		</dataGrid:DataGrid>
+</j:VGroup>

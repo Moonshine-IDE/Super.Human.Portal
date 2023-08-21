@@ -113,6 +113,7 @@
 			</dataGrid:beads>
 			<dataGrid:columns>
 				<models:DataGridColumnModel caption="App Name" dataField="label" dataType="string" allowFiltering="true"/>
+				<models:DataGridColumnModel caption="Directory" dataField="directory" dataType="string" allowFiltering="true"/>
 				<models:DataGridColumnModel caption="Installed" dataField="installed" dataType="boolean" width="100" itemRenderer="view.renderers.NonEditableCheckboxRenderer"/>
 			</dataGrid:columns>
 		</dataGrid:DataGrid>

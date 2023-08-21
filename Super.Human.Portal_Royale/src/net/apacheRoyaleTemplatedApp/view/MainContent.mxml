@@ -7,7 +7,7 @@
 				  xmlns:model="model.*" 
 				  xmlns:routing="org.apache.royale.routing.*" xmlns:beads="classes.beads.*" 
 				  xmlns:hello="view.hello.*" xmlns:applications="view.applications.*" 
-				  xmlns:vo="model.vo.*" xmlns:bookmarks="view.bookmarks.*"
+				  xmlns:vo="model.vo.*" xmlns:bookmarks="view.bookmarks.*" xmlns:controls="view.controls.*"
 				  implements="interfaces.IMainContentView"
 				  initComplete="onInitComplete(event)">
 	<j:beads>
@@ -38,6 +38,8 @@
 			import org.apache.royale.jewel.Alert;
 
 			import view.general.BusyOperator;
+			import mediator.applications.MediatorGenesisAdditionalDir;
+			import interfaces.IGenesisAdditionalDirView;
 																																																																																																						
 			private function onInitComplete(event:Event):void 
 			{
@@ -206,6 +208,11 @@
 				return this.genesisAppsView;	
 			}
 			
+			public function get viewGenesisAdditionalDir():IGenesisAdditionalDirView
+			{
+				return this.genesisAdditionalDirView;
+			}
+			
 			public function get installedAppsView():IInstalledAppView
 			{
 				return this.viewInstalledApp;	
@@ -264,7 +271,7 @@
 			{
 				drawerResponsive.auto = value;
 			}
-			
+
 		]]>
 	</fx:Script>
 
@@ -296,7 +303,7 @@
 			<j:Label text="Sections"/>
 		</j:DrawerHeader>
 		<j:DrawerContent localId="viewDrawerContent">	
-			<j:Navigation id="navigation" labelField="name" change="{function onMainNavChange(event:Event):void {
+			<controls:NavigationWithClickableSection id="navigation" labelField="name" change="{function onMainNavChange(event:Event):void {
                                                             var selectedContent:String = event.currentTarget.selectedItem.content;
                                                             var mainContentView:Object = this[selectedContent + '_ID'];
                                                             if (mainContentView)
@@ -304,26 +311,30 @@
                                                             	   mainContentView.cancelFormEdit();
                                                         	   }
                                                             this.mainContent.selectedContent = selectedContent;
-                                                        }; onMainNavChange(event);}" className="navIconLinkItemRenderer">
-				<j:beads>
+                                                        }; onMainNavChange(event);}" 
+                                                        sectionChange="{function onMainNavSectionChange(event:Event):void {
+                                                            var selectedContent:String = event.currentTarget.selectedItem.content;
+                                                            this.mainContent.selectedContent = selectedContent;
+                                                        }; onMainNavSectionChange(event);}" className="navWithClickableSectionItemRenderer">
+				<controls:beads>
+					<js:ConstantBinding sourceID="leftMenuNavModel" sourcePropertyName="mainNavigation" destinationPropertyName="dataProvider"/>
 					<j:NavigationActionNotifier/>
-				</j:beads>
-				<j:dataProvider xmlns:j="library://ns.apache.org/royale/jewel">
+				</controls:beads>
+				<!--<j:dataProvider xmlns:j="library://ns.apache.org/royale/jewel">
 					<js:ArrayList>
-						<!---
 							Temporary hide Hello
-							<fx:Object name="Hello" content="MediatorViewHello" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"/>->
+							<fx:Object name="Hello" content="MediatorViewHello" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"/>
 
-                            <!--START_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**-->
+                          	START_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**
 						<vo:NavigationLinkVO name="Getting Started" content="DocumentationForm" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"
 									   notificationName="Native/NoteOpenViewHello"/>
-							<!--END_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
-						<!--GENERATED_MENU_CURSOR: New snippets will be inserted here-->
-						<vo:NavigationLinkVO name="Genesis App" content="MediatorGenesisApps" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"
-								   notificationName="Native/NoteOpenGenesisApplications"/>
+						END_GENERATED_MENU_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY
+						GENERATED_MENU_CURSOR: New snippets will be inserted here
+						<vo:NavigationLinkVO localId="genesisAppNavItem" name="Genesis App" content="MediatorGenesisApps" xmlns:fx="http://ns.adobe.com/mxml/2009" visible="true" enabled="true"
+								   			 notificationName="Native/NoteOpenGenesisApplications" icon="mdi mdi-apps mdi-24px"/>
 					</js:ArrayList>
-				</j:dataProvider>
-			</j:Navigation>
+				</j:dataProvider>-->
+			</controls:NavigationWithClickableSection>
 			<j:Navigation id="bookmarksNavigation" labelField="name" className="navIconLinkItemRenderer">
 				<j:beads>
 					<js:ConstantBinding sourceID="leftMenuNavModel" sourcePropertyName="customBookmarks" destinationPropertyName="dataProvider"/>
@@ -392,7 +403,9 @@
 		<j:SectionContent name="{MediatorGenesisApps.NAME}">
 			<applications:GenesisAppsList id="genesisAppsView"/>
 		</j:SectionContent>
-	
+		<j:SectionContent name="{MediatorGenesisAdditionalDir.NAME}">
+			<applications:GenesisAdditionalDirView id="genesisAdditionalDirView"/>
+		</j:SectionContent>
 	<!--	
 		Temporary hide Hello
 		<j:ScrollableSectionContent name="{MediatorViewHello.NAME}">

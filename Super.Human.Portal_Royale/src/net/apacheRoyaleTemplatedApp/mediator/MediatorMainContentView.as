@@ -4,6 +4,7 @@ package mediator
 
     import interfaces.IMainContentView;
 
+    import mediator.applications.MediatorGenesisAdditionalDir;
     import mediator.applications.MediatorGenesisApps;
     import mediator.bookmarks.MediatorEditBookmark;
 
@@ -53,6 +54,7 @@ package mediator
 				view.logout.addEventListener(MouseEvent.CLICK, onLogoutClick);
 				view.viewButtonDrawer.addEventListener(MouseEvent.CLICK, onDrawerButtonShowHide);
 				view.viewDrawerNavigation.addEventListener(Event.CHANGE, onNavigationSectionChange);
+				view.viewDrawerNavigation.addEventListener("sectionChange", onNavigationSectionChange);
 				view.viewBookmarksNavigation.addEventListener(Event.CHANGE, onNavigationBookmarksSelectionChange);
 				view.viewInstalledAppsNavigation.addEventListener(Event.CHANGE, onNavigationInstalledAppSectionChange);
 				
@@ -89,6 +91,7 @@ package mediator
 					
 					interests.push(ApplicationConstants.NOTE_OPEN_VIEW_HELLO);
 					interests.push(ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS);
+					interests.push(ApplicationConstants.NOTE_OPEN_GENESIS_ADDITIONAL_DIR);
 					interests.push(ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK);
 					interests.push(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP);
 					
@@ -136,6 +139,9 @@ package mediator
 						break;
 					case ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS:
 						initializeGenesisApplicationsList();
+						break;
+					case ApplicationConstants.NOTE_OPEN_GENESIS_ADDITIONAL_DIR:
+						initializeGenesisAdditionalDir();
 						break;
 					case ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK:
 						initializeAddEditBookmark();
@@ -246,6 +252,18 @@ package mediator
 					currentView: view.viewGenesisApps,
 					currentSelection: MediatorGenesisApps.NAME
 				}, "mediator.applications.MediatorGenesisApps");
+			}
+			
+			private function initializeGenesisAdditionalDir():void
+			{
+				this.removeMediatorFromAdditionalNavigation(view.viewInstalledAppsNavigation);
+				this.removeMediatorFromAdditionalNavigation(view.viewBookmarksNavigation);
+				
+				sendNotification(ApplicationConstants.COMMAND_REMOVE_REGISTER_MAIN_VIEW, {
+					view: view,
+					currentView: view.viewGenesisAdditionalDir,
+					currentSelection: MediatorGenesisAdditionalDir.NAME
+				}, "mediator.applications.MediatorGenesisAdditionalDir");	
 			}
 			
 			private function initializeAddEditBookmark():void

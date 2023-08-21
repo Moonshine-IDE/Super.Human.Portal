@@ -69,6 +69,7 @@ package constants
 		
 		public static const NOTE_OPEN_VIEW_HELLO:String = NAME + SEPARATOR + "NoteOpenViewHello";
 		public static const NOTE_OPEN_GENESIS_APPLICATIONS:String = NAME + SEPARATOR + "NoteOpenGenesisApplications";
+		public static const NOTE_OPEN_GENESIS_ADDITIONAL_DIR:String = NAME + SEPARATOR + "NoteOpenGenesisAdditionalDir";
 		
 		public static const NOTE_OPEN_ADD_EDIT_BOOKMARK:String = NAME + SEPARATOR + "NoteOpenAddEditBookmark";
 		public static const NOTE_OPEN_SELECTED_BOOKMARK_GROUP:String = NAME + SEPARATOR + "NoteOpenSelectedBookmarkGroup";
