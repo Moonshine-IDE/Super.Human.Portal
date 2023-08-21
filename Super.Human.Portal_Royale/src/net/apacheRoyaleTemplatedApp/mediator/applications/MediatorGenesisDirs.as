@@ -1,28 +1,30 @@
 package mediator.applications
 {
+    import classes.com.devexpress.js.dataGrid.events.DataGridEvent;
+
     import constants.ApplicationConstants;
     import constants.PopupType;
 
-    import interfaces.IGenesisAdditionalDirView;
+    import interfaces.IGenesisDirsView;
 
-    import model.proxy.applicationsCatalog.ProxyGenesisApps;
     import model.proxy.applicationsCatalog.ProxyGenesisDirs;
     import model.proxy.urlParams.ProxyUrlParameters;
+    import model.vo.GenesisDirVO;
     import model.vo.PopupVO;
 
+    import org.apache.royale.events.MouseEvent;
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-    import org.apache.royale.events.MouseEvent;
     
-    public class MediatorGenesisAdditionalDir extends Mediator implements IMediator
+    public class MediatorGenesisDirs extends Mediator implements IMediator
     {
-		public static const NAME:String  = 'MediatorGenesisAdditionalDir';
+		public static const NAME:String  = 'MediatorGenesisDirs';
 		
 		private var genesisDirsProxy:ProxyGenesisDirs;
 		private var urlParamsProxy:ProxyUrlParameters;
 		
-		public function MediatorGenesisAdditionalDir(component:IGenesisAdditionalDirView) 
+		public function MediatorGenesisDirs(component:IGenesisDirsView) 
 		{
 			super(NAME, component);
 		}
@@ -32,6 +34,7 @@ package mediator.applications
 			super.onRegister();
 			
 			view.newDir.addEventListener(MouseEvent.CLICK, onNewDirClick);
+			view.genesisDirsList.addEventListener(DataGridEvent.DOUBLE_CLICK_ROW, onGenesisDirsDoubleClicked);
 			
 			this.genesisDirsProxy = facade.retrieveProxy(ProxyGenesisDirs.NAME) as ProxyGenesisDirs;
 			
@@ -43,6 +46,7 @@ package mediator.applications
 			super.onRemove();
 			
 			view.newDir.removeEventListener(MouseEvent.CLICK, onNewDirClick);
+			view.genesisDirsList.removeEventListener(DataGridEvent.DOUBLE_CLICK_ROW, onGenesisDirsDoubleClicked);
 			
 			this.genesisDirsProxy = null;
 		}
@@ -69,14 +73,23 @@ package mediator.applications
 			}
 		}		
 		
-		public function get view():IGenesisAdditionalDirView
+		public function get view():IGenesisDirsView
 		{
-			return viewComponent as IGenesisAdditionalDirView;
+			return viewComponent as IGenesisDirsView;
 		}
 
 		private function onNewDirClick(event:MouseEvent):void
 		{
+			this.genesisDirsProxy.selectedDir = new GenesisDirVO("", "");
 			
+			sendNotification(ApplicationConstants.NOTE_OPEN_ADD_EDIT_GENESIS_DIR);
+		}
+		
+		private function onGenesisDirsDoubleClicked(event:DataGridEvent):void
+		{
+			this.genesisDirsProxy.selectedDir = event.item as GenesisDirVO;
+			
+			sendNotification(ApplicationConstants.NOTE_OPEN_ADD_EDIT_GENESIS_DIR, event.item);
 		}
 		
 		private function updateView():void

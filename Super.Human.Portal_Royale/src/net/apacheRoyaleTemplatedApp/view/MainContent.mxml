@@ -22,6 +22,8 @@
 			import interfaces.IBookmarksView;
 			import interfaces.IEditBookmarkView;
 			import interfaces.IGenesisAppsView;
+			import interfaces.IGenesisDirsView;
+			import interfaces.IGenesisEditDirView;
 			import interfaces.IInstalledAppView;
 			import interfaces.ILoginView;
 			import interfaces.INewRegistration;
@@ -30,6 +32,8 @@
 			import mediator.MediatorNewRegistration;
 			import mediator.MediatorPasswordReset;
 			import mediator.applications.MediatorGenesisApps;
+			import mediator.applications.MediatorGenesisDirs;
+			import mediator.applications.MediatorGenesisEditDir;
 			import mediator.bookmarks.MediatorEditBookmark;
 
 			import model.vo.ConstantsCoreVO;
@@ -38,8 +42,6 @@
 			import org.apache.royale.jewel.Alert;
 
 			import view.general.BusyOperator;
-			import mediator.applications.MediatorGenesisAdditionalDir;
-			import interfaces.IGenesisAdditionalDirView;
 																																																																																																						
 			private function onInitComplete(event:Event):void 
 			{
@@ -208,9 +210,14 @@
 				return this.genesisAppsView;	
 			}
 			
-			public function get viewGenesisAdditionalDir():IGenesisAdditionalDirView
+			public function get viewGenesisDirs():IGenesisDirsView
 			{
-				return this.genesisAdditionalDirView;
+				return this.genesisDirsView;
+			}
+			
+			public function get viewGenesisEditDir():IGenesisEditDirView
+			{
+				return this.genesisEditDirView;	
 			}
 			
 			public function get installedAppsView():IInstalledAppView
@@ -403,8 +410,11 @@
 		<j:SectionContent name="{MediatorGenesisApps.NAME}">
 			<applications:GenesisAppsList id="genesisAppsView"/>
 		</j:SectionContent>
-		<j:SectionContent name="{MediatorGenesisAdditionalDir.NAME}">
-			<applications:GenesisAdditionalDirView id="genesisAdditionalDirView"/>
+		<j:SectionContent name="{MediatorGenesisDirs.NAME}">
+			<applications:GenesisDirsView id="genesisDirsView"/>
+		</j:SectionContent>
+		<j:SectionContent name="{MediatorGenesisEditDir.NAME}">
+			<applications:GenesisEditDirView id="genesisEditDirView"/>
 		</j:SectionContent>
 	<!--	
 		Temporary hide Hello

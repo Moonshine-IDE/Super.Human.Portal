@@ -36,7 +36,8 @@ package interfaces
 		function notifyObsoleteCurrentVersion():void;
 		
 		function get viewGenesisApps():IGenesisAppsView;
-		function get viewGenesisAdditionalDir():IGenesisAdditionalDirView;
+		function get viewGenesisDirs():IGenesisDirsView;
+		function get viewGenesisEditDir():IGenesisEditDirView;
 		function get viewDocumentationForm():Object;
 		
 		function get installedAppsView():IInstalledAppView;

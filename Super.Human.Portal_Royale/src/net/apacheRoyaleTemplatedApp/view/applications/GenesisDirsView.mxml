@@ -4,7 +4,7 @@
 		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
 		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
 		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
-		 implements="interfaces.IGenesisAdditionalDirView" className="bodyPadding" percentHeight="100"
+		 implements="interfaces.IGenesisDirsView" className="bodyPadding" percentHeight="100"
 		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" gap="5">
 	<fx:Script>
 		<![CDATA[

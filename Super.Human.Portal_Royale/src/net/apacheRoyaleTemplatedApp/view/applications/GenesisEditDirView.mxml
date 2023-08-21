@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
+		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
+		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
+		 implements="interfaces.IGenesisEditDirView" className="bodyPadding"
+		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" gap="5">
+	<fx:Script>
+		<![CDATA[
+			import model.vo.GenesisDirVO;
+
+			import org.apache.royale.events.IEventDispatcher;
+			import org.apache.royale.jewel.Snackbar;
+
+			private var _genesisDir:GenesisDirVO;
+
+			[Bindable]
+			public function get genesisDir():GenesisDirVO
+			{
+				return _genesisDir;
+			}
+
+			public function set genesisDir(value:GenesisDirVO):void
+			{
+				_genesisDir = value;
+			}
+			
+			public function get genesisDirForm():IEventDispatcher
+			{
+				return this.formGenesisDir;	
+			}
+
+			public function get cancelGenesisEdit():IEventDispatcher
+			{
+				return this.genesisDirCancel;	
+			}
+			
+			private var _titleGenesisDir:String;
+			
+			[Bindable]
+			public function get titleGenesisDir():String
+			{
+				return _titleGenesisDir;	
+			}
+			
+			public function set titleGenesisDir(value:String):void
+			{
+				_titleGenesisDir = value;	
+			}
+			
+			public function get labelText():String
+			{
+				if (!this.labelTextInput) return "";
+				
+				return this.labelTextInput.text;
+			}
+			
+			public function get urlText():String
+			{
+				if (!this.urlTextInput) return "";
+				
+				return this.urlTextInput.text;
+			}
+			
+			public function get passwordText():String
+			{
+				if (!this.passwordTextInput) return "";
+				
+				return this.passwordTextInput.text;
+			}
+			
+			public function installationResult(message:String):void
+			{
+				Snackbar.show(message, 4000, null);
+			}
+
+			public function resetView():void
+			{
+				this.formGenesisDirValidator.removeAllErrorTips();		
+			}
+		]]>
+	</fx:Script>
+
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+
+	<j:Grid gap="false" minHeight="40">
+		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
+			<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2">
+				 <j:style>
+           			<js:SimpleCSSStyles paddingLeft="10" paddingTop="10" marginTop="0"/>
+				</j:style>
+				<j:Button localId="genesisDirSave" text="Save"/>
+				<j:Button localId="genesisDirCancel" text="Cancel"/>
+			</j:HGroup>
+		</j:GridCell>
+	</j:Grid>
+	<j:Card percentWidth="100">
+		<j:CardHeader>
+			<html:H3 localId="bookmarkTitle" text="{titleGenesisDir}" percentWidth="100"/>
+		</j:CardHeader>
+		<j:CardPrimaryContent itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsCenter">
+			<j:Form localId="formGenesisDir" percentWidth="80">
+				<j:beads>
+					<j:FormValidator localId="formGenesisDirValidator" trigger="{genesisDirSave}" triggerEvent="click"/>
+				</j:beads>
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemRequiredBookmarkLabel"
+										label="Label:" required="true">							
+					<j:TextInput localId="labelTextInput" className="flexShrink"
+								 text="{genesisDir.label}"/>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemRequiredBookmarkLabel"
+										label="URL:" required="true">							
+					<j:TextInput localId="urlTextInput" className="flexShrink"
+							     text="{genesisDir.url}">
+						<j:beads>
+							<j:StringValidator required="1"/>
+						</j:beads>
+					</j:TextInput>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+										labelClass="formItemRequiredBookmarkLabel"
+										label="Password (optional):">							
+					<j:TextInput localId="passwordTextInput" className="flexShrink"
+								 text="{genesisDir.password}">
+						<j:beads>
+							<j:PasswordInput />
+						</j:beads>
+					</j:TextInput>
+				</controls:CustomFormItem>
+			</j:Form>
+		</j:CardPrimaryContent>
+	</j:Card>
+</j:VGroup>

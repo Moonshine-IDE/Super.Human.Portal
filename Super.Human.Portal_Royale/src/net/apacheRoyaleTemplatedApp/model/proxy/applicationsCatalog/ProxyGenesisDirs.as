@@ -18,6 +18,12 @@ package model.proxy.applicationsCatalog
 		public static const NOTE_GENESIS_DIRS_LIST_FETCHED:String = NAME + "NoteGenesisDirsListFetched";
 		public static const NOTE_GENESIS_DIRS_LIST_FETCH_FAILED:String = NAME + "NoteGenesisDirsListFetchFailed";
 
+		public static const NOTE_GENESIS_DIR_CREATE_SUCCESS:String = NAME + "NoteGenesisDirCreateSuccess";
+		public static const NOTE_GENESIS_DIR_CREATE_FAILED:String = NAME + "NoteGenesisDirCreateFailed";
+		
+		public static const NOTE_GENESIS_DIR_UPDATE_SUCCESS:String = NAME + "NoteGenesisDirUpdateSuccess";
+		public static const NOTE_GENESIS_DIR_UPDATE_FAILED:String = NAME + "NoteGenesisDirUpdateFailed";
+		
 		private var genesisPrivteDirDelegate:GenesisDirsDelegate;
 		private var sessionCheckProxy:ProxySessionCheck;
 		private var busyManagerProxy:ProxyBusyManager;

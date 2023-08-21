@@ -2,7 +2,7 @@ package interfaces
 {
 	import org.apache.royale.events.IEventDispatcher;
 
-	public interface IGenesisAdditionalDirView
+	public interface IGenesisDirsView
 	{
 		function get newDir():IEventDispatcher;
 		function get genesisDirsList():IEventDispatcher;

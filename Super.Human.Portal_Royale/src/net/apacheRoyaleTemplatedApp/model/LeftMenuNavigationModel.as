@@ -1,16 +1,18 @@
 package model
 {
+	import constants.ApplicationConstants;
+
+	import mediator.applications.MediatorGenesisApps;
+	import mediator.applications.MediatorGenesisDirs;
+
 	import model.vo.NavigationLinkVO;
 
 	import org.apache.royale.collections.ArrayList;
-	import constants.ApplicationConstants;
-	import mediator.applications.MediatorGenesisAdditionalDir;
-	import mediator.applications.MediatorGenesisApps;
 										
 	public class LeftMenuNavigationModel  
 	{	
 		private var genesisDirectories:ArrayList = new ArrayList([
-			new NavigationLinkVO("Additional directories", ApplicationConstants.NOTE_OPEN_GENESIS_ADDITIONAL_DIR, "mdi mdi-apps mdi-24px", MediatorGenesisAdditionalDir.NAME, null, MediatorGenesisAdditionalDir.NAME)
+			new NavigationLinkVO("Additional directories", ApplicationConstants.NOTE_OPEN_GENESIS_DIRS_VIEW, "mdi mdi-apps mdi-24px", MediatorGenesisDirs.NAME, null, MediatorGenesisDirs.NAME)
 		]);
 		
 		private var genesisApps:NavigationLinkVO = new NavigationLinkVO("Genesis App", ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS, "mdi mdi-apps mdi-24px", MediatorGenesisApps.NAME, null, MediatorGenesisApps.NAME);
