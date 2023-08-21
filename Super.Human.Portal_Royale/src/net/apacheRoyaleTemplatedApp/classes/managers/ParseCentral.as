@@ -6,6 +6,7 @@ package classes.managers
 	import model.vo.ApplicationVO;
 	import model.vo.BookmarkVO;
 	import model.vo.CountriesDataModelVO;
+	import model.vo.GenesisDirVO;
 
 	import org.apache.royale.collections.ArrayList;
 	import org.apache.royale.utils.StringUtil;
@@ -256,6 +257,29 @@ package classes.managers
 			{
 				var app:Object = jsonData[i];
 				var tmpVO:ApplicationVO = new ApplicationVO(app.AppID, app.DetailsURL, app.Label, app.InstallCommand, app.Installed, app.InstallTimeS, app.access, app.directory);
+				
+				tmpArr.push(tmpVO);
+			}
+			
+			UtilsCore.sortItems(tmpArr, "label");
+			return tmpArr;
+		}
+		
+		/**
+		 * Parse genesis private dirs list
+		 *
+		 * @return Array
+		 */
+		public static function parseGenesisPrivDirsList(jsonData:Array):Array 
+		{
+			var tmpArr:Array = [];
+			
+			var viewEntryCount:int = jsonData.length;
+			
+			for (var i:int = 0; i < viewEntryCount; i++)
+			{
+				var privateDir:Object = jsonData[i];
+				var tmpVO:GenesisDirVO = new GenesisDirVO(privateDir.label, privateDir.url);
 				
 				tmpArr.push(tmpVO);
 			}

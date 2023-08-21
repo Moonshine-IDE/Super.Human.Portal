@@ -1,20 +1,25 @@
 package mediator.applications
 {
-    import interfaces.IInstalledAppView;
+    import constants.ApplicationConstants;
+    import constants.PopupType;
+
+    import interfaces.IGenesisAdditionalDirView;
 
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
+    import model.proxy.applicationsCatalog.ProxyGenesisDirs;
     import model.proxy.urlParams.ProxyUrlParameters;
+    import model.vo.PopupVO;
 
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-    import interfaces.IGenesisAdditionalDirView;
+    import org.apache.royale.events.MouseEvent;
     
     public class MediatorGenesisAdditionalDir extends Mediator implements IMediator
     {
 		public static const NAME:String  = 'MediatorGenesisAdditionalDir';
 		
-		private var genesisAppsProxy:ProxyGenesisApps;
+		private var genesisDirsProxy:ProxyGenesisDirs;
 		private var urlParamsProxy:ProxyUrlParameters;
 		
 		public function MediatorGenesisAdditionalDir(component:IGenesisAdditionalDirView) 
@@ -26,7 +31,9 @@ package mediator.applications
 		{			
 			super.onRegister();
 			
-			this.genesisAppsProxy = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
+			view.newDir.addEventListener(MouseEvent.CLICK, onNewDirClick);
+			
+			this.genesisDirsProxy = facade.retrieveProxy(ProxyGenesisDirs.NAME) as ProxyGenesisDirs;
 			
 			updateView();
 		}
@@ -34,15 +41,18 @@ package mediator.applications
 		override public function onRemove():void 
 		{			
 			super.onRemove();
-
-			this.genesisAppsProxy = null;
+			
+			view.newDir.removeEventListener(MouseEvent.CLICK, onNewDirClick);
+			
+			this.genesisDirsProxy = null;
 		}
-		
 		
 		override public function listNotificationInterests():Array 
 		{
 			var interests:Array = super.listNotificationInterests();
-	
+				interests.push(ProxyGenesisDirs.NOTE_GENESIS_DIRS_LIST_FETCHED);
+				interests.push(ProxyGenesisDirs.NOTE_GENESIS_DIRS_LIST_FETCH_FAILED);
+				
 			return interests;
 		}
 		
@@ -50,7 +60,12 @@ package mediator.applications
 		{
 			switch (note.getName()) 
 			{
-				
+				case ProxyGenesisDirs.NOTE_GENESIS_DIRS_LIST_FETCHED:
+					view.genesisDirsListProvider = note.getBody() as Array;
+					break;
+				case ProxyGenesisDirs.NOTE_GENESIS_DIRS_LIST_FETCH_FAILED:
+					sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, this.getMediatorName(), String(note.getBody())));
+					break;	
 			}
 		}		
 		
@@ -59,9 +74,14 @@ package mediator.applications
 			return viewComponent as IGenesisAdditionalDirView;
 		}
 
-		private function updateView():void
+		private function onNewDirClick(event:MouseEvent):void
 		{
 			
+		}
+		
+		private function updateView():void
+		{
+			this.genesisDirsProxy.getDirsList();
 		}
     }
 }

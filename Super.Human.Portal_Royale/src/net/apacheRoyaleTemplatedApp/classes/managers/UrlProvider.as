@@ -125,6 +125,13 @@ package classes.managers
 			return _genesisCatalogGetAll;
 		}
 		
+		private var _genesisGenesisDirsGetAll:String = "/SuperHumanPortal.nsf/GenesisRead?OpenAgent";
+
+		public function get genesisGenesisDirsGetAll():String
+		{
+			return _genesisGenesisDirsGetAll;
+		}
+		
 		private var _genesisCatalogInstall:String = "/SuperHumanPortal.nsf/GenesisInstall?OpenAgent";
 
 		public function get genesisCatalogInstall():String
