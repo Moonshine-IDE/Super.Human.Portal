@@ -23,8 +23,12 @@ import com.moonshine.domino.security.SecurityInterface;
 import com.moonshine.domino.util.ConfigurationUtils;
 import com.moonshine.domino.util.DominoUtils;
 
+import lotus.domino.Document;
 import lotus.domino.Name;
 import lotus.domino.NotesException;
+import lotus.domino.View;
+import lotus.domino.ViewEntry;
+import lotus.domino.ViewEntryCollection;
 import util.JSONUtils;
 import util.SimpleHTTPClient;
 import util.ValidationException;
@@ -62,6 +66,8 @@ public class GenesisRead extends CRUDAgentBase
 		
         JSONArray entries = new JSONArray();
         
+        View additionalDirectoryView = null;
+        ViewEntryCollection additionalDirectories = null;
         try {
         		loadInstalledApps();
         		linkProcessor = new LinkProcessor(session, getLog());
@@ -69,6 +75,27 @@ public class GenesisRead extends CRUDAgentBase
         		// The central directory.  Use "" for the label for now.
         		addApplicationsFromDirectory(getDataURL(), DEFAULT_DIRECTORY_LABEL, entries, linkProcessor);
         		
+        		// process the additional directories, if any
+        		additionalDirectoryView = DominoUtils.getView(agentDatabase, "All By UNID/CRUD/GenesisDirectory");
+        		additionalDirectories = additionalDirectoryView.getAllEntries();
+        		ViewEntry curEntry = additionalDirectories.getFirstEntry();
+        		while (null != curEntry) {
+        			Document additionalDirectoryDoc = null;
+        			try {
+        				additionalDirectoryDoc = curEntry.getDocument();
+        				
+        				String label = additionalDirectoryDoc.getItemValueString("label");
+        				String url = additionalDirectoryDoc.getItemValueString("url"); // + "/rest?openagent&req=v1/apps";
+        				addApplicationsFromDirectory(url, label, entries, linkProcessor);
+        			}
+        			finally {
+        				ViewEntry prevEntry = curEntry;
+        				curEntry = additionalDirectories.getNextEntry();
+        				
+        				DominoUtils.recycle(session, additionalDirectoryDoc);
+        				DominoUtils.recycle(session, prevEntry);
+        			}
+        		}
             
             // // add an example application
 			// JSONObject newNode = new JSONObject();
@@ -102,34 +129,43 @@ public class GenesisRead extends CRUDAgentBase
             reportError("Error while generating application list.");
             getLog().err("Exception:  ", ex);
         }
+        finally {
+        		DominoUtils.recycle(session, additionalDirectories);
+        		DominoUtils.recycle(session, additionalDirectoryView);
+        }
     }
     
-    protected void addApplicationsFromDirectory(String directoryURL, String directoryLabel, JSONArray applicationList, LinkProcessor linkProcessor) throws JSONException, Exception {
-		JSONArray list = getGenesisAppList(directoryURL);
-		
-		for (Object entry : list) {
-			try {
-				JSONObject node = (JSONObject) entry;
-				JSONObject newNode = new JSONObject();
-				JSONUtils.copyPropertySafe(node, "id", newNode, "AppID", null, getLog());
-				JSONUtils.copyPropertySafe(node, "title", newNode, "Label", null, getLog());
-				JSONUtils.copyPropertySafe(node, "url", newNode, "DetailsURL", null, getLog());
-				JSONUtils.copyPropertySafe(node, "install", newNode, "InstallCommand", null, getLog());
-				JSONUtils.copyPropertySafe(node, "installTime", newNode, "InstallTimeS", getDefaultInstallTimeS(), getLog());
-				
-				// set the directory
-				newNode.put("directory", directoryLabel);
-				
-				// add info installation info
-				addInstallationInfo(newNode, node.get("id").toString());
-				copyAccessInfo(newNode, node);
-				
-				applicationList.put(newNode);
+    protected void addApplicationsFromDirectory(String directoryURL, String directoryLabel, JSONArray applicationList, LinkProcessor linkProcessor) {
+    		try {
+			JSONArray list = getGenesisAppList(directoryURL);
+			
+			for (Object entry : list) {
+				try {
+					JSONObject node = (JSONObject) entry;
+					JSONObject newNode = new JSONObject();
+					JSONUtils.copyPropertySafe(node, "id", newNode, "AppID", null, getLog());
+					JSONUtils.copyPropertySafe(node, "title", newNode, "Label", null, getLog());
+					JSONUtils.copyPropertySafe(node, "url", newNode, "DetailsURL", null, getLog());
+					JSONUtils.copyPropertySafe(node, "install", newNode, "InstallCommand", null, getLog());
+					JSONUtils.copyPropertySafe(node, "installTime", newNode, "InstallTimeS", getDefaultInstallTimeS(), getLog());
+					
+					// set the directory
+					newNode.put("directory", directoryLabel);
+					
+					// add info installation info
+					addInstallationInfo(newNode, node.get("id").toString());
+					copyAccessInfo(newNode, node);
+					
+					applicationList.put(newNode);
+				}
+				catch (JSONException ex) {
+					getLog().err("Exception while processing application:  '" + entry.toString() + "':  ", ex);
+					// continue with other entries
+				}
 			}
-			catch (JSONException ex) {
-				getLog().err("Exception while processing application:  '" + entry.toString() + "':  ", ex);
-				// continue with other entries
-			}
+		}
+		catch (Exception ex) {
+			getLog().err("Failed to read the '" + directoryLabel + "' (" + directoryURL + ") directory.  Skipping:  ", ex);
 		}
     	
     }
