@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:DataGridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  			 xmlns:j="library://ns.apache.org/royale/jewel" 
+		  			 xmlns:js="library://ns.apache.org/royale/basic" 
+		  			 xmlns:itemRenderers="org.apache.royale.jewel.beads.itemRenderers.*" xmlns:beads="classes.beads.*"
+		  			 className="gridJSRendererClean">
+	 <j:beads>
+		<js:ItemRendererDataBinding/>
+		<j:VerticalCenteredLayout />
+	</j:beads>
+	<fx:Script>
+	<![CDATA[
+		override public function get data():Object
+		{
+			return _data;
+		}
+		
+		override public function set data(value:Object):void
+		{
+			_data = value;
+		}	
+	]]>
+</fx:Script>
+    <j:IconButton localId="deleteIcon" style="padding: 0px;">
+        <j:icon>
+            <js:MaterialIcon text="{MaterialIconType.DELETE}" />
+        </j:icon>
+    </j:IconButton>
+</j:DataGridItemRenderer>

@@ -146,7 +146,7 @@ package classes.managers
 			return _genesisDirUpdate;
 		}
 		
-		private var _genesisDirDelete:String = "/SuperHumanPortal.nsf/GenesisDirectoryUpdate?OpenAgent";
+		private var _genesisDirDelete:String = "/SuperHumanPortal.nsf/GenesisDirectoryDelete?OpenAgent";
 
 		public function get genesisDirDelete():String
 		{

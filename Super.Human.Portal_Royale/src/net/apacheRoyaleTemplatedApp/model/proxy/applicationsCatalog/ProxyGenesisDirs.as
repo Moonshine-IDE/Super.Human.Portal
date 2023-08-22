@@ -26,6 +26,9 @@ package model.proxy.applicationsCatalog
 		public static const NOTE_GENESIS_DIR_UPDATE_SUCCESS:String = NAME + "NoteGenesisDirUpdateSuccess";
 		public static const NOTE_GENESIS_DIR_UPDATE_FAILED:String = NAME + "NoteGenesisDirUpdateFailed";
 		
+		public static const NOTE_GENESIS_DIR_DELETE_SUCCESS:String = NAME + "NoteGenesisDirDeleteSuccess";
+		public static const NOTE_GENESIS_DIR_DELETE_FAILED:String = NAME + "NoteGenesisDirDeleteFailed";
+		
 		private var genesisPrivteDirDelegate:GenesisDirsDelegate;
 		private var sessionCheckProxy:ProxySessionCheck;
 		private var busyManagerProxy:ProxyBusyManager;
@@ -84,6 +87,14 @@ package model.proxy.applicationsCatalog
 			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onUpdateDirFailed);
 			
 			genesisPrivteDirDelegate.updateGenesisDir(this.selectedDir.dominoUniversalID, this.selectedDir.toRequestObject(), successCallback, failureCallback);	
+		}
+		
+		public function deleteDir():void
+		{
+			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onGenesisDirDeleteSuccess);
+			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisDirDeleteFailed);
+			
+			genesisPrivteDirDelegate.deleteDir(this.selectedDir.dominoUniversalID, successCallback, failureCallback);
 		}
 		
 		private function onGenesisDirsListFetched(event:Event):void
@@ -187,6 +198,43 @@ package model.proxy.applicationsCatalog
 		private function onUpdateDirFailed(event:FaultEvent):void
 		{
 			sendNotification(NOTE_GENESIS_DIR_UPDATE_FAILED, "Updating Genesis directory failed: " + event.message.toLocaleString());
+		}
+		
+		private function onGenesisDirDeleteSuccess(event:Event):void
+		{
+			var fetchedData:String = event.target["data"];
+			if (fetchedData)
+			{
+				var jsonData:Object = JSON.parse(fetchedData);
+				if (!sessionCheckProxy.checkUserSession(jsonData))
+				{
+					return;
+				}
+				
+				var errorMessage:String = jsonData["errorMessage"];
+				
+				if (errorMessage)
+				{
+					sendNotification(NOTE_GENESIS_DIR_DELETE_FAILED, "Deleting Genesis direcotry failed: " + errorMessage);
+				}
+				else
+				{
+					var dirs:Array = getData() as Array;
+					var deleteDirIndex:int = dirs.indexOf(this.selectedDir);
+						dirs.splice(deleteDirIndex, 1);
+						
+					sendNotification(NOTE_GENESIS_DIR_DELETE_SUCCESS);
+				}
+			}
+			else
+			{
+				sendNotification(NOTE_GENESIS_DIR_DELETE_FAILED, "Deleting Genesis direcotry failed.");
+			}
+		}
+		
+		private function onGenesisDirDeleteFailed(event:FaultEvent):void
+		{
+			sendNotification(NOTE_GENESIS_DIR_DELETE_FAILED, "Deleting Genesis direcotry failed: " + event.message.toLocaleString());
 		}
 	}
 }
