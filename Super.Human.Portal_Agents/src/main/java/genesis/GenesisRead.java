@@ -41,6 +41,9 @@ public class GenesisRead extends CRUDAgentBase
 	protected static final int DEFAULT_INSTALL_TIME_S = 15;
 	protected int configInstallTimeS = -1;
 	
+	/** The label to use for the default, public Genesis directory */
+	protected static final String DEFAULT_DIRECTORY_LABEL = "Default";  
+	
 	protected LinkProcessor linkProcessor = null;
 	
 	@Override
@@ -62,29 +65,10 @@ public class GenesisRead extends CRUDAgentBase
         try {
         		loadInstalledApps();
         		linkProcessor = new LinkProcessor(session, getLog());
-            JSONArray list = getGenesisAppList();
-            
-            for (Object entry : list) {
-                try {
-                    JSONObject node = (JSONObject) entry;
-                    JSONObject newNode = new JSONObject();
-                    JSONUtils.copyPropertySafe(node, "id", newNode, "AppID", null, getLog());
-                    JSONUtils.copyPropertySafe(node, "title", newNode, "Label", null, getLog());
-                    JSONUtils.copyPropertySafe(node, "url", newNode, "DetailsURL", null, getLog());
-                    JSONUtils.copyPropertySafe(node, "install", newNode, "InstallCommand", null, getLog());
-                    JSONUtils.copyPropertySafe(node, "installTime", newNode, "InstallTimeS", getDefaultInstallTimeS(), getLog());
-                    
-                    // add info installation info
-                    addInstallationInfo(newNode, node.get("id").toString());
-                    copyAccessInfo(newNode, node);
-                    
-                    entries.put(newNode);
-                }
-                catch (JSONException ex) {
-                    getLog().err("Exception while processing application:  '" + entry.toString() + "':  ", ex);
-                    // continue with other entries
-                }
-            }
+        		
+        		// The central directory.  Use "" for the label for now.
+        		addApplicationsFromDirectory(getDataURL(), DEFAULT_DIRECTORY_LABEL, entries, linkProcessor);
+        		
             
             // // add an example application
 			// JSONObject newNode = new JSONObject();
@@ -119,10 +103,39 @@ public class GenesisRead extends CRUDAgentBase
             getLog().err("Exception:  ", ex);
         }
     }
+    
+    protected void addApplicationsFromDirectory(String directoryURL, String directoryLabel, JSONArray applicationList, LinkProcessor linkProcessor) throws JSONException, Exception {
+		JSONArray list = getGenesisAppList(directoryURL);
+		
+		for (Object entry : list) {
+			try {
+				JSONObject node = (JSONObject) entry;
+				JSONObject newNode = new JSONObject();
+				JSONUtils.copyPropertySafe(node, "id", newNode, "AppID", null, getLog());
+				JSONUtils.copyPropertySafe(node, "title", newNode, "Label", null, getLog());
+				JSONUtils.copyPropertySafe(node, "url", newNode, "DetailsURL", null, getLog());
+				JSONUtils.copyPropertySafe(node, "install", newNode, "InstallCommand", null, getLog());
+				JSONUtils.copyPropertySafe(node, "installTime", newNode, "InstallTimeS", getDefaultInstallTimeS(), getLog());
+				
+				// set the directory
+				newNode.put("directory", directoryLabel);
+				
+				// add info installation info
+				addInstallationInfo(newNode, node.get("id").toString());
+				copyAccessInfo(newNode, node);
+				
+				applicationList.put(newNode);
+			}
+			catch (JSONException ex) {
+				getLog().err("Exception while processing application:  '" + entry.toString() + "':  ", ex);
+				// continue with other entries
+			}
+		}
+    	
+    }
 
-    protected JSONArray getGenesisAppList()
+    protected JSONArray getGenesisAppList(String url)
             throws NotesException, Exception, ValidationException, IOException {
-        String url = getDataURL();
         SimpleHTTPClient http = new SimpleHTTPClient(API_TIMEOUT_MS, API_TIMEOUT_MS, 0);
         String data = http.getPage(url);
         JSONObject original = new JSONObject(data);

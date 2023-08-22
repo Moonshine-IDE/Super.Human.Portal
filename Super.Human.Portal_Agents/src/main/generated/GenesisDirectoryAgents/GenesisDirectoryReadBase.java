@@ -27,6 +27,7 @@ public class GenesisDirectoryReadBase extends GetAllAgentBase {
 		Collection<FieldDefinition> fields = new ArrayList<FieldDefinition>();
 		fields.add(new FieldDefinition("label", FieldType.TEXT, false));
 		fields.add(new FieldDefinition("url", FieldType.TEXT, false));
+		fields.add(new FieldDefinition("private", FieldType.TEXT, false));
 		fields.add(new FieldDefinition("password", FieldType.TEXT, false));
 
 		return fields;

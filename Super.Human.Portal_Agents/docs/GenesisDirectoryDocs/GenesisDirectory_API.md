@@ -83,7 +83,7 @@ Document properties | Type | Multivalue | Notes
 DominoUniveralID    | Text | No         | Used as the lookup key for Create and Update agents.
 label | Text | false | 
 url | Text | false | 
-password | Text | false | 
+private | Text | false | "true" if repository is considered private (hidden `password` property is not blank), any other values means it is public
 
 
 ### Create

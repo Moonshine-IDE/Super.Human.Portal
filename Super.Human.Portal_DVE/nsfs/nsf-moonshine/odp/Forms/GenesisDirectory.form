@@ -16,78 +16,100 @@
     <textlist>
       <text>label</text>
       <text>url</text>
+      <text>private</text>
       <text>password</text>
     </textlist>
   </item>
   <item name="$Body" sign="true">
     <richtext style="width:700px;height:700px;" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" direction="Vertical" vdirection="Vertical">
-      <pardef id="1007" dominotype="dominoHideDiv" keeptogether="true" keepwithnext="true" hide=""/>
+      <pardef id="1011" dominotype="dominoHideDiv" keeptogether="true" keepwithnext="true" hide=""/>
       <par isNewLine="false">
         <run>
-          <font color="system" size="12pt" style="normal"/>Additional Genesis Directory
+          <font color="system" size="12pt" style="normal" name="serif"/>Additional Genesis Directory
         </run>
       </par>
-      <pardef id="1008" dominotype="dominoHideDiv" keeptogether="true" keepwithnext="true" hide=""/>
+      <pardef id="1012" dominotype="dominoHideDiv" keeptogether="true" keepwithnext="true" hide=""/>
       <table refwidth="3.75in" widthtype="fixedleft">
         <tablecolumn/>
         <tablecolumn/>
         <tablerow>
           <tablecell hpostion="left" valign="top">
-            <pardef id="72" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
-            <par def="72" hidewhen="">
+            <pardef id="112" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="112" hidewhen="">
               <run>
-                <font color="system" size="12pt" style="normal"/>Label (unique identifier)
+                <font color="system" size="12pt" style="normal" name="serif"/>Label (unique identifier)
               </run>
             </par>
           </tablecell>
           <tablecell hpostion="left" valign="top">
-            <pardef id="73" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
-            <par def="73" hidewhen="">
+            <pardef id="113" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="113" hidewhen="">
               <run>
-                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="label"/>
+                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="label" sign="false" seal="false" protected="false"/>
               </run>
             </par>
           </tablecell>
         </tablerow>
         <tablerow>
           <tablecell hpostion="left" valign="top">
-            <pardef id="74" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
-            <par def="74" hidewhen="">
+            <pardef id="114" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="114" hidewhen="">
               <run>
-                <font color="system" size="12pt" style="normal"/>URL, including database
+                <font color="system" size="12pt" style="normal" name="serif"/>URL, including database
               </run>
             </par>
           </tablecell>
           <tablecell hpostion="left" valign="top">
-            <pardef id="75" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
-            <par def="75" hidewhen="">
+            <pardef id="115" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="115" hidewhen="">
               <run>
-                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="url"/>
+                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="url" sign="false" seal="false" protected="false"/>
               </run>
             </par>
           </tablecell>
         </tablerow>
         <tablerow>
           <tablecell hpostion="left" valign="top">
-            <pardef id="76" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
-            <par def="76" hidewhen="">
+            <pardef id="116" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="116" hidewhen="">
               <run>
-                <font color="system" size="12pt" style="normal"/>Password (leave blank if not required)
+                <font color="system" size="12pt" style="normal"/>Private Repository (computed)
               </run>
             </par>
           </tablecell>
           <tablecell hpostion="left" valign="top">
-            <pardef id="77" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
-            <par def="77" hidewhen="">
+            <pardef id="117" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="117" hidewhen="">
               <run>
-                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="password"/>
+                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="computed" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="private">
+                  <code event="defaultvalue">
+                    <formula>REM {If no password is set, treat this as a public repository};
+@If(""=password;
+    "";
+    "true")</formula>
+                  </code>
+                </field>
               </run>
             </par>
           </tablecell>
         </tablerow>
         <tablerow>
-          <tablecell hpostion="left" valign="top"/>
-          <tablecell hpostion="left" valign="top"/>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="118" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="118" hidewhen="">
+              <run>
+                <font color="system" size="12pt" style="normal" name="serif"/>Password (leave blank if not required)
+              </run>
+            </par>
+          </tablecell>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="119" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="119" hidewhen="">
+              <run>
+                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="password" sign="false" seal="false" protected="false"/>
+              </run>
+            </par>
+          </tablecell>
         </tablerow>
         <tablerow>
           <tablecell hpostion="left" valign="top"/>
