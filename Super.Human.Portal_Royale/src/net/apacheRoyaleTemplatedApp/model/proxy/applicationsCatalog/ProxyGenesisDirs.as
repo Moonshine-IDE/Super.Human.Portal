@@ -1,5 +1,7 @@
 package model.proxy.applicationsCatalog
 {
+	import classes.managers.ParseCentral;
+
 	import interfaces.IDisposable;
 
 	import model.proxy.ProxySessionCheck;
@@ -67,7 +69,23 @@ package model.proxy.applicationsCatalog
 		
 			genesisPrivteDirDelegate.getGenesisDirsList(successCallback, failureCallback);
 		}
+		
+		public function createDir():void
+		{
+			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onCreateDirSuccess);
+			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onCreateDirFailed);
+			
+			genesisPrivteDirDelegate.createDir(this.selectedDir.toRequestObject(), successCallback, failureCallback);	
+		}
 
+		public function updateDir():void
+		{
+			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onUpdateDirSuccess);
+			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onUpdateDirFailed);
+			
+			genesisPrivteDirDelegate.updateGenesisDir(this.selectedDir.dominoUniversalID, this.selectedDir.toRequestObject(), successCallback, failureCallback);	
+		}
+		
 		private function onGenesisDirsListFetched(event:Event):void
 		{
 			var fetchedData:String = event.target["data"];
@@ -87,11 +105,7 @@ package model.proxy.applicationsCatalog
 				}
 				else
 				{
-					var dirs:Array = [
-						new GenesisDirVO("Local", ""),
-						new GenesisDirVO("Private Remote", "https://soundcloud.com/discover")
-					]
-					//ParseCentral.parseGenesisPrivDirsList(jsonData.dirs);
+					var dirs:Array = ParseCentral.parseGenesisPrivDirsList(jsonData.documents);
 					setData(dirs);
 					sendNotification(NOTE_GENESIS_DIRS_LIST_FETCHED, dirs);
 				}
@@ -105,6 +119,74 @@ package model.proxy.applicationsCatalog
 		private function onGenesisDirsListFetchFailed(event:FaultEvent):void
 		{
 			sendNotification(NOTE_GENESIS_DIRS_LIST_FETCH_FAILED, "Getting Genesis directories list failed: " + event.message.toLocaleString());
+		}
+		
+		private function onCreateDirSuccess(event:Event):void
+		{
+			var fetchedData:String = event.target["data"];
+			if (fetchedData)
+			{
+				var jsonData:Object = JSON.parse(fetchedData);
+				if (!sessionCheckProxy.checkUserSession(jsonData))
+				{
+					return;
+				}
+				
+				var errorMessage:String = jsonData["errorMessage"];
+				
+				if (errorMessage)
+				{
+					sendNotification(NOTE_GENESIS_DIR_CREATE_FAILED, "Creating Genesis directory failed: " + errorMessage);
+				}
+				else
+				{
+					sendNotification(NOTE_GENESIS_DIR_CREATE_SUCCESS);
+				}
+			}
+			else
+			{
+				sendNotification(NOTE_GENESIS_DIR_CREATE_FAILED, "Creating Genesis directory failed");
+			}
+		}
+		
+		private function onCreateDirFailed(event:FaultEvent):void
+		{
+			sendNotification(NOTE_GENESIS_DIR_CREATE_FAILED, "Creating Genesis directory failed: " + event.message.toLocaleString());
+		}
+		
+		private function onUpdateDirSuccess(event:Event):void
+		{
+			var fetchedData:String = event.target["data"];
+			if (fetchedData)
+			{
+				var jsonData:Object = JSON.parse(fetchedData);
+				if (!sessionCheckProxy.checkUserSession(jsonData))
+				{
+					return;
+				}
+				
+		
+				var errorMessage:String = jsonData["errorMessage"];
+				
+				if (errorMessage)
+				{
+					sendNotification(NOTE_GENESIS_DIR_UPDATE_FAILED, "Updating Genesis directory failed: " + errorMessage);
+				}
+				else
+				{
+					var updatedGenesisDir:Object = jsonData.document;				
+					sendNotification(NOTE_GENESIS_DIR_UPDATE_SUCCESS);
+				}
+			}
+			else
+			{
+				sendNotification(NOTE_GENESIS_DIR_UPDATE_FAILED, "Updating Genesis directory failed");
+			}
+		}
+		
+		private function onUpdateDirFailed(event:FaultEvent):void
+		{
+			sendNotification(NOTE_GENESIS_DIR_UPDATE_FAILED, "Updating Genesis directory failed: " + event.message.toLocaleString());
 		}
 	}
 }

@@ -125,11 +125,32 @@ package classes.managers
 			return _genesisCatalogGetAll;
 		}
 		
-		private var _genesisGenesisDirsGetAll:String = "/SuperHumanPortal.nsf/GenesisRead?OpenAgent";
+		private var _genesisDirsGetAll:String = "/SuperHumanPortal.nsf/GenesisDirectoryRead?OpenAgent";
 
-		public function get genesisGenesisDirsGetAll():String
+		public function get genesisDirsGetAll():String
 		{
-			return _genesisGenesisDirsGetAll;
+			return _genesisDirsGetAll;
+		}
+		
+		private var _genesisDirCreate:String = "/SuperHumanPortal.nsf/GenesisDirectoryCreate?OpenAgent";
+
+		public function get genesisDirCreate():String
+		{
+			return _genesisDirCreate;
+		}
+		
+		private var _genesisDirUpdate:String = "/SuperHumanPortal.nsf/GenesisDirectoryUpdate?OpenAgent";
+
+		public function get genesisDirUpdate():String
+		{
+			return _genesisDirUpdate;
+		}
+		
+		private var _genesisDirDelete:String = "/SuperHumanPortal.nsf/GenesisDirectoryUpdate?OpenAgent";
+
+		public function get genesisDirDelete():String
+		{
+			return _genesisDirDelete;
 		}
 		
 		private var _genesisCatalogInstall:String = "/SuperHumanPortal.nsf/GenesisInstall?OpenAgent";

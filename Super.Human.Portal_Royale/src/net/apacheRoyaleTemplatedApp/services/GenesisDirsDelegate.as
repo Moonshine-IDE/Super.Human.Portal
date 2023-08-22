@@ -22,14 +22,60 @@ package services
 			
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = UrlProvider.getInstance().genesisGenesisDirsGetAll;
+			service.url = UrlProvider.getInstance().genesisDirsGetAll;
 			service.method = "GET";
 			service.addEventListener("complete", resultCallback);
 			service.addEventListener("ioError", faultCallback);
 			service.send();
 		}
 	
-		public function getGenesisCatalogInstall(appId:String, resultCallback:Function, faultCallback:Function=null):void 
+		public function createDir(directory:Object, resultCallback:Function, faultCallback:Function=null):void 
+		{
+			if (faultCallback == null)
+			{
+				faultCallback = onFault;
+			}
+			
+			var urlParams:URLSearchParams = new URLSearchParams();
+			for (var property:String in directory) 
+			{
+				urlParams.set(property, directory[property]);
+			}
+			
+			var service:HTTPService = new HTTPService();
+			service.addBead(new CORSCredentialsBead(true));
+			service.url = UrlProvider.getInstance().genesisDirCreate;
+			service.method = "POST";
+			service.contentData = urlParams;
+			service.addEventListener("complete", resultCallback);
+			service.addEventListener("ioError", faultCallback);
+			service.send();
+		}
+		
+		public function updateGenesisDir(dominoUniversalID:String, directory:Object, resultCallback:Function, faultCallback:Function=null):void 
+		{
+			if (faultCallback == null)
+			{
+				faultCallback = onFault;
+			}
+			
+			var urlParams:URLSearchParams = new URLSearchParams();
+			for (var property:String in directory) 
+			{
+				urlParams.set(property, directory[property]);
+			}
+			
+			var service:HTTPService = new HTTPService();
+			service.addBead(new CORSCredentialsBead(true));
+			service.url = UrlProvider.getInstance().genesisDirUpdate + "&DominoUniversalID=" + dominoUniversalID;
+			service.method = "POST";
+			service.contentData = urlParams;
+			service.addEventListener("complete", resultCallback);
+			service.addEventListener("ioError", faultCallback);
+			service.send();
+		}
+		
+		public function deleteDir(dominoUniversalID:String, resultCallback:Function, faultCallback:Function=null):void 
 		{
 			if (faultCallback == null)
 			{
@@ -38,7 +84,7 @@ package services
 			
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = UrlProvider.getInstance().genesisCatalogInstall +"&AppID="+ appId;
+			service.url = UrlProvider.getInstance().genesisDirDelete + "&DominoUniversalID=" + dominoUniversalID;
 			service.method = "GET";
 			service.addEventListener("complete", resultCallback);
 			service.addEventListener("ioError", faultCallback);

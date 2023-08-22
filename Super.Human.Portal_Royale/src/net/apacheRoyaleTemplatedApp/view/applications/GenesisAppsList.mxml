@@ -81,7 +81,7 @@
 	
 	<j:Card percentWidth="100" className="minHeaderHeight">
 		<j:Form className="bodyPadding">
-			<controls:CustomFormItem labelClass="formItemPersonalInfo" className="horizontalContentFormItem">
+			<controls:CustomFormItem labelClass="formItemPersonalInfo" className="horizontalContentExpandFormItem">
 				<j:HGroup itemsVerticalAlign="itemsCenter">
 					<html:H4 localId="selectedAppH" text="Select an application from the list below"/>
 				</j:HGroup>

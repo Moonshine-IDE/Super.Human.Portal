@@ -416,15 +416,21 @@ a:hover {
     fontWeight: bold;
 }
 
-.horizontalContentFormItem {
+.horizontalContentExpandFormItem {
 	IBeadModel: ClassReference("classes.models.CustomFormItemModel");
 	IFormItemContentArea: ClassReference("view.controls.HGroupExpandedForm");
 	IBeadView: ClassReference("view.controls.FormItemView");
 }
 
-.horizontalContentNonExpandFormItem {
+.horizontalContentCenterExpandFormItem {
 	IBeadModel: ClassReference("classes.models.CustomFormItemModel");
 	IFormItemContentArea: ClassReference("view.controls.HGroupItemsCenterExpandForm");
+	IBeadView: ClassReference("view.controls.FormItemView");
+}
+
+.horizontalContentNonExpandFormItem {
+	IBeadModel: ClassReference("classes.models.CustomFormItemModel");
+	IFormItemContentArea: ClassReference("view.controls.HGroupForm");
 	IBeadView: ClassReference("view.controls.FormItemView");
 }
 
@@ -440,6 +446,17 @@ a:hover {
 
 .jewel.label.formItemRequiredBookmarkLabel {
     width: 6em;
+    fontWeight: bold;
+}
+
+.jewel.label.formItemRequiredGDirLabel {
+    width: 10em;
+    fontWeight: bold;
+}
+
+.jewel.label.formItemNonRequiredGDirLabel {
+    width: 11em;
+    marginRight: 2px;
     fontWeight: bold;
 }
 

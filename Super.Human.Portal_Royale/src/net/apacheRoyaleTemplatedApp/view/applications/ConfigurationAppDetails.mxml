@@ -47,7 +47,7 @@
 		</j:CardHeader>
 		<j:CardPrimaryContent>
 			<j:Form>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemAppDetailsLabel"
 										label="Server:" visible="{server != null}">							
 					<j:Label html="{server}" />
@@ -55,7 +55,7 @@
 						<j:Button text="Copy to Clipboard" width="135" click="onCopyToClipboardServerClick(event)"/>
 					</j:HGroup>
 				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemAppDetailsLabel"
 										label="Database:" visible="{database != null}">							
 					<j:Label html="{database}" />
@@ -63,7 +63,7 @@
 						<j:Button text="Copy to Clipboard" width="135" click="onCopyToClipboardDatabaseClick(event)"/>
 					</j:HGroup>
 				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemAppDetailsLabel"
 										label="View:" visible="{viewName != null}">							
 					<j:Label localId="viewTextInput" text="{viewName}"/>

@@ -80,7 +80,7 @@ package mediator.applications
 
 		private function onNewDirClick(event:MouseEvent):void
 		{
-			this.genesisDirsProxy.selectedDir = new GenesisDirVO("", "");
+			this.genesisDirsProxy.selectedDir = new GenesisDirVO();
 			
 			sendNotification(ApplicationConstants.NOTE_OPEN_ADD_EDIT_GENESIS_DIR);
 		}

@@ -213,13 +213,13 @@
 				<j:beads>
 					<j:FormValidator localId="formBookmarkValidator" trigger="{bookmarkSave}" triggerEvent="click"/>
 				</j:beads>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemNonRequiredBookmarkLabel"
 										label="Group:">							
 					<j:TextInput localId="groupTextInput" className="flexShrink"
 								 text="{bookmark.group}"/>
 				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemRequiredBookmarkLabel"
 										label="Name:" required="true">							
 					<j:TextInput localId="nameTextInput" className="flexShrink"
@@ -229,13 +229,13 @@
 						</j:beads>
 					</j:TextInput>
 				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemNonRequiredBookmarkLabel"
 										label="Type:">							
 					<j:HGroup localId="bookmarkTypeFormItem" gap="2">
 					</j:HGroup>
 				</controls:CustomFormItem>
-				<controls:CustomFormItem localId="formBrowserType" className="horizontalContentNonExpandFormItem"
+				<controls:CustomFormItem localId="formBrowserType" className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemRequiredBookmarkLabel"
 										label="URL:" visible="{browserFormVisible}" required="{browserFormVisible}">							
 					<j:TextInput localId="urlTextInput" className="flexShrink"
@@ -245,7 +245,7 @@
 						</j:beads>
 					</j:TextInput>
 				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemRequiredBookmarkLabel"
 										label="Server:" visible="{databaseFormVisible}" required="{databaseFormVisible}">							
 					<j:TextInput localId="serverTextInput" className="flexShrink"
@@ -255,7 +255,7 @@
 						</j:beads>
 					</j:TextInput>
 				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemRequiredBookmarkLabel"
 										label="Database:" visible="{databaseFormVisible}" required="{databaseFormVisible}">							
 					<j:TextInput localId="databaseTextInput" className="flexShrink"
@@ -265,7 +265,7 @@
 						</j:beads>
 					</j:TextInput>
 				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemNonRequiredBookmarkLabel"
 										label="View:" visible="{databaseFormVisible}">							
 					<j:TextInput localId="viewTextInput" className="flexShrink"

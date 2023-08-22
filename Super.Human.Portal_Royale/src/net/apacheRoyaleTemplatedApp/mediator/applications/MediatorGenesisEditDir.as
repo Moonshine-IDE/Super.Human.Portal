@@ -13,8 +13,6 @@ package mediator.applications
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-
-    import view.bookmarks.event.BookmarkEvent;
     
     public class MediatorGenesisEditDir extends Mediator implements IMediator
     {
@@ -36,6 +34,7 @@ package mediator.applications
 			
 			this.view.genesisDirForm.addEventListener("valid", onGenesisDirFormValid);
 			this.view.cancelGenesisEdit.addEventListener(MouseEvent.CLICK, onCancelEditGenesisDir);
+			this.view.passwordChange.addEventListener(MouseEvent.CLICK, onPasswordChangeClick);
 			
 			updateView();
 		}
@@ -68,10 +67,10 @@ package mediator.applications
 			switch (note.getName()) 
 			{
 				case ProxyGenesisDirs.NOTE_GENESIS_DIR_CREATE_SUCCESS:
-					
+					sendNotification(ApplicationConstants.NOTE_OPEN_GENESIS_DIRS_VIEW);
 					break;
 				case ProxyGenesisDirs.NOTE_GENESIS_DIR_UPDATE_SUCCESS:
-					
+					sendNotification(ApplicationConstants.NOTE_OPEN_GENESIS_DIRS_VIEW);
 					break;
 				case ProxyGenesisDirs.NOTE_GENESIS_DIR_CREATE_FAILED:
 				case ProxyGenesisDirs.NOTE_GENESIS_DIR_UPDATE_FAILED:
@@ -89,16 +88,19 @@ package mediator.applications
 		{
 			genesisDirsProxy.selectedDir.label = view.labelText;
 			genesisDirsProxy.selectedDir.url = view.urlText;
-			genesisDirsProxy.selectedDir.password = view.passwordText;
-
-			/*if (genesisDirsProxy.selectedDir.dominoUniversalID)
+			if (!view.isPasswordDisabled)
 			{
-				//genesisDirsProxy.updateBookmark();
+				genesisDirsProxy.selectedDir.password = view.passwordText;
+			}
+
+			if (genesisDirsProxy.selectedDir.dominoUniversalID)
+			{
+				genesisDirsProxy.updateDir();
 			}
 			else
 			{
-				//genesisDirsProxy.createBookmark();
-			}*/
+				genesisDirsProxy.createDir();
+			}
 		}
 		
 		private function onCancelEditGenesisDir(event:MouseEvent):void
@@ -106,6 +108,11 @@ package mediator.applications
 			sendNotification(ApplicationConstants.NOTE_OPEN_GENESIS_DIRS_VIEW);
 		}
 
+		private function onPasswordChangeClick(event:MouseEvent):void
+		{
+			view.togglePasswordChange();
+		}
+		
 		private function updateView():void
 		{
 			this.view.titleGenesisDir = genesisDirsProxy.selectedDir.label ? "Edit Directory" : "Add Directory";

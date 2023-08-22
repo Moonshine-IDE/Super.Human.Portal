@@ -70,6 +70,23 @@
 				return this.passwordTextInput.text;
 			}
 			
+			public function get isPasswordDisabled():Boolean
+			{
+				if (!this.passwordDisabled) return false;
+				
+				return this.passwordDisabled.disabled;
+			}
+			
+			public function togglePasswordChange():void
+			{
+				this.passwordDisabled.disabled = !this.passwordDisabled.disabled;
+			}
+			
+			public function get passwordChange():IEventDispatcher
+			{
+				return this.changePassword;
+			}
+			
 			public function installationResult(message:String):void
 			{
 				Snackbar.show(message, 4000, null);
@@ -106,14 +123,14 @@
 				<j:beads>
 					<j:FormValidator localId="formGenesisDirValidator" trigger="{genesisDirSave}" triggerEvent="click"/>
 				</j:beads>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
-										labelClass="formItemRequiredBookmarkLabel"
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+										labelClass="formItemRequiredGDirLabel"
 										label="Label:" required="true">							
 					<j:TextInput localId="labelTextInput" className="flexShrink"
 								 text="{genesisDir.label}"/>
 				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
-										labelClass="formItemRequiredBookmarkLabel"
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+										labelClass="formItemRequiredGDirLabel"
 										label="URL:" required="true">							
 					<j:TextInput localId="urlTextInput" className="flexShrink"
 							     text="{genesisDir.url}">
@@ -122,15 +139,19 @@
 						</j:beads>
 					</j:TextInput>
 				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentNonExpandFormItem"
-										labelClass="formItemRequiredBookmarkLabel"
-										label="Password (optional):">							
-					<j:TextInput localId="passwordTextInput" className="flexShrink"
-								 text="{genesisDir.password}">
-						<j:beads>
-							<j:PasswordInput />
-						</j:beads>
-					</j:TextInput>
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+										labelClass="formItemNonRequiredGDirLabel"
+										label="Password (optional):">				
+					<j:HGroup gap="2">			
+						<j:TextInput localId="passwordTextInput" className="flexShrink"
+									text="{genesisDir.password}" percentWidth="100">
+							<j:beads>
+								<j:PasswordInput />
+								<j:Disabled localId="passwordDisabled" disabled="{genesisDir.isPrivate}"/>
+							</j:beads>
+						</j:TextInput>
+						<j:Button localId="changePassword" text="Change" width="80" visible="{genesisDir.isPrivate}"/>
+					</j:HGroup>
 				</controls:CustomFormItem>
 			</j:Form>
 		</j:CardPrimaryContent>
