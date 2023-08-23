@@ -127,20 +127,16 @@ public class GenesisInstall extends GenesisRead
             // Example:  tell Genesis origin https://domino.demo.startcloud.com/gc-p.nsf - install demotest
             if (null != directoryDoc) {
 				
-				String directoryURL = directoryDoc.getItemValueString("url");
-				if (DominoUtils.isValueEmpty(directoryURL)) {
-					throw new ValidationException("Invalid Genesis Directory configuration - missing URL:  '" + directory + "'.");
-				}
-				// TODO:  validation and normalization
+				String directoryURL = getBaseURL(directoryDoc);
 				String password =  directoryDoc.getItemValueString("password");
 				
-				String directoryPrefix = "origin " + url + " ";  // TODO:  encode/escape URL
+				String directoryPrefix = "origin \"" + directoryURL + "\" ";  // TODO:  encode/escape URL
 				if (DominoUtils.isValueEmpty(password)) {
 					// placeholder for no password
 					directoryPrefix += "- ";
 				}
 				else {
-					directoryPrefix += password + " ";  // TODO:  encode/escape password
+					directoryPrefix += "\"" + password + "\" ";  // TODO:  encode/escape password
 				}
             		
 				installCommand = directoryPrefix + installCommand;
@@ -178,18 +174,9 @@ public class GenesisInstall extends GenesisRead
     }
     
     protected String getAppURL(String appID, Document directoryDoc) throws NotesException, ValidationException {
-    		String label = directoryDoc.getItemValueString("label");
-    		if (DominoUtils.isValueEmpty(label)) {
-    			label = "DEFAULT";
-		}
-		
-    		String url = directoryDoc.getItemValueString("url"); // + "/rest?openagent&req=v1/apps";
-    		if (DominoUtils.isValueEmpty(url)) {
-			throw new ValidationException("Invalid Genesis Directory configuration - missing URL:  '" + label + "'.");
-    		}
-    		// TODO:  normalize
     		
     		// add the app ID
+    		String url = getBaseAPI(directoryDoc);
     		url += "/" + appID;
     		return url;
     }

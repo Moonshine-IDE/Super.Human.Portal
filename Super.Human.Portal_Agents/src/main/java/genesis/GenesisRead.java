@@ -85,7 +85,7 @@ public class GenesisRead extends CRUDAgentBase
         				additionalDirectoryDoc = curEntry.getDocument();
         				
         				String label = additionalDirectoryDoc.getItemValueString("label");
-        				String url = additionalDirectoryDoc.getItemValueString("url"); // + "/rest?openagent&req=v1/apps";
+        				String url = getBaseAPI(additionalDirectoryDoc);
         				addApplicationsFromDirectory(url, label, entries, linkProcessor);
         			}
         			finally {
@@ -233,6 +233,67 @@ public class GenesisRead extends CRUDAgentBase
     		}
     		
     		return url;
+    }
+    
+    /**
+     * Get the base URL for GenesisDirectory document.  This URL will end with the database, so the API options will need to be added.
+     * @param directoryDoc  The GenesisDirectory document. Expected to be non-null
+     * @return  the base URL
+     * @throws NotesException  if an error occurs in the Domino API
+     * @throws ValidationException  if the URL was not configured properly
+     */
+    protected String getBaseURL(Document directoryDoc)  throws NotesException, ValidationException {
+    		String url = directoryDoc.getItemValueString("url"); // + "/rest?openagent&req=v1/apps";
+    		if (DominoUtils.isValueEmpty(url)) {
+			throw new ValidationException("Invalid Genesis Directory configuration - missing URL:  '" + getDirectoryLabel(directoryDoc) + "'.");
+    		}
+    		
+    		// normalize
+    		// Expected example:  http://demo.startcloud.com:82/gdp1.nsf
+    		// Including API:  http://demo.startcloud.com:82/gdp1.nsf/rest?openagent&req=v1/apps
+    		// detect base URL ending in a database
+    		Pattern urlPattern = Pattern.compile("^(https?://.*/[^/]*\\.nsf).*$", Pattern.CASE_INSENSITIVE);
+    		Matcher matcher = urlPattern.matcher(url);
+    		if (!matcher.matches()) {
+			throw new ValidationException("Invalid Genesis Directory configuration - invalid URL:  '" + getDirectoryLabel(directoryDoc) + "'.");
+    		}
+    		else {
+    			url = matcher.replaceAll("$1");
+    		}
+    		
+    		return url;
+    }
+    
+    /**
+     * Get the base API URL for GenesisDirectory document.  This will be the complete URL needed to get the application list.
+     * @param directoryDoc  The GenesisDirectory document. Expected to be non-null
+     * @return  the base URL
+     * @throws NotesException  if an error occurs in the Domino API
+     * @throws ValidationException  if the URL was not configured properly
+     */
+    protected String getBaseAPI(Document directoryDoc) throws NotesException, ValidationException {
+    		String url = getBaseURL(directoryDoc);
+    		url += "/rest?openagent&req=v1/apps";
+    		return url;
+	}
+    
+    protected String getDirectoryLabel(Document directoryDoc) {
+    		String label = null;
+    		try {
+    			label = directoryDoc.getItemValueString("label");
+		}
+		catch (NotesException ex) {
+			getLog().err("Could not read label from directory:  ", ex);
+			// continue and use default value
+			label = null;
+		}
+		
+    		if (DominoUtils.isValueEmpty(label)) {
+    			label = "DEFAULT";
+		}
+		
+		return label;
+    	
     }
     
     protected int getDefaultInstallTimeS() {
