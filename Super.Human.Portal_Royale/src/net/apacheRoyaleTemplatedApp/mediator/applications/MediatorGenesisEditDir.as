@@ -120,12 +120,12 @@ package mediator.applications
 			
 			if (genesisDirsProxy.selectedDir.dominoUniversalID)
 			{
-				this.view.titleGenesisDir = "Edit Directory";
+				this.view.titleGenesisDir = "Edit Genesis Directory";
 				this.view.isPasswordDisabled = true;
 			}
 			else
 			{
-				this.view.titleGenesisDir = "Add Directory";
+				this.view.titleGenesisDir = "Add Genesis Directory";
 				this.view.isPasswordDisabled = false;
 			}
 			
