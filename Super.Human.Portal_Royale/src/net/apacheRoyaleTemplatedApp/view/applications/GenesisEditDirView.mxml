@@ -112,7 +112,7 @@
 
 	<j:Grid gap="false" minHeight="40">
 		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
-			<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2">
+			<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="1">
 				 <j:style>
            			<js:SimpleCSSStyles paddingLeft="10" paddingTop="10" marginTop="0"/>
 				</j:style>

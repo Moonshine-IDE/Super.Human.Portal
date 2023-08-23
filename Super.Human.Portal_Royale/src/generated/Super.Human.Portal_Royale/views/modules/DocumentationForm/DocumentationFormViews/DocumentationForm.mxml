@@ -158,7 +158,7 @@
         </j:icon>
       </j:IconButton>
   </j:HGroup>
-  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2" includeIn="contentState">
+  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="1" includeIn="contentState">
        <j:style>
            <js:SimpleCSSStyles paddingLeft="10" paddingTop="10" marginTop="0"/>
       </j:style>
