@@ -92,7 +92,11 @@
 							<j:Disabled disabled="true"/>
 						</j:beads>
 					</j:Button>
-					<j:Button localId="refreshViewBtn" text="Refresh" width="130"/>
+					<j:IconButton localId="refreshViewBtn" text="Refresh">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.REFRESH}" />
+						</j:icon>
+					</j:IconButton>
 					<j:Button localId="installAppBtn" text="Install" emphasis="{StyledUIBase.PRIMARY}" width="120">
 						<j:beads>
 							<j:Disabled localId="installDisabled" disabled="true"/>
