@@ -111,7 +111,7 @@ package mediator.applications
 		private function onPasswordChangeClick(event:MouseEvent):void
 		{
 			view.isPasswordDisabled = false;
-			view.passwordPrompt = "";
+			view.passwordPrompt.visible = false;
 		}
 		
 		private function updateView():void
@@ -122,11 +122,13 @@ package mediator.applications
 			{
 				this.view.titleGenesisDir = "Edit Genesis Directory";
 				this.view.isPasswordDisabled = true;
+				this.view.passwordPrompt.visible = true;
 			}
 			else
 			{
 				this.view.titleGenesisDir = "Add Genesis Directory";
 				this.view.isPasswordDisabled = false;
+				this.view.passwordPrompt.visible = false;
 			}
 			
 			this.refreshPasswordInputPrompt();
@@ -136,11 +138,11 @@ package mediator.applications
 		{
 			if (genesisDirsProxy.selectedDir && genesisDirsProxy.selectedDir.isPrivate)
 			{
-				view.passwordPrompt = "Password set";
+				this.view.passwordPrompt.text = "Password set";
 			}
 			else
 			{
-				view.passwordPrompt = "No password required";
+				this.view.passwordPrompt.text = "No password required";
 			}
 		}
     }

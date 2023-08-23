@@ -89,13 +89,11 @@
 				return this.changePassword;
 			}
 
-			public function set passwordPrompt(value:String):void
+			public function get passwordPrompt():Object
 			{
-				if (!this.passwordPromptTextInput) return;	
-				
-				this.passwordPromptTextInput.prompt = value;
-			}			
-			
+				return this.passwordPromptLabel;	
+			}
+
 			public function installationResult(message:String):void
 			{
 				Snackbar.show(message, 4000, null);
@@ -151,12 +149,13 @@
 				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemNonRequiredGDirLabel"
 										label="Password (optional):">				
-					<j:HGroup gap="2">			
+					<j:HGroup gap="2" itemsVerticalAlign="itemsCenter">	
+						<j:Label localId="passwordPromptLabel" text="Password set" visible="false" percentWidth="100"
+								 className="bold"/>		
 						<j:TextInput localId="passwordTextInput" className="flexShrink"
-									text="{genesisDir.password}" percentWidth="100">
+									 text="{genesisDir.password}" percentWidth="100" visible="{passwordPromptLabel.visible == false}">
 							<j:beads>
 								<j:PasswordInput />
-								<j:TextPrompt localId="passwordPromptTextInput" prompt="Password set"/>
 								<j:Disabled localId="passwordDisabled" />
 							</j:beads>
 						</j:TextInput>

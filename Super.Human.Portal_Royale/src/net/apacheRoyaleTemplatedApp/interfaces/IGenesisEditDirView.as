@@ -15,7 +15,7 @@ package interfaces
 		function get isPasswordDisabled():Boolean;
 		function set isPasswordDisabled(value:Boolean):void;
 		function get passwordChange():IEventDispatcher;
-		function set passwordPrompt(value:String):void;
+		function get passwordPrompt():Object;
 		
 		function get labelText():String;	
 		function get urlText():String;
