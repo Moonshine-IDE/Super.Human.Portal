@@ -2,6 +2,8 @@ package genesis;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONObject;
 
@@ -9,6 +11,9 @@ import com.moonshine.domino.security.AllowAllSecurity;
 import com.moonshine.domino.security.SecurityInterface;
 import com.moonshine.domino.util.DominoUtils;
 
+import lotus.domino.Document;
+import lotus.domino.NotesException;
+import lotus.domino.View;
 import util.SimpleHTTPClient;
 import util.ValidationException;
 
@@ -24,18 +29,19 @@ public class GenesisInstall extends GenesisRead
 	
 	@Override
 	protected void runAction() {
+		String directory = getParameter("directory");
 		String appID = getParameter("AppID");
 		if (DominoUtils.isValueEmpty(appID)) {
 			reportError("Missing parameter:  'AppID'");
 			return;
 		}
-		getLog().dbg("Installing app '" + appID + "'.");
+		getLog().dbg("Installing app '" + appID + "' from directory '" + directory + ".");
 		
 		// TODO:  check if app is already installed?  Is there a use case for running the installation again?
 		
 		try {
 			final String commandPrefix = "tell Genesis ";
-			String command = getInstallCommand(appID);
+			String command = getInstallCommand(appID, directory);
 			if (!command.toLowerCase().startsWith(commandPrefix.toLowerCase())) {
 				command = commandPrefix + command;
 			}
@@ -62,15 +68,41 @@ public class GenesisInstall extends GenesisRead
     /**
      * Lookup or generate the install command for the indicated application
      * @param appID  the ID of the application
+     * @param directory  the label/ID of the Genesis Directory to use for the installation
      * @return
      * @throws ValidationException  if the indicated application was not found
      * @throws Exception for other exceptions
      */
-    protected String getInstallCommand(String appID) throws ValidationException {
+    protected String getInstallCommand(String appID, String directory) throws ValidationException, NotesException, Exception {
+    		if (isDefaultDirectory(directory)) {
+    			return getInstallCommand(appID, (Document) null, directory);
+    		}
+    		else {
+    			View directoryView = null;
+    			Document directoryDoc = null;
+    			try {
+    				directoryView = DominoUtils.getView(getTargetDatabase(), "GenesisDirectory/By Label");
+    				directoryDoc = directoryView.getDocumentByKey(directory);
+				if (null == directoryDoc) {
+					throw new ValidationException("Unrecognized Genesis Directory:  '" + directory + "'");
+				}
+				return getInstallCommand(appID, directoryDoc, directory);
+			}
+			finally {
+				DominoUtils.recycle(session, directoryDoc);
+				DominoUtils.recycle(session, directoryView);
+			}
+		}
+	}
+	
+	protected String getInstallCommand(String appID, Document directoryDoc, String directory) throws ValidationException {
         try {
             // look this up from the API used by GenesisCatalog_GetAll
             SimpleHTTPClient http = new SimpleHTTPClient(1000, 1000, 0);
             String url = getAppURL(appID);
+            if (null != directoryDoc) {
+            		url = getAppURL(appID, directoryDoc);
+            }
             getLog().dbg("App URL:  " + url);
             String output = http.getPage(url);  // already throws ValidationException on error
             getLog().dbg("Raw output:  '" + output + "'");
@@ -83,6 +115,37 @@ public class GenesisInstall extends GenesisRead
             if (DominoUtils.isValueEmpty(installCommand)) {
                 throw new ValidationException("No installation command defined for application '" + appID + "'.");
             }
+            // Example:  install genesis-directory
+            
+            // Could also be:  tell Genesis install genesis-directory
+            // Normalize this
+            Pattern commandPrefixPattern = Pattern.compile("^\\s*tell\\s+genesis\\s+", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = commandPrefixPattern.matcher(installCommand);
+            installCommand = matcher.replaceFirst("");
+            
+            // modify the command syntax if this is an additional directory:
+            // Example:  tell Genesis origin https://domino.demo.startcloud.com/gc-p.nsf - install demotest
+            if (null != directoryDoc) {
+				
+				String directoryURL = directoryDoc.getItemValueString("url");
+				if (DominoUtils.isValueEmpty(directoryURL)) {
+					throw new ValidationException("Invalid Genesis Directory configuration - missing URL:  '" + directory + "'.");
+				}
+				// TODO:  validation and normalization
+				String password =  directoryDoc.getItemValueString("password");
+				
+				String directoryPrefix = "origin " + url + " ";  // TODO:  encode/escape URL
+				if (DominoUtils.isValueEmpty(password)) {
+					// placeholder for no password
+					directoryPrefix += "- ";
+				}
+				else {
+					directoryPrefix += password + " ";  // TODO:  encode/escape password
+				}
+            		
+				installCommand = directoryPrefix + installCommand;
+            		
+            }
             
             return installCommand;
         }
@@ -90,7 +153,7 @@ public class GenesisInstall extends GenesisRead
             throw ex;
         }
         catch (Exception ex) {
-            throw new ValidationException("Unable to lookup installation command.");
+            throw new ValidationException("Unable to lookup installation command.", ex);
         }
         
         
@@ -112,5 +175,30 @@ public class GenesisInstall extends GenesisRead
         }
         url += URLEncoder.encode(appID, "utf-8");
         return url;
+    }
+    
+    protected String getAppURL(String appID, Document directoryDoc) throws NotesException, ValidationException {
+    		String label = directoryDoc.getItemValueString("label");
+    		if (DominoUtils.isValueEmpty(label)) {
+    			label = "DEFAULT";
+		}
+		
+    		String url = directoryDoc.getItemValueString("url"); // + "/rest?openagent&req=v1/apps";
+    		if (DominoUtils.isValueEmpty(url)) {
+			throw new ValidationException("Invalid Genesis Directory configuration - missing URL:  '" + label + "'.");
+    		}
+    		// TODO:  normalize
+    		
+    		// add the app ID
+    		url += "/" + appID;
+    		return url;
+    }
+    
+    /** 
+     * Check if the given label corresponds to the default directory.
+     * @param  label  The label for the directory
+     */
+    protected boolean isDefaultDirectory(String label) {
+    		return DominoUtils.isValueEmpty(label) || label.equalsIgnoreCase(DEFAULT_DIRECTORY_LABEL);
     }
 }
