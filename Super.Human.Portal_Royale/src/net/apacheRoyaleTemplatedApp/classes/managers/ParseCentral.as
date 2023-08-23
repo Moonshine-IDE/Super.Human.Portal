@@ -279,7 +279,7 @@ package classes.managers
 			for (var i:int = 0; i < viewEntryCount; i++)
 			{
 				var privateDir:Object = jsonData[i];
-				var tmpVO:GenesisDirVO = new GenesisDirVO(privateDir.DominoUniversalID, privateDir["private"], privateDir.label, privateDir.url);
+				var tmpVO:GenesisDirVO = new GenesisDirVO(privateDir.DominoUniversalID, privateDir["private"] == "true", privateDir.label, privateDir.url);
 				
 				tmpArr.push(tmpVO);
 			}

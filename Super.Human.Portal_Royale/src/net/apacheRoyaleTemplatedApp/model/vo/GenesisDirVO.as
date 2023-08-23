@@ -20,12 +20,18 @@ package model.vo
 		
 		public function toRequestObject():Object
 		{
-			return {
+			var requestObject:Object = {
 				DominoUniversalID: this.dominoUniversalID,
 				label: this.label,
-				url: this.url,
-				password: this.password
+				url: this.url
+			};
+			
+			if (this.password)
+			{
+				requestObject.password = this.password;
 			}
+			
+			return requestObject;
 		}
 	}
 }

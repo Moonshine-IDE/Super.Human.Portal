@@ -69,23 +69,32 @@
 				
 				return this.passwordTextInput.text;
 			}
-			
+
 			public function get isPasswordDisabled():Boolean
 			{
 				if (!this.passwordDisabled) return false;
 				
 				return this.passwordDisabled.disabled;
 			}
-			
-			public function togglePasswordChange():void
+						
+			public function set isPasswordDisabled(value:Boolean):void
 			{
-				this.passwordDisabled.disabled = !this.passwordDisabled.disabled;
+				if (!this.passwordDisabled) return;
+				
+				this.passwordDisabled.disabled = value;	
 			}
-			
+
 			public function get passwordChange():IEventDispatcher
 			{
 				return this.changePassword;
 			}
+
+			public function set passwordPrompt(value:String):void
+			{
+				if (!this.passwordPromptTextInput) return;	
+				
+				this.passwordPromptTextInput.prompt = value;
+			}			
 			
 			public function installationResult(message:String):void
 			{
@@ -147,10 +156,11 @@
 									text="{genesisDir.password}" percentWidth="100">
 							<j:beads>
 								<j:PasswordInput />
-								<j:Disabled localId="passwordDisabled" disabled="{genesisDir.isPrivate}"/>
+								<j:TextPrompt localId="passwordPromptTextInput" prompt="Password set"/>
+								<j:Disabled localId="passwordDisabled" />
 							</j:beads>
 						</j:TextInput>
-						<j:Button localId="changePassword" text="Change" width="80" visible="{genesisDir.isPrivate}"/>
+						<j:Button localId="changePassword" text="Change" width="80" visible="{genesisDir.dominoUniversalID != ''}"/>
 					</j:HGroup>
 				</controls:CustomFormItem>
 			</j:Form>

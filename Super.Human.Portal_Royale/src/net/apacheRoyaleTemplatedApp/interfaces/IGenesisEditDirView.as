@@ -13,12 +13,12 @@ package interfaces
 		function get titleGenesisDir():String;
 		function set titleGenesisDir(value:String):void;
 		function get isPasswordDisabled():Boolean;
+		function set isPasswordDisabled(value:Boolean):void;
 		function get passwordChange():IEventDispatcher;
-			
+		function set passwordPrompt(value:String):void;
+		
 		function get labelText():String;	
 		function get urlText():String;
 		function get passwordText():String;
-		
-		function togglePasswordChange():void
 	}
 }
