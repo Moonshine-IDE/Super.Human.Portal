@@ -8,6 +8,7 @@ package model.vo
 		public var label:String;
 		public var url:String;
 		public var password:String;
+		public var hasPassword:Boolean;
 		
 		public function GenesisDirVO(dominoUniversalID:String = "", isPrivate:Boolean = false, label:String = "", url:String = "", password:String = "") 
 		{
@@ -26,7 +27,7 @@ package model.vo
 				url: this.url
 			};
 			
-			if (this.password)
+			if (this.hasPassword)
 			{
 				requestObject.password = this.password;
 			}

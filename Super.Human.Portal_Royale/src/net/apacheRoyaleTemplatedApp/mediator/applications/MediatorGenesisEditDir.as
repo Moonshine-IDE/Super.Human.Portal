@@ -88,10 +88,8 @@ package mediator.applications
 		{
 			genesisDirsProxy.selectedDir.label = view.labelText;
 			genesisDirsProxy.selectedDir.url = view.urlText;
-			if (!view.isPasswordDisabled)
-			{
-				genesisDirsProxy.selectedDir.password = view.passwordText;
-			}
+			genesisDirsProxy.selectedDir.hasPassword = view.isPasswordDisabled == false;
+			genesisDirsProxy.selectedDir.password = view.passwordText;
 
 			if (genesisDirsProxy.selectedDir.dominoUniversalID)
 			{
