@@ -96,7 +96,7 @@ package model.proxy.applicationsCatalog
 			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onGenesisAppInstallFailed);
 			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunctionWithCustomDelay(onGenesisAppInstalled, selectedApplication.installTimeS, "Installation is in progress.");
 
-			genesisAppsDelegate.getGenesisCatalogInstall(selectedApplication.appId, successCallback, failureCallback);	
+			genesisAppsDelegate.genesisCatalogInstall(selectedApplication.appId, selectedApplication.directory, successCallback, failureCallback);	
 		}
 		
 		private function onGenesisAppsListFetched(event:Event):void

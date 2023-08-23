@@ -7,5 +7,6 @@ package interfaces
 		function get newDir():IEventDispatcher;
 		function get genesisDirsList():IEventDispatcher;
 		function set genesisDirsListProvider(value:Array):void;
+		function get refreshButton():IEventDispatcher;
 	}
 }

@@ -69,24 +69,31 @@
 				
 				return this.passwordTextInput.text;
 			}
-			
+
 			public function get isPasswordDisabled():Boolean
 			{
 				if (!this.passwordDisabled) return false;
 				
 				return this.passwordDisabled.disabled;
 			}
-			
-			public function togglePasswordChange():void
+						
+			public function set isPasswordDisabled(value:Boolean):void
 			{
-				this.passwordDisabled.disabled = !this.passwordDisabled.disabled;
+				if (!this.passwordDisabled) return;
+				
+				this.passwordDisabled.disabled = value;	
 			}
-			
+
 			public function get passwordChange():IEventDispatcher
 			{
 				return this.changePassword;
 			}
-			
+
+			public function get passwordPrompt():Object
+			{
+				return this.passwordPromptLabel;	
+			}
+
 			public function installationResult(message:String):void
 			{
 				Snackbar.show(message, 4000, null);
@@ -105,7 +112,7 @@
 
 	<j:Grid gap="false" minHeight="40">
 		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
-			<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2">
+			<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="1">
 				 <j:style>
            			<js:SimpleCSSStyles paddingLeft="10" paddingTop="10" marginTop="0"/>
 				</j:style>
@@ -142,15 +149,17 @@
 				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemNonRequiredGDirLabel"
 										label="Password (optional):">				
-					<j:HGroup gap="2">			
+					<j:HGroup gap="2" itemsVerticalAlign="itemsCenter">	
+						<j:Label localId="passwordPromptLabel" text="Password set" visible="false" percentWidth="100"
+								 className="bold"/>		
 						<j:TextInput localId="passwordTextInput" className="flexShrink"
-									text="{genesisDir.password}" percentWidth="100">
+									 text="{genesisDir.password}" percentWidth="100" visible="{passwordPromptLabel.visible == false}">
 							<j:beads>
 								<j:PasswordInput />
-								<j:Disabled localId="passwordDisabled" disabled="{genesisDir.isPrivate}"/>
+								<j:Disabled localId="passwordDisabled" />
 							</j:beads>
 						</j:TextInput>
-						<j:Button localId="changePassword" text="Change" width="80" visible="{genesisDir.isPrivate}"/>
+						<j:Button localId="changePassword" text="Change" width="80" visible="{genesisDir.dominoUniversalID != ''}"/>
 					</j:HGroup>
 				</controls:CustomFormItem>
 			</j:Form>

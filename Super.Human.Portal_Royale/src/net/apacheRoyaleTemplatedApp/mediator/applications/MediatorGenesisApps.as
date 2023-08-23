@@ -131,7 +131,7 @@ package mediator.applications
 		private function refreshSeeMoreDetails():void
 		{
 			var disabled:Disabled = view.seeMoreDetails["getBeadByType"](Disabled);
-			disabled.disabled = genesisAppsProxy.selectedApplication == null;	
+			disabled.disabled = genesisAppsProxy.selectedApplication == null || genesisAppsProxy.selectedApplication.detailsUrl == null;	
 			
 			if (genesisAppsProxy.selectedApplication)
 			{

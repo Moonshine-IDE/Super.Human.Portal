@@ -92,7 +92,11 @@
 							<j:Disabled disabled="true"/>
 						</j:beads>
 					</j:Button>
-					<j:Button localId="refreshViewBtn" text="Refresh" width="130"/>
+					<j:IconButton localId="refreshViewBtn" text="Refresh">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.REFRESH}" />
+						</j:icon>
+					</j:IconButton>
 					<j:Button localId="installAppBtn" text="Install" emphasis="{StyledUIBase.PRIMARY}" width="120">
 						<j:beads>
 							<j:Disabled localId="installDisabled" disabled="true"/>
@@ -113,7 +117,7 @@
 			</dataGrid:beads>
 			<dataGrid:columns>
 				<models:DataGridColumnModel caption="App Name" dataField="label" dataType="string" allowFiltering="true"/>
-				<models:DataGridColumnModel caption="Directory" dataField="directory" dataType="string" allowFiltering="true"/>
+				<models:DataGridColumnModel caption="Directory Catalog" dataField="directory" dataType="string" allowFiltering="true"/>
 				<models:DataGridColumnModel caption="Installed" dataField="installed" dataType="boolean" width="100" itemRenderer="view.renderers.NonEditableCheckboxRenderer"/>
 			</dataGrid:columns>
 		</dataGrid:DataGrid>

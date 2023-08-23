@@ -28,6 +28,11 @@
 				genesisDirs.dataProvider = new ArrayList(value);
 			}
 
+			public function get refreshButton():IEventDispatcher
+			{
+				return this.refreshViewBtn;
+			}	
+			
 			public function installationResult(message:String):void
 			{
 				Snackbar.show(message, 4000, null);
@@ -51,8 +56,13 @@
 	<j:Grid gap="false" minHeight="40">
 		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
 			<j:HGroup percentWidth="100">
-				<html:H3 text="Genesis Directories" percentWidth="100"/>
-				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
+				<html:H3 text="Genesis Directories for Private Catalogs" percentWidth="100"/>
+				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight" gap="1">
+					<j:IconButton localId="refreshViewBtn" text="Refresh">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.REFRESH}" />
+						</j:icon>
+					</j:IconButton>
 					<j:Button localId="dirNew" className="noLinkStyle" text="New"/>
 				</j:HGroup>
 			</j:HGroup>
@@ -71,8 +81,9 @@
 			<dataGrid:columns>
 				<models:DataGridColumnModel caption="Label" dataField="label" dataType="string" allowFiltering="true"/>
 				<models:DataGridColumnModel caption="URL" dataField="url" dataType="string" allowFiltering="true"/>
-				<models:DataGridColumnModel caption="{' '}" dataField="delete" dataType="string" width="50"
-										    itemRenderer="view.renderers.DeleteIconGridRenderer"/>
+				<models:DataGridColumnModel caption="Password Required" dataField="isPrivate" dataType="boolean" width="160" 
+											itemRenderer="view.renderers.NonEditableCheckboxRenderer" />
+				<models:DataGridColumnModel dataField="delete" dataType="string" width="50" itemRenderer="view.renderers.DeleteIconGridRenderer"/>
 			</dataGrid:columns>
 		</dataGrid:DataGrid>
 </j:VGroup>

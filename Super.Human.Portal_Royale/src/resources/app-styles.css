@@ -451,12 +451,12 @@ a:hover {
 
 .jewel.label.formItemRequiredGDirLabel {
     width: 10em;
+    marginRight: 4px;
     fontWeight: bold;
 }
 
 .jewel.label.formItemNonRequiredGDirLabel {
     width: 11em;
-    marginRight: 2px;
     fontWeight: bold;
 }
 

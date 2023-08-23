@@ -29,7 +29,7 @@ package services
 			service.send();
 		}
 	
-		public function getGenesisCatalogInstall(appId:String, resultCallback:Function, faultCallback:Function=null):void 
+		public function genesisCatalogInstall(appId:String, directory:String, resultCallback:Function, faultCallback:Function=null):void 
 		{
 			if (faultCallback == null)
 			{
@@ -38,7 +38,7 @@ package services
 			
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = UrlProvider.getInstance().genesisCatalogInstall +"&AppID="+ appId;
+			service.url = UrlProvider.getInstance().genesisCatalogInstall +"&AppID="+ appId + "&directory=" + directory;
 			service.method = "GET";
 			service.addEventListener("complete", resultCallback);
 			service.addEventListener("ioError", faultCallback);

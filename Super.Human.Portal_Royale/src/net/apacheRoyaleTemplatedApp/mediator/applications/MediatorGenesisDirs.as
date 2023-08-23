@@ -37,6 +37,7 @@ package mediator.applications
 			view.newDir.addEventListener(MouseEvent.CLICK, onNewDirClick);
 			view.genesisDirsList.addEventListener(DataGridEvent.DOUBLE_CLICK_ROW, onGenesisDirsDoubleClicked);
 			view.genesisDirsList.addEventListener(DataGridEvent.CLICK_CELL, onGenesisDirsClickCell);
+			view.refreshButton.addEventListener(MouseEvent.CLICK, onRefreshButtonClick);
 			
 			this.genesisDirsProxy = facade.retrieveProxy(ProxyGenesisDirs.NAME) as ProxyGenesisDirs;
 			
@@ -50,6 +51,7 @@ package mediator.applications
 			view.newDir.removeEventListener(MouseEvent.CLICK, onNewDirClick);
 			view.genesisDirsList.removeEventListener(DataGridEvent.DOUBLE_CLICK_ROW, onGenesisDirsDoubleClicked);
 			view.genesisDirsList.removeEventListener(DataGridEvent.CLICK_CELL, onGenesisDirsClickCell);
+			view.refreshButton.removeEventListener(MouseEvent.CLICK, onRefreshButtonClick);
 			
 			this.genesisDirsProxy = null;
 		}
@@ -117,6 +119,11 @@ package mediator.applications
 							 "Are you sure you want to delete Genesis directory " + event.item.label + "?"));
 			}
 		}
+		
+		private function onRefreshButtonClick(event:Event):void
+		{
+			this.updateView();
+		}	
 		
 		private function updateView():void
 		{

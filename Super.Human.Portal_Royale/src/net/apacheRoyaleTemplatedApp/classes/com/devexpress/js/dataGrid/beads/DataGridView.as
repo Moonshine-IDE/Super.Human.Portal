@@ -79,6 +79,11 @@ package classes.com.devexpress.js.dataGrid.beads
 						renderer.dataField = options.column.dataField;
 						renderer.data = options.data;
 						
+						if (!isNaN(model.width) && model.width > 0)
+						{
+							renderer.maxWidth = model.width;
+						}
+						
 						div.addElement(renderer as IChild);	
 						window["$"]('<div/>').append(div.element)
 											 .appendTo(container);
@@ -100,10 +105,19 @@ package classes.com.devexpress.js.dataGrid.beads
 					host.dispatchEvent(new DataGridEvent(DataGridEvent.DOUBLE_CLICK_ROW, event.data));
 				},
 				onCellClick: function(event:Object):void {
+					var rowIndex:int = event.rowIndex;
+					var columnIndex:int = -1;
+					var column:Object = {};
+					if (event.column)
+					{
+						columnIndex = event.columnIndex;
+						column = host["columns"][event.columnIndex];
+					}
+					
 					host.dispatchEvent(new DataGridEvent(DataGridEvent.CLICK_CELL, event.data, {
-							rowIndex: event.rowIndex,
-							columnIndex: event.columnIndex,
-							column: host["columns"][event.columnIndex]
+							rowIndex: rowIndex,
+							columnIndex: columnIndex,
+							column: column
 						}));
 				},
 				onSelectionChanged: function(items:Object):void {
@@ -126,7 +140,8 @@ package classes.com.devexpress.js.dataGrid.beads
 				wordWrapEnabled: grModel.wordWrapEnabled,
 				searchPanel: grModel.searchPanel,
 				scrolling: grModel.scrolling,
-				showColumnLines: grModel.showColumnLines
+				showColumnLines: grModel.showColumnLines,
+				noDataText: grModel.noDataText
 			});		
 		}
 		
@@ -150,8 +165,10 @@ package classes.com.devexpress.js.dataGrid.beads
 				dp = (_model as DataGridModel).dataSource;
 			}
 		
+			var grModel:IGridModel = (_model as IGridModel);
 			window["$"](host.element).dxDataGrid({
-				dataSource: dp
+				dataSource: dp,
+				noDataText: grModel.noDataText
 			});
 		}
 	}

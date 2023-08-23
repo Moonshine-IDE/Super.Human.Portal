@@ -7,7 +7,7 @@ package classes.com.devexpress.js.dataGrid.beads.models
 	{
 		public var dataField:String = "";
         public var dataType:String;
-        public var caption:String = "";
+        public var caption:String = " ";
         
         /**
          * The format property only works for columns with a number, date, or datetime data type.
@@ -22,6 +22,9 @@ package classes.com.devexpress.js.dataGrid.beads.models
 		public var width:Number;
 		
 		public var calculateCellValue:Function = null;
+		public var calculateSortValue:Object = null;
+		
+		public var allowSorting:Boolean = true;
 		
 		/**
 		 * Specifies whether data can be filtered by this column. Applies only if filterRow.visible is true.
@@ -38,7 +41,8 @@ package classes.com.devexpress.js.dataGrid.beads.models
 			var columnObject:Object = {
 				allowFiltering: this.allowFiltering,
 				allowHeaderFiltering: this.allowHeaderFiltering,
-				filterType: this.filterType
+				filterType: this.filterType,
+				allowSorting: this.allowSorting
 			}
 			
 			if (this.dataField)
@@ -76,6 +80,11 @@ package classes.com.devexpress.js.dataGrid.beads.models
 				columnObject.calculateCellValue = this.calculateCellValue;
 			}
 			
+			if (this.calculateSortValue != null)
+			{
+				columnObject.calculateSortValue = this.calculateSortValue;
+			}
+			
 			if (this.headerCellTemplate != null)
 			{
 				columnObject.headerCellTemplate = this.headerCellTemplate;
@@ -84,6 +93,11 @@ package classes.com.devexpress.js.dataGrid.beads.models
 			if (this.cellTemplate != null)
 			{
 				columnObject.cellTemplate = this.cellTemplate;	
+			}
+			
+			if (this.cssClass)
+			{
+				columnObject.cssClass = this.cssClass;	
 			}
 			
 			return columnObject;

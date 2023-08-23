@@ -88,10 +88,8 @@ package mediator.applications
 		{
 			genesisDirsProxy.selectedDir.label = view.labelText;
 			genesisDirsProxy.selectedDir.url = view.urlText;
-			if (!view.isPasswordDisabled)
-			{
-				genesisDirsProxy.selectedDir.password = view.passwordText;
-			}
+			genesisDirsProxy.selectedDir.hasPassword = view.isPasswordDisabled == false;
+			genesisDirsProxy.selectedDir.password = view.passwordText;
 
 			if (genesisDirsProxy.selectedDir.dominoUniversalID)
 			{
@@ -110,13 +108,40 @@ package mediator.applications
 
 		private function onPasswordChangeClick(event:MouseEvent):void
 		{
-			view.togglePasswordChange();
+			view.isPasswordDisabled = false;
+			view.passwordPrompt.visible = false;
 		}
 		
 		private function updateView():void
 		{
-			this.view.titleGenesisDir = genesisDirsProxy.selectedDir.label ? "Edit Directory" : "Add Directory";
 			this.view.genesisDir = genesisDirsProxy.selectedDir;
+			
+			if (genesisDirsProxy.selectedDir.dominoUniversalID)
+			{
+				this.view.titleGenesisDir = "Edit Genesis Directory";
+				this.view.isPasswordDisabled = true;
+				this.view.passwordPrompt.visible = true;
+			}
+			else
+			{
+				this.view.titleGenesisDir = "Add Genesis Directory";
+				this.view.isPasswordDisabled = false;
+				this.view.passwordPrompt.visible = false;
+			}
+			
+			this.refreshPasswordInputPrompt();
+		}
+		
+		private function refreshPasswordInputPrompt():void
+		{
+			if (genesisDirsProxy.selectedDir && genesisDirsProxy.selectedDir.isPrivate)
+			{
+				this.view.passwordPrompt.text = "Password set";
+			}
+			else
+			{
+				this.view.passwordPrompt.text = "No password required";
+			}
 		}
     }
 }
