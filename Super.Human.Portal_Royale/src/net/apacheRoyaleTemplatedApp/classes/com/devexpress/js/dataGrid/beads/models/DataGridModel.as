@@ -174,5 +174,26 @@ package classes.com.devexpress.js.dataGrid.beads.models
 				dispatchEvent(new Event("optionsChanged"));
 			}				
 		}
+
+		private var _noDataText:String = "No data";
+		
+		public function set noDataText(value:String):void
+		{
+			if (_noDataText != value)
+			{
+				_noDataText = value;
+				
+				dispatchEvent(new Event("optionsChanged"));
+			}
+		}
+		
+		/**
+		 * Specifies a text string shown when the DataGrid does not display any data.
+		 * @default: "No data"
+		 **/
+		public function get noDataText():String
+		{
+			return _noDataText;
+		}
 	}
 }

@@ -83,8 +83,7 @@
 				<models:DataGridColumnModel caption="URL" dataField="url" dataType="string" allowFiltering="true"/>
 				<models:DataGridColumnModel caption="Password Required" dataField="isPrivate" dataType="boolean" width="160" 
 											itemRenderer="view.renderers.NonEditableCheckboxRenderer" />
-				<models:DataGridColumnModel caption="{' '}" dataField="delete" dataType="string" width="50"
-										    itemRenderer="view.renderers.DeleteIconGridRenderer"/>
+				<models:DataGridColumnModel dataField="delete" dataType="string" width="50" itemRenderer="view.renderers.DeleteIconGridRenderer"/>
 			</dataGrid:columns>
 		</dataGrid:DataGrid>
 </j:VGroup>

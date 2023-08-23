@@ -183,6 +183,24 @@ package classes.com.devexpress.js.dataGrid
 		}
 		
 		/**
+		 * Specifies a text string shown when the DataGrid does not display any data.
+		 * @default: "No data"
+		 **/
+		public function set noDataText(value:String):void
+		{
+			model["noDataText"] = value;
+		}
+		
+		/**
+		 * Specifies a text string shown when the DataGrid does not display any data.
+		 * @default: "No data"
+		 **/
+		public function get noDataText():String
+		{
+			return model["noDataText"];
+		}
+		
+		/**
 		 * @private
 		 */
 		private var _presentationModel:IDataGridPresentationModel;
