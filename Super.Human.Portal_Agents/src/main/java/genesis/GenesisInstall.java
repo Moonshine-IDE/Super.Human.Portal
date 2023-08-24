@@ -52,6 +52,9 @@ public class GenesisInstall extends GenesisRead
 			getLog().dbg("Response:  " + response);
 			
 			
+			appSpecificActions(appID, command);
+			
+			
 			jsonRoot.put("successMessage", "Installation has started for application '" + appID + "'.");
 		}
 		catch (ValidationException ex) {
@@ -187,5 +190,49 @@ public class GenesisInstall extends GenesisRead
      */
     protected boolean isDefaultDirectory(String label) {
     		return DominoUtils.isValueEmpty(label) || label.equalsIgnoreCase(DEFAULT_DIRECTORY_LABEL);
+    }
+    
+    protected void appSpecificActions(String appID, String command) {
+		try {
+			if (null == appID) {
+				return;  // nothing to do
+			}
+			else if (appID.equalsIgnoreCase("genesis-directory")) {
+				Document directoryDoc = null;
+				try {
+					directoryDoc = getTargetDatabase().createDocument();
+					directoryDoc.replaceItemValue("Form", "GenesisDirectory");
+					directoryDoc.replaceItemValue("label", "Local");
+					directoryDoc.replaceItemValue("password", "");
+					
+					// build the default URL
+					// TODO:  this is specialized for SHI Domino instances.  Make this more general, or only run for SHI instances?
+					LinkProcessor processor = new LinkProcessor(session, getLog());
+					String url = "http://" + processor.serverCommon;
+					url += ":82/";  // Default for SHI Domino servers.  TODO:  determine this from server document?
+					
+					String dbName = "gdp1.nsf";  
+					// parse from the command instead
+					Pattern dbNamePattern = Pattern.compile("^.*\\b\"?(\\S+\\.nsf)\"?$", Pattern.CASE_INSENSITIVE);
+					Matcher matcher = dbNamePattern.matcher(dbName);
+					if (matcher.matches()) {
+						dbName = matcher.group(1);
+					}
+					url += dbName;
+					
+					directoryDoc.replaceItemValue("url", url);
+					
+					directoryDoc.save(true);
+					
+				}
+				finally {
+					DominoUtils.recycle(session, directoryDoc);
+				}
+			}
+		}
+		catch (Exception ex) {
+			getLog().err("Error in appSpecificActions:  ", ex);
+			// don't fail the install
+		}
     }
 }
