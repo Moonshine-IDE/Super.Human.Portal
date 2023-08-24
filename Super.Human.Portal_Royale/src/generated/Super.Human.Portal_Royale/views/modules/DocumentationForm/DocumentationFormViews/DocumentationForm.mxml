@@ -76,6 +76,7 @@
     {
         this.currentState = 'contentState';
         this.isDisabled = false;
+        this.backCancelButton.text = "Cancel";
         this.proxy.selectedIndex = dg.selectedIndex;
         this.itemVO = dg.selectedItem.clone();
     }
@@ -167,7 +168,7 @@
               <j:Disabled disabled="{isDisabled}"/>
            </j:beads>
       </j:Button>
-      <j:Button text="{this.proxy.editable == true ? 'Cancel' : 'Back'}" click="onCancelClick(event)"/>
+      <j:Button localId="backCancelButton" text="Back" click="onCancelClick(event)"/>
       <j:Button text="Edit" click="onEditItem(event)" visible="{this.proxy.editable}">
       	   <j:beads>
       		   <j:Disabled disabled="{isDisabled == false}"/>
