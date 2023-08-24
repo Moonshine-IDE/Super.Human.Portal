@@ -71,13 +71,16 @@ package mediator.applications
 		
 		override public function handleNotification(note:INotification):void 
 		{
+			var popupVO:PopupVO = null;
 			switch (note.getName()) 
 			{
 				case ProxyGenesisDirs.NOTE_GENESIS_DIRS_LIST_FETCHED:
 					view.genesisDirsListProvider = note.getBody() as Array;
 					break;
 				case ProxyGenesisDirs.NOTE_GENESIS_DIRS_LIST_FETCH_FAILED:
-					sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, this.getMediatorName(), String(note.getBody())));
+					popupVO = new PopupVO(PopupType.ERROR, this.getMediatorName(), String(note.getBody()));
+					popupVO.eventOKSuffix = String(PopupType.ERROR);
+					sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, popupVO);
 					break;	
 				case ApplicationConstants.NOTE_OK_POPUP + MediatorPopup.NAME + this.getMediatorName():
 					genesisDirsProxy.deleteDir();
@@ -86,7 +89,9 @@ package mediator.applications
 					view.genesisDirsList["refreshDataProvider"]();		
 					break;
 				case ProxyGenesisDirs.NOTE_GENESIS_DIR_DELETE_FAILED:
-					sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, this.getMediatorName(), String(note.getBody())));
+					popupVO = new PopupVO(PopupType.ERROR, this.getMediatorName(), String(note.getBody()));
+					popupVO.eventOKSuffix = String(PopupType.ERROR);
+					sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, popupVO);
 					break;
 			}
 		}		
