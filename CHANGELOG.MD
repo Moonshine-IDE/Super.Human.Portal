@@ -3,6 +3,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
 
+## Super.Human.Portal [0.1.8]
+
+### Summary
+
+This release allows users to configure additional Genesis Directory Catalogs to distribute personal or company applications.
+
+### Added
+
+* Additional Genesis Directory Catalogs ([#35](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/35))
+* Automatically add Genesis Directory Catalog entry when installing genesis-directory ([#35](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/35))
+
+### Changed
+
+### Fixed
+
+
+
 ## Super.Human.Portal [0.1.7]
 
 ### Summary

@@ -4,7 +4,7 @@
 
   <groupId>net.apacheRoyaleTemplatedApp</groupId>
   <artifactId>Super.Human.Portal</artifactId>
-  <version>0.1.8-SNAPSHOT</version>
+  <version>0.1.8</version>
   <packaging>swf</packaging>
 
   <name>Super.Human.Portal</name>
