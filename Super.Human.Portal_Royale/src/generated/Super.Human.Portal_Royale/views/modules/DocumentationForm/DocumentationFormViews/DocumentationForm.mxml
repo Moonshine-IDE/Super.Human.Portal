@@ -54,6 +54,15 @@
         this.itemVO = null;
     }
 
+    private function initReadOnlyForm():void
+    {
+    		this.currentState = 'contentState';
+        this.isDisabled = true;
+        this.backCancelButton.text = "Back";
+        this.proxy.selectedIndex = dg.selectedIndex;
+        this.itemVO = dg.selectedItem.clone();
+    }
+    
 	private function onSaveClick(event:Event):void
     {
         this.proxy.submitItem(this.itemVO);
@@ -61,7 +70,14 @@
 
     private function onCancelClick(event:Event):void
     {
-        this.cancelFormEdit();
+    		if (this.isDisabled)
+    		{
+        		this.cancelFormEdit();
+    		}
+    		else
+    		{
+    			this.initReadOnlyForm();
+    		}
     }
 
     private function onAddItem(event:Event):void
@@ -83,10 +99,7 @@
 
     private function onGridDoubleClick(event:Event):void
     {
-        this.currentState = 'contentState';
-        this.isDisabled = true;
-        this.proxy.selectedIndex = dg.selectedIndex;
-        this.itemVO = dg.selectedItem.clone();
+        this.initReadOnlyForm();
     }
 
     private function onServerItemChanged(event:Event):void
