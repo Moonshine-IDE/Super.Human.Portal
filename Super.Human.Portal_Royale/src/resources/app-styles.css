@@ -484,3 +484,47 @@ a:hover {
 .jewel.button.primary.linkAppButton {
 	whiteSpace: pre-wrap !important;
 }
+
+.topMenuList {
+	IItemRenderer: ClassReference("classes.topMenu.components.renderers.MenuItemRenderer");
+    ISelectableItemRenderer: ClassReference("org.apache.royale.jewel.beads.itemRenderers.ClassSelectorListSelectableItemRendererBead");
+    width: 100%;
+}
+
+.topMenuListItemRenderer {
+	minWidth: 240px;
+	maxWidth: 240px;
+    minHeight: 35px;
+    padding: 10px 5px 10px 10px !important;
+    
+}
+
+.topMenuListItemRenderer.selected {
+	background: #24a3ef !important;
+	color: #FFFFFF;
+}
+
+.topMenuListItemRenderer.selected.hovered {
+	background: #24a3ef !important;
+	color: #FFFFFF;
+}
+
+.topMenuListItemRenderer.selected button {
+	color: #073340;	
+}
+
+.topMenuListItemRenderer.selected button.hovered {
+	color: #073340;	
+}
+
+.jewel.button.icon.topMenuListItemRendererIcon {
+	padding: 0 !important;
+    background: none !important;
+    border: none !important;
+    boxShadow: none !important;
+    color: #073340 !important;	
+}
+
+.jewel.button.icon.topMenuListItemRendererIcon i {
+	fontSize: 12px;
+}

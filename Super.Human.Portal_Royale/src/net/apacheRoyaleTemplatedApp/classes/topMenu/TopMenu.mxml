@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:j="library://ns.apache.org/royale/jewel" 
+		  xmlns:js="library://ns.apache.org/royale/basic" 
+		  xmlns:html="library://ns.apache.org/royale/html" xmlns:model="classes.topMenu.model.*" xmlns:helpers="classes.topMenu.helpers.*" 
+		  initComplete="onTopMenuInitComplete(event)">
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+	<j:model>
+		<model:TopMenuModel localId="menuModel"/>
+	</j:model>
+	<fx:Metadata>
+		[Event(name="menuLoaded", type="classes.topMenu.events.TopMenuEvent")]
+		[Event(name="menuItemChange", type="classes.topMenu.events.TopMenuEvent")]
+	</fx:Metadata>
+	<fx:Script>
+	<![CDATA[
+		import classes.topMenu.events.TopMenuEvent;
+		import classes.topMenu.helpers.SelectedIndexManager;
+		import classes.topMenu.helpers.TopMenuUtils;
+		import classes.topMenu.model.TopMenuVO;
+
+		import org.apache.royale.collections.ArrayList;
+		import org.apache.royale.net.HTTPConstants;
+		import org.apache.royale.net.HTTPService;
+		import org.apache.royale.net.beads.CORSCredentialsBead;
+		import org.apache.royale.net.events.FaultEvent;
+
+		private var selectedIndexManager:SelectedIndexManager;
+
+		private var _selectedItem:Object;
+
+		[Bindable]
+		public function get selectedItem():Object
+		{
+			return _selectedItem;
+		}
+
+		public function set selectedItem(value:Object):void
+		{
+			if (_selectedItem != value)
+			{
+				_selectedItem = value;
+			}
+		}
+		
+		private var _showMarks:Boolean = false;
+		
+		public function set showMarks(value:Boolean):void
+		{
+			if (_showMarks != value)
+			{
+				_showMarks = value;
+				
+				TopMenuUtils.recalculateMarkedMenu(value, model, model["menu"]);
+			}	
+		}
+		
+		public function navigateToItem(item:Object):void
+		{
+			if (this.rootMenu.selectedItem && this.rootMenu.selectedItem.parent == item.parent ||item.parent == null)
+			{
+				if (item.parent != null)
+				{
+					this.rootMenu.selectedItem = item;
+				}
+
+				this.subMenu.selectedIndex = -1;
+				this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
+			}
+			else if (this.subMenu.selectedItem && this.subMenu.selectedItem.parent == item.parent)
+			{
+				this.subMenu.selectedItem = item;
+			}
+			else
+			{
+				var items:Array = TopMenuUtils.getSiblings(this.rootMenu.selectedItem.parent, this.model);
+				this.setRootMenuItems(items);
+				this.rootMenu.selectedItem = item;
+				
+				this.setSubMenuItems(TopMenuUtils.getChildren(item.id, this.model));
+				
+				this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
+			}	
+		}
+				
+		public function initializeMenuModel(data:Object):void
+		{
+			if (!data && this.model.data) 
+			{
+				data = this.model.data;
+			}
+			else if (data)
+			{
+				this.model["data"] = data;
+			}
+			else
+			{
+				return;
+			}
+			
+			for (var key:String in data)
+			{
+				this.model[key] = TopMenuUtils.transformObjectToMenuVOItems(data[key], data);
+			}
+			
+			TopMenuUtils.recalculateMarkedMenu(_showMarks, model, model["menu"]);
+			
+			var items:Array = TopMenuUtils.getSiblings("menu", this.model);
+			this.setRootMenuItems(items);
+			
+			this.selectedIndexManager = new SelectedIndexManager(items, this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
+			
+			this.refreshMenu();
+			this.refreshMenuTitle();
+		}
+		
+		private function onTopMenuInitComplete(event:Event):void
+		{
+			var service:HTTPService = new HTTPService();
+			service.addBead(new CORSCredentialsBead(true));
+			service.url = "resources/menu.json";
+			service.method = "GET";
+			service.addEventListener(HTTPConstants.COMPLETE, onMenuLoaded);
+			service.addEventListener(HTTPConstants.IO_ERROR, onMenuError);
+            service.send();
+		}
+		
+		private function onMenuLoaded(event:Event):void
+		{
+			var service:HTTPService = event.target as HTTPService;
+			
+			service.removeEventListener(HTTPConstants.COMPLETE, onMenuLoaded);
+			service.removeEventListener(HTTPConstants.IO_ERROR, onMenuError);
+			
+			if (service.status == 200)
+			{
+				var data:Object = JSON.parse(event.target["data"]);
+	
+				this.initializeMenuModel(data);
+				
+				this.selectedItem = this.rootMenu.selectedItem;
+				this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_LOADED, null));
+			}
+		}
+		
+		private function onMenuError(event:FaultEvent):void
+		{
+			
+		}
+
+		private function onRootMenuChange(event:Event):void
+		{
+			this.selectedItem = this.refreshMenu();
+			
+			if (_showMarks)
+			{
+				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
+			}
+		
+			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem));
+			
+			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
+			this.refreshMenuTitle();
+		}
+		
+		private function onSubMenuChange(event:Event):void
+		{
+			this.refreshMenu();
+			this.selectedItem = this.subMenu.selectedItem;
+			if (!this.selectedItem)
+			{
+				this.selectedItem = this.rootMenu.selectedItem;
+			}
+			
+			if (_showMarks)
+			{
+				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
+			}
+			
+			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem));
+			
+			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
+			this.refreshMenuTitle();
+		}
+
+		private function onPreviousSelectionClick(event:MouseEvent):void
+		{
+			var previous:Object = this.selectedIndexManager.calculatePreviousSelection();
+			this.rootMenu.selectedIndex = previous.selectedIndex;
+			this.subMenu.selectedIndex = previous.subSelectedIndex;
+			
+			this.refreshMenu();
+			
+			this.selectedItem = this.subMenu.selectedItem;
+			if (!this.selectedItem)
+			{
+				this.selectedItem = this.rootMenu.selectedItem;
+			}
+			
+			if (_showMarks)
+			{
+				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
+			}
+			
+			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem));
+			
+			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
+			
+			this.refreshMenuTitle();
+		}
+		
+		private function onNextSelectionClick(event:MouseEvent):void
+		{
+			var next:Object = this.selectedIndexManager.calculateNextSelection();
+			this.rootMenu.selectedIndex = next.selectedIndex;
+			this.subMenu.selectedIndex = next.subSelectedIndex;
+			
+			this.refreshMenu();
+			
+			this.selectedItem = this.subMenu.selectedItem;
+			if (!this.selectedItem)
+			{
+				this.selectedItem = this.rootMenu.selectedItem;
+			}
+			
+			if (_showMarks)
+			{
+				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
+			}
+			
+			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem));
+			
+			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
+			
+			this.refreshMenuTitle();
+		}
+		 
+		private function onCloseMenu(event:MouseEvent):void
+		{
+			if (this.menuDrawer.isOpen)
+			{
+				this.menuDrawer.close();
+			}
+			else
+			{
+				this.menuDrawer.open();
+			}
+		}
+
+		private function refreshMenu():Object
+		{
+			var currentSelectedItem:Object = subMenu.selectedItem;
+	
+			var subMenuChildren:Array = currentSelectedItem ? currentSelectedItem.children : null;
+			var selectedItemRoot:Object = null;
+			if (subMenuChildren && subMenuChildren.length > 0)
+			{
+				selectedItemRoot = this.rootMenu.selectedItem;
+				this.setRootMenuItems(TopMenuUtils.getChildren(selectedItemRoot.id, this.model));
+				this.rootMenu.selectedItem = currentSelectedItem;
+				
+				this.setSubMenuItems(TopMenuUtils.getChildren(currentSelectedItem.id, this.model));
+			}
+			else
+			{
+				currentSelectedItem = this.rootMenu.selectedItem;
+				
+				if (!currentSelectedItem.children || currentSelectedItem.children.length == 0)
+				{
+					var siblingsParent:Array = TopMenuUtils.getSiblings(currentSelectedItem.parent, this.model);
+					this.setRootMenuItems(siblingsParent);
+		
+					var childrenParent:Array = TopMenuUtils.getChildren(currentSelectedItem.parent, this.model);
+					this.setSubMenuItems(childrenParent);	
+					
+					this.subMenu.selectedItem = currentSelectedItem;
+				}	
+				else
+				{
+					subMenuChildren = TopMenuUtils.getChildren(currentSelectedItem.id, this.model);
+					this.setSubMenuItems(subMenuChildren);
+				}
+			}
+
+			return currentSelectedItem;
+		}
+		
+		private function refreshMenuTitle():void
+		{
+			this.menuTitle.text = "Menu";
+			if (this.subMenu.selectedItem)
+			{
+				this.menuTitle.text = this.subMenu.selectedItem.label;
+			}	
+			else if (this.rootMenu.selectedItem)
+			{
+				this.menuTitle.text = this.rootMenu.selectedItem.label;
+			}
+		}
+
+		private function setRootMenuItems(menu:Array):void
+		{
+			if (!this.rootMenu) return;
+			
+			var dp:ArrayList = new ArrayList(menu);
+			this.rootMenu.dataProvider = dp;
+			this.rootMenu.selectedIndex = 0;
+							
+			if (this.selectedIndexManager)
+			{
+				this.selectedIndexManager.updateSource(dp.source);
+			}
+		}
+		
+		private function setSubMenuItems(menu:Array):void
+		{
+			if (!this.subMenu) return;
+			
+			this.subMenu.dataProvider = new ArrayList(menu);
+			this.subMenu.visible = menu.length > 0;
+		}
+	]]>
+</fx:Script>
+	<html:Div percentHeight="100">
+		<j:Drawer localId="menuDrawer" percentHeight="100" isOpen="true">
+			<j:beads>
+				<j:ResponsiveDrawer localId="drawerResponsive" auto="true"/>
+				<helpers:HideMenuOnMouseDownIfFixed/>
+				<helpers:CloseMenuOnNavigationLinkClick />
+			</j:beads>
+			<j:DrawerHeader height="50">
+				<j:style>
+					<js:SimpleCSSStyles padding="0"/>
+				</j:style>
+				
+				<j:HGroup percentHeight="100" gap="1" itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsLeft">
+					<j:style>
+						<js:SimpleCSSStyles paddingLeft="10"/>
+					</j:style>
+					<j:IconButton width="24" click="onPreviousSelectionClick(event)">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.CHEVRON_LEFT}" />
+						</j:icon>
+					</j:IconButton>
+					<j:IconButton width="24" click="onNextSelectionClick(event)">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.CHEVRON_RIGHT}" />
+						</j:icon>
+					</j:IconButton>
+					<html:P localId="menuTitle" text="Menu"/>
+				</j:HGroup>
+			</j:DrawerHeader>
+			<j:HGroup localId="viewDrawerContent">	
+				<j:beads>
+					<j:ScrollingViewport />
+				</j:beads>
+				<j:Navigation localId="rootMenu" labelField="label" className="topMenuList"
+								selectedIndex="0" change="onRootMenuChange(event)">
+					<j:beads>
+						<j:NavigationActionNotifier/>
+						<j:NoViewport />
+					</j:beads>
+				</j:Navigation>
+				<j:Navigation localId="subMenu" labelField="label" className="topMenuList" percentHeight="100" change="onSubMenuChange(event)">
+					<j:beads>
+						<j:NavigationActionNotifier/>
+						<j:NoViewport />
+					</j:beads>
+				</j:Navigation>
+			</j:HGroup>
+		</j:Drawer>
+	</html:Div>
+	<html:Div>
+		<j:IconButton width="45" click="onCloseMenu(event)">
+			<j:icon>
+				<js:MaterialIcon text="{MaterialIconType.VIEW_HEADLINE}"/>
+			</j:icon>
+		</j:IconButton>
+	</html:Div>
+</j:HGroup>

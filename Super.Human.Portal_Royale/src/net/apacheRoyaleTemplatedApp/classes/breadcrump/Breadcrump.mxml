@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:j="library://ns.apache.org/royale/jewel" 
+		  xmlns:js="library://ns.apache.org/royale/basic"
+		  itemsVerticalAlign="itemsCenter" gap="1">
+	
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+	
+	<fx:Metadata>
+		[Event(name="breadcrumpItemClick", type="classes.breadcrump.events.BreadcrumpEvent")]
+	</fx:Metadata>
+	<fx:Script>
+	<![CDATA[
+		import org.apache.royale.jewel.Label;
+		import classes.breadcrump.helpers.BreadcrumpUtils;
+		import classes.breadcrump.events.BreadcrumpEvent;
+
+		private var _items:Array = [];
+
+		public function buildBreadcrump(item:Object):void
+		{
+			if (!item) return;
+			
+			this.removeAllItems();
+			var path:Array = BreadcrumpUtils.getPathToTarget(item.id, this.model);	
+				path.reverse();
+			
+			var pathCount:int = path.length;
+			for (var i:int = 0; i < pathCount; i++)
+			{
+				var breadcrumpItem:Object = path[i];
+				var showArrow:Boolean = i < pathCount - 1;
+				var isLink:Boolean = i < pathCount - 1;
+					
+				this.addItem(breadcrumpItem, showArrow, isLink);
+			}
+		}
+		
+		private function addItem(item:Object, showArrow:Boolean = false, isLink:Boolean = true):void
+		{
+			var breadcrumpItem:BreadcrumpItem = new BreadcrumpItem();
+				breadcrumpItem.addEventListener(BreadcrumpEvent.ITEM_CLICK, onBreadCrumpItemClick);
+				
+			this.addElement(breadcrumpItem);
+				
+			breadcrumpItem.data = item;
+			breadcrumpItem.showArrow = showArrow;
+			breadcrumpItem.isLink = isLink;
+		}
+		
+		public function changeTextItem(text:String, id:String):void
+		{
+			var item:Label = this.getItemById(id);
+			if (item)
+			{
+				item.text = text;
+			}
+		}
+		
+		public function removeAllItems():void
+		{
+			for (var i:int = this.numElements - 1; i >= 0; i--)
+			{
+				var breadcrumpItem:BreadcrumpItem = this.getElementAt(i) as BreadcrumpItem;
+				if (breadcrumpItem)
+				{
+					breadcrumpItem.removeEventListener(BreadcrumpEvent.ITEM_CLICK, onBreadCrumpItemClick);
+					this.removeElement(breadcrumpItem);
+				}
+			}
+		}
+
+		private function onBreadCrumpItemClick(event:BreadcrumpEvent):void
+		{
+			this.dispatchEvent(new BreadcrumpEvent(BreadcrumpEvent.BREADCRUMP_ITEM_CLICK, event.item));	
+			
+			this.buildBreadcrump(event.item);
+		}
+		
+		private function getItemById(id:String):Label
+		{
+			var itemsCount:int = this.numElements;
+			var item:Label = null;
+			
+			for (var i:int = 0; i < itemsCount; i++)
+			{
+				var itemFound:Label = this.getElementAt(i) as Label;
+				if (itemFound && itemFound.element.name == id)
+				{
+					item = itemFound;
+					break;
+				}		
+			}
+			
+			return item;
+		}
+	]]>
+	</fx:Script>
+</j:HGroup>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:breadcrump="classes.breadcrump.*" xmlns:topMenu="classes.topMenu.*"
+		 implements="interfaces.IBrowseMyServerView">
+	
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+
+	<fx:Script>
+		<![CDATA[
+			import classes.breadcrump.Breadcrump;
+			import classes.topMenu.TopMenu;
+
+			public function get breadcrump():Breadcrump
+			{
+				return this.browserBreadcrump;
+			}
+			
+			public function get topMenu():TopMenu
+			{
+				return this.browserTopMenu;
+			}
+			
+			public function resetView():void
+			{
+				
+			}
+		]]>
+	</fx:Script>
+	<breadcrump:Breadcrump localId="browserBreadcrump"/>
+	<j:HGroup percentWidth="100" percentHeight="100">
+		<topMenu:TopMenu localId="browserTopMenu"/>
+	</j:HGroup>
+</j:VGroup>

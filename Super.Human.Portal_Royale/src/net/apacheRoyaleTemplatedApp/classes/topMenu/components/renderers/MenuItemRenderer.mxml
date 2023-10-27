@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:NavigationLinkItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 					 xmlns:j="library://ns.apache.org/royale/jewel" xmlns:js="library://ns.apache.org/royale/basic" 
+		 					 className="topMenuListItemRenderer">
+	<j:beads>
+		<js:ItemRendererDataBinding />
+		<j:HorizontalLayout gap="1" itemsVerticalAlign="itemsCenter"/> 
+	</j:beads>
+	<fx:Script>
+	<![CDATA[
+        import classes.topMenu.model.TopMenuVO;
+        
+		[Bindable("dataChange")]
+        public function get menuItem():TopMenuVO
+        {
+            return data as TopMenuVO;
+        }
+	]]>
+	</fx:Script>
+	<j:IconButton className="topMenuListItemRendererIcon" minWidth="20" visible="{menuItem.icon != null}">
+		<j:icon>
+			<js:MaterialIcon localId="markIcon" text="{menuItem.icon}" />
+		</j:icon>
+	</j:IconButton>
+	<j:Label text="{menuItem.label}" multiline="true"/>
+</j:NavigationLinkItemRenderer>

@@ -150,6 +150,10 @@ package model.proxy.customBookmarks
 				else
 				{
 					var bookmarks:Array = ParseCentral.parseCustomBookmarksList(jsonData.documents);
+					
+					//Add BrowseMyServer item
+					bookmarks.push(new BookmarkVO("Browse My Server", "BrowseMyServer", "BrowseMyServer"));
+					
 					setData(bookmarks);
 					sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_BOOKMARKS, bookmarks);
 					sendNotification(NOTE_CUSTOM_BOOKMARKS_LIST_FETCHED);
