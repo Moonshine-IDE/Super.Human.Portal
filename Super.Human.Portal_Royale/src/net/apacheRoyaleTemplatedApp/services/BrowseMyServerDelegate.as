@@ -13,25 +13,18 @@ package services
 		{
 
 		}
-		
-		public function getServers(submitObject:Object, resultCallback:Function, faultCallback:Function=null):void
+
+		public function getServers(resultCallback:Function, faultCallback:Function=null):void 
 		{
 			if (faultCallback == null)
 			{
 				faultCallback = onFault;
 			}
 			
-			var urlParams:URLSearchParams = new URLSearchParams();
-			for (var property:String in submitObject) 
-			{
-				urlParams.set(property, submitObject[property]);
-			}
-			
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = UrlProvider.getInstance().accountsposturl;
-			service.contentData = urlParams;
-			service.method = "POST";
+			service.url = UrlProvider.getInstance().databaseRead;
+			service.method = "GET";
 			service.addEventListener("complete", resultCallback);
 			service.addEventListener("ioError", faultCallback);
 			service.send();

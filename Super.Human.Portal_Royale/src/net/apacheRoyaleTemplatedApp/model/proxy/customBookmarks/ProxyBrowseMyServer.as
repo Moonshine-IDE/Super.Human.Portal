@@ -43,10 +43,48 @@ package model.proxy.customBookmarks
 		
 		public function getServersList():void
 		{
-			//var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onServersListFetched);
-		//	var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onServersListFetchFailed);
+			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onServersListFetched);
+			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onServersListFetchFailed);
 		
-			//browseMyServerDelegate.getServers(successCallback, failureCallback);
+			browseMyServerDelegate.getServers(successCallback, failureCallback);
+		}
+		
+		private function onServersListFetched(event:Event):void
+		{
+			var fetchedData:String = event.target["data"];
+			if (fetchedData)
+			{
+				var jsonData:Object = JSON.parse(fetchedData);
+
+				var errorMessage:String = jsonData["errorMessage"];
+				
+				if (errorMessage)
+				{
+					sendNotification(NOTE_SERVERS_LIST_FETCH_FAILED, "Getting servers list failed: " + errorMessage);
+				}
+				else
+				{
+				/*	var apps:Array = ParseCentral.parseGenesisCatalogList(jsonData.apps);
+					setData(apps);
+					sendNotification(NOTE_GENESIS_APPS_LIST_FETCHED);
+					
+					var installedApps:Array = filterInstalledApps(apps);
+					sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_INSTALLED_APPS, installedApps);*/
+				}
+			}
+			else
+			{
+				sendNotification(NOTE_SERVERS_LIST_FETCH_FAILED, "Getting servers list failed.");
+			}
+		}
+		
+		private function onServersListFetchFailed(event:FaultEvent):void
+		{
+			sendNotification(NOTE_SERVERS_LIST_FETCH_FAILED, "Getting servers list failed: " + event.message.toLocaleString());
+		}
+		
+		private function parseServers():void
+		{
 			var servers:Array = [
 				new ServerVO("IBM Traveler", ApplicationVO.LINK_DATABASE, "demo.startcloud.com", "", "LotusTraveler.nsf"),
 				new ServerVO("Oil Services Products", ApplicationVO.LINK_DATABASE, "demo.startcloud.com", "", "Clariant/MultiRegion/OLD_Products.nsf"),
@@ -104,40 +142,6 @@ package model.proxy.customBookmarks
 			} while(servers.length > 0);
 			
 			this.setData(serversList);
-		}
-		
-		private function onServersListFetched(event:Event):void
-		{
-			var fetchedData:String = event.target["data"];
-			if (fetchedData)
-			{
-				var jsonData:Object = JSON.parse(fetchedData);
-
-				var errorMessage:String = jsonData["errorMessage"];
-				
-				if (errorMessage)
-				{
-					sendNotification(NOTE_SERVERS_LIST_FETCH_FAILED, "Getting servers list failed: " + errorMessage);
-				}
-				else
-				{
-				/*	var apps:Array = ParseCentral.parseGenesisCatalogList(jsonData.apps);
-					setData(apps);
-					sendNotification(NOTE_GENESIS_APPS_LIST_FETCHED);
-					
-					var installedApps:Array = filterInstalledApps(apps);
-					sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_INSTALLED_APPS, installedApps);*/
-				}
-			}
-			else
-			{
-				sendNotification(NOTE_SERVERS_LIST_FETCH_FAILED, "Getting servers list failed.");
-			}
-		}
-		
-		private function onServersListFetchFailed(event:FaultEvent):void
-		{
-			sendNotification(NOTE_SERVERS_LIST_FETCH_FAILED, "Getting servers list failed: " + event.message.toLocaleString());
 		}
 	}
 }
