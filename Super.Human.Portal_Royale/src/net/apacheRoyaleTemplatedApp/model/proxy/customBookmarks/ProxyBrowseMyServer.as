@@ -43,10 +43,13 @@ package model.proxy.customBookmarks
 		
 		public function getServersList():void
 		{
-			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onServersListFetched);
-			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onServersListFetchFailed);
+			//var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onServersListFetched);
+			//var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onServersListFetchFailed);
 		
-			browseMyServerDelegate.getServers(successCallback, failureCallback);
+			//browseMyServerDelegate.getServers(successCallback, failureCallback);
+			this.parseServers();
+			
+			sendNotification(NOTE_SERVERS_LIST_FETCHED, _menuItems);
 		}
 		
 		private function onServersListFetched(event:Event):void

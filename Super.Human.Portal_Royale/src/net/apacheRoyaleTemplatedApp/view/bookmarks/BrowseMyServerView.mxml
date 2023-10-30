@@ -2,7 +2,7 @@
 <j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:j="library://ns.apache.org/royale/jewel"
 		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:breadcrump="classes.breadcrump.*" xmlns:topMenu="classes.topMenu.*"
-		 implements="interfaces.IBrowseMyServerView">
+		 implements="interfaces.IBrowseMyServerView" gap="1">
 	
 	<j:beads>
 		<js:ContainerDataBinding />
@@ -30,7 +30,10 @@
 		]]>
 	</fx:Script>
 	<breadcrump:Breadcrump localId="browserBreadcrump"/>
-	<j:HGroup percentWidth="100" percentHeight="100">
-		<topMenu:TopMenu localId="browserTopMenu"/>
+	<j:HGroup percentWidth="100" percentHeight="100" gap="1">
+		<topMenu:TopMenu localId="browserTopMenu" />
+		<j:VGroup localId="contentBrowseMyServer" percentWidth="100">
+			
+		</j:VGroup>
 	</j:HGroup>
 </j:VGroup>

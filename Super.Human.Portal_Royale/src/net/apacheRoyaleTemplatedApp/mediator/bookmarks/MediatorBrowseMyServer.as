@@ -3,9 +3,13 @@ package mediator.bookmarks
 	import classes.breadcrump.events.BreadcrumpEvent;
 	import classes.topMenu.events.TopMenuEvent;
 
+	import constants.ApplicationConstants;
+	import constants.PopupType;
+
 	import interfaces.IBrowseMyServerView;
 
 	import model.proxy.customBookmarks.ProxyBrowseMyServer;
+	import model.vo.PopupVO;
 
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -47,7 +51,9 @@ package mediator.bookmarks
 		override public function listNotificationInterests():Array 
 		{
 			var interests:Array = super.listNotificationInterests();
-			
+				interests.push(ProxyBrowseMyServer.NOTE_SERVERS_LIST_FETCHED);
+				interests.push(ProxyBrowseMyServer.NOTE_SERVERS_LIST_FETCH_FAILED);
+				
 			return interests;
 		}
 		
@@ -55,7 +61,13 @@ package mediator.bookmarks
 			
 			switch (note.getName()) 
 			{
-				
+				case ProxyBrowseMyServer.NOTE_SERVERS_LIST_FETCHED:
+					this.view.topMenu.initializeMenuModel(note.getBody());
+					this.view.breadcrump.model = this.view.topMenu.model;
+					break;
+				case ProxyBrowseMyServer.NOTE_SERVERS_LIST_FETCH_FAILED:
+					sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, this.getMediatorName(), String(note.getBody())));
+					break;
 			}
 		}		
 		

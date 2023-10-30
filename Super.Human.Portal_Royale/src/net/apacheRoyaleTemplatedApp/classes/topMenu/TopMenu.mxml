@@ -251,35 +251,38 @@
 
 		private function refreshMenu():Object
 		{
-			var currentSelectedItem:Object = subMenu.selectedItem;
+			var currentSelectedItem:TopMenuVO = this.subMenu.selectedItem as TopMenuVO;
 	
-			var subMenuChildren:Array = currentSelectedItem ? currentSelectedItem.children : null;
-			var selectedItemRoot:Object = null;
-			if (subMenuChildren && subMenuChildren.length > 0)
+			if (currentSelectedItem && currentSelectedItem.hasChildren())
 			{
-				selectedItemRoot = this.rootMenu.selectedItem;
-				this.setRootMenuItems(TopMenuUtils.getChildren(selectedItemRoot.id, this.model));
+				this.setRootMenuItems(TopMenuUtils.getChildren(currentSelectedItem.parent, this.model));
 				this.rootMenu.selectedItem = currentSelectedItem;
 				
 				this.setSubMenuItems(TopMenuUtils.getChildren(currentSelectedItem.id, this.model));
 			}
 			else
 			{
-				currentSelectedItem = this.rootMenu.selectedItem;
+				currentSelectedItem = this.rootMenu.selectedItem as TopMenuVO;
 				
-				if (!currentSelectedItem.children || currentSelectedItem.children.length == 0)
+				if (!currentSelectedItem.hasChildren())
 				{
-					var siblingsParent:Array = TopMenuUtils.getSiblings(currentSelectedItem.parent, this.model);
-					this.setRootMenuItems(siblingsParent);
+					var siblings:Array = TopMenuUtils.getSiblings(currentSelectedItem.id, this.model);
+					this.setRootMenuItems(siblings);
 		
-					var childrenParent:Array = TopMenuUtils.getChildren(currentSelectedItem.parent, this.model);
-					this.setSubMenuItems(childrenParent);	
-					
-					this.subMenu.selectedItem = currentSelectedItem;
+					var children:Array = TopMenuUtils.getChildren(currentSelectedItem.id, this.model);
+					this.setSubMenuItems(children);	
+					if (children && children.length > 0)
+					{
+						this.subMenu.selectedItem = currentSelectedItem;
+					}
+					else
+					{
+						this.rootMenu.selectedItem = currentSelectedItem;
+					}
 				}	
 				else
 				{
-					subMenuChildren = TopMenuUtils.getChildren(currentSelectedItem.id, this.model);
+					var subMenuChildren:Array = TopMenuUtils.getChildren(currentSelectedItem.id, this.model);
 					this.setSubMenuItems(subMenuChildren);
 				}
 			}
@@ -325,6 +328,9 @@
 </fx:Script>
 	<html:Div percentHeight="100">
 		<j:Drawer localId="menuDrawer" percentHeight="100" isOpen="true">
+			<j:style>
+				<js:AllCSSStyles width="max-content"/>
+			</j:style>
 			<j:beads>
 				<j:ResponsiveDrawer localId="drawerResponsive" auto="true"/>
 				<helpers:HideMenuOnMouseDownIfFixed/>
