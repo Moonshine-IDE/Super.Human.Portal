@@ -2,7 +2,7 @@
 <j:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 		  xmlns:j="library://ns.apache.org/royale/jewel" 
 		  xmlns:js="library://ns.apache.org/royale/basic" 
-		  xmlns:html="library://ns.apache.org/royale/html" xmlns:model="classes.topMenu.model.*" xmlns:helpers="classes.topMenu.helpers.*" 
+		  xmlns:html="library://ns.apache.org/royale/html" xmlns:model="classes.topMenu.model.*" xmlns:helpers="classes.topMenu.helpers.*"
 		  initComplete="onTopMenuInitComplete(event)">
 	<j:beads>
 		<js:ContainerDataBinding />
@@ -18,7 +18,6 @@
 	<![CDATA[
 		import classes.topMenu.events.TopMenuEvent;
 		import classes.topMenu.helpers.SelectedIndexManager;
-		import classes.topMenu.helpers.TopMenuUtils;
 		import classes.topMenu.model.TopMenuVO;
 
 		import org.apache.royale.collections.ArrayList;
@@ -26,6 +25,8 @@
 		import org.apache.royale.net.HTTPService;
 		import org.apache.royale.net.beads.CORSCredentialsBead;
 		import org.apache.royale.net.events.FaultEvent;
+		import classes.topMenu.helpers.TopMenuUtils;
+		import classes.topMenu.classes.ChangeSourceConst;
 
 		private var selectedIndexManager:SelectedIndexManager;
 
@@ -112,7 +113,7 @@
 			
 			this.selectedIndexManager = new SelectedIndexManager(items, this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			
-			this.refreshMenu();
+			this.refreshMenu(ChangeSourceConst.SUB_MENU);
 			this.refreshMenuTitle();
 		}
 		
@@ -152,7 +153,7 @@
 
 		private function onRootMenuChange(event:Event):void
 		{
-			this.selectedItem = this.refreshMenu();
+			this.selectedItem = this.refreshMenu(ChangeSourceConst.ROOT_MENU);
 			
 			if (_showMarks)
 			{
@@ -167,7 +168,7 @@
 		
 		private function onSubMenuChange(event:Event):void
 		{
-			this.refreshMenu();
+			this.refreshMenu(ChangeSourceConst.SUB_MENU);
 			this.selectedItem = this.subMenu.selectedItem;
 			if (!this.selectedItem)
 			{
@@ -191,7 +192,7 @@
 			this.rootMenu.selectedIndex = previous.selectedIndex;
 			this.subMenu.selectedIndex = previous.subSelectedIndex;
 			
-			this.refreshMenu();
+			this.refreshMenu(ChangeSourceConst.ROOT_MENU);
 			
 			this.selectedItem = this.subMenu.selectedItem;
 			if (!this.selectedItem)
@@ -217,7 +218,7 @@
 			this.rootMenu.selectedIndex = next.selectedIndex;
 			this.subMenu.selectedIndex = next.subSelectedIndex;
 			
-			this.refreshMenu();
+			this.refreshMenu(ChangeSourceConst.SUB_MENU);
 			
 			this.selectedItem = this.subMenu.selectedItem;
 			if (!this.selectedItem)
@@ -249,7 +250,7 @@
 			}
 		}
 
-		private function refreshMenu():Object
+		private function refreshMenu(changeSource:String):Object
 		{
 			var currentSelectedItem:TopMenuVO = this.subMenu.selectedItem as TopMenuVO;
 	
@@ -271,13 +272,48 @@
 		
 					var children:Array = TopMenuUtils.getChildren(currentSelectedItem.id, this.model);
 					this.setSubMenuItems(children);	
-					if (children && children.length > 0)
+					
+					if (changeSource == ChangeSourceConst.ROOT_MENU)
 					{
-						this.subMenu.selectedItem = currentSelectedItem;
+						if (currentSelectedItem.parent)
+						{
+							siblings = TopMenuUtils.getSiblings(currentSelectedItem.parent, this.model);
+							this.setRootMenuItems(siblings);
+							
+							children = [];
+							if (currentSelectedItem.hasChildren())
+							{
+								children = TopMenuUtils.getChildren(currentSelectedItem.id, this.model);
+								this.setSubMenuItems(children);	
+								
+								this.rootMenu.selectedItem = this.model[currentSelectedItem.parent];
+							}
+							else if (currentSelectedItem.parent != "menu")
+							{
+								children = TopMenuUtils.getChildren(currentSelectedItem.parent, this.model);
+								this.setSubMenuItems(children);
+								
+								this.rootMenu.selectedItem = this.model[currentSelectedItem.parent];
+								this.subMenu.selectedItem = currentSelectedItem;
+							}
+							else
+							{
+								this.rootMenu.selectedItem = currentSelectedItem;
+							}
+						}
 					}
 					else
 					{
-						this.rootMenu.selectedItem = currentSelectedItem;
+						this.setRootMenuItems(siblings);
+						this.setSubMenuItems(children);	
+						if (children && children.length > 0)
+						{
+							this.subMenu.selectedItem = currentSelectedItem;
+						}
+						else
+						{
+							this.rootMenu.selectedItem = currentSelectedItem;
+						}
 					}
 				}	
 				else

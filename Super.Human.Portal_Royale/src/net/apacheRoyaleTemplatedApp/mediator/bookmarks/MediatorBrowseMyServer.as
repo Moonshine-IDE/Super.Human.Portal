@@ -35,7 +35,6 @@ package mediator.bookmarks
 			this.view.topMenu.addEventListener(TopMenuEvent.MENU_ITEM_CHANGE, onTopMenuItemChange);
 			
 			this.browseMyServerProxy.getServersList();
-			this.view.topMenu.initializeMenuModel(this.browseMyServerProxy.menuItems);
 		}
 		
 		override public function onRemove():void 
