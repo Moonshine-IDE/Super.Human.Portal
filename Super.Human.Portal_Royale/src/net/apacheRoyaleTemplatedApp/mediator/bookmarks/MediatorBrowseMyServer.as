@@ -83,6 +83,7 @@ package mediator.bookmarks
 		private function onTopMenuItemChange(event:TopMenuEvent):void
 		{
 			this.view.breadcrump.buildBreadcrump(event.item);
+			view.selectedItem = event.item.data;
 		}
 	}
 }

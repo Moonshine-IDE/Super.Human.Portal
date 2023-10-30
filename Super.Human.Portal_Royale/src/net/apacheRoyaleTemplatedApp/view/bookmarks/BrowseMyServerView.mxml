@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:j="library://ns.apache.org/royale/jewel"
-		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:breadcrump="classes.breadcrump.*" xmlns:topMenu="classes.topMenu.*"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:breadcrump="classes.breadcrump.*" xmlns:topMenu="classes.topMenu.*" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*"
 		 implements="interfaces.IBrowseMyServerView" gap="1">
 	
 	<j:beads>
@@ -12,7 +12,22 @@
 		<![CDATA[
 			import classes.breadcrump.Breadcrump;
 			import classes.topMenu.TopMenu;
+			import utils.ClipboardText;
+			import model.vo.ServerVO;
 
+			private var _selectedItem:ServerVO;
+
+			[Bindable]
+			public function get selectedItem():ServerVO
+			{
+				return _selectedItem;
+			}
+
+			public function set selectedItem(value:ServerVO):void
+			{
+				_selectedItem = value;
+			}
+			
 			public function get breadcrump():Breadcrump
 			{
 				return this.browserBreadcrump;
@@ -32,8 +47,56 @@
 	<breadcrump:Breadcrump localId="browserBreadcrump"/>
 	<j:HGroup percentWidth="100" percentHeight="100" gap="1">
 		<topMenu:TopMenu localId="browserTopMenu" />
-		<j:VGroup localId="contentBrowseMyServer" percentWidth="100">
-			
+		<j:VGroup localId="contentBrowseMyServer" percentWidth="100" 
+				  itemsHorizontalAlign="itemsCenter">
+			<j:Card>
+				<j:CardHeader>
+					<html:H4 text="{selectedItem.databaseName}" percentWidth="100"/>
+				</j:CardHeader>
+				<j:CardPrimaryContent>
+					<j:Form>
+						<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+												labelClass="formItemAppDetailsLabel"
+												label="Title:">							
+							<j:Label text="{selectedItem.name}" />
+						</controls:CustomFormItem>
+						<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+												labelClass="formItemAppDetailsLabel"
+												label="Server:">							
+							<j:Label text="{selectedItem.server}" />
+							<j:HGroup itemsHorizontalAlign="itemsRight">
+								<j:Button localId="serverCopyToClpboard" text="Copy to Clipboard" width="135" />
+							</j:HGroup>
+						</controls:CustomFormItem>
+						<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+												labelClass="formItemAppDetailsLabel"
+												label="Database:">							
+							<j:Label text="{selectedItem.database}" />
+							<j:HGroup itemsHorizontalAlign="itemsRight">
+								<j:Button localId="databaseCopyToClipboard" text="Copy to Clipboard" width="135" />
+							</j:HGroup>
+						</controls:CustomFormItem>
+						<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+												labelClass="formItemAppDetailsLabel"
+												label="View:">							
+							<j:Label text="{selectedItem.view}" />
+						</controls:CustomFormItem>
+						<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+												labelClass="formItemAppDetailsLabel"
+												label="ReplicaID:">							
+							<j:Label text="{selectedItem.replicaID}" />
+							<j:HGroup itemsHorizontalAlign="itemsRight">
+								<j:Button localId="replicaCopyToClipboard" text="Copy to Clipboard" width="135" />
+							</j:HGroup>
+						</controls:CustomFormItem>
+					</j:Form>
+				</j:CardPrimaryContent>
+				<j:CardActions itemsHorizontalAlign="itemsRight">
+					<j:Button text="Add Bookmark" className="noLinkStyle"/>
+					<j:Button text="Open in Client" className="noLinkStyle"/>
+					<j:Button text="Open in Nomad" className="noLinkStyle"/>
+				</j:CardActions>
+			</j:Card>
 		</j:VGroup>
 	</j:HGroup>
 </j:VGroup>

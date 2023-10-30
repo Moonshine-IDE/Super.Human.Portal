@@ -14,6 +14,7 @@ package model.vo
         public var bookmarkCount:int;
       	
         public var serverPath:Array = [];
+        public var databaseName:String;
         
 		public function ServerVO(name:String = "", type:String = "", url:String = "", nomadURL:String = "", 
 								server:String = "", database:String = "", view:String = "",
@@ -33,12 +34,12 @@ package model.vo
 		
         private var _server:String;
 
-        private function get server():String
+        public function get server():String
         {
         		return _server;
         }
 
-        private function set server(value:String):void
+        public function set server(value:String):void
         {
         		if (_server != value)
         		{
@@ -47,6 +48,10 @@ package model.vo
         			if (value)
         			{
         				serverPath = value.split("/");
+        				if (serverPath && serverPath.length > 0)
+        				{
+        					databaseName = serverPath[serverPath.length - 1];
+        				}
         			}
     			}
         }
