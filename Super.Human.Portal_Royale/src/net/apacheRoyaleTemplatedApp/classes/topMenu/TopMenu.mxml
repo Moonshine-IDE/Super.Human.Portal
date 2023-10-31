@@ -112,6 +112,7 @@
 			this.setRootMenuItems(items);
 			
 			this.selectedIndexManager = new SelectedIndexManager(items, this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
+			this.selectedItem = this.rootMenu.selectedItem;
 			
 			this.refreshMenu(ChangeSourceConst.SUB_MENU);
 			this.refreshMenuTitle();
