@@ -8,20 +8,25 @@ package mediator.bookmarks
 
 	import interfaces.IBrowseMyServerView;
 
+	import model.proxy.customBookmarks.ProxyBookmarks;
 	import model.proxy.customBookmarks.ProxyBrowseMyServer;
+	import model.vo.BookmarkVO;
 	import model.vo.PopupVO;
 	import model.vo.ServerVO;
 
+	import org.apache.royale.events.MouseEvent;
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import org.apache.royale.events.MouseEvent;
+
 	import utils.ClipboardText;
+	import model.vo.ApplicationVO;
 								
 	public class MediatorBrowseMyServer extends Mediator implements IMediator
 	{
 		public static const NAME:String  = 'MediatorBrowseMyServer';
 
+		private var bookmarksProxy:ProxyBookmarks;
 		private var browseMyServerProxy:ProxyBrowseMyServer;
 		
 		public function MediatorBrowseMyServer(component:IBrowseMyServerView) 
@@ -33,9 +38,11 @@ package mediator.bookmarks
 		{			
 			super.onRegister();
 			
+			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
 			this.browseMyServerProxy = facade.retrieveProxy(ProxyBrowseMyServer.NAME) as ProxyBrowseMyServer;
 			this.view.breadcrump.addEventListener(BreadcrumpEvent.BREADCRUMP_ITEM_CLICK, onBreadcrumpItemClick);
 			this.view.topMenu.addEventListener(TopMenuEvent.MENU_ITEM_CHANGE, onTopMenuItemChange);
+			this.view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
 			this.view.copyToClipboardServer.addEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.addEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.addEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
@@ -49,10 +56,12 @@ package mediator.bookmarks
 			
 			this.view.breadcrump.removeEventListener(BreadcrumpEvent.BREADCRUMP_ITEM_CLICK, onBreadcrumpItemClick);
 			this.view.topMenu.removeEventListener(TopMenuEvent.MENU_ITEM_CHANGE, onTopMenuItemChange);
+			this.view.addBookmark.removeEventListener(MouseEvent.CLICK, onAddBookmarkClick);
 			this.view.copyToClipboardServer.removeEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.removeEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.removeEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
 			
+			this.bookmarksProxy = null;
 			this.browseMyServerProxy = null;
 		}	
 		
@@ -110,6 +119,21 @@ package mediator.bookmarks
 		private function onCopyToClipboardReplica(event:Object):void
 		{
 			ClipboardText.copyToClipboard(view.selectedItem.replicaID);
+		}
+		
+		private function onAddBookmarkClick(event:MouseEvent):void
+		{
+			var bookmark:BookmarkVO = new BookmarkVO("Default");
+				bookmark.name = view.selectedItem.name;
+				bookmark.server = view.selectedItem.server;
+				bookmark.database = view.selectedItem.database;
+				bookmark.view = view.selectedItem.view;
+				bookmark.url = view.selectedItem.url;
+				bookmark.nomadURL = view.selectedItem.nomadURL;
+				
+			this.bookmarksProxy.selectedBookmark = bookmark;
+			this.bookmarksProxy.selectedBookmark.type = ApplicationVO.LINK_DATABASE;
+			sendNotification(ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK);
 		}
 		
 		private function updateView():void

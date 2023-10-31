@@ -40,6 +40,11 @@
 				return this.browserTopMenu;
 			}
 			
+			public function get addBookmark():IEventDispatcher
+			{
+				return this.bookmarkAdd;	
+			}
+			
 			public function get openClient():Object
 			{
 				return this.clientOpen;
@@ -145,7 +150,7 @@
 							<j:Label text="Bookmarked!"/>
 						</j:VGroup>
 					</j:VGroup>
-					<j:Button text="Add Bookmark" className="noLinkStyle" minWidth="120"/>
+					<j:Button localId="bookmarkAdd" text="Add Bookmark" className="noLinkStyle" minWidth="120"/>
 					<j:Button localId="clientOpen" text="Open in Client" className="noLinkStyle"/>
 					<j:Button localId="nomadWebOpen" text="Open in Nomad" className="noLinkStyle"/>
 				</j:CardActions>
