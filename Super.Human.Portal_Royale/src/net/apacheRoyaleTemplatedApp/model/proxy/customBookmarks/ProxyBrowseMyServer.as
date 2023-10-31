@@ -89,11 +89,11 @@ package model.proxy.customBookmarks
 		private function parseServers():void
 		{
 			var servers:Array = [
-				new ServerVO("IBM Traveler", ApplicationVO.LINK_DATABASE, "demo.startcloud.com", "", "LotusTraveler.nsf"),
-				new ServerVO("Oil Services Products", ApplicationVO.LINK_DATABASE, "demo.startcloud.com", "", "Clariant/MultiRegion/OLD_Products.nsf"),
-				new ServerVO("RegionPatch", ApplicationVO.LINK_DATABASE, "demo.startcloud.com", "", "Clariant/Products.nsf"),
-				new ServerVO("Custom Mapping Database Directory", ApplicationVO.LINK_DATABASE, "demo.startcloud.com", "", "traveler/map/custom/MapDir.nsf"),
-				new ServerVO("Flex IDP Example", ApplicationVO.LINK_DATABASE, "demo.startcloud.com", "", "agentshelper.nsf"),
+				new ServerVO("IBM Traveler", ApplicationVO.LINK_DATABASE, "https://prominic.net/", "https://prominic.net/", "LotusTraveler.nsf", "", "MyView", "ReplicaID"),
+				new ServerVO("Oil Services Products", ApplicationVO.LINK_DATABASE, "https://prominic.net/", "https://prominic.net/", "Clariant/MultiRegion/OLD_Products.nsf", "", "", "SomeReplicaID", true, 1),
+				new ServerVO("RegionPatch", ApplicationVO.LINK_DATABASE, "https://prominic.net/", "https://prominic.net/", "Clariant/Products.nsf"),
+				new ServerVO("Custom Mapping Database Directory", ApplicationVO.LINK_DATABASE, "https://prominic.net/", "https://prominic.net/", "traveler/map/custom/MapDir.nsf"),
+				new ServerVO("Flex IDP Example", ApplicationVO.LINK_DATABASE, "https://prominic.net/", "https://prominic.net/", "agentshelper.nsf", "", "", "", true, 4),
 			]
 			var serversList:Array = [];
 

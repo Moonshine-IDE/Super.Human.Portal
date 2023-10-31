@@ -12,8 +12,10 @@
 		<![CDATA[
 			import classes.breadcrump.Breadcrump;
 			import classes.topMenu.TopMenu;
-			import utils.ClipboardText;
+
 			import model.vo.ServerVO;
+
+			import org.apache.royale.events.IEventDispatcher;
 
 			private var _selectedItem:ServerVO;
 
@@ -38,6 +40,31 @@
 				return this.browserTopMenu;
 			}
 			
+			public function get openClient():Object
+			{
+				return this.clientOpen;
+			}
+			
+			public function get openNomadWeb():Object
+			{
+				return this.nomadWebOpen;
+			}
+			
+			public function get copyToClipboardServer():IEventDispatcher
+			{
+				return this.serverCopyToClpboard;
+			}
+			
+			public function get copyToClipboardDatabase():IEventDispatcher
+			{
+				return this.databaseCopyToClipboard;
+			}
+			
+			public function get copyToClipboardReplica():IEventDispatcher
+			{
+				return this.replicaCopyToClipboard;
+			}
+			
 			public function resetView():void
 			{
 				
@@ -50,6 +77,9 @@
 		<j:VGroup localId="contentBrowseMyServer" percentWidth="100" 
 				  itemsHorizontalAlign="itemsCenter">
 			<j:Card>
+				<j:style>
+					<js:AllCSSStyles width="inherit"/>
+				</j:style>
 				<j:CardHeader>
 					<html:H4 text="{selectedItem.databaseName}" percentWidth="100"/>
 				</j:CardHeader>
@@ -65,7 +95,11 @@
 												label="Server:">							
 							<j:Label text="{selectedItem.server}" />
 							<j:HGroup itemsHorizontalAlign="itemsRight">
-								<j:Button localId="serverCopyToClpboard" text="Copy to Clipboard" width="135" />
+								<j:Button localId="serverCopyToClpboard" text="Copy to Clipboard" width="135">
+									<j:beads>
+										<j:Disabled disabled="{!selectedItem.server}"/>
+									</j:beads>
+								</j:Button>
 							</j:HGroup>
 						</controls:CustomFormItem>
 						<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
@@ -73,7 +107,11 @@
 												label="Database:">							
 							<j:Label text="{selectedItem.database}" />
 							<j:HGroup itemsHorizontalAlign="itemsRight">
-								<j:Button localId="databaseCopyToClipboard" text="Copy to Clipboard" width="135" />
+								<j:Button localId="databaseCopyToClipboard" text="Copy to Clipboard" width="135">
+									<j:beads>
+										<j:Disabled disabled="{!selectedItem.database}"/>
+									</j:beads>
+								</j:Button>
 							</j:HGroup>
 						</controls:CustomFormItem>
 						<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
@@ -86,15 +124,30 @@
 												label="ReplicaID:">							
 							<j:Label text="{selectedItem.replicaID}" />
 							<j:HGroup itemsHorizontalAlign="itemsRight">
-								<j:Button localId="replicaCopyToClipboard" text="Copy to Clipboard" width="135" />
+								<j:Button localId="replicaCopyToClipboard" text="Copy to Clipboard" width="135">
+									<j:beads>
+										<j:Disabled disabled="{!selectedItem.replicaID}"/>
+									</j:beads>
+								</j:Button>
 							</j:HGroup>
 						</controls:CustomFormItem>
 					</j:Form>
 				</j:CardPrimaryContent>
-				<j:CardActions itemsHorizontalAlign="itemsRight">
-					<j:Button text="Add Bookmark" className="noLinkStyle"/>
-					<j:Button text="Open in Client" className="noLinkStyle"/>
-					<j:Button text="Open in Nomad" className="noLinkStyle"/>
+				<j:CardActions itemsHorizontalAlign="itemsRight" itemsVerticalAlign="itemsCenter">
+					<j:VGroup percentWidth="100" visible="{selectedItem.hasBookmarks}" 
+							  itemsHorizontalAlign="itemsLeft" itemsVerticalAlign="itemsCenter">
+						<j:VGroup itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" gap="1">
+							<j:IconButton>
+								<j:icon>
+									<js:MaterialIcon text="{MaterialIconType.CHECK}"/>
+								</j:icon>
+							</j:IconButton>
+							<j:Label text="Bookmarked!"/>
+						</j:VGroup>
+					</j:VGroup>
+					<j:Button text="Add Bookmark" className="noLinkStyle" minWidth="120"/>
+					<j:Button localId="clientOpen" text="Open in Client" className="noLinkStyle"/>
+					<j:Button localId="nomadWebOpen" text="Open in Nomad" className="noLinkStyle"/>
 				</j:CardActions>
 			</j:Card>
 		</j:VGroup>
