@@ -7,18 +7,19 @@ package model.vo
         public var type:String;
         public var url:String;
         public var nomadURL:String;
-        public var database:String;
+        public var server:String;
         public var view:String;
         public var replicaID:String;
         public var hasBookmarks:Boolean;
         public var bookmarkCount:int;
-      	
-        public var serverPath:Array = [];
+        public var bookmarks:Array;
+        
+        public var databasePath:Array = [];
         public var databaseName:String;
         
 		public function ServerVO(name:String = "", type:String = "", url:String = "", nomadURL:String = "", 
 								server:String = "", database:String = "", view:String = "",
-								replicaID:String = "", hasBookmarks:Boolean = false, bookmarkCount:int = 0)
+								replicaID:String = "", hasBookmarks:Boolean = false, bookmarkCount:int = 0, bookmarks:Array = null)
 		{
 			this.name = name;
 			this.type = type;
@@ -30,27 +31,28 @@ package model.vo
 			this.replicaID = replicaID;
 			this.hasBookmarks = hasBookmarks;
 			this.bookmarkCount = bookmarkCount;
+			this.bookmarks = bookmarks ? bookmarks : [];
 		}
 		
-        private var _server:String;
+        private var _database:String;
 
-        public function get server():String
+        public function get database():String
         {
-        		return _server;
+        		return _database;
         }
 
-        public function set server(value:String):void
+        public function set database(value:String):void
         {
-        		if (_server != value)
+        		if (_database != value)
         		{
-        			_server = value;
+        			_database = value;
         			
         			if (value)
         			{
-        				serverPath = value.split("/");
-        				if (serverPath && serverPath.length > 0)
+        				this.databasePath = value.split("/");
+        				if (this.databasePath && this.databasePath.length > 0)
         				{
-        					databaseName = serverPath[serverPath.length - 1];
+        					databaseName = this.databasePath[this.databasePath.length - 1];
         				}
         			}
     			}

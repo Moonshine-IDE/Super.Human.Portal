@@ -9,6 +9,7 @@ package model.proxy.customBookmarks
 	import model.vo.ServerVO;
 	import model.vo.ApplicationVO;
 	import classes.topMenu.model.TopMenuVO;
+	import classes.managers.ParseCentral;
 			
 	public class ProxyBrowseMyServer extends Proxy
 	{
@@ -43,13 +44,10 @@ package model.proxy.customBookmarks
 		
 		public function getServersList():void
 		{
-			//var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onServersListFetched);
-			//var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onServersListFetchFailed);
+			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onServersListFetched);
+			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onServersListFetchFailed);
 		
-			//browseMyServerDelegate.getServers(successCallback, failureCallback);
-			this.parseServers();
-			
-			sendNotification(NOTE_SERVERS_LIST_FETCHED, _menuItems);
+			browseMyServerDelegate.getServers(successCallback, failureCallback);
 		}
 		
 		private function onServersListFetched(event:Event):void
@@ -67,12 +65,11 @@ package model.proxy.customBookmarks
 				}
 				else
 				{
-				/*	var apps:Array = ParseCentral.parseGenesisCatalogList(jsonData.apps);
-					setData(apps);
-					sendNotification(NOTE_GENESIS_APPS_LIST_FETCHED);
+					var servers:Array = ParseCentral.parseDatabases(jsonData.databases);
+					this.setData(servers);
+					this.parseServersToUIItems(servers);
 					
-					var installedApps:Array = filterInstalledApps(apps);
-					sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_INSTALLED_APPS, installedApps);*/
+					sendNotification(NOTE_SERVERS_LIST_FETCHED, _menuItems);
 				}
 			}
 			else
@@ -86,15 +83,8 @@ package model.proxy.customBookmarks
 			sendNotification(NOTE_SERVERS_LIST_FETCH_FAILED, "Getting servers list failed: " + event.message.toLocaleString());
 		}
 		
-		private function parseServers():void
+		private function parseServersToUIItems(servers:Array):void
 		{
-			var servers:Array = [
-				new ServerVO("IBM Traveler", ApplicationVO.LINK_DATABASE, "https://prominic.net/", "https://prominic.net/", "LotusTraveler.nsf", "TestDB", "MyView", "ReplicaID"),
-				new ServerVO("Oil Services Products", ApplicationVO.LINK_DATABASE, "https://prominic.net/", "https://prominic.net/", "Clariant/MultiRegion/OLD_Products.nsf", "TestDB", "", "SomeReplicaID", true, 1),
-				new ServerVO("RegionPatch", ApplicationVO.LINK_DATABASE, "https://prominic.net/", "https://prominic.net/", "Clariant/Products.nsf", "TestDB"),
-				new ServerVO("Custom Mapping Database Directory", ApplicationVO.LINK_DATABASE, "https://prominic.net/", "https://prominic.net/", "traveler/map/custom/MapDir.nsf", "TestDB"),
-				new ServerVO("Flex IDP Example", ApplicationVO.LINK_DATABASE, "https://prominic.net/", "https://prominic.net/", "agentshelper.nsf", "TestDB", "", "", true, 4),
-			]
 			var serversList:Array = [];
 
 			var childrenRoot:Array = [];
@@ -102,49 +92,43 @@ package model.proxy.customBookmarks
 				menu: { id: "menu", label: "Menu", hash: "", parent: null, children: childrenRoot }
 			};
 			
-			do
+			for each (var server:ServerVO in servers)
 			{
-				var server:ServerVO = servers.pop();
-				if (server.serverPath)
+				if (server.databasePath)
 				{
-					for (var i:int = 0; i < server.serverPath.length; i++)
+					for (var i:int = 0; i < server.databasePath.length; i++)
 					{
 						if (childrenRoot.some(function(child:String, index:int, arr:Array):Boolean {
-								return child == server.serverPath[i];
+								return child == server.databasePath[i];
 							}))
 						{
 							continue;	
 						}
 						
 						var item:Object = {};			
-							item.id = server.serverPath[i];
-							item.label = server.serverPath[i];
+							item.id = server.databasePath[i];
+							item.label = server.databasePath[i];
 							item.children = [];
 						if (i == 0)
 						{
 							item.parent = "menu";
-							childrenRoot.push(server.serverPath[i]);
+							childrenRoot.push(server.databasePath[i]);
 						}
 						else
 						{
-							item.parent = server.serverPath[i - 1];
+							item.parent = server.databasePath[i - 1];
 							menuItems[item.parent].children.push(item.id);
 						}
 	
-						if (i == server.serverPath.length - 1)
+						if (i == server.databasePath.length - 1)
 						{
 							item.data = server;	
 						}
 						
-						menuItems[server.serverPath[i]] = item;
+						menuItems[server.databasePath[i]] = item;
 					}
 				}
-				//for each (var )
-				serversList.push(server);
-				
-			} while(servers.length > 0);
-			
-			this.setData(serversList);
+			}
 		}
 	}
 }
