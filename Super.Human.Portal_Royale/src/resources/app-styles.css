@@ -148,6 +148,11 @@ a:hover {
    font-size: 1.2em !important
 }
 
+.jewel.label.labelLink, .jewel.label.labelLink:visited {
+  color: #3CADF1;
+  textDecoration: underline;
+}
+
 .jewel.label.labelTextAlignRight {
    textAlign: right !important;
 }
