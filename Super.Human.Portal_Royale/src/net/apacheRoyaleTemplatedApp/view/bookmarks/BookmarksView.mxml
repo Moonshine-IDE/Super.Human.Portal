@@ -86,6 +86,5 @@
 	</j:Card>
 	
 	<!--BrowseMyServer-->
-	<bookmarks:BrowseMyServerView localId="viewBrowseMyServer" includeIn="browseMyServerView" 
-								  percentWidth="100" percentHeight="100"/>
+	<bookmarks:BrowseMyServerView localId="viewBrowseMyServer" includeIn="browseMyServerView" percentWidth="100" />
 </j:VGroup>

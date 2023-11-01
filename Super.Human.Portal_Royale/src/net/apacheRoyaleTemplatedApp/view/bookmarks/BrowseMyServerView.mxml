@@ -3,7 +3,6 @@
 		 xmlns:j="library://ns.apache.org/royale/jewel"
 		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:breadcrump="classes.breadcrump.*" xmlns:topMenu="classes.topMenu.*" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*"
 		 implements="interfaces.IBrowseMyServerView" gap="1">
-	
 	<j:beads>
 		<js:ContainerDataBinding />
 	</j:beads>
@@ -78,7 +77,11 @@
 	</fx:Script>
 	<breadcrump:Breadcrump localId="browserBreadcrump"/>
 	<j:HGroup percentWidth="100" percentHeight="100" gap="1">
-		<topMenu:TopMenu localId="browserTopMenu" />
+		<topMenu:TopMenu localId="browserTopMenu">
+			<topMenu:style>
+				<js:SimpleCSSStyles marginLeft="-10"/>
+			</topMenu:style>
+		</topMenu:TopMenu>
 		<j:VGroup localId="contentBrowseMyServer" percentWidth="100" 
 				  itemsHorizontalAlign="itemsCenter">
 			<j:Card>
