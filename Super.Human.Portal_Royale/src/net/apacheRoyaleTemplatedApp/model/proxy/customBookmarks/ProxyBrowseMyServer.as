@@ -98,21 +98,25 @@ package model.proxy.customBookmarks
 				{
 					for (var i:int = 0; i < server.databasePath.length; i++)
 					{
-						if (childrenRoot.some(function(child:String, index:int, arr:Array):Boolean {
-								return child == server.databasePath[i];
-							}))
+						var dbPath:String = server.databasePath[i];
+	
+						var hasPathInChildrenRoot:Boolean = childrenRoot.some(function(child:String, index:int, arr:Array):Boolean {
+															return child == dbPath;
+														});
+						var hasPathInMenuItems:Boolean = menuItems.hasOwnProperty(dbPath);
+						if (hasPathInChildrenRoot || hasPathInMenuItems)
 						{
 							continue;	
 						}
 						
 						var item:Object = {};			
-							item.id = server.databasePath[i];
-							item.label = server.databasePath[i];
+							item.id = dbPath;
+							item.label = dbPath;
 							item.children = [];
 						if (i == 0)
 						{
 							item.parent = "menu";
-							childrenRoot.push(server.databasePath[i]);
+							childrenRoot.push(dbPath);
 						}
 						else
 						{
@@ -125,7 +129,7 @@ package model.proxy.customBookmarks
 							item.data = server;	
 						}
 						
-						menuItems[server.databasePath[i]] = item;
+						menuItems[dbPath] = item;
 					}
 				}
 			}
