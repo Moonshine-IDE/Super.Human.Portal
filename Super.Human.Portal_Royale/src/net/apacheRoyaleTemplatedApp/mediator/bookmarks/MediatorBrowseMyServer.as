@@ -104,9 +104,20 @@ package mediator.bookmarks
 		{
 			this.view.breadcrump.model = this.view.topMenu.model;
 								
-			this.view.breadcrump.buildBreadcrump(event.item);
-			view.selectedItem = event.item.data;
-			this.refreshButtonLinks(event.item.data as ServerVO);
+			this.view.breadcrump.buildBreadcrump(event.subItem ? event.subItem : event.item);
+			view.selectedItem = event.subItem ? event.subItem.data : event.item.data;
+			
+			this.refreshButtonLinks();
+				
+			view.currentState = "selectedDatabaseState";
+			if (event.subItem && event.subItem.children.length >= 1)
+			{
+				view.currentState = "selectedFolderState";
+			}
+			else if (event.item && event.item.children.length >= 1 && event.subItem == null)
+			{
+				view.currentState = "selectedFolderState";
+			}
 		}
 
 		private function onCopyToClipboardServer(event:Object):void
@@ -144,16 +155,16 @@ package mediator.bookmarks
 			if (view.topMenu.selectedItem)
 			{
 				view.selectedItem = view.topMenu.selectedItem.data;
-				this.refreshButtonLinks(view.topMenu.selectedItem.data as ServerVO);
+				this.refreshButtonLinks();
 			}
 		}
 		
-		private function refreshButtonLinks(item:ServerVO):void
+		private function refreshButtonLinks():void
 		{
-			if (item)
+			if (view.selectedItem)
 			{
-				view.openClient.html = "<a target='_blank' href='" + item.url + "'>Open in Client</a>";
-				view.openNomadWeb.html = "<a target='_blank' href='" + item.nomadURL + "'>Open in Nomad</a>";
+				view.openClient.html = "<a target='_blank' href='" + view.selectedItem.url + "'>Open in Client</a>";
+				view.openNomadWeb.html = "<a target='_blank' href='" + view.selectedItem.nomadURL + "'>Open in Nomad</a>";
 			}
 		}
 	}

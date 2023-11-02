@@ -13,6 +13,7 @@ package interfaces
 		function get topMenu():TopMenu;
 		function get selectedItem():ServerVO;
 		function set selectedItem(value:ServerVO):void;
+		function set currentState(value:String):void;
 		function get openClient():Object;
 		function get openNomadWeb():Object;
 		function get addBookmark():IEventDispatcher;
