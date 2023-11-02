@@ -160,7 +160,7 @@
 				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
 			}
 		
-			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem));
+			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem, this.subMenu.selectedItem));
 			
 			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			this.refreshMenuTitle();
@@ -180,7 +180,7 @@
 				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
 			}
 			
-			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem));
+			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem, this.subMenu.selectedItem));
 			
 			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			this.refreshMenuTitle();
@@ -205,7 +205,7 @@
 				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
 			}
 			
-			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem));
+			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem, this.subMenu.selectedItem));
 			
 			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			

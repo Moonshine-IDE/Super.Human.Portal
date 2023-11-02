@@ -7,11 +7,12 @@ package classes.topMenu.events
 		public static const MENU_LOADED:String = "menuLoaded";
 		public static const MENU_ITEM_CHANGE:String = "menuItemChange";
 		
-		public function TopMenuEvent(type:String, item:Object = null)
+		public function TopMenuEvent(type:String, item:Object = null, subItem:Object = null)
 		{
 			super(type);
 					
 			_item = item;
+			_subItem = subItem;
 		}
 				
 		private var _item:Object;
@@ -20,5 +21,13 @@ package classes.topMenu.events
 		{
 			return _item;
 		}
+		
+		private var _subItem:Object;
+
+		public function get subItem():Object
+		{
+			return _subItem;
+		}
+		
 	}
 }
