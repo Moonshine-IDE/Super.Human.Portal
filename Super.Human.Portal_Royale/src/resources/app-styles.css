@@ -433,6 +433,12 @@ a:hover {
 	IBeadView: ClassReference("view.controls.FormItemView");
 }
 
+.horizontalContentCenterNonExpandFormItem {
+	IBeadModel: ClassReference("classes.models.CustomFormItemModel");
+	IFormItemContentArea: ClassReference("view.controls.HGroupItemsCenterNonExpandForm");
+	IBeadView: ClassReference("view.controls.FormItemView");
+}
+
 .horizontalContentNonExpandFormItem {
 	IBeadModel: ClassReference("classes.models.CustomFormItemModel");
 	IFormItemContentArea: ClassReference("view.controls.HGroupForm");

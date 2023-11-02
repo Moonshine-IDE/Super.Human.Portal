@@ -98,46 +98,49 @@
 												label="Title:">							
 							<j:Label text="{selectedItem.name}" />
 						</controls:CustomFormItem>
-						<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+						<controls:CustomFormItem className="horizontalContentCenterNonExpandFormItem"
 												labelClass="formItemAppDetailsLabel"
 												label="Server:">							
 							<j:Label text="{selectedItem.server}" />
-							<j:HGroup itemsHorizontalAlign="itemsRight">
-								<j:Button localId="serverCopyToClpboard" text="Copy to Clipboard" width="135">
-									<j:beads>
-										<j:Disabled disabled="{!selectedItem.server}"/>
-									</j:beads>
-								</j:Button>
-							</j:HGroup>
+							<j:IconButton localId="serverCopyToClpboard">
+								<j:beads>
+									<j:Disabled disabled="{!selectedItem.server}"/>
+								</j:beads>
+								<j:icon>
+									<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}"/>
+								</j:icon>
+							</j:IconButton>
 						</controls:CustomFormItem>
-						<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+						<controls:CustomFormItem className="horizontalContentCenterNonExpandFormItem"
 												labelClass="formItemAppDetailsLabel"
 												label="Database:">							
 							<j:Label text="{selectedItem.database}" />
-							<j:HGroup itemsHorizontalAlign="itemsRight">
-								<j:Button localId="databaseCopyToClipboard" text="Copy to Clipboard" width="135">
-									<j:beads>
-										<j:Disabled disabled="{!selectedItem.database}"/>
-									</j:beads>
-								</j:Button>
-							</j:HGroup>
+							<j:IconButton localId="databaseCopyToClipboard">
+								<j:beads>
+									<j:Disabled disabled="{!selectedItem.database}"/>
+								</j:beads>
+								<j:icon>
+									<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}"/>
+								</j:icon>
+							</j:IconButton>
 						</controls:CustomFormItem>
 						<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 												labelClass="formItemAppDetailsLabel"
 												label="View:">							
 							<j:Label text="{selectedItem.view}" />
 						</controls:CustomFormItem>
-						<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+						<controls:CustomFormItem className="horizontalContentCenterNonExpandFormItem"
 												labelClass="formItemAppDetailsLabel"
 												label="ReplicaID:">							
 							<j:Label text="{selectedItem.replicaID}" />
-							<j:HGroup itemsHorizontalAlign="itemsRight">
-								<j:Button localId="replicaCopyToClipboard" text="Copy to Clipboard" width="135">
-									<j:beads>
-										<j:Disabled disabled="{!selectedItem.replicaID}"/>
-									</j:beads>
-								</j:Button>
-							</j:HGroup>
+							<j:IconButton localId="replicaCopyToClipboard">
+								<j:beads>
+									<j:Disabled disabled="{!selectedItem.replicaID}"/>
+								</j:beads>
+								<j:icon>
+									<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}"/>
+								</j:icon>
+							</j:IconButton>
 						</controls:CustomFormItem>
 					</j:Form>
 				</j:CardPrimaryContent>
