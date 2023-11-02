@@ -332,11 +332,11 @@
 			this.menuTitle.text = "Menu";
 			if (this.subMenu.selectedItem)
 			{
-				this.menuTitle.text = "Selected: " + this.subMenu.selectedItem.label;
+				this.menuTitle.text = "Selection: " + this.subMenu.selectedItem.label;
 			}	
 			else if (this.rootMenu.selectedItem)
 			{
-				this.menuTitle.text = "Selected: " + this.rootMenu.selectedItem.label;
+				this.menuTitle.text = "Selection: " + this.rootMenu.selectedItem.label;
 			}
 		}
 
