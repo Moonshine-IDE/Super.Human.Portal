@@ -363,8 +363,8 @@
 		}
 	]]>
 </fx:Script>
-	<html:Div percentHeight="100">
-		<j:Drawer localId="menuDrawer" percentHeight="100" isOpen="true">
+	<j:Group>
+		<j:Drawer localId="menuDrawer" isOpen="true" percentHeight="100">
 			<j:style>
 				<js:AllCSSStyles width="max-content"/>
 			</j:style>
@@ -406,7 +406,7 @@
 						<j:NoViewport />
 					</j:beads>
 				</j:Navigation>
-				<j:Navigation localId="subMenu" labelField="label" className="topMenuList" percentHeight="100" change="onSubMenuChange(event)">
+				<j:Navigation localId="subMenu" labelField="label" className="topMenuList" change="onSubMenuChange(event)">
 					<j:beads>
 						<j:NavigationActionNotifier/>
 						<j:NoViewport />
@@ -414,12 +414,12 @@
 				</j:Navigation>
 			</j:HGroup>
 		</j:Drawer>
-	</html:Div>
-	<html:Div>
+	</j:Group>
+	<j:Group>
 		<j:IconButton width="45" click="onCloseMenu(event)">
 			<j:icon>
 				<js:MaterialIcon text="{MaterialIconType.VIEW_HEADLINE}"/>
 			</j:icon>
 		</j:IconButton>
-	</html:Div>
+	</j:Group>
 </j:HGroup>
