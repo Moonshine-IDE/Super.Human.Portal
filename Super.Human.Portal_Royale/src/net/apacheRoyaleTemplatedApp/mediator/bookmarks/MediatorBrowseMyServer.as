@@ -41,6 +41,7 @@ package mediator.bookmarks
 			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
 			this.browseMyServerProxy = facade.retrieveProxy(ProxyBrowseMyServer.NAME) as ProxyBrowseMyServer;
 			this.view.breadcrump.addEventListener(BreadcrumpEvent.BREADCRUMP_ITEM_CLICK, onBreadcrumpItemClick);
+			this.view.topMenu.addEventListener(TopMenuEvent.MENU_LOADED, onTopMenuItemChange);
 			this.view.topMenu.addEventListener(TopMenuEvent.MENU_ITEM_CHANGE, onTopMenuItemChange);
 			this.view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
 			this.view.copyToClipboardServer.addEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
@@ -55,6 +56,7 @@ package mediator.bookmarks
 			super.onRemove();
 			
 			this.view.breadcrump.removeEventListener(BreadcrumpEvent.BREADCRUMP_ITEM_CLICK, onBreadcrumpItemClick);
+			this.view.topMenu.removeEventListener(TopMenuEvent.MENU_LOADED, onTopMenuItemChange);
 			this.view.topMenu.removeEventListener(TopMenuEvent.MENU_ITEM_CHANGE, onTopMenuItemChange);
 			this.view.addBookmark.removeEventListener(MouseEvent.CLICK, onAddBookmarkClick);
 			this.view.copyToClipboardServer.removeEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
@@ -80,7 +82,6 @@ package mediator.bookmarks
 			{
 				case ProxyBrowseMyServer.NOTE_SERVERS_LIST_FETCHED:
 					this.view.topMenu.initializeMenuModel(note.getBody());
-					this.view.breadcrump.model = this.view.topMenu.model;
 					this.updateView();
 					break;
 				case ProxyBrowseMyServer.NOTE_SERVERS_LIST_FETCH_FAILED:
@@ -101,6 +102,8 @@ package mediator.bookmarks
 
 		private function onTopMenuItemChange(event:TopMenuEvent):void
 		{
+			this.view.breadcrump.model = this.view.topMenu.model;
+								
 			this.view.breadcrump.buildBreadcrump(event.item);
 			view.selectedItem = event.item.data;
 			this.refreshButtonLinks(event.item.data as ServerVO);
