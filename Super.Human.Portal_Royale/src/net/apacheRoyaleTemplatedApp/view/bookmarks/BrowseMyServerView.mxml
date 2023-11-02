@@ -90,6 +90,11 @@
 				</j:style>
 				<j:CardHeader>
 					<html:H4 text="{selectedItem.databaseName}" percentWidth="100"/>
+					<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight" gap="1">
+						<j:Button localId="clientOpen" text="Open in Client" className="noLinkStyle"/>
+						<j:Button localId="nomadWebOpen" text="Open in Nomad" className="noLinkStyle"/>
+						<j:Button localId="bookmarkAdd" text="Add Bookmark" className="noLinkStyle"/>
+					</j:HGroup>
 				</j:CardHeader>
 				<j:CardPrimaryContent>
 					<j:Form>
@@ -144,21 +149,16 @@
 						</controls:CustomFormItem>
 					</j:Form>
 				</j:CardPrimaryContent>
-				<j:CardActions itemsHorizontalAlign="itemsRight" itemsVerticalAlign="itemsCenter">
-					<j:VGroup percentWidth="100" visible="{selectedItem.hasBookmarks}" 
+				<j:CardActions itemsVerticalAlign="itemsCenter" visible="{selectedItem.hasBookmarks}">
+					<j:VGroup percentWidth="100"
 							  itemsHorizontalAlign="itemsLeft" itemsVerticalAlign="itemsCenter">
-						<j:VGroup itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" gap="1">
-							<j:IconButton>
-								<j:icon>
-									<js:MaterialIcon text="{MaterialIconType.CHECK}"/>
-								</j:icon>
-							</j:IconButton>
-							<j:Label text="Bookmarked!"/>
-						</j:VGroup>
+						<j:IconButton>
+							<j:icon>
+								<js:MaterialIcon text="{MaterialIconType.CHECK}"/>
+							</j:icon>
+						</j:IconButton>
+						<j:Label text="Bookmarked!"/>
 					</j:VGroup>
-					<j:Button localId="bookmarkAdd" text="Add Bookmark" className="noLinkStyle" minWidth="120"/>
-					<j:Button localId="clientOpen" text="Open in Client" className="noLinkStyle"/>
-					<j:Button localId="nomadWebOpen" text="Open in Nomad" className="noLinkStyle"/>
 				</j:CardActions>
 			</j:Card>
 		</j:VGroup>
