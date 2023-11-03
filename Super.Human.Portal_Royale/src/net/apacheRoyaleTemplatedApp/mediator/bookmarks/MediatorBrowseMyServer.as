@@ -147,6 +147,7 @@ package mediator.bookmarks
 				bookmark.view = view.selectedItem.view;
 				bookmark.url = view.selectedItem.url;
 				bookmark.nomadURL = view.selectedItem.nomadURL;
+				bookmark.onlyDatabase = true;
 				
 			this.bookmarksProxy.selectedBookmark = bookmark;
 			this.bookmarksProxy.selectedBookmark.type = ApplicationVO.LINK_DATABASE;
