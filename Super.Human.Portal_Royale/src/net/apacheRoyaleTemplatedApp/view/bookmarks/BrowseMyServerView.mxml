@@ -113,7 +113,11 @@
 								<j:Disabled disabled="{!selectedItem.server}"/>
 							</j:beads>
 							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}"/>
+								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+									<js:style>
+										<js:SimpleCSSStyles fontSize="16"/>
+									</js:style>
+								</js:MaterialIcon>
 							</j:icon>
 						</j:IconButton>
 					</controls:CustomFormItem>
@@ -126,7 +130,11 @@
 								<j:Disabled disabled="{!selectedItem.database}"/>
 							</j:beads>
 							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}"/>
+								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+									<js:style>
+										<js:SimpleCSSStyles fontSize="16"/>
+									</js:style>
+								</js:MaterialIcon>
 							</j:icon>
 						</j:IconButton>
 					</controls:CustomFormItem>
@@ -144,7 +152,11 @@
 								<j:Disabled disabled="{!selectedItem.replicaID}"/>
 							</j:beads>
 							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}"/>
+								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+									<js:style>
+										<js:SimpleCSSStyles fontSize="16"/>
+									</js:style>
+								</js:MaterialIcon>
 							</j:icon>
 						</j:IconButton>
 					</controls:CustomFormItem>

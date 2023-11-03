@@ -54,7 +54,11 @@
 					<j:HGroup itemsHorizontalAlign="itemsRight">
 						<j:IconButton click="onCopyToClipboardServerClick(event)">
 							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}"/>
+								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+									<js:style>
+										<js:SimpleCSSStyles fontSize="16"/>
+									</js:style>
+								</js:MaterialIcon>
 							</j:icon>
 						</j:IconButton>
 					</j:HGroup>
@@ -66,7 +70,11 @@
 					<j:HGroup itemsHorizontalAlign="itemsRight">
 						<j:IconButton click="onCopyToClipboardDatabaseClick(event)">
 							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}"/>
+								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+									<js:style>
+										<js:SimpleCSSStyles fontSize="16"/>
+									</js:style>
+								</js:MaterialIcon>
 							</j:icon>
 						</j:IconButton>
 					</j:HGroup>
