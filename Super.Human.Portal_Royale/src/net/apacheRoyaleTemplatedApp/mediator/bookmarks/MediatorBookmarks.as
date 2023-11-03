@@ -21,6 +21,7 @@ package mediator.bookmarks
 
     import view.bookmarks.Bookmark;
     import view.bookmarks.event.BookmarkEvent;
+    import model.proxy.customBookmarks.ProxyBrowseMyServer;
     
     public class MediatorBookmarks extends Mediator implements IMediator
     {
@@ -43,14 +44,14 @@ package mediator.bookmarks
 			
 			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
 			this.view["addEventListener"]("stateChangeComplete", onViewStateChangeComplete);
-
+			
 			if (this.bookmarksProxy.selectedGroup != "Browse My Server")
 			{
 				updateView();
 			}
 			else
 			{
-				this.view["currentState"] = this.bookmarksProxy.selectedGroup == "Browse My Server" ?
+				this.view.currentState = this.bookmarksProxy.selectedGroup == "Browse My Server" ?
 											BROWSE_MY_SERVER_VIEW_STATE : BOOKMARKS_VIEW_STATE;
 			
 			}
@@ -62,6 +63,10 @@ package mediator.bookmarks
 
 			facade.removeMediator(MediatorBrowseMyServer.NAME);
 			this.view["removeEventListener"]("stateChangeComplete", onViewStateChangeComplete);
+			if (this.view.refreshButton)
+			{
+				this.view.refreshButton.removeEventListener(MouseEvent.CLICK, onRefreshServersListClick);
+			}
 			this.view["currentState"] = BOOKMARKS_VIEW_STATE;
 			
 			cleanUpBookmarksList();
@@ -107,10 +112,13 @@ package mediator.bookmarks
 
 		private function updateView():void
 		{
-			if (view["currentState"] == BOOKMARKS_VIEW_STATE)
+			if (view.currentState == BOOKMARKS_VIEW_STATE)
 			{
 				facade.removeMediator(MediatorBrowseMyServer.NAME);
-				
+				if (view.refreshButton)
+				{
+					view.refreshButton.removeEventListener(MouseEvent.CLICK, onRefreshServersListClick);
+				}
 				view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
 				view.title = "Bookmarks";
 				view.groupName = bookmarksProxy.selectedGroup;
@@ -121,6 +129,8 @@ package mediator.bookmarks
 			else if (view["currentState"] == BROWSE_MY_SERVER_VIEW_STATE)
 			{
 				view.addBookmark.removeEventListener(MouseEvent.CLICK, onAddBookmarkClick);
+				
+				view.refreshButton.addEventListener(MouseEvent.CLICK, onRefreshServersListClick);
 				facade.registerMediator(new MediatorBrowseMyServer(view.browseMyServerView));
 				view.title = "Browse My Server";
 			}
@@ -195,6 +205,12 @@ package mediator.bookmarks
 			{
 				sendNotification(ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK);
 			}
+		}
+		
+		private function onRefreshServersListClick(event:MouseEvent):void
+		{
+			var browseMyServerProxy:ProxyBrowseMyServer = facade.retrieveProxy(ProxyBrowseMyServer.NAME) as ProxyBrowseMyServer;
+				browseMyServerProxy.getServersList();
 		}
     }
 }

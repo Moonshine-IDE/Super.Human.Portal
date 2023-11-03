@@ -50,6 +50,11 @@
 				return this.viewBrowseMyServer;
 			}
 			
+			public function get refreshButton():IEventDispatcher
+			{
+				return this.refreshViewBtn;
+			}	
+			
 			public function installationResult(message:String):void
 			{
 				Snackbar.show(message, 4000, null);
@@ -67,8 +72,13 @@
 			<j:HGroup percentWidth="100">
 				<html:H3 localId="viewTitle" text="Bookmarks" percentWidth="100"/>
 				<!--BookmarkView-->
-				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight" includeIn="bookmarksView">
-					<j:Button localId="bookmarkAdd" className="noLinkStyle" text="Add a Bookmark"/>
+				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
+					<j:Button localId="bookmarkAdd" className="noLinkStyle" text="Add a Bookmark" includeIn="bookmarksView"/>
+					<j:IconButton localId="refreshViewBtn" text="Refresh" includeIn="browseMyServerView">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.REFRESH}" />
+						</j:icon>
+					</j:IconButton>
 				</j:HGroup>
 			</j:HGroup>
 		</j:GridCell>

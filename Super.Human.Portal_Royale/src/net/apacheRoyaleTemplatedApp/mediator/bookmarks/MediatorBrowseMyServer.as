@@ -48,7 +48,10 @@ package mediator.bookmarks
 			this.view.copyToClipboardDatabase.addEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.addEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
 			
-			this.browseMyServerProxy.getServersList();
+			if (!this.browseMyServerProxy.getData())
+			{
+				this.browseMyServerProxy.getServersList();
+			}
 		}
 		
 		override public function onRemove():void 
