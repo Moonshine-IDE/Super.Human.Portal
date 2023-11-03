@@ -10,6 +10,7 @@ import com.moonshine.domino.security.AllowAllSecurity;
 import com.moonshine.domino.security.SecurityInterface;
 import com.moonshine.domino.util.DominoUtils;
 
+import genesis.LinkProcessor;
 import lotus.domino.Database;
 import lotus.domino.DbDirectory;
 import lotus.domino.NotesException;
@@ -64,13 +65,18 @@ public class DatabaseRead extends CRUDAgentBase
 		json.put("database", db.getFilePath());
 		json.put("view", "");  // no specific view by default
 		
-		// TODO:  generate the access URLs based on LinkProcessor logic
-		json.put("url", "TODO");
-		json.put("nomadURL", "TODO");
+		// Generate the access URLs based on LinkProcessor logic
+		// json.put("url", "TODO");
+		// json.put("nomadURL", "TODO");
+		LinkProcessor processor = new LinkProcessor(session, getLog());
+		// set allowRemoteServer if we add support for reading other servers later
+		processor.cleanupLink(json);
 		
 		// additional values
 		// Replica is not needed for initial logic, but it may be useful later
 		json.put("replicaID", db.getReplicaID());
+		
+		
 		
 		// properties to track existing values:
 		// TODO:  compute these instead of using placeholders

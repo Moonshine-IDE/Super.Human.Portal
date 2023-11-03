@@ -63,6 +63,14 @@ public class LinkProcessor
 		this.allowRemoteServer = value;
 	}
     
+	/**
+	 * Cleanup the values for a link/bookmark:<ul>
+	 * <li> Populate the server, if it is not populated already </li>
+	 * <li> Generate url and nomadURL</li>
+	 * <li> Apply the insertion parameters</li>
+	 * </ul>
+	 * @param link  the link to update.
+	 */
     public void cleanupLink(JSONObject link) {
     		String identifier = "UNKNOWN";
     		try {
@@ -193,7 +201,9 @@ public class LinkProcessor
     		if ( DominoUtils.isValueEmpty(value)) {
 			return false;
     		} 
-    		if (!value.toLowerCase().endsWith(".nsf")) {
+    		if (!value.toLowerCase().endsWith(".nsf") &&
+    			!value.toLowerCase().endsWith(".ntf") &&    // allow links to bookmarks as well
+    			!value.equalsIgnoreCase("mail.box")) {      // I think mail.box is the only .box database I have seen
     			return false;
     		}
     		
