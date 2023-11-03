@@ -14,6 +14,8 @@ package model.vo
 		public var nomadURL:String
 		public var description:String;
       
+		public var onlyDatabase:Boolean = false;
+		
 		public function BookmarkVO(group:String = "Default", dominoUniversalID:String = "", name:String = "", 
 										server:String = "", database:String = "", view:String = "",
 										type:String = "", url:String = "", nomadURL:String = "", description:String = "")

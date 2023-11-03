@@ -16,6 +16,7 @@
 			import org.apache.royale.jewel.Snackbar;
 
 			import view.bookmarks.event.BookmarkEvent;
+			import org.apache.royale.jewel.beads.controls.Disabled;
 
 			private var _bookmark:BookmarkVO;
 
@@ -103,6 +104,13 @@
 						bookmarkTypeRadio.selected = type.selected;
 						bookmarkTypeRadio.groupName = this.bookmark.group;
 						bookmarkTypeRadio.addEventListener(Event.CHANGE, onTypeChange);
+					
+					if (this.bookmark.onlyDatabase)
+					{
+						var disabledRadio:Disabled = new Disabled();
+							disabledRadio.disabled = true;
+						bookmarkTypeRadio.addBead(disabledRadio);
+					}
 	
 					this.bookmarkTypeFormItem.addElement(bookmarkTypeRadio);	
 										

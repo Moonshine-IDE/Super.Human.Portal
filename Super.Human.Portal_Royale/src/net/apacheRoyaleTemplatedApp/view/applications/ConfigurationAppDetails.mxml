@@ -52,7 +52,15 @@
 										label="Server:" visible="{server != null}">							
 					<j:Label html="{server}" />
 					<j:HGroup itemsHorizontalAlign="itemsRight">
-						<j:Button text="Copy to Clipboard" width="135" click="onCopyToClipboardServerClick(event)"/>
+						<j:IconButton click="onCopyToClipboardServerClick(event)">
+							<j:icon>
+								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+									<js:style>
+										<js:SimpleCSSStyles fontSize="16"/>
+									</js:style>
+								</js:MaterialIcon>
+							</j:icon>
+						</j:IconButton>
 					</j:HGroup>
 				</controls:CustomFormItem>
 				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
@@ -60,7 +68,15 @@
 										label="Database:" visible="{database != null}">							
 					<j:Label html="{database}" />
 					<j:HGroup itemsHorizontalAlign="itemsRight">
-						<j:Button text="Copy to Clipboard" width="135" click="onCopyToClipboardDatabaseClick(event)"/>
+						<j:IconButton click="onCopyToClipboardDatabaseClick(event)">
+							<j:icon>
+								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+									<js:style>
+										<js:SimpleCSSStyles fontSize="16"/>
+									</js:style>
+								</js:MaterialIcon>
+							</j:icon>
+						</j:IconButton>
 					</j:HGroup>
 				</controls:CustomFormItem>
 				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"

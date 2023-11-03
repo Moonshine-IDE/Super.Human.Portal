@@ -151,6 +151,7 @@ package model.proxy.customBookmarks
 				{
 					var bookmarks:Array = ParseCentral.parseCustomBookmarksList(jsonData.documents);
 					setData(bookmarks);
+					
 					sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_BOOKMARKS, bookmarks);
 					sendNotification(NOTE_CUSTOM_BOOKMARKS_LIST_FETCHED);
 				}

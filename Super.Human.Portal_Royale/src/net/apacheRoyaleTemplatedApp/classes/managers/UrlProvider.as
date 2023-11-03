@@ -188,6 +188,13 @@ package classes.managers
 			return _bookmarksUpdate;
 		}
 		
+		private var _databaseRead:String = "/SuperHumanPortal.nsf/DatabaseRead?OpenAgent";
+
+		public function get databaseRead():String
+		{
+			return _databaseRead;
+		}
+		
 		private var _appVersion:String;
 		
 		public function setAppVersion(value:String):void

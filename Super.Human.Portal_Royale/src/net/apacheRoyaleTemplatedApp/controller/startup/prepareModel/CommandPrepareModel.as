@@ -8,6 +8,7 @@ package controller.startup.prepareModel
 	import model.proxy.applicationsCatalog.ProxyGenesisDirs;
 	import model.proxy.busy.ProxyBusyManager;
 	import model.proxy.customBookmarks.ProxyBookmarks;
+	import model.proxy.customBookmarks.ProxyBrowseMyServer;
 	import model.proxy.login.ProxyLogin;
 	import model.proxy.login.ProxyNewRegistration;
 	import model.proxy.login.ProxyPasswordReset;
@@ -40,6 +41,7 @@ package controller.startup.prepareModel
 			facade.registerProxy(new ProxyGenesisApps());
 			facade.registerProxy(new ProxyGenesisDirs());
 			facade.registerProxy(new ProxyBookmarks());
+			facade.registerProxy(new ProxyBrowseMyServer());
 		}
 	}
 }

@@ -5,12 +5,15 @@ package mediator.bookmarks
 
     import interfaces.IBookmarksView;
 
+    import mediator.popup.MediatorPopup;
+
     import model.proxy.customBookmarks.ProxyBookmarks;
     import model.proxy.urlParams.ProxyUrlParameters;
     import model.vo.ApplicationVO;
     import model.vo.BookmarkVO;
     import model.vo.PopupVO;
 
+    import org.apache.royale.events.Event;
     import org.apache.royale.events.MouseEvent;
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
@@ -18,11 +21,14 @@ package mediator.bookmarks
 
     import view.bookmarks.Bookmark;
     import view.bookmarks.event.BookmarkEvent;
-    import mediator.popup.MediatorPopup;
+    import model.proxy.customBookmarks.ProxyBrowseMyServer;
     
     public class MediatorBookmarks extends Mediator implements IMediator
     {
 		public static const NAME:String  = 'MediatorBookmarks';
+		
+		public static const BOOKMARKS_VIEW_STATE:String = "bookmarksView";
+		public static const BROWSE_MY_SERVER_VIEW_STATE:String = "browseMyServerView";
 		
 		private var bookmarksProxy:ProxyBookmarks;
 		private var urlParamsProxy:ProxyUrlParameters;
@@ -37,19 +43,33 @@ package mediator.bookmarks
 			super.onRegister();
 			
 			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
-			this.view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
+			this.view["addEventListener"]("stateChangeComplete", onViewStateChangeComplete);
 			
-			updateView();
+			if (this.bookmarksProxy.selectedGroup != "Browse My Server")
+			{
+				updateView();
+			}
+			else
+			{
+				this.view.currentState = this.bookmarksProxy.selectedGroup == "Browse My Server" ?
+											BROWSE_MY_SERVER_VIEW_STATE : BOOKMARKS_VIEW_STATE;
+			
+			}
 		}
 		
 		override public function onRemove():void 
 		{			
 			super.onRemove();
 
-			this.view.addBookmark.removeEventListener(MouseEvent.CLICK, onAddBookmarkClick);
+			facade.removeMediator(MediatorBrowseMyServer.NAME);
+			this.view["removeEventListener"]("stateChangeComplete", onViewStateChangeComplete);
+			if (this.view.refreshButton)
+			{
+				this.view.refreshButton.removeEventListener(MouseEvent.CLICK, onRefreshServersListClick);
+			}
+			this.view["currentState"] = BOOKMARKS_VIEW_STATE;
 			
 			cleanUpBookmarksList();
-			
 			this.bookmarksProxy = null;
 		}
 		
@@ -92,10 +112,28 @@ package mediator.bookmarks
 
 		private function updateView():void
 		{
-			view.groupName = bookmarksProxy.selectedGroup;
-			
-			this.cleanUpBookmarksList();
-			this.updateListOfBookmarks();
+			if (view.currentState == BOOKMARKS_VIEW_STATE)
+			{
+				facade.removeMediator(MediatorBrowseMyServer.NAME);
+				if (view.refreshButton)
+				{
+					view.refreshButton.removeEventListener(MouseEvent.CLICK, onRefreshServersListClick);
+				}
+				view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
+				view.title = "Bookmarks";
+				view.groupName = bookmarksProxy.selectedGroup;
+				
+				this.cleanUpBookmarksList();
+				this.updateListOfBookmarks();
+			}
+			else if (view["currentState"] == BROWSE_MY_SERVER_VIEW_STATE)
+			{
+				view.addBookmark.removeEventListener(MouseEvent.CLICK, onAddBookmarkClick);
+				
+				view.refreshButton.addEventListener(MouseEvent.CLICK, onRefreshServersListClick);
+				facade.registerMediator(new MediatorBrowseMyServer(view.browseMyServerView));
+				view.title = "Browse My Server";
+			}
 		}
 
 		private function updateListOfBookmarks():void
@@ -143,6 +181,18 @@ package mediator.bookmarks
 			}
 		}
 		
+		private function onViewStateChangeComplete(event:Event):void
+		{
+			this.updateView();
+		}
+
+		private function onAddBookmarkClick(event:MouseEvent):void
+		{
+			this.bookmarksProxy.selectedBookmark = new BookmarkVO(this.bookmarksProxy.selectedGroup);
+			this.bookmarksProxy.selectedBookmark.type = ApplicationVO.LINK_BROWSER;
+			sendNotification(ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK);
+		}
+			
 		private function onModifyBookmark(event:BookmarkEvent):void
 		{
 			this.bookmarksProxy.selectedBookmark = event.bookmark;
@@ -157,11 +207,10 @@ package mediator.bookmarks
 			}
 		}
 		
-		private function onAddBookmarkClick(event:MouseEvent):void
+		private function onRefreshServersListClick(event:MouseEvent):void
 		{
-			this.bookmarksProxy.selectedBookmark = new BookmarkVO(this.bookmarksProxy.selectedGroup);
-			this.bookmarksProxy.selectedBookmark.type = ApplicationVO.LINK_BROWSER;
-			sendNotification(ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK);
+			var browseMyServerProxy:ProxyBrowseMyServer = facade.retrieveProxy(ProxyBrowseMyServer.NAME) as ProxyBrowseMyServer;
+				browseMyServerProxy.getServersList();
 		}
     }
 }

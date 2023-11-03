@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:j="library://ns.apache.org/royale/jewel" 
+		  xmlns:js="library://ns.apache.org/royale/basic"
+		  initComplete="onBreadcrumpItemInitComplete(event)">
+	
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+	<fx:Metadata>
+		[Event(name="itemClick", type="classes.breadcrump.events.BreadcrumpEvent")]
+	</fx:Metadata>
+	<fx:Script>
+	<![CDATA[
+		import org.apache.royale.events.MouseEvent;
+		import classes.breadcrump.events.BreadcrumpEvent;
+
+		private var _data:Object;
+
+		public function get data():Object
+		{
+			return _data;
+		}
+
+		public function set data(value:Object):void
+		{
+			if (_data != value)
+			{
+				_data = value;
+				
+				if (breadcrumpLabel)
+				{
+					breadcrumpLabel.text = value ? value.label : null;
+				}
+			}
+		}
+		
+		private var _isLink:Boolean = true;
+
+		[Bindable]
+		public function get isLink():Boolean
+		{
+			return _isLink;
+		}
+
+		public function set isLink(value:Boolean):void
+		{
+			_isLink = value;
+		}
+		
+		private var _showArrow:Boolean;
+
+		[Bindable]
+		public function get showArrow():Boolean
+		{
+			return _showArrow;
+		}
+
+		public function set showArrow(value:Boolean):void
+		{
+			_showArrow = value;
+		}
+		
+		private function onBreadcrumpItemInitComplete(event:Event):void
+		{
+			breadcrumpLabel.text = data ? data.label : null;
+		}
+		
+		private function onItemClick(event:MouseEvent):void
+		{
+			this.dispatchEvent(new BreadcrumpEvent(BreadcrumpEvent.ITEM_CLICK, this.data));
+		}
+	]]>
+</fx:Script>
+	<j:Label localId="breadcrumpLabel" className="{isLink ? 'cursorPointer labelLink biggerLink' : 'biggerLink'}" click="onItemClick(event)"/>
+	<j:Label localId="breadcrumpArrow" className="biggerLink" text=">" visible="{showArrow}"/>
+</j:HGroup>

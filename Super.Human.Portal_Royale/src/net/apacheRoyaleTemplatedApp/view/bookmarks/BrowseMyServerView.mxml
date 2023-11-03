@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:breadcrump="classes.breadcrump.*" xmlns:topMenu="classes.topMenu.*" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*"
+		 implements="interfaces.IBrowseMyServerView" gap="1" currentState="selectedDatabaseState">
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+	<j:states>
+		<js:State name="selectedDatabaseState" />
+		<js:State name="selectedFolderState"/>
+	</j:states>
+	<fx:Script>
+		<![CDATA[
+			import classes.breadcrump.Breadcrump;
+			import classes.topMenu.TopMenu;
+
+			import model.vo.ServerVO;
+
+			import org.apache.royale.events.IEventDispatcher;
+
+			private var _selectedItem:ServerVO;
+
+			[Bindable]
+			public function get selectedItem():ServerVO
+			{
+				return _selectedItem;
+			}
+
+			public function set selectedItem(value:ServerVO):void
+			{
+				_selectedItem = value;
+			}
+			
+			public function get breadcrump():Breadcrump
+			{
+				return this.browserBreadcrump;
+			}
+			
+			public function get topMenu():TopMenu
+			{
+				return this.browserTopMenu;
+			}
+			
+			public function get addBookmark():IEventDispatcher
+			{
+				return this.bookmarkAdd;	
+			}
+			
+			public function get openClient():Object
+			{
+				return this.clientOpen;
+			}
+			
+			public function get openNomadWeb():Object
+			{
+				return this.nomadWebOpen;
+			}
+			
+			public function get copyToClipboardServer():IEventDispatcher
+			{
+				return this.serverCopyToClpboard;
+			}
+			
+			public function get copyToClipboardDatabase():IEventDispatcher
+			{
+				return this.databaseCopyToClipboard;
+			}
+			
+			public function get copyToClipboardReplica():IEventDispatcher
+			{
+				return this.replicaCopyToClipboard;
+			}
+			
+			public function resetView():void
+			{
+				
+			}
+		]]>
+	</fx:Script>
+	<breadcrump:Breadcrump localId="browserBreadcrump"/>
+	<j:HGroup percentWidth="100" percentHeight="100" gap="1">
+		<topMenu:TopMenu localId="browserTopMenu">
+			<topMenu:style>
+				<js:SimpleCSSStyles marginLeft="-10"/>
+			</topMenu:style>
+		</topMenu:TopMenu>
+		<j:Card>
+			<j:style>
+				<js:AllCSSStyles width="inherit"/>
+			</j:style>
+			<j:CardHeader includeIn="selectedDatabaseState">
+				<html:H4 text="{selectedItem.databaseName}" percentWidth="100"/>
+				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight" gap="1">
+					<j:Button localId="clientOpen" text="Open in Client" className="noLinkStyle"/>
+					<j:Button localId="nomadWebOpen" text="Open in Nomad" className="noLinkStyle"/>
+					<j:Button localId="bookmarkAdd" text="Add Bookmark" className="noLinkStyle"/>
+				</j:HGroup>
+			</j:CardHeader>
+			<j:CardPrimaryContent itemsVerticalAlign="itemsCentral" itemsHorizontalAlign="itemsCentral">
+				<j:Form includeIn="selectedDatabaseState">
+					<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+											labelClass="formItemAppDetailsLabel"
+											label="Title:">							
+						<j:Label text="{selectedItem.name}" />
+					</controls:CustomFormItem>
+					<controls:CustomFormItem className="horizontalContentCenterNonExpandFormItem"
+											labelClass="formItemAppDetailsLabel"
+											label="Server:">							
+						<j:Label text="{selectedItem.server}" />
+						<j:IconButton localId="serverCopyToClpboard">
+							<j:beads>
+								<j:Disabled disabled="{!selectedItem.server}"/>
+							</j:beads>
+							<j:icon>
+								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+									<js:style>
+										<js:SimpleCSSStyles fontSize="16"/>
+									</js:style>
+								</js:MaterialIcon>
+							</j:icon>
+						</j:IconButton>
+					</controls:CustomFormItem>
+					<controls:CustomFormItem className="horizontalContentCenterNonExpandFormItem"
+											labelClass="formItemAppDetailsLabel"
+											label="Database:">							
+						<j:Label text="{selectedItem.database}" />
+						<j:IconButton localId="databaseCopyToClipboard">
+							<j:beads>
+								<j:Disabled disabled="{!selectedItem.database}"/>
+							</j:beads>
+							<j:icon>
+								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+									<js:style>
+										<js:SimpleCSSStyles fontSize="16"/>
+									</js:style>
+								</js:MaterialIcon>
+							</j:icon>
+						</j:IconButton>
+					</controls:CustomFormItem>
+					<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+											labelClass="formItemAppDetailsLabel"
+											label="View:">							
+						<j:Label text="{selectedItem.view}" />
+					</controls:CustomFormItem>
+					<controls:CustomFormItem className="horizontalContentCenterNonExpandFormItem"
+											labelClass="formItemAppDetailsLabel"
+											label="ReplicaID:">							
+						<j:Label text="{selectedItem.replicaID}" />
+						<j:IconButton localId="replicaCopyToClipboard">
+							<j:beads>
+								<j:Disabled disabled="{!selectedItem.replicaID}"/>
+							</j:beads>
+							<j:icon>
+								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+									<js:style>
+										<js:SimpleCSSStyles fontSize="16"/>
+									</js:style>
+								</js:MaterialIcon>
+							</j:icon>
+						</j:IconButton>
+					</controls:CustomFormItem>
+				</j:Form>
+				<j:VGroup includeIn="selectedFolderState" gap="1" percentHeight="100" percentWidth="100"
+						  itemsVerticalAlign="itemsCentral" itemsHorizontalAlign="itemsCentral">
+					<html:H4 text="Select a database or template in the sidebar to see more details and options."/>
+					<html:H4 text="Available features:"/>
+					<html:Ul>
+						<html:Li text="Open the database">
+							<html:style>
+								<js:SimpleCSSStyles fontSize="1.25em"/>
+							</html:style>
+						</html:Li>
+						<html:Li text="Quickly create bookmarks for the database.">
+							<html:style>
+								<js:SimpleCSSStyles fontSize="1.25em"/>
+							</html:style>
+						</html:Li>
+					</html:Ul>
+				</j:VGroup>
+			</j:CardPrimaryContent>
+			<j:CardActions itemsVerticalAlign="itemsCenter" visible="{selectedItem.hasBookmarks}" includeIn="selectedDatabaseState">
+				<j:VGroup percentWidth="100"
+							itemsHorizontalAlign="itemsLeft" itemsVerticalAlign="itemsCenter">
+					<j:IconButton>
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.CHECK}"/>
+						</j:icon>
+					</j:IconButton>
+					<j:Label text="Bookmarked!"/>
+				</j:VGroup>
+			</j:CardActions>
+		</j:Card>
+	</j:HGroup>
+</j:VGroup>

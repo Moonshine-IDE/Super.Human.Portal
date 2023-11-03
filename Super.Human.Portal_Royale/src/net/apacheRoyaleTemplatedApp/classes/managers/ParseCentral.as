@@ -12,6 +12,7 @@ package classes.managers
 	import org.apache.royale.utils.StringUtil;
 
 	import utils.UtilsCore;
+	import model.vo.ServerVO;
 	
 	/**
 	 * ParseCentral
@@ -312,6 +313,25 @@ package classes.managers
 			return tmpArr;
 		}
 		
+		public static function parseDatabases(databases:Array):Array
+		{
+			var tmpArr:Array = [];
+			
+			var viewEntryCount:int = databases.length;
+			
+			for (var i:int = 0; i < viewEntryCount; i++)
+			{
+				var db:Object = databases[i];
+				var bookmarks:Array = parseCustomBookmarksList(db.bookmarks);
+				
+				var tmpVO:ServerVO = new ServerVO(db.name, db.type, db.url, db.nomadURL, db.server, db.database, 
+												 db.view, db.replicaID, db.hasBookmarks, db.bookmarkCount, bookmarks);
+				
+				tmpArr.push(tmpVO);
+			}
+
+			return tmpArr;
+		}
 		//--------------------------------------------------------------------------
 		//
 		//  PRIVATE STATIC API

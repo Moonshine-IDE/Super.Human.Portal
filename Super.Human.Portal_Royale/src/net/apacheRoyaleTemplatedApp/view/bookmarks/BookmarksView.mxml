@@ -3,11 +3,17 @@
 		 xmlns:j="library://ns.apache.org/royale/jewel"
 		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
 		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
-		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
+		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*" xmlns:bookmarks="view.bookmarks.*"
 		 implements="interfaces.IBookmarksView" className="bodyPadding"
-		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" gap="5">
+		 itemsVerticalAlign="itemsTop" gap="5" currentState="bookmarksView">
+	<j:states>
+		<js:State name="bookmarksView"/>
+		<js:State name="browseMyServerView"/>
+	</j:states>
 	<fx:Script>
 		<![CDATA[
+			import interfaces.IBrowseMyServerView;
+
 			import org.apache.royale.events.IEventDispatcher;
 			import org.apache.royale.jewel.Snackbar;
 
@@ -34,6 +40,21 @@
 				_groupName = value;	
 			}
 
+			public function set title(value:String):void
+			{
+				this.viewTitle.text = value;	
+			}
+			
+			public function get browseMyServerView():IBrowseMyServerView
+			{
+				return this.viewBrowseMyServer;
+			}
+			
+			public function get refreshButton():IEventDispatcher
+			{
+				return this.refreshViewBtn;
+			}	
+			
 			public function installationResult(message:String):void
 			{
 				Snackbar.show(message, 4000, null);
@@ -49,20 +70,31 @@
 	<j:Grid gap="false" minHeight="40">
 		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
 			<j:HGroup percentWidth="100">
-				<html:H3 text="Bookmarks" percentWidth="100"/>
+				<html:H3 localId="viewTitle" text="Bookmarks" percentWidth="100"/>
+				<!--BookmarkView-->
 				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
-					<j:Button localId="bookmarkAdd" className="noLinkStyle" text="Add a Bookmark"/>
+					<j:Button localId="bookmarkAdd" className="noLinkStyle" text="Add a Bookmark" includeIn="bookmarksView"/>
+					<j:IconButton localId="refreshViewBtn" text="Refresh" includeIn="browseMyServerView">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.REFRESH}" />
+						</j:icon>
+					</j:IconButton>
 				</j:HGroup>
 			</j:HGroup>
 		</j:GridCell>
 	</j:Grid>
-	<j:Card percentWidth="100">
+	
+	<!--BookmarkView-->
+	<j:Card percentWidth="100" includeIn="bookmarksView">
 		<j:CardHeader>
-			<html:H3 localId="nameGroup" text="{groupName}" percentWidth="100"/>
+			<html:H3 text="{groupName}" percentWidth="100"/>
 		</j:CardHeader>
 		<j:CardPrimaryContent>
 			<j:VGroup localId="listBookmarks" gap="2">
 			</j:VGroup>
 		</j:CardPrimaryContent>
 	</j:Card>
+	
+	<!--BrowseMyServer-->
+	<bookmarks:BrowseMyServerView localId="viewBrowseMyServer" includeIn="browseMyServerView" percentWidth="100" />
 </j:VGroup>
