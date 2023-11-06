@@ -84,11 +84,12 @@ package model.proxy.customBookmarks
 			
 			busyManagerProxy = facade.retrieveProxy(ProxyBusyManager.NAME) as ProxyBusyManager;
 			sessionCheckProxy = facade.retrieveProxy(ProxySessionCheck.NAME) as ProxySessionCheck;
+			this.setData([]);
 		}
 		
 		public function dispose(force:Boolean):void
 		{
-			setData(null);
+			setData([]);
 		}
 
 		public function getCustomBookmarksList():void
@@ -145,6 +146,7 @@ package model.proxy.customBookmarks
 				
 				if (errorMessage)
 				{
+					sendNotification(ApplicationConstants.COMMAND_REFRESH_NAV_BOOKMARKS, []);
 					sendNotification(NOTE_CUSTOM_BOOKMARKS_LIST_FAILED, "Getting custom bookmarks list failed: " + errorMessage);
 				}
 				else
