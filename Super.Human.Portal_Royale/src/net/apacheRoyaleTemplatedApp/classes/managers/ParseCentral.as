@@ -315,7 +315,8 @@ package classes.managers
 		
 		public static function parseDatabases(databases:Array):Array
 		{
-			var tmpArr:Array = [];
+			var folders:Array = [];
+			var nonFolders:Array = [];
 			
 			var viewEntryCount:int = databases.length;
 			
@@ -326,11 +327,20 @@ package classes.managers
 				
 				var tmpVO:ServerVO = new ServerVO(db.name, db.type, db.url, db.nomadURL, db.server, db.database, 
 												 db.view, db.replicaID, db.hasBookmarks, db.bookmarkCount, bookmarks);
-				
-				tmpArr.push(tmpVO);
+				if (tmpVO.databasePath.length > 1)
+				{
+					folders.push(tmpVO);
+				}
+				else
+				{
+					nonFolders.push(tmpVO);
+				}
 			}
 
-			return tmpArr;
+			folders.sortOn("name");
+			nonFolders.sortOn("name");
+			
+			return folders.concat(nonFolders);
 		}
 		//--------------------------------------------------------------------------
 		//
