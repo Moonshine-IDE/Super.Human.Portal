@@ -362,8 +362,8 @@
 		}
 	]]>
 </fx:Script>
-	<j:Group>
-		<j:Drawer localId="menuDrawer" isOpen="true" percentHeight="100">
+	<j:Group percentHeight="100">
+		<j:Drawer localId="menuDrawer" isOpen="true">
 			<j:style>
 				<js:AllCSSStyles width="max-content"/>
 			</j:style>
@@ -394,7 +394,7 @@
 					<html:P localId="menuTitle" text="Menu"/>
 				</j:HGroup>
 			</j:DrawerHeader>
-			<j:HGroup localId="viewDrawerContent">	
+			<j:HGroup>	
 				<j:beads>
 					<j:ScrollingViewport />
 				</j:beads>
