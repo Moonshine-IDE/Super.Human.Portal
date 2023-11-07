@@ -6,10 +6,16 @@
 		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*" xmlns:bookmarks="view.bookmarks.*"
 		 implements="interfaces.IBookmarksView" className="bodyPadding"
 		 itemsVerticalAlign="itemsTop" gap="5" currentState="bookmarksView">
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
 	<j:states>
 		<js:State name="bookmarksView"/>
 		<js:State name="browseMyServerView"/>
 	</j:states>
+	<j:style>
+		<js:AllCSSStyles height="inherit"/>
+	</j:style>
 	<fx:Script>
 		<![CDATA[
 			import interfaces.IBrowseMyServerView;
@@ -63,10 +69,6 @@
 		]]>
 	</fx:Script>
 
-	<j:beads>
-		<js:ContainerDataBinding />
-	</j:beads>
-
 	<j:Grid gap="false" minHeight="40">
 		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
 			<j:HGroup percentWidth="100">
@@ -90,11 +92,14 @@
 			<html:H3 text="{groupName}" percentWidth="100"/>
 		</j:CardHeader>
 		<j:CardPrimaryContent>
+			<j:beads>
+				<j:ScrollingViewport />
+			</j:beads>
 			<j:VGroup localId="listBookmarks" gap="2">
 			</j:VGroup>
 		</j:CardPrimaryContent>
 	</j:Card>
 	
 	<!--BrowseMyServer-->
-	<bookmarks:BrowseMyServerView localId="viewBrowseMyServer" includeIn="browseMyServerView" percentWidth="100" />
+	<bookmarks:BrowseMyServerView localId="viewBrowseMyServer" includeIn="browseMyServerView" percentWidth="100" percentHeight="100"/>
 </j:VGroup>
