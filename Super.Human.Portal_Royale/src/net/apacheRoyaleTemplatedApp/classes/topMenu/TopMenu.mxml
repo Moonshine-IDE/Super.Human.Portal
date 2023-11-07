@@ -58,6 +58,16 @@
 			}	
 		}
 		
+		private var _folderMenuStyle:Boolean = false;
+		
+		public function set folderMenuStyle(value:Boolean):void
+		{
+			if (_folderMenuStyle != value)
+			{
+				_folderMenuStyle = value;
+			}	
+		}
+		
 		public function navigateToItem(item:Object):void
 		{
 			if (this.rootMenu.selectedItem && this.rootMenu.selectedItem.parent == item.parent ||item.parent == null)
@@ -107,6 +117,7 @@
 			}
 			
 			TopMenuUtils.recalculateMarkedMenu(_showMarks, model, model["menu"]);
+			TopMenuUtils.recalculateFolderStyleMenu(_folderMenuStyle, model, model["menu"]);
 			
 			var items:Array = TopMenuUtils.getSiblings("menu", this.model);
 			this.setRootMenuItems(items);
@@ -119,7 +130,7 @@
 
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_LOADED, this.rootMenu.selectedItem));
 		}
-		
+
 		private function onTopMenuInitComplete(event:Event):void
 		{
 			var service:HTTPService = new HTTPService();
@@ -155,10 +166,7 @@
 		{
 			this.selectedItem = this.refreshMenu(ChangeSourceConst.ROOT_MENU);
 			
-			if (_showMarks)
-			{
-				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
-			}
+			this.refreshMenuIcons();
 		
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem, this.subMenu.selectedItem));
 			
@@ -175,10 +183,7 @@
 				this.selectedItem = this.rootMenu.selectedItem;
 			}
 			
-			if (_showMarks)
-			{
-				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
-			}
+			this.refreshMenuIcons();
 			
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem, this.subMenu.selectedItem));
 			
@@ -338,7 +343,15 @@
 				this.menuTitle.text = "Selection: " + this.rootMenu.selectedItem.label;
 			}
 		}
-
+		
+		private function refreshMenuIcons():void
+		{
+			if (_showMarks && !_folderMenuStyle)
+			{
+				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
+			}
+		}
+		
 		private function setRootMenuItems(menu:Array):void
 		{
 			if (!this.rootMenu) return;

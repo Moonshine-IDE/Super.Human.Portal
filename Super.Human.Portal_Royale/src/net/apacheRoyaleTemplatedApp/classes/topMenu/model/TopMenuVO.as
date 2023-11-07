@@ -40,5 +40,17 @@ package classes.topMenu.model
 					break;
 			}
 		}
+		
+		public function calculateFolderIcon():void
+		{
+			if (hasChildren())
+			{
+				icon = TopMenuItemConst.FOLDER_ICON;
+			}
+			else
+			{
+				icon = null;
+			}
+		}
 	}
 }

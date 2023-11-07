@@ -86,6 +86,21 @@ package classes.topMenu.helpers
 				}
 			}
     		}
+    		
+    		public static function recalculateFolderStyleMenu(showFolder:Boolean, model:Object, item:Object):void
+    		{
+    			if (!showFolder) return;
+    			
+			resetShowFolder(showFolder, item as TopMenuVO);
+    			if (item && item.children && item.children.length > 0)
+			{
+				for (var i:int = 0; i < item.children.length; i++) 
+				{
+					var child:TopMenuVO = model[item.children[i]];
+					recalculateFolderStyleMenu(showFolder, model, child);
+				}
+			}
+    		}
     			
 		public static function getPathToTarget(targetId:String, source:Object):Array
 		{
@@ -139,6 +154,16 @@ package classes.topMenu.helpers
     			
 			item.visited = showMarks ? TopMenuItemConst.NOT_VISITED : TopMenuItemConst.VISITED_DISABLED;
 			item.calculateVisitedIcon();
+    		}
+    		
+    		private static function resetShowFolder(showFolder:Boolean, item:TopMenuVO):void
+    		{
+    			if (!item) return;
+    			
+			if (showFolder)
+			{
+				item.calculateFolderIcon();
+			}
     		}
 	}
 }
