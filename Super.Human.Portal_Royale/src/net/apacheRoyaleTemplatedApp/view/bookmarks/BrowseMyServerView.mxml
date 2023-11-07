@@ -80,7 +80,7 @@
 	</fx:Script>
 	<breadcrump:Breadcrump localId="browserBreadcrump"/>
 	<j:HGroup percentWidth="100" percentHeight="100" gap="1">
-		<topMenu:TopMenu localId="browserTopMenu" percentHeight="100">
+		<topMenu:TopMenu localId="browserTopMenu" percentHeight="100" folderMenuStyle="true">
 			<topMenu:style>
 				<js:SimpleCSSStyles marginLeft="-10" paddingBottom="64"/>
 			</topMenu:style>
