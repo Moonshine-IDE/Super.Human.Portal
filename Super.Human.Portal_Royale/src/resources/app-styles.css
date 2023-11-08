@@ -497,7 +497,6 @@ a:hover {
 }
 
 .topMenuList {
-	IItemRenderer: ClassReference("classes.topMenu.components.renderers.MenuItemRenderer");
     ISelectableItemRenderer: ClassReference("org.apache.royale.jewel.beads.itemRenderers.ClassSelectorListSelectableItemRendererBead");
     width: 100%;
 }
@@ -545,4 +544,8 @@ a:hover {
 
 .jewel.button.icon.topMenuListItemRendererIcon i {
 	fontSize: 16px;
+}
+
+.jewel.button.icon.topMenuListItemRendererIcon.topMenuListParentItemRendererIcon i {
+	fontSize: 20px;
 }
