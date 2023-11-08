@@ -507,17 +507,18 @@ a:hover {
 	maxWidth: 240px;
     minHeight: 35px;
     padding: 10px 5px 10px 10px !important;
+    color: #000000 !important;
     
 }
 
 .topMenuListItemRenderer.selected {
 	background: #24a3ef !important;
-	color: #FFFFFF;
+	color: #FFFFFF !important;
 }
 
 .topMenuListItemRenderer.selected.hovered {
 	background: #24a3ef !important;
-	color: #FFFFFF;
+	color: #FFFFFF !important;
 }
 
 .topMenuListItemRenderer.selected button {
