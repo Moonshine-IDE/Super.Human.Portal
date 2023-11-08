@@ -101,6 +101,11 @@ package mediator.bookmarks
 		private function onBreadcrumpItemClick(event:BreadcrumpEvent):void
 		{
 			this.view.topMenu.navigateToItem(event.item);
+			
+			if (event.item.parent != null)
+			{
+				this.view.breadcrump.buildBreadcrump(event.item);
+			}
 		}
 
 		private function onTopMenuItemChange(event:TopMenuEvent):void
