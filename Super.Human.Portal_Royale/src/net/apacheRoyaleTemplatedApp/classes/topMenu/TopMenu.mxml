@@ -71,7 +71,11 @@
 		
 		public function navigateToItem(item:Object):void
 		{
-			if (this.rootMenu.selectedItem && this.rootMenu.selectedItem.parent == item.parent ||item.parent == null)
+			if (item.parent == null)
+			{
+				this.initializeMenuModel(null);
+			}
+			else if (this.rootMenu.selectedItem && this.rootMenu.selectedItem.parent == item.parent)
 			{
 				if (item.parent != null)
 				{
