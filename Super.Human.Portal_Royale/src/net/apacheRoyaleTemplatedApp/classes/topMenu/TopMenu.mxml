@@ -419,7 +419,7 @@
 					<j:ScrollingViewport />
 				</j:beads>
 				<j:Navigation localId="rootMenu" labelField="label" className="topMenuList"
-							  itemRenderer="classes.topMenu.components.renderers.MenuParentItemRenderer"
+							  itemRenderer="classes.topMenu.components.renderers.MenuItemRenderer"
 								selectedIndex="0" change="onRootMenuChange(event)">
 					<j:beads>
 						<j:NavigationActionNotifier/>
