@@ -531,7 +531,7 @@ a:hover {
 .jewel.button.topMenuCloseButton {
     font-size: 24px;
     padding: 0;
-    min-height: 90px;
+	height: 100%;
 }
 
 .jewel.button.icon.topMenuListItemRendererIcon {

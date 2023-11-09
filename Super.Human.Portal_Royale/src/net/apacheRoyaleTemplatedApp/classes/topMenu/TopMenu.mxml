@@ -253,13 +253,12 @@
 			if (this.menuDrawer.isOpen)
 			{
 				this.menuDrawer.close();
-				this.menuCloseIcon.text = MaterialIconType.CHEVRON_RIGHT;
 			}
 			else
 			{
 				this.menuDrawer.open();
-				this.menuCloseIcon.text = MaterialIconType.CHEVRON_LEFT;
 			}
+			this.menuOpen.visible = !this.menuDrawer.isOpen;
 		}
 
 		private function refreshMenu(changeSource:String):Object
@@ -413,6 +412,16 @@
 					</j:IconButton>
 					<html:P localId="menuTitle" text="Menu"/>
 				</j:HGroup>
+				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
+					<j:style>
+						<js:SimpleCSSStyles padding="1"/>
+					</j:style>
+					<j:IconButton click="onCloseMenu(event)" className="topMenuCloseButton">
+						<j:icon>
+							<js:MaterialIcon className="mdi mdi-chevron-double-left"/>
+						</j:icon>
+					</j:IconButton>
+				</j:HGroup>
 			</j:DrawerHeader>
 			<j:HGroup>	
 				<j:beads>
@@ -436,10 +445,10 @@
 			</j:HGroup>
 		</j:Drawer>
 	</j:Group>
-	<j:Group>
-		<j:IconButton click="onCloseMenu(event)" className="topMenuCloseButton">
+	<j:Group localId="menuOpen" visible="false" height="50">
+	     <j:IconButton click="onCloseMenu(event)" className="topMenuCloseButton" percentHeight="100">
 			<j:icon>
-				<js:MaterialIcon localId="menuCloseIcon" text="{MaterialIconType.CHEVRON_LEFT}"/>
+				<js:MaterialIcon className="mdi mdi-chevron-double-right"/>
 			</j:icon>
 		</j:IconButton>
 	</j:Group>
