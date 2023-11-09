@@ -400,6 +400,16 @@
 					<j:style>
 						<js:SimpleCSSStyles paddingLeft="10"/>
 					</j:style>
+					<j:HGroup itemsHorizontalAlign="itemsRight">
+						<j:style>
+							<js:SimpleCSSStyles padding="1" paddingRight="3"/>
+						</j:style>
+						<j:IconButton click="onCloseMenu(event)" className="topMenuCloseButton">
+							<j:icon>
+								<js:MaterialIcon className="mdi mdi-chevron-double-left"/>
+							</j:icon>
+						</j:IconButton>
+					</j:HGroup>
 					<j:IconButton width="24" click="onPreviousSelectionClick(event)">
 						<j:icon>
 							<js:MaterialIcon text="{MaterialIconType.CHEVRON_LEFT}" />
@@ -411,16 +421,6 @@
 						</j:icon>
 					</j:IconButton>
 					<html:P localId="menuTitle" text="Menu"/>
-				</j:HGroup>
-				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
-					<j:style>
-						<js:SimpleCSSStyles padding="1"/>
-					</j:style>
-					<j:IconButton click="onCloseMenu(event)" className="topMenuCloseButton">
-						<j:icon>
-							<js:MaterialIcon className="mdi mdi-chevron-double-left"/>
-						</j:icon>
-					</j:IconButton>
 				</j:HGroup>
 			</j:DrawerHeader>
 			<j:HGroup>	
