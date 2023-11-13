@@ -1,20 +1,15 @@
 package classes.topMenu.components.beads
 {
+    import classes.topMenu.model.TopMenuVO;
+
     import org.apache.royale.core.IBead;
     import org.apache.royale.core.IStrand;
-    import classes.topMenu.model.TopMenuVO;
-    import org.apache.royale.core.Bead;
 
-	public class TopMenuSortingBead extends Bead
+	public class TopMenuSortingBead implements IBead
 	{
-		public function TopMenuSortingBead()
+		public function set strand(value:IStrand):void
 		{
-			super();
-		}
-		
-		override public function set strand(value:IStrand):void
-		{
-			super.strand = value;
+			
 		}
 		
 		public function eq(a:TopMenuVO, b:TopMenuVO):int 
