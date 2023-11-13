@@ -4,14 +4,10 @@ package classes.topMenu.components.beads
 
     import org.apache.royale.core.IBead;
     import org.apache.royale.core.IStrand;
+    import org.apache.royale.core.Bead;
 
-	public class TopMenuSortingBead implements IBead
+	public class TopMenuSortingBead extends Bead
 	{
-		public function set strand(value:IStrand):void
-		{
-			
-		}
-		
 		public function eq(a:TopMenuVO, b:TopMenuVO):int 
 		{
 			// Nodes with children come first
