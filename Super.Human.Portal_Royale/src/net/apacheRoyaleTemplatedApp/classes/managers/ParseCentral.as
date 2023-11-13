@@ -327,20 +327,10 @@ package classes.managers
 				
 				var tmpVO:ServerVO = new ServerVO(db.name, db.type, db.url, db.nomadURL, db.server, db.database, 
 												 db.view, db.replicaID, db.hasBookmarks, db.bookmarkCount, bookmarks);
-				if (tmpVO.databasePath.length > 1)
-				{
-					folders.push(tmpVO);
-				}
-				else
-				{
-					nonFolders.push(tmpVO);
-				}
+				folders.push(tmpVO);
 			}
-
-			folders.sortOn("name");
-			nonFolders.sortOn("name");
 			
-			return folders.concat(nonFolders);
+			return folders;
 		}
 		//--------------------------------------------------------------------------
 		//

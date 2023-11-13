@@ -100,7 +100,24 @@
 				this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			}	
 		}
-				
+		
+		public function sortTree(nodes:Array):void 
+		{
+			// Sorting function
+			nodes.sort(function(a:TopMenuVO, b:TopMenuVO):int 
+			{
+				// Nodes with children come first
+				if (a.children.length > 0 && b.children.length == 0) return -1;
+				if (a.children.length == 0 && b.children.length > 0) return 1;
+		
+		
+				// Then sort by label
+				if (a.label < b.label) return -1;
+				if (a.label > b.label) return 1;
+				return 0;
+			});
+		}
+		
 		public function initializeMenuModel(data:Object):void
 		{
 			if (!data && this.model.data) 
@@ -120,7 +137,7 @@
 			{
 				this.model[key] = TopMenuUtils.transformObjectToMenuVOItems(data[key], data);
 			}
-			
+	
 			TopMenuUtils.recalculateMarkedMenu(_showMarks, model, model["menu"]);
 			TopMenuUtils.recalculateFolderStyleMenu(_folderMenuStyle, model, model["menu"]);
 			
@@ -362,6 +379,7 @@
 		{
 			if (!this.rootMenu) return;
 			
+			this.sortTree(menu);
 			var dp:ArrayList = new ArrayList(menu);
 			this.rootMenu.dataProvider = dp;
 			this.rootMenu.selectedIndex = 0;
@@ -376,6 +394,7 @@
 		{
 			if (!this.subMenu) return;
 			
+			this.sortTree(menu);
 			this.subMenu.dataProvider = new ArrayList(menu);
 			this.subMenu.visible = menu.length > 0;
 		}
