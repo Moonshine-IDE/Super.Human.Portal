@@ -4,9 +4,6 @@
 		  xmlns:js="library://ns.apache.org/royale/basic" 
 		  xmlns:html="library://ns.apache.org/royale/html" xmlns:model="classes.topMenu.model.*" xmlns:helpers="classes.topMenu.helpers.*"
 		  initComplete="onTopMenuInitComplete(event)">
-	<j:beads>
-		<js:ContainerDataBinding />
-	</j:beads>
 	<j:model>
 		<model:TopMenuModel localId="menuModel"/>
 	</j:model>
@@ -17,11 +14,13 @@
 	<fx:Script>
 	<![CDATA[
 		import classes.topMenu.classes.ChangeSourceConst;
+		import classes.topMenu.components.beads.TopMenuSortingBead;
 		import classes.topMenu.events.TopMenuEvent;
 		import classes.topMenu.helpers.SelectedIndexManager;
 		import classes.topMenu.helpers.TopMenuUtils;
 		import classes.topMenu.model.TopMenuVO;
 
+		import org.apache.royale.binding.ContainerDataBinding;
 		import org.apache.royale.collections.ArrayList;
 		import org.apache.royale.icons.MaterialIcon;
 		import org.apache.royale.net.HTTPConstants;
@@ -69,6 +68,12 @@
 			}	
 		}
 		
+		override public function addedToParent():void
+		{
+			this.addBead(new ContainerDataBinding());
+			super.addedToParent();	
+		}
+		
 		public function navigateToItem(item:Object):void
 		{
 			if (item.parent == null)
@@ -100,24 +105,7 @@
 				this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			}	
 		}
-		
-		public function sortTree(nodes:Array):void 
-		{
-			// Sorting function
-			nodes.sort(function(a:TopMenuVO, b:TopMenuVO):int 
-			{
-				// Nodes with children come first
-				if (a.children.length > 0 && b.children.length == 0) return -1;
-				if (a.children.length == 0 && b.children.length > 0) return 1;
-		
-		
-				// Then sort by label
-				if (a.label < b.label) return -1;
-				if (a.label > b.label) return 1;
-				return 0;
-			});
-		}
-		
+
 		public function initializeMenuModel(data:Object):void
 		{
 			if (!data && this.model.data) 
@@ -379,7 +367,12 @@
 		{
 			if (!this.rootMenu) return;
 			
-			this.sortTree(menu);
+			var sortMenuBead:TopMenuSortingBead = this.getBeadByType(TopMenuSortingBead) as TopMenuSortingBead;
+			if (sortMenuBead)
+			{
+				sortMenuBead.sortMenu(menu);
+			}
+			
 			var dp:ArrayList = new ArrayList(menu);
 			this.rootMenu.dataProvider = dp;
 			this.rootMenu.selectedIndex = 0;
@@ -388,13 +381,19 @@
 			{
 				this.selectedIndexManager.updateSource(dp.source);
 			}
+
 		}
 		
 		private function setSubMenuItems(menu:Array):void
 		{
 			if (!this.subMenu) return;
 			
-			this.sortTree(menu);
+			var sortMenuBead:TopMenuSortingBead = this.getBeadByType(TopMenuSortingBead) as TopMenuSortingBead;
+			if (sortMenuBead)
+			{
+				sortMenuBead.sortMenu(menu);
+			}
+			
 			this.subMenu.dataProvider = new ArrayList(menu);
 			this.subMenu.visible = menu.length > 0;
 		}

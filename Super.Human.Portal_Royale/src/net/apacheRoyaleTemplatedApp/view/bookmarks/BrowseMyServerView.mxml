@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:j="library://ns.apache.org/royale/jewel"
-		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:breadcrump="classes.breadcrump.*" xmlns:topMenu="classes.topMenu.*" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:breadcrump="classes.breadcrump.*" xmlns:topMenu="classes.topMenu.*" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" xmlns:beads="classes.topMenu.components.beads.*"
 		 implements="interfaces.IBrowseMyServerView" gap="1" currentState="selectedDatabaseState">
 	<j:beads>
 		<js:ContainerDataBinding />
@@ -84,6 +84,9 @@
 			<topMenu:style>
 				<js:SimpleCSSStyles marginLeft="-10" paddingBottom="64"/>
 			</topMenu:style>
+			<topMenu:beads>
+				<beads:TopMenuSortingBead />
+			</topMenu:beads>
 		</topMenu:TopMenu>
 		<j:Card>
 			<j:style>

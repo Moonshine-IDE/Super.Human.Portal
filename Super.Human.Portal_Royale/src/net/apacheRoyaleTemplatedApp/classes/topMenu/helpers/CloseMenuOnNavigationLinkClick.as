@@ -7,7 +7,7 @@ package classes.topMenu.helpers
     import org.apache.royale.jewel.Navigation;
     import org.apache.royale.jewel.supportClasses.drawer.DrawerContent;
 
-	public class CloseMenuOnNavigationLinkClick  implements IBead
+	public class CloseMenuOnNavigationLinkClick implements IBead
 	{
 		private var host:Drawer;
 		
