@@ -4,11 +4,20 @@
 		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
 		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
 		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
-		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop">
+		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" currentState="bookmark">
+	<j:states>
+		<js:State name="bookmark"/>
+		<js:State name="installedApp"/>
+	</j:states>
+ 	<fx:Metadata>
+		[Event(name="editButtonClick", type="org.apache.royale.events.Event")]
+		[Event(name="deleteButtonClick", type="org.apache.royale.events.Event")]
+	</fx:Metadata>
 	<fx:Script>
 		<![CDATA[
 			import utils.ClipboardText;
 			import org.apache.royale.events.MouseEvent;
+			import org.apache.royale.events.Event;
 
 			[Bindable]
 			public var description:String;
@@ -34,6 +43,15 @@
 				ClipboardText.copyToClipboard(database);
 			}
 			
+			private function onEditButtonClick(event:MouseEvent):void
+			{
+				this.dispatchEvent(new Event("editButtonClick"));
+			}
+			
+			private function onDeleteButtonClick(event:MouseEvent):void
+			{
+				this.dispatchEvent(new Event("deleteButtonClick"));
+			}
 		]]>
 	</fx:Script>
 
@@ -86,9 +104,21 @@
 				</controls:CustomFormItem>
 			</j:Form>
 		</j:CardPrimaryContent>
-		<j:CardActions itemsHorizontalAlign="itemsRight" visible="{clientOpenLink != null || nomadOpenLink != null}">
-			<j:Button className="noLinkStyle" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
-			<j:Button className="noLinkStyle" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
+		<j:CardActions itemsHorizontalAlign="itemsRight">
+			<j:HGroup gap="1" percentWidth="100" includeIn="bookmark">
+				<j:IconButton click="onEditButtonClick(event)">
+					<j:icon>
+						<js:MaterialIcon text="{MaterialIconType.EDIT}"/>
+					</j:icon>
+				</j:IconButton>
+				<j:IconButton click="onDeleteButtonClick(event)">
+					<j:icon>
+						<js:MaterialIcon text="{MaterialIconType.DELETE}"/>
+					</j:icon>
+				</j:IconButton>
+			</j:HGroup>
+			<j:Button className="noLinkStyle" minWidth="120" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
+			<j:Button className="noLinkStyle" minWidth="120" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
 		</j:CardActions>
 	</j:Card>
 </j:VGroup>

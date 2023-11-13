@@ -19,7 +19,9 @@
 	<fx:Script>
 		<![CDATA[
 			import model.vo.BookmarkVO;
+
 			import org.apache.royale.events.MouseEvent;
+
 			import view.bookmarks.event.BookmarkEvent;
 						
 			private var _bookmark:BookmarkVO;
@@ -39,10 +41,11 @@
 			{
 				if (currentState == "browser")
 				{
-					this.browserHtmlButton.html = '<a height="100%" width="100%" href="' + bookmark.url + '" target="_blank">' + bookmark.name + '</a>';
+					this.browserHtmlLabel.html = '<a height="100%" width="100%" href="' + bookmark.url + '" target="_blank">' + bookmark.name + '</a>';
 				}
 				else if (currentState == "database")
 				{
+					this.databaseHtmlLabel.html = bookmark.nomadURL ? '<a height="100%" width="100%" href="' + bookmark.nomadURL + '" target="_blank">' + bookmark.name + '</a>' : bookmark.name;
 					this.configurationDetails.clientOpenLink = bookmark.url ? '<a height="100%" width="100%" href="' + bookmark.url + '" target="_blank">Open in Client</a>' : null;
 					this.configurationDetails.nomadOpenLink = bookmark.nomadURL ? '<a height="100%" width="100%" href="' + bookmark.nomadURL + '" target="_blank">Open in Nomad</a>' : null;
 				}
@@ -50,65 +53,47 @@
 			
 			private function onShowHideDbConfigClick(event:MouseEvent):void
 			{
-				var iconButton:IconButton = event.currentTarget as IconButton;
-				var currentIcon:MaterialIcon = iconButton.icon as MaterialIcon;
+				var iconButton:MaterialIcon = event.currentTarget as MaterialIcon;
 				var showHideConfig:Boolean = false;
 				
-				if (currentIcon.text == MaterialIconType.ARROW_DROP_DOWN)
+				if (iconButton.text == MaterialIconType.ARROW_DROP_DOWN)
 				{
-					currentIcon.text = MaterialIconType.ARROW_DROP_UP;
+					iconButton.text = MaterialIconType.ARROW_DROP_UP;
 					showHideConfig = true;
 				}
 				else
 				{
-					currentIcon.text = MaterialIconType.ARROW_DROP_DOWN;
+					iconButton.text = MaterialIconType.ARROW_DROP_DOWN;
 				}
 				
-				var configContainer:Object = iconButton.parent;
-				for (var i:int = 0; i < configContainer.numElements; i++)
-				{
-					var config:Object = configContainer.getElementAt(i);
-					if (config is ConfigurationAppDetails)
-					{
-						config.visible = showHideConfig;
-						break;
-					}
-				}
+				configurationDetails.visible = showHideConfig;
 			}
 
-			private function onEditBookmark(event:MouseEvent):void
+			private function onEditBookmark(event:Event):void
 			{
 				this.dispatchEvent(new BookmarkEvent(BookmarkEvent.EDIT_BOOKMARK, this.bookmark));
 			}
 			
-			private function onDeleteBookmark(event:MouseEvent):void
+			private function onDeleteBookmark(event:Event):void
 			{
 				this.dispatchEvent(new BookmarkEvent(BookmarkEvent.DELETE_BOOKMARK, this.bookmark));
 			}
 		]]>
 	</fx:Script>
-	<j:IconButton localId="browserHtmlButton" html="{browserHtmlButton}" className="noLinkStyleInstallApp linkAppButton"
-					emphasis="primary" minHeight="40" width="220" includeIn="browser" />
+	<j:HGroup minHeight="40" width="220" includeIn="browser" className="bookmarkTitleContainer"
+			  itemsVerticalAlign="itemsCenter">
+		<j:Label localId="browserHtmlLabel" className="cursorPointer noLinkWhiteLabelStyle"
+				 multiline="true" percentWidth="100"/>
+	</j:HGroup>
 	<j:VGroup includeIn="database" itemsVerticalAlign="itemsCenter">
-		<j:IconButton html="{bookmark.name}" className="noLinkStyleInstallApp linkAppButton"
-				emphasis="primary" minHeight="40" width="220" rightPosition="true"
-				click="onShowHideDbConfigClick(event)">
-			<j:icon>
-				<js:MaterialIcon text="{MaterialIconType.ARROW_DROP_DOWN}"/>
-			</j:icon>
-		</j:IconButton>
+		<j:HGroup percentWidth="100" gap="1" itemsVerticalAlign="itemsCenter" className="bookmarkTitleContainer"
+				  minHeight="40" width="220">
+			<j:Label localId="databaseHtmlLabel" multiline="true" percentWidth="100" className="cursorPointer noLinkWhiteLabelStyle"/>
+			<js:MaterialIcon text="{MaterialIconType.ARROW_DROP_DOWN}" click="onShowHideDbConfigClick(event)"/>
+		</j:HGroup>
 		<applications:ConfigurationAppDetails localId="configurationDetails" description="{bookmark.description}" server="{bookmark.server}"
 											 database="{bookmark.database}" viewName="{bookmark.view}" nomadOpenLink="{bookmark.nomadURL}"
-											 percentWidth="100" visible="false"/>
+											 percentWidth="100" visible="false" 
+											 editButtonClick="onEditBookmark(event)" deleteButtonClick="onDeleteBookmark(event)"/>
 	</j:VGroup>
-	<j:IconButton click="onEditBookmark(event)">
-		<j:icon>
-			<js:MaterialIcon text="{MaterialIconType.EDIT}"/>
-		</j:icon>
-	</j:IconButton>
-	<j:IconButton click="onDeleteBookmark(event)">
-		<j:icon>
-			<js:MaterialIcon text="{MaterialIconType.DELETE}"/>
-		</j:icon>
-	</j:IconButton>
 </j:HGroup>

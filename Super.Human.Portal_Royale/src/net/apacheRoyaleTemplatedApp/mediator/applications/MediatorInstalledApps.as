@@ -146,6 +146,7 @@ package mediator.applications
 						dbContainer.addElement(iconButton);
 						
 						var configurationDetails:ConfigurationAppDetails = new ConfigurationAppDetails();
+							configurationDetails.currentState = "installedApp";
 							configurationDetails.percentWidth = 100;
 							configurationDetails.description = link.description;
 							configurationDetails.server = link.server;
