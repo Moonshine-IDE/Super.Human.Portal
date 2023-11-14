@@ -564,3 +564,10 @@ a:hover {
 .jewel.button.icon.topMenuListItemRendererIcon.topMenuListParentItemRendererIcon i {
 	fontSize: 20px;
 }
+
+.material-icons.materialDropDownArrow {
+	cursor: pointer;
+    borderColor: white;
+    borderStyle: solid;
+    marginRight: 5px;
+}

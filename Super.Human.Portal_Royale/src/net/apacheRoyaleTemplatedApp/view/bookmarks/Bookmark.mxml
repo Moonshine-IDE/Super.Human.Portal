@@ -89,7 +89,7 @@
 		<j:HGroup percentWidth="100" gap="1" itemsVerticalAlign="itemsCenter" className="bookmarkTitleContainer"
 				  minHeight="40" width="220">
 			<j:Label localId="databaseHtmlLabel" multiline="true" percentWidth="100" className="cursorPointer noLinkWhiteLabelStyle"/>
-			<js:MaterialIcon text="{MaterialIconType.ARROW_DROP_DOWN}" click="onShowHideDbConfigClick(event)"/>
+			<js:MaterialIcon text="{MaterialIconType.ARROW_DROP_DOWN}" click="onShowHideDbConfigClick(event)" className="materialDropDownArrow"/>
 		</j:HGroup>
 		<applications:ConfigurationAppDetails localId="configurationDetails" description="{bookmark.description}" server="{bookmark.server}"
 											 database="{bookmark.database}" viewName="{bookmark.view}" nomadOpenLink="{bookmark.nomadURL}"
