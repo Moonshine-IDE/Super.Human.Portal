@@ -571,3 +571,14 @@ a:hover {
     borderStyle: solid;
     marginRight: 5px;
 }
+
+.jewel.simpletable.formTable {
+	border: none;
+	background: none;
+	boxShadow: none;
+}
+
+.jewel.tablecell.formTableCell {
+	borderLeft: none !important;
+	borderTop: none !important;
+}

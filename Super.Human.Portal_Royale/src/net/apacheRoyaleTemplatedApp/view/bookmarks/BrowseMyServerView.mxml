@@ -2,7 +2,7 @@
 <j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:j="library://ns.apache.org/royale/jewel"
 		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:breadcrump="classes.breadcrump.*" xmlns:topMenu="classes.topMenu.*" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" xmlns:beads="classes.topMenu.components.beads.*"
-		 implements="interfaces.IBrowseMyServerView" gap="1" currentState="selectedDatabaseState">
+		 implements="interfaces.IBrowseMyServerView" gap="1" currentState="selectedFolderState">
 	<j:beads>
 		<js:ContainerDataBinding />
 	</j:beads>
@@ -95,13 +95,99 @@
 			<j:CardHeader includeIn="selectedDatabaseState">
 				<html:H4 text="{selectedItem.databaseName}" percentWidth="100"/>
 				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight" gap="1">
-					<j:Button localId="clientOpen" text="Open in Client" className="noLinkStyle"/>
-					<j:Button localId="nomadWebOpen" text="Open in Nomad" className="noLinkStyle"/>
-					<j:Button localId="bookmarkAdd" text="Add Bookmark" className="noLinkStyle"/>
+					<j:Button localId="clientOpen" text="Open in Client" minWidth="130" className="noLinkStyle"/>
+					<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle"/>
+					<j:Button localId="bookmarkAdd" text="Add Bookmark" minWidth="130" className="noLinkStyle"/>
 				</j:HGroup>
 			</j:CardHeader>
 			<j:CardPrimaryContent itemsVerticalAlign="itemsCentral" itemsHorizontalAlign="itemsCentral">
-				<j:Form includeIn="selectedDatabaseState">
+				<j:SimpleTable includeIn="selectedDatabaseState" className="formTable">
+					<j:TBody>
+						<j:TableRow>
+							<j:TableCell className="formTableCell">
+								<j:Label text="Title:" className="formItemAppDetailsLabel"/>
+							</j:TableCell>
+							<j:TableCell className="formTableCell">
+								<j:Label text="{selectedItem.name}" />
+							</j:TableCell>
+						</j:TableRow>
+						<j:TableRow>
+							<j:TableCell className="formTableCell">
+								<j:Label text="Server:" className="formItemAppDetailsLabel"/>
+							</j:TableCell>
+							<j:TableCell className="formTableCell">
+								<j:Label text="{selectedItem.server}" />
+							</j:TableCell>
+							<j:TableCell className="formTableCell">
+								<j:IconButton localId="serverCopyToClpboard">
+									<j:beads>
+										<j:Disabled disabled="{!selectedItem.server}"/>
+									</j:beads>
+									<j:icon>
+										<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+											<js:style>
+												<js:SimpleCSSStyles fontSize="16"/>
+											</js:style>
+										</js:MaterialIcon>
+									</j:icon>
+								</j:IconButton>
+							</j:TableCell>
+						</j:TableRow>
+						<j:TableRow>
+							<j:TableCell className="formTableCell">
+								<j:Label text="Database:" className="formItemAppDetailsLabel"/>
+							</j:TableCell>
+							<j:TableCell className="formTableCell">
+								<j:Label text="{selectedItem.database}" />
+							</j:TableCell>
+							<j:TableCell className="formTableCell">
+								<j:IconButton localId="databaseCopyToClipboard">
+									<j:beads>
+										<j:Disabled disabled="{!selectedItem.database}"/>
+									</j:beads>
+									<j:icon>
+										<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+											<js:style>
+												<js:SimpleCSSStyles fontSize="16"/>
+											</js:style>
+										</js:MaterialIcon>
+									</j:icon>
+								</j:IconButton>
+							</j:TableCell>
+						</j:TableRow>
+						<j:TableRow>
+							<j:TableCell className="formTableCell">
+								<j:Label text="View:" className="formItemAppDetailsLabel"/>
+							</j:TableCell>
+							<j:TableCell className="formTableCell">
+								<j:Label text="{selectedItem.view}" />
+							</j:TableCell>
+						</j:TableRow>
+						<j:TableRow>
+							<j:TableCell className="formTableCell">
+								<j:Label text="ReplicaID:" className="formItemAppDetailsLabel"/>
+							</j:TableCell>
+							<j:TableCell className="formTableCell">
+								<j:Label text="{selectedItem.replicaID}" />
+							</j:TableCell>
+							<j:TableCell className="formTableCell">
+								<j:IconButton localId="replicaCopyToClipboard">
+									<j:beads>
+										<j:Disabled disabled="{!selectedItem.replicaID}"/>
+									</j:beads>
+									<j:icon>
+										<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+											<js:style>
+												<js:SimpleCSSStyles fontSize="16"/>
+											</js:style>
+										</js:MaterialIcon>
+									</j:icon>
+								</j:IconButton>
+							</j:TableCell>
+						</j:TableRow>
+					</j:TBody>
+				</j:SimpleTable>
+				<!--<j:Form includeIn="selectedDatabaseState">
 					<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 											labelClass="formItemAppDetailsLabel"
 											label="Title:">							
@@ -163,7 +249,7 @@
 							</j:icon>
 						</j:IconButton>
 					</controls:CustomFormItem>
-				</j:Form>
+				</j:Form>-->
 				<j:VGroup includeIn="selectedFolderState" gap="1" percentHeight="100" percentWidth="100"
 						  itemsVerticalAlign="itemsCentral" itemsHorizontalAlign="itemsCentral">
 					<html:H4 text="Select a database or template in the sidebar to see more details and options."/>

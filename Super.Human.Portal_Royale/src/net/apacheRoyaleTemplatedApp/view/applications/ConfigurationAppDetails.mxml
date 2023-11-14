@@ -117,8 +117,8 @@
 					</j:icon>
 				</j:IconButton>
 			</j:HGroup>
-			<j:Button className="noLinkStyle" minWidth="120" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
-			<j:Button className="noLinkStyle" minWidth="120" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
+			<j:Button className="noLinkStyle" minWidth="130" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
+			<j:Button className="noLinkStyle" minWidth="130" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
 		</j:CardActions>
 	</j:Card>
 </j:VGroup>
