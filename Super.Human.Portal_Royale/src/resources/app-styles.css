@@ -494,7 +494,7 @@ a:hover {
 .jewel.button.primary.linksGapInstallApp {
 	marginBottom: 4px !important;
 	marginLeft: 4px !important;
-	minWidth: 150px;
+	minWidth: 220px;
 	height: 40px;
 }
 
@@ -570,6 +570,7 @@ a:hover {
     borderColor: white;
     borderStyle: solid;
     marginRight: 5px;
+    borderWidth: 1px;
 }
 
 .jewel.simpletable.formTable {

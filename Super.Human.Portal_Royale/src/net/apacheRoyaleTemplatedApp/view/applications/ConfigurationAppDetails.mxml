@@ -64,47 +64,58 @@
 			<html:H4 text="{description}" percentWidth="100"/>
 		</j:CardHeader>
 		<j:CardPrimaryContent>
-			<j:Form>
-				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
-										label="Server:" visible="{server != null}">							
-					<j:Label html="{server}" />
-					<j:HGroup itemsHorizontalAlign="itemsRight">
-						<j:IconButton click="onCopyToClipboardServerClick(event)">
-							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
-									<js:style>
-										<js:SimpleCSSStyles fontSize="16"/>
-									</js:style>
-								</js:MaterialIcon>
-							</j:icon>
-						</j:IconButton>
-					</j:HGroup>
-				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
-										label="Database:" visible="{database != null}">							
-					<j:Label html="{database}" />
-					<j:HGroup itemsHorizontalAlign="itemsRight">
-						<j:IconButton click="onCopyToClipboardDatabaseClick(event)">
-							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
-									<js:style>
-										<js:SimpleCSSStyles fontSize="16"/>
-									</js:style>
-								</js:MaterialIcon>
-							</j:icon>
-						</j:IconButton>
-					</j:HGroup>
-				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
-										label="View:" visible="{viewName != null}">							
-					<j:Label localId="viewTextInput" text="{viewName}"/>
-				</controls:CustomFormItem>
-			</j:Form>
+			<j:SimpleTable className="formTable">
+				<j:TBody>
+					<j:TableRow visible="{server != null}">
+						<j:TableCell className="formTableCell">
+							<j:Label text="Server:" className="formItemAppDetailsLabel"/>
+						</j:TableCell>
+						<j:TableCell className="formTableCell">
+							<j:Label html="{server}" />
+						</j:TableCell>
+						<j:TableCell className="formTableCell">
+							<j:IconButton click="onCopyToClipboardServerClick(event)">
+								<j:icon>
+									<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+										<js:style>
+											<js:SimpleCSSStyles fontSize="16"/>
+										</js:style>
+									</js:MaterialIcon>
+								</j:icon>
+							</j:IconButton>
+						</j:TableCell>
+					</j:TableRow>
+					<j:TableRow visible="{database != null}">
+						<j:TableCell className="formTableCell">
+							<j:Label text="Database:" className="formItemAppDetailsLabel"/>
+						</j:TableCell>
+						<j:TableCell className="formTableCell">
+							<j:Label html="{database}" />
+						</j:TableCell>
+						<j:TableCell className="formTableCell">
+							<j:IconButton click="onCopyToClipboardDatabaseClick(event)">
+								<j:icon>
+									<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+										<js:style>
+											<js:SimpleCSSStyles fontSize="16"/>
+										</js:style>
+									</js:MaterialIcon>
+								</j:icon>
+							</j:IconButton>
+						</j:TableCell>
+					</j:TableRow>
+					<j:TableRow visible="{viewName != null}">
+						<j:TableCell className="formTableCell">
+							<j:Label text="View:" className="formItemAppDetailsLabel"/>
+						</j:TableCell>
+						<j:TableCell className="formTableCell">
+							<j:Label html="{viewName}" />
+						</j:TableCell>
+					</j:TableRow>
+				</j:TBody>
+			</j:SimpleTable>
 		</j:CardPrimaryContent>
-		<j:CardActions itemsHorizontalAlign="itemsRight">
+		<j:CardActions itemsHorizontalAlign="itemsRight" gap="1">
 			<j:HGroup gap="1" percentWidth="100" includeIn="bookmark">
 				<j:IconButton click="onEditButtonClick(event)">
 					<j:icon>

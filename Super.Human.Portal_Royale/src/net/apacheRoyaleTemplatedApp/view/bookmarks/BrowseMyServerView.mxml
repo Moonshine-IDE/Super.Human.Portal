@@ -187,69 +187,6 @@
 						</j:TableRow>
 					</j:TBody>
 				</j:SimpleTable>
-				<!--<j:Form includeIn="selectedDatabaseState">
-					<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
-											labelClass="formItemAppDetailsLabel"
-											label="Title:">							
-						<j:Label text="{selectedItem.name}" />
-					</controls:CustomFormItem>
-					<controls:CustomFormItem className="horizontalContentCenterNonExpandFormItem"
-											labelClass="formItemAppDetailsLabel"
-											label="Server:">							
-						<j:Label text="{selectedItem.server}" />
-						<j:IconButton localId="serverCopyToClpboard">
-							<j:beads>
-								<j:Disabled disabled="{!selectedItem.server}"/>
-							</j:beads>
-							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
-									<js:style>
-										<js:SimpleCSSStyles fontSize="16"/>
-									</js:style>
-								</js:MaterialIcon>
-							</j:icon>
-						</j:IconButton>
-					</controls:CustomFormItem>
-					<controls:CustomFormItem className="horizontalContentCenterNonExpandFormItem"
-											labelClass="formItemAppDetailsLabel"
-											label="Database:">							
-						<j:Label text="{selectedItem.database}" />
-						<j:IconButton localId="databaseCopyToClipboard">
-							<j:beads>
-								<j:Disabled disabled="{!selectedItem.database}"/>
-							</j:beads>
-							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
-									<js:style>
-										<js:SimpleCSSStyles fontSize="16"/>
-									</js:style>
-								</js:MaterialIcon>
-							</j:icon>
-						</j:IconButton>
-					</controls:CustomFormItem>
-					<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
-											labelClass="formItemAppDetailsLabel"
-											label="View:">							
-						<j:Label text="{selectedItem.view}" />
-					</controls:CustomFormItem>
-					<controls:CustomFormItem className="horizontalContentCenterNonExpandFormItem"
-											labelClass="formItemAppDetailsLabel"
-											label="ReplicaID:">							
-						<j:Label text="{selectedItem.replicaID}" />
-						<j:IconButton localId="replicaCopyToClipboard">
-							<j:beads>
-								<j:Disabled disabled="{!selectedItem.replicaID}"/>
-							</j:beads>
-							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
-									<js:style>
-										<js:SimpleCSSStyles fontSize="16"/>
-									</js:style>
-								</js:MaterialIcon>
-							</j:icon>
-						</j:IconButton>
-					</controls:CustomFormItem>
-				</j:Form>-->
 				<j:VGroup includeIn="selectedFolderState" gap="1" percentHeight="100" percentWidth="100"
 						  itemsVerticalAlign="itemsCentral" itemsHorizontalAlign="itemsCentral">
 					<html:H4 text="Select a database or template in the sidebar to see more details and options."/>
