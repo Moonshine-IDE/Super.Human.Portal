@@ -326,7 +326,7 @@ package classes.managers
 				var bookmarks:Array = parseCustomBookmarksList(db.bookmarks);
 				
 				var tmpVO:ServerVO = new ServerVO(db.name, db.type, db.url, db.nomadURL, db.server, db.database, 
-												 db.view, db.replicaID, db.hasBookmarks, db.bookmarkCount, bookmarks);
+												 db.view, db.replicaID, true, db.bookmarkCount, bookmarks);
 				folders.push(tmpVO);
 			}
 			
