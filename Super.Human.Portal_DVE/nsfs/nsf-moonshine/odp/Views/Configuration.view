@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view name="Configuration" noreplace="true" propagatenoreplace="false" showinmenu="false" unreadmarks="none" publicaccess="false" onopengoto="lastopened" onrefresh="displayindicator" opencollapsed="false" showresponsehierarchy="true" showmargin="true" shrinkrows="false" extendlastcolumn="false" showhierarchies="false" unreadcolor="black" rowlinecount="1" rowspacing="1" bgcolor="white" totalscolor="black" headerbgcolor="white">
+  <code event="selection">
+    <formula>SELECT "ConfigValue" = Form</formula>
+  </code>
+  <column sort="ascending" categorized="false" separatemultiplevalues="false" totals="none" hidedetailrows="false" width="32" resizable="true" sortnoaccent="true" sortnocase="true" showaslinks="false" itemname="$26">
+    <font name="sans-serif" style="normal" color="#000000"/>
+    <columnheader title="Key">
+      <font name="sans-serif" style="bold" size="9" color="#000000"/>
+    </columnheader>
+    <code event="value">
+      <formula>Key</formula>
+    </code>
+  </column>
+  <column sort="none" categorized="false" hidedetailrows="false" width="32" resizable="true" sortnoaccent="true" sortnocase="true" showaslinks="false" itemname="$27">
+    <font name="sans-serif" style="normal" color="#000000"/>
+    <columnheader title="Value">
+      <font name="sans-serif" style="normal" size="9" color="#000000"/>
+    </columnheader>
+    <code event="value">
+      <formula>Value</formula>
+    </code>
+  </column>
+  <column sort="none" categorized="false" hidedetailrows="false" width="40" resizable="true" sortnoaccent="true" sortnocase="true" showaslinks="false" itemname="$28">
+    <font name="sans-serif" style="normal" color="#000000"/>
+    <columnheader title="Description">
+      <font name="sans-serif" style="normal" size="9" color="#000000"/>
+    </columnheader>
+    <code event="value">
+      <formula>Description</formula>
+    </code>
+  </column>
+</view>

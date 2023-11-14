@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<note class="form" version="9.0" maintenanceversion="1.4" replicaid="4825808B00336E82" xmlns="http://www.lotus.com/dxl">
+  <item name="$WindowTitle" sign="true">
+    <formula>"Config Value: " + Key</formula>
+  </item>
+  <item name="$Info" sign="true">
+    <rawitemdata type="1">hhgBAIAAAAAAgAAAAQABAP///wAQAAAA</rawitemdata>
+  </item>
+  <item name="$Flags">
+    <text/>
+  </item>
+  <item name="$TITLE">
+    <text>ConfigValue</text>
+  </item>
+  <item name="$Fields">
+    <textlist>
+      <text>Key</text>
+      <text>Value</text>
+      <text>Description</text>
+    </textlist>
+  </item>
+  <item name="$Body" sign="true">
+    <richtext style="width:700px;height:700px;" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" direction="Vertical" vdirection="Vertical">
+      <pardef id="1027" dominotype="dominoHideDiv" keeptogether="true" keepwithnext="true" hide=""/>
+      <par isNewLine="false">
+        <run>
+          <font color="system" size="12pt" style="normal"/>Configuration Value
+        </run>
+      </par>
+      <pardef id="1028" dominotype="dominoHideDiv" keeptogether="true" keepwithnext="true" hide=""/>
+      <table refwidth="5in" widthtype="fixedleft">
+        <tablecolumn/>
+        <tablecolumn/>
+        <tablerow>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="168" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="168" hidewhen="">
+              <run>
+                <font color="system" size="12pt" style="normal"/>Key
+              </run>
+            </par>
+          </tablecell>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="169" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="169" hidewhen="">
+              <run>
+                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" object="defaultvalue" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="Key"/>
+              </run>
+            </par>
+          </tablecell>
+        </tablerow>
+        <tablerow>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="170" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="170" hidewhen="">
+              <run>
+                <font color="system" size="12pt" style="normal"/>Value
+              </run>
+            </par>
+          </tablecell>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="171" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="171" hidewhen="">
+              <run>
+                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" object="defaultvalue" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="true" width="100pt" height="30pt" bgcolor="#ffffff" name="Value"/>
+              </run>
+            </par>
+          </tablecell>
+        </tablerow>
+        <tablerow>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="172" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="172" hidewhen="">
+              <run>
+                <font color="system" size="12pt" style="normal"/>Description (short)
+              </run>
+            </par>
+          </tablecell>
+          <tablecell hpostion="left" valign="top">
+            <pardef id="173" align="left" keeptogether="true" keepwithnext="true" dominotype="dominotable"/>
+            <par def="173" hidewhen="">
+              <run>
+                <font color="black" size="10pt" style="normal" name="sans-serif"/><field listdisplayseparator="newline" listinputseparators="comma semicolon newline" object="defaultvalue" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="Description"/>
+              </run>
+            </par>
+          </tablecell>
+        </tablerow>
+      </table>
+    </richtext>
+  </item>
+</note>
