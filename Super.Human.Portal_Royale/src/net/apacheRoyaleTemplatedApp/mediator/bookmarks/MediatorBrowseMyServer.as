@@ -107,6 +107,18 @@ package mediator.bookmarks
 			{
 				this.view.breadcrump.buildBreadcrump(event.item);
 			}
+			
+			this.refreshButtonLinks();
+				
+			view.currentState = "selectedDatabaseState";
+			if (event.item && event.item.children.length >= 1)
+			{
+				view.currentState = "selectedFolderState";
+			}
+			else if (event.item && event.item.children.length >= 1 && event.item == null)
+			{
+				view.currentState = "selectedFolderState";
+			}
 		}
 
 		private function onTopMenuItemChange(event:TopMenuEvent):void
