@@ -98,6 +98,10 @@ a:hover {
 	color: #666666;
 }
 
+.jewel.label.bigFont {
+	fontSize: 1.25em !important;
+}
+
 .loginBackground {
   backgroundImage: url("resources/images/loginbackground.jpg");
   backgroundRepeat: round;

@@ -105,18 +105,18 @@
 					<j:TBody>
 						<j:TableRow>
 							<j:TableCell className="formTableCell">
-								<j:Label text="Title:" className="formItemAppDetailsLabel"/>
+								<j:Label text="Title:" className="formItemAppDetailsLabel bigFont"/>
 							</j:TableCell>
 							<j:TableCell className="formTableCell">
-								<j:Label text="{selectedItem.name}" />
+								<j:Label text="{selectedItem.name}" className="bigFont"/>
 							</j:TableCell>
 						</j:TableRow>
 						<j:TableRow>
 							<j:TableCell className="formTableCell">
-								<j:Label text="Server:" className="formItemAppDetailsLabel"/>
+								<j:Label text="Server:" className="formItemAppDetailsLabel bigFont"/>
 							</j:TableCell>
 							<j:TableCell className="formTableCell">
-								<j:Label text="{selectedItem.server}" />
+								<j:Label text="{selectedItem.server}" className="bigFont"/>
 							</j:TableCell>
 							<j:TableCell className="formTableCell">
 								<j:IconButton localId="serverCopyToClpboard">
@@ -135,10 +135,10 @@
 						</j:TableRow>
 						<j:TableRow>
 							<j:TableCell className="formTableCell">
-								<j:Label text="Database:" className="formItemAppDetailsLabel"/>
+								<j:Label text="Database:" className="formItemAppDetailsLabel bigFont"/>
 							</j:TableCell>
 							<j:TableCell className="formTableCell">
-								<j:Label text="{selectedItem.database}" />
+								<j:Label text="{selectedItem.database}" className="bigFont"/>
 							</j:TableCell>
 							<j:TableCell className="formTableCell">
 								<j:IconButton localId="databaseCopyToClipboard">
@@ -157,18 +157,18 @@
 						</j:TableRow>
 						<j:TableRow>
 							<j:TableCell className="formTableCell">
-								<j:Label text="View:" className="formItemAppDetailsLabel"/>
+								<j:Label text="View:" className="formItemAppDetailsLabel bigFont"/>
 							</j:TableCell>
 							<j:TableCell className="formTableCell">
-								<j:Label text="{selectedItem.view}" />
+								<j:Label text="{selectedItem.view}" className="bigFont"/>
 							</j:TableCell>
 						</j:TableRow>
 						<j:TableRow>
 							<j:TableCell className="formTableCell">
-								<j:Label text="ReplicaID:" className="formItemAppDetailsLabel"/>
+								<j:Label text="ReplicaID:" className="formItemAppDetailsLabel bigFont"/>
 							</j:TableCell>
 							<j:TableCell className="formTableCell">
-								<j:Label text="{selectedItem.replicaID}" />
+								<j:Label text="{selectedItem.replicaID}" className="bigFont" />
 							</j:TableCell>
 							<j:TableCell className="formTableCell">
 								<j:IconButton localId="replicaCopyToClipboard">

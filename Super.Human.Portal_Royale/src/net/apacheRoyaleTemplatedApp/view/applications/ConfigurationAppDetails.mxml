@@ -68,10 +68,10 @@
 				<j:TBody>
 					<j:TableRow visible="{server != null}">
 						<j:TableCell className="formTableCell">
-							<j:Label text="Server:" className="formItemAppDetailsLabel"/>
+							<j:Label text="Server:" className="formItemAppDetailsLabel bigFont"/>
 						</j:TableCell>
 						<j:TableCell className="formTableCell">
-							<j:Label html="{server}" />
+							<j:Label html="{server}" className="bigFont"/>
 						</j:TableCell>
 						<j:TableCell className="formTableCell">
 							<j:IconButton click="onCopyToClipboardServerClick(event)">
@@ -87,10 +87,10 @@
 					</j:TableRow>
 					<j:TableRow visible="{database != null}">
 						<j:TableCell className="formTableCell">
-							<j:Label text="Database:" className="formItemAppDetailsLabel"/>
+							<j:Label text="Database:" className="formItemAppDetailsLabel bigFont"/>
 						</j:TableCell>
 						<j:TableCell className="formTableCell">
-							<j:Label html="{database}" />
+							<j:Label html="{database}" className="bigFont" />
 						</j:TableCell>
 						<j:TableCell className="formTableCell">
 							<j:IconButton click="onCopyToClipboardDatabaseClick(event)">
@@ -106,10 +106,10 @@
 					</j:TableRow>
 					<j:TableRow visible="{viewName != null}">
 						<j:TableCell className="formTableCell">
-							<j:Label text="View:" className="formItemAppDetailsLabel"/>
+							<j:Label text="View:" className="formItemAppDetailsLabel bigFont"/>
 						</j:TableCell>
 						<j:TableCell className="formTableCell">
-							<j:Label html="{viewName}" />
+							<j:Label html="{viewName}" className="bigFont"/>
 						</j:TableCell>
 					</j:TableRow>
 				</j:TBody>
