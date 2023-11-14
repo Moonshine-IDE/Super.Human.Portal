@@ -96,11 +96,11 @@
 			}
 			else
 			{
-				var items:Array = TopMenuUtils.getSiblings(this.rootMenu.selectedItem.parent, this.model);
+				var items:Array = TopMenuUtils.getSiblings(item.parent, this.model);
 				this.setRootMenuItems(items);
-				this.rootMenu.selectedItem = item;
+				this.rootMenu.selectedItem = item.parent == "menu" ? item : this.model[item.parent];
 				
-				this.setSubMenuItems(TopMenuUtils.getChildren(item.id, this.model));
+				this.setSubMenuItems(TopMenuUtils.getChildren(item.parent == "menu" ? item.id : item.parent, this.model));
 				
 				this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			}	
