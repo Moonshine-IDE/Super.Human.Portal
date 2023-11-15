@@ -4,7 +4,7 @@
 		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
 		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
 		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
-		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" currentState="bookmark">
+		 itemsHorizontalAlign="itemsLeft" itemsVerticalAlign="itemsTop" currentState="bookmark">
 	<j:states>
 		<js:State name="bookmark"/>
 		<js:State name="installedApp"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <j:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:j="library://ns.apache.org/royale/jewel"
-		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:applications="view.applications.*"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:applications="view.applications.*"
 		 itemsVerticalAlign="itemsCenter" gap="4" initComplete="onBookmarkInitComplete(event)"
 		 currentState="browser">
 	<j:states>
@@ -80,16 +80,22 @@
 			}
 		]]>
 	</fx:Script>
-	<j:HGroup minHeight="40" width="220" includeIn="browser" className="bookmarkTitleContainer"
-			  itemsVerticalAlign="itemsCenter">
-		<j:Label localId="browserHtmlLabel" className="cursorPointer noLinkWhiteLabelStyle"
-				 multiline="true" percentWidth="100"/>
+	<j:HGroup includeIn="browser" itemsVerticalAlign="itemsCenter" percentWidth="100" gap="2">
+		<j:HGroup minHeight="40" width="220" className="bookmarkTitleContainer"
+				itemsVerticalAlign="itemsCenter">
+			<j:Label localId="browserHtmlLabel" className="cursorPointer noLinkWhiteLabelStyle"
+					multiline="true" percentWidth="100"/>
+		</j:HGroup>
+		<j:Label text="{bookmark.description}" multiline="true" className="bigFont" visible="{bookmark.description != null}"/>
 	</j:HGroup>
-	<j:VGroup includeIn="database" itemsVerticalAlign="itemsCenter" gap="2">
-		<j:HGroup gap="1" itemsVerticalAlign="itemsCenter" className="bookmarkTitleContainer"
-				  minHeight="40" width="220">
-			<j:Label localId="databaseHtmlLabel" multiline="true" percentWidth="85" className="cursorPointer noLinkWhiteLabelStyle"/>
-			<js:MaterialIcon text="{MaterialIconType.ARROW_DROP_DOWN}" click="onShowHideDbConfigClick(event)" className="materialDropDownArrow"/>
+	<j:VGroup includeIn="database" itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsLeft" gap="2">
+		<j:HGroup percentWidth="100" itemsVerticalAlign="itemsCenter" gap="2">
+			<j:HGroup gap="1" itemsVerticalAlign="itemsCenter" className="bookmarkTitleContainer"
+					minHeight="40" width="220">
+				<j:Label localId="databaseHtmlLabel" multiline="true" percentWidth="85" className="cursorPointer noLinkWhiteLabelStyle"/>
+				<js:MaterialIcon text="{MaterialIconType.ARROW_DROP_DOWN}" click="onShowHideDbConfigClick(event)" className="materialDropDownArrow"/>
+			</j:HGroup>
+			<j:Label text="{bookmark.description}" multiline="true" className="bigFont" visible="{bookmark.description != null}"/>
 		</j:HGroup>
 		<applications:ConfigurationAppDetails localId="configurationDetails" description="{bookmark.description}" server="{bookmark.server}"
 											 database="{bookmark.database}" viewName="{bookmark.view}" nomadOpenLink="{bookmark.nomadURL}"
