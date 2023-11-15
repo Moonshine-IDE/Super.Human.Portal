@@ -94,11 +94,6 @@
 			</j:style>
 			<j:CardHeader includeIn="selectedDatabaseState">
 				<html:H4 text="{selectedItem.databaseName}" percentWidth="100"/>
-				<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight" gap="1">
-					<j:Button localId="clientOpen" text="Open in Client" minWidth="130" className="noLinkStyle"/>
-					<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle"/>
-					<j:Button localId="bookmarkAdd" text="Add Bookmark" minWidth="130" className="noLinkStyle"/>
-				</j:HGroup>
 			</j:CardHeader>
 			<j:CardPrimaryContent itemsVerticalAlign="itemsCentral" itemsHorizontalAlign="itemsCentral">
 				<j:SimpleTable includeIn="selectedDatabaseState" className="formTable">
@@ -204,18 +199,23 @@
 						</html:Li>
 					</html:Ul>
 				</j:VGroup>
+			</j:CardPrimaryContent>
+			<j:CardActions itemsHorizontalAlign="itemsRight" gap="1" includeIn="selectedDatabaseState">
 				<j:VGroup visible="{selectedItem.hasBookmarks}" percentWidth="100"
-						  itemsHorizontalAlign="itemsRight" itemsVerticalAlign="itemsCenter" includeIn="selectedDatabaseState">
+						  itemsHorizontalAlign="itemsLeft" itemsVerticalAlign="itemsCenter">
 					<j:VGroup itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter">
-						<j:IconButton>
-							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CHECK}"/>
-							</j:icon>
-						</j:IconButton>
+						<js:MaterialIcon text="{MaterialIconType.CHECK}">
+							<js:style>
+								<js:SimpleCSSStyles fontSize="28"/>
+							</js:style>
+						</js:MaterialIcon>
 						<j:Label text="Bookmarked!" className="bigFont"/>
 					</j:VGroup>
 				</j:VGroup>
-			</j:CardPrimaryContent>
+				<j:Button localId="clientOpen" text="Open in Client" minWidth="130" className="noLinkStyle"/>
+				<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle"/>
+				<j:Button localId="bookmarkAdd" text="Add Bookmark" minWidth="130" className="noLinkStyle"/>
+			</j:CardActions>
 		</j:Card>
 	</j:HGroup>
 </j:VGroup>
