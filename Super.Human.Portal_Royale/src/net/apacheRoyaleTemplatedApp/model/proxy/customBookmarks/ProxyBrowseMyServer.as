@@ -99,18 +99,21 @@ package model.proxy.customBookmarks
 					for (var i:int = 0; i < server.databasePath.length; i++)
 					{
 						var dbPath:String = server.databasePath[i];
-						var item:Object = {};			
-							item.id = dbPath;
+						var item:Object = {};
+						
+						var slicedIds:Array = server.databasePath.slice(0, i + 1);			
+							item.id = slicedIds.join("/");
 							
 						var hasPathInChildrenRoot:Boolean = childrenRoot.some(function(child:String, index:int, arr:Array):Boolean {
-															return child == dbPath;
+															return child == item.id;
 														});
-						var hasPathInMenuItems:Boolean = menuItems.hasOwnProperty(dbPath);
+						var hasPathInMenuItems:Boolean = menuItems.hasOwnProperty(item.id);
 						if (hasPathInChildrenRoot || hasPathInMenuItems)
 						{
 							if (i > 0 && hasPathInMenuItems)
 							{
-								item.parent = server.databasePath[i - 1];
+								slicedIds = server.databasePath.slice(0, i);
+								item.parent = slicedIds.join("/");
 								var parentChildren:Array = menuItems[item.parent].children;
 								if (!parentChildren.some(function(child:String, index:int, arr:Array):Boolean {
 															return child == item.id;
@@ -128,11 +131,12 @@ package model.proxy.customBookmarks
 						if (i == 0)
 						{
 							item.parent = "menu";
-							childrenRoot.push(dbPath);
+							childrenRoot.push(item.id);
 						}
 						else
 						{
-							item.parent = server.databasePath[i - 1];
+							slicedIds = server.databasePath.slice(0, i);
+							item.parent = slicedIds.join("/");
 							menuItems[item.parent].children.push(item.id);
 						}
 	
@@ -141,7 +145,7 @@ package model.proxy.customBookmarks
 							item.data = server;	
 						}
 						
-						menuItems[dbPath] = item;
+						menuItems[item.id] = item;
 					}
 				}
 			}
