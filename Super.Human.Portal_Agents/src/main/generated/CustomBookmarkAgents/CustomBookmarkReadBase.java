@@ -32,6 +32,8 @@ public class CustomBookmarkReadBase extends GetAllAgentBase {
 		fields.add(new FieldDefinition("database", FieldType.TEXT, false));
 		fields.add(new FieldDefinition("view", FieldType.TEXT, false));
 		fields.add(new FieldDefinition("name", FieldType.TEXT, false));
+		fields.add(new FieldDefinition("index", FieldType.NUMBER, false));
+		fields.add(new FieldDefinition("description", FieldType.TEXT, false));
 
 		return fields;
 	}

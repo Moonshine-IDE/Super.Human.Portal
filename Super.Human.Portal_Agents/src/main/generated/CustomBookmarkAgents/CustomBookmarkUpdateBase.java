@@ -40,6 +40,12 @@ public class CustomBookmarkUpdateBase extends UpdateAgentBase {
 
 
 		fields.add(new FieldDefinition("name", FieldType.TEXT, false));
+		
+		
+		fields.add(new FieldDefinition("index", FieldType.NUMBER, false));
+		
+		
+		fields.add(new FieldDefinition("description", FieldType.TEXT, false));
 
 
 

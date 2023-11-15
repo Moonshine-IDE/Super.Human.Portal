@@ -42,6 +42,11 @@ public class CustomBookmarkRead extends CustomBookmarkReadBase {
 	
 	@Override
 	protected View getLookupView() throws NotesException {
+		String lookupID = getParameter("DominoUniversalID");
+		if (!DominoUtils.isValueEmpty(lookupID)) {
+			// The user is trying to lookup a document by ID
+			return super.getLookupView();  // use the default view, which is sorted by universal ID
+		}
 		// Use a sorted view until UI handles sorting
 		String viewName = "Bookmarks/FlatForAgent";
 		try {
