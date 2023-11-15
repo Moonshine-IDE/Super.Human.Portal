@@ -48,6 +48,7 @@ package mediator.bookmarks
 			this.view.copyToClipboardDatabase.addEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.addEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
 			
+			this.view.currentState = "selectedFolderState";
 			if (!this.browseMyServerProxy.getData())
 			{
 				this.browseMyServerProxy.getServersList();
@@ -101,6 +102,23 @@ package mediator.bookmarks
 		private function onBreadcrumpItemClick(event:BreadcrumpEvent):void
 		{
 			this.view.topMenu.navigateToItem(event.item);
+			
+			if (event.item.parent != null)
+			{
+				this.view.breadcrump.buildBreadcrump(event.item);
+			}
+			
+			this.refreshButtonLinks();
+				
+			view.currentState = "selectedDatabaseState";
+			if (event.item && event.item.children.length >= 1)
+			{
+				view.currentState = "selectedFolderState";
+			}
+			else if (event.item && event.item.children.length >= 1 && event.item == null)
+			{
+				view.currentState = "selectedFolderState";
+			}
 		}
 
 		private function onTopMenuItemChange(event:TopMenuEvent):void

@@ -75,8 +75,6 @@
 		private function onBreadCrumpItemClick(event:BreadcrumpEvent):void
 		{
 			this.dispatchEvent(new BreadcrumpEvent(BreadcrumpEvent.BREADCRUMP_ITEM_CLICK, event.item));	
-			
-			this.buildBreadcrump(event.item);
 		}
 		
 		private function getItemById(id:String):Label

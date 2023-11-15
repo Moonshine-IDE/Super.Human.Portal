@@ -98,6 +98,10 @@ a:hover {
 	color: #666666;
 }
 
+.jewel.label.bigFont {
+	fontSize: 1.25em !important;
+}
+
 .loginBackground {
   backgroundImage: url("resources/images/loginbackground.jpg");
   backgroundRepeat: round;
@@ -345,6 +349,11 @@ a:hover {
   padding-right: 12px;
 }
 
+.jewel.label.noLinkWhiteLabelStyle a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
 .jewel.button.warn {
     background: linear-gradient(#fb8c00, #fb8c00);
     border-radius: 0.25rem;
@@ -445,6 +454,16 @@ a:hover {
 	IBeadView: ClassReference("view.controls.FormItemView");
 }
 
+.layout.horizontal.bookmarkTitleContainer {
+    background: linear-gradient(#54b7f3, #24a3ef);
+    borderRadius: 0.25rem;
+    border: 1px solid #0f88d1;
+    boxShadow: inset 0 1px 0 #9bd5f8;
+    color: #FFFFFF;
+    fontWeight: bold;
+    textAlign: center;
+}
+
 .jewel.label.formItemAppDetailsLabel {
     width: 5em;
     fontWeight: bold;
@@ -479,7 +498,7 @@ a:hover {
 .jewel.button.primary.linksGapInstallApp {
 	marginBottom: 4px !important;
 	marginLeft: 4px !important;
-	minWidth: 150px;
+	minWidth: 220px;
 	height: 40px;
 }
 
@@ -497,7 +516,6 @@ a:hover {
 }
 
 .topMenuList {
-	IItemRenderer: ClassReference("classes.topMenu.components.renderers.MenuItemRenderer");
     ISelectableItemRenderer: ClassReference("org.apache.royale.jewel.beads.itemRenderers.ClassSelectorListSelectableItemRendererBead");
     width: 100%;
 }
@@ -507,17 +525,18 @@ a:hover {
 	maxWidth: 240px;
     minHeight: 35px;
     padding: 10px 5px 10px 10px !important;
+    color: #000000 !important;
     
 }
 
 .topMenuListItemRenderer.selected {
 	background: #24a3ef !important;
-	color: #FFFFFF;
+	color: #FFFFFF !important;
 }
 
 .topMenuListItemRenderer.selected.hovered {
 	background: #24a3ef !important;
-	color: #FFFFFF;
+	color: #FFFFFF !important;
 }
 
 .topMenuListItemRenderer.selected button {
@@ -526,6 +545,12 @@ a:hover {
 
 .topMenuListItemRenderer.selected button.hovered {
 	color: #073340;	
+}
+
+.jewel.button.topMenuCloseButton {
+    font-size: 24px;
+    padding: 0;
+	height: 100%;
 }
 
 .jewel.button.icon.topMenuListItemRendererIcon {
@@ -537,5 +562,28 @@ a:hover {
 }
 
 .jewel.button.icon.topMenuListItemRendererIcon i {
-	fontSize: 12px;
+	fontSize: 16px;
+}
+
+.jewel.button.icon.topMenuListItemRendererIcon.topMenuListParentItemRendererIcon i {
+	fontSize: 20px;
+}
+
+.material-icons.materialDropDownArrow {
+	cursor: pointer;
+    borderColor: white;
+    borderStyle: solid;
+    marginRight: 5px;
+    borderWidth: 1px;
+}
+
+.jewel.simpletable.formTable {
+	border: none;
+	background: none;
+	boxShadow: none;
+}
+
+.jewel.tablecell.formTableCell {
+	borderLeft: none !important;
+	borderTop: none !important;
 }

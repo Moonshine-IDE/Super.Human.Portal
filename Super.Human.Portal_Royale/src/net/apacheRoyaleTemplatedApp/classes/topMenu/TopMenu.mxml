@@ -4,9 +4,6 @@
 		  xmlns:js="library://ns.apache.org/royale/basic" 
 		  xmlns:html="library://ns.apache.org/royale/html" xmlns:model="classes.topMenu.model.*" xmlns:helpers="classes.topMenu.helpers.*"
 		  initComplete="onTopMenuInitComplete(event)">
-	<j:beads>
-		<js:ContainerDataBinding />
-	</j:beads>
 	<j:model>
 		<model:TopMenuModel localId="menuModel"/>
 	</j:model>
@@ -16,17 +13,20 @@
 	</fx:Metadata>
 	<fx:Script>
 	<![CDATA[
+		import classes.topMenu.classes.ChangeSourceConst;
+		import classes.topMenu.components.beads.TopMenuSortingBead;
 		import classes.topMenu.events.TopMenuEvent;
 		import classes.topMenu.helpers.SelectedIndexManager;
+		import classes.topMenu.helpers.TopMenuUtils;
 		import classes.topMenu.model.TopMenuVO;
 
+		import org.apache.royale.binding.ContainerDataBinding;
 		import org.apache.royale.collections.ArrayList;
+		import org.apache.royale.icons.MaterialIcon;
 		import org.apache.royale.net.HTTPConstants;
 		import org.apache.royale.net.HTTPService;
 		import org.apache.royale.net.beads.CORSCredentialsBead;
 		import org.apache.royale.net.events.FaultEvent;
-		import classes.topMenu.helpers.TopMenuUtils;
-		import classes.topMenu.classes.ChangeSourceConst;
 
 		private var selectedIndexManager:SelectedIndexManager;
 
@@ -58,9 +58,29 @@
 			}	
 		}
 		
+		private var _folderMenuStyle:Boolean = false;
+		
+		public function set folderMenuStyle(value:Boolean):void
+		{
+			if (_folderMenuStyle != value)
+			{
+				_folderMenuStyle = value;
+			}	
+		}
+		
+		override public function addedToParent():void
+		{
+			this.addBead(new ContainerDataBinding());
+			super.addedToParent();	
+		}
+		
 		public function navigateToItem(item:Object):void
 		{
-			if (this.rootMenu.selectedItem && this.rootMenu.selectedItem.parent == item.parent ||item.parent == null)
+			if (item.parent == null)
+			{
+				this.initializeMenuModel(null);
+			}
+			else if (this.rootMenu.selectedItem && this.rootMenu.selectedItem.parent == item.parent)
 			{
 				if (item.parent != null)
 				{
@@ -76,16 +96,17 @@
 			}
 			else
 			{
-				var items:Array = TopMenuUtils.getSiblings(this.rootMenu.selectedItem.parent, this.model);
+				var items:Array = TopMenuUtils.getChildren(item.parent, this.model);
 				this.setRootMenuItems(items);
-				this.rootMenu.selectedItem = item;
+				this.rootMenu.selectedItem = item.parent == "menu" ? item : this.model[item.id];
 				
-				this.setSubMenuItems(TopMenuUtils.getChildren(item.id, this.model));
+				items = TopMenuUtils.getChildren(item.id, this.model);
+				this.setSubMenuItems(items);
 				
 				this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			}	
 		}
-				
+
 		public function initializeMenuModel(data:Object):void
 		{
 			if (!data && this.model.data) 
@@ -105,8 +126,9 @@
 			{
 				this.model[key] = TopMenuUtils.transformObjectToMenuVOItems(data[key], data);
 			}
-			
+	
 			TopMenuUtils.recalculateMarkedMenu(_showMarks, model, model["menu"]);
+			TopMenuUtils.recalculateFolderStyleMenu(_folderMenuStyle, model, model["menu"]);
 			
 			var items:Array = TopMenuUtils.getSiblings("menu", this.model);
 			this.setRootMenuItems(items);
@@ -119,7 +141,7 @@
 
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_LOADED, this.rootMenu.selectedItem));
 		}
-		
+
 		private function onTopMenuInitComplete(event:Event):void
 		{
 			var service:HTTPService = new HTTPService();
@@ -155,10 +177,7 @@
 		{
 			this.selectedItem = this.refreshMenu(ChangeSourceConst.ROOT_MENU);
 			
-			if (_showMarks)
-			{
-				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
-			}
+			this.refreshMenuIcons();
 		
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem, this.subMenu.selectedItem));
 			
@@ -175,10 +194,7 @@
 				this.selectedItem = this.rootMenu.selectedItem;
 			}
 			
-			if (_showMarks)
-			{
-				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
-			}
+			this.refreshMenuIcons();
 			
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem, this.subMenu.selectedItem));
 			
@@ -248,6 +264,7 @@
 			{
 				this.menuDrawer.open();
 			}
+			this.menuOpen.visible = !this.menuDrawer.isOpen;
 		}
 
 		private function refreshMenu(changeSource:String):Object
@@ -338,10 +355,24 @@
 				this.menuTitle.text = "Selection: " + this.rootMenu.selectedItem.label;
 			}
 		}
-
+		
+		private function refreshMenuIcons():void
+		{
+			if (_showMarks && !_folderMenuStyle)
+			{
+				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
+			}
+		}
+		
 		private function setRootMenuItems(menu:Array):void
 		{
 			if (!this.rootMenu) return;
+			
+			var sortMenuBead:TopMenuSortingBead = this.getBeadByType(TopMenuSortingBead) as TopMenuSortingBead;
+			if (sortMenuBead)
+			{
+				sortMenuBead.sortMenu(menu);
+			}
 			
 			var dp:ArrayList = new ArrayList(menu);
 			this.rootMenu.dataProvider = dp;
@@ -351,19 +382,26 @@
 			{
 				this.selectedIndexManager.updateSource(dp.source);
 			}
+
 		}
 		
 		private function setSubMenuItems(menu:Array):void
 		{
 			if (!this.subMenu) return;
 			
+			var sortMenuBead:TopMenuSortingBead = this.getBeadByType(TopMenuSortingBead) as TopMenuSortingBead;
+			if (sortMenuBead)
+			{
+				sortMenuBead.sortMenu(menu);
+			}
+			
 			this.subMenu.dataProvider = new ArrayList(menu);
 			this.subMenu.visible = menu.length > 0;
 		}
 	]]>
 </fx:Script>
-	<j:Group>
-		<j:Drawer localId="menuDrawer" isOpen="true" percentHeight="100">
+	<j:Group percentHeight="100">
+		<j:Drawer localId="menuDrawer" isOpen="true">
 			<j:style>
 				<js:AllCSSStyles width="max-content"/>
 			</j:style>
@@ -381,6 +419,16 @@
 					<j:style>
 						<js:SimpleCSSStyles paddingLeft="10"/>
 					</j:style>
+					<j:HGroup itemsHorizontalAlign="itemsRight">
+						<j:style>
+							<js:SimpleCSSStyles padding="1" paddingRight="3"/>
+						</j:style>
+						<j:IconButton click="onCloseMenu(event)" className="topMenuCloseButton">
+							<j:icon>
+								<js:MaterialIcon className="mdi mdi-chevron-double-left"/>
+							</j:icon>
+						</j:IconButton>
+					</j:HGroup>
 					<j:IconButton width="24" click="onPreviousSelectionClick(event)">
 						<j:icon>
 							<js:MaterialIcon text="{MaterialIconType.CHEVRON_LEFT}" />
@@ -394,18 +442,20 @@
 					<html:P localId="menuTitle" text="Menu"/>
 				</j:HGroup>
 			</j:DrawerHeader>
-			<j:HGroup localId="viewDrawerContent">	
+			<j:HGroup>	
 				<j:beads>
 					<j:ScrollingViewport />
 				</j:beads>
 				<j:Navigation localId="rootMenu" labelField="label" className="topMenuList"
+							  itemRenderer="classes.topMenu.components.renderers.MenuItemRenderer"
 								selectedIndex="0" change="onRootMenuChange(event)">
 					<j:beads>
 						<j:NavigationActionNotifier/>
 						<j:NoViewport />
 					</j:beads>
 				</j:Navigation>
-				<j:Navigation localId="subMenu" labelField="label" className="topMenuList" change="onSubMenuChange(event)">
+				<j:Navigation localId="subMenu" labelField="label" className="topMenuList" change="onSubMenuChange(event)"
+							  itemRenderer="classes.topMenu.components.renderers.MenuItemRenderer">
 					<j:beads>
 						<j:NavigationActionNotifier/>
 						<j:NoViewport />
@@ -414,10 +464,10 @@
 			</j:HGroup>
 		</j:Drawer>
 	</j:Group>
-	<j:Group>
-		<j:IconButton width="45" click="onCloseMenu(event)">
+	<j:Group localId="menuOpen" visible="false" height="50">
+	     <j:IconButton click="onCloseMenu(event)" className="topMenuCloseButton" percentHeight="100">
 			<j:icon>
-				<js:MaterialIcon text="{MaterialIconType.VIEW_HEADLINE}"/>
+				<js:MaterialIcon className="mdi mdi-chevron-double-right"/>
 			</j:icon>
 		</j:IconButton>
 	</j:Group>

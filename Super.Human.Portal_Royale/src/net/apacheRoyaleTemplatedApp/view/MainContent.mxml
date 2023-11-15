@@ -431,9 +431,9 @@
 		<j:ScrollableSectionContent localId="sectionInstalledApps">
 			<applications:InstalledAppView id="viewInstalledApp"/>
 		</j:ScrollableSectionContent>
-		<j:ScrollableSectionContent localId="viewBookmarksSection">
+		<j:SectionContent localId="viewBookmarksSection">
 			<bookmarks:BookmarksView id="viewBookmarks"/>
-		</j:ScrollableSectionContent>
+		</j:SectionContent>
 		<j:ScrollableSectionContent name="{MediatorEditBookmark.NAME}">
 			<bookmarks:EditBookmarkView localId="editBookmarkView"/>
 		</j:ScrollableSectionContent>

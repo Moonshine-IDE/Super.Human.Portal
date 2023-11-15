@@ -4,11 +4,20 @@
 		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" xmlns:controls="view.controls.*" 
 		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
 		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
-		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop">
+		 itemsHorizontalAlign="itemsLeft" itemsVerticalAlign="itemsTop" currentState="bookmark">
+	<j:states>
+		<js:State name="bookmark"/>
+		<js:State name="installedApp"/>
+	</j:states>
+ 	<fx:Metadata>
+		[Event(name="editButtonClick", type="org.apache.royale.events.Event")]
+		[Event(name="deleteButtonClick", type="org.apache.royale.events.Event")]
+	</fx:Metadata>
 	<fx:Script>
 		<![CDATA[
 			import utils.ClipboardText;
 			import org.apache.royale.events.MouseEvent;
+			import org.apache.royale.events.Event;
 
 			[Bindable]
 			public var description:String;
@@ -34,6 +43,15 @@
 				ClipboardText.copyToClipboard(database);
 			}
 			
+			private function onEditButtonClick(event:MouseEvent):void
+			{
+				this.dispatchEvent(new Event("editButtonClick"));
+			}
+			
+			private function onDeleteButtonClick(event:MouseEvent):void
+			{
+				this.dispatchEvent(new Event("deleteButtonClick"));
+			}
 		]]>
 	</fx:Script>
 
@@ -42,53 +60,76 @@
 	</j:beads>
 
 	<j:Card>
-		<j:CardHeader visible="{description != ''}">
+		<j:CardHeader visible="{description != null}" excludeFrom="bookmark">
 			<html:H4 text="{description}" percentWidth="100"/>
 		</j:CardHeader>
 		<j:CardPrimaryContent>
-			<j:Form>
-				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
-										label="Server:" visible="{server != null}">							
-					<j:Label html="{server}" />
-					<j:HGroup itemsHorizontalAlign="itemsRight">
-						<j:IconButton click="onCopyToClipboardServerClick(event)">
-							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
-									<js:style>
-										<js:SimpleCSSStyles fontSize="16"/>
-									</js:style>
-								</js:MaterialIcon>
-							</j:icon>
-						</j:IconButton>
-					</j:HGroup>
-				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
-										label="Database:" visible="{database != null}">							
-					<j:Label html="{database}" />
-					<j:HGroup itemsHorizontalAlign="itemsRight">
-						<j:IconButton click="onCopyToClipboardDatabaseClick(event)">
-							<j:icon>
-								<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
-									<js:style>
-										<js:SimpleCSSStyles fontSize="16"/>
-									</js:style>
-								</js:MaterialIcon>
-							</j:icon>
-						</j:IconButton>
-					</j:HGroup>
-				</controls:CustomFormItem>
-				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
-										labelClass="formItemAppDetailsLabel"
-										label="View:" visible="{viewName != null}">							
-					<j:Label localId="viewTextInput" text="{viewName}"/>
-				</controls:CustomFormItem>
-			</j:Form>
+			<j:SimpleTable className="formTable">
+				<j:TBody>
+					<j:TableRow visible="{server != null}">
+						<j:TableCell className="formTableCell">
+							<j:Label text="Server:" className="formItemAppDetailsLabel bigFont"/>
+						</j:TableCell>
+						<j:TableCell className="formTableCell">
+							<j:Label html="{server}" className="bigFont"/>
+						</j:TableCell>
+						<j:TableCell className="formTableCell">
+							<j:IconButton click="onCopyToClipboardServerClick(event)">
+								<j:icon>
+									<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+										<js:style>
+											<js:SimpleCSSStyles fontSize="16"/>
+										</js:style>
+									</js:MaterialIcon>
+								</j:icon>
+							</j:IconButton>
+						</j:TableCell>
+					</j:TableRow>
+					<j:TableRow visible="{database != null}">
+						<j:TableCell className="formTableCell">
+							<j:Label text="Database:" className="formItemAppDetailsLabel bigFont"/>
+						</j:TableCell>
+						<j:TableCell className="formTableCell">
+							<j:Label html="{database}" className="bigFont" />
+						</j:TableCell>
+						<j:TableCell className="formTableCell">
+							<j:IconButton click="onCopyToClipboardDatabaseClick(event)">
+								<j:icon>
+									<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+										<js:style>
+											<js:SimpleCSSStyles fontSize="16"/>
+										</js:style>
+									</js:MaterialIcon>
+								</j:icon>
+							</j:IconButton>
+						</j:TableCell>
+					</j:TableRow>
+					<j:TableRow visible="{viewName != null}">
+						<j:TableCell className="formTableCell">
+							<j:Label text="View:" className="formItemAppDetailsLabel bigFont"/>
+						</j:TableCell>
+						<j:TableCell className="formTableCell">
+							<j:Label html="{viewName}" className="bigFont"/>
+						</j:TableCell>
+					</j:TableRow>
+				</j:TBody>
+			</j:SimpleTable>
 		</j:CardPrimaryContent>
-		<j:CardActions itemsHorizontalAlign="itemsRight" visible="{clientOpenLink != null || nomadOpenLink != null}">
-			<j:Button className="noLinkStyle" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
-			<j:Button className="noLinkStyle" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
+		<j:CardActions itemsHorizontalAlign="itemsRight" gap="1">
+			<j:HGroup gap="1" percentWidth="100" includeIn="bookmark">
+				<j:IconButton click="onEditButtonClick(event)">
+					<j:icon>
+						<js:MaterialIcon text="{MaterialIconType.EDIT}"/>
+					</j:icon>
+				</j:IconButton>
+				<j:IconButton click="onDeleteButtonClick(event)">
+					<j:icon>
+						<js:MaterialIcon text="{MaterialIconType.DELETE}"/>
+					</j:icon>
+				</j:IconButton>
+			</j:HGroup>
+			<j:Button className="noLinkStyle" minWidth="130" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
+			<j:Button className="noLinkStyle" minWidth="130" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
 		</j:CardActions>
 	</j:Card>
 </j:VGroup>

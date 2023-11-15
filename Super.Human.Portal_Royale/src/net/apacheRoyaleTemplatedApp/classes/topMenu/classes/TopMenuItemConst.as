@@ -10,5 +10,7 @@ package classes.topMenu.classes
 		public static const NOT_VISITED_ICON:String = "panorama_fish_eye";
 		public static const PARTIALLY_VISITED_ICON:String = "adjust";
 		public static const VISITED_ICON:String = "brightness_1";
+		
+		public static const FOLDER_ICON:String = "folder_open";
 	}
 }

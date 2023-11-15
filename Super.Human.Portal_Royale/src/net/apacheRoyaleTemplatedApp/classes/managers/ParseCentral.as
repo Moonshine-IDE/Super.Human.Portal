@@ -315,7 +315,8 @@ package classes.managers
 		
 		public static function parseDatabases(databases:Array):Array
 		{
-			var tmpArr:Array = [];
+			var folders:Array = [];
+			var nonFolders:Array = [];
 			
 			var viewEntryCount:int = databases.length;
 			
@@ -325,12 +326,11 @@ package classes.managers
 				var bookmarks:Array = parseCustomBookmarksList(db.bookmarks);
 				
 				var tmpVO:ServerVO = new ServerVO(db.name, db.type, db.url, db.nomadURL, db.server, db.database, 
-												 db.view, db.replicaID, db.hasBookmarks, db.bookmarkCount, bookmarks);
-				
-				tmpArr.push(tmpVO);
+												 db.view, db.replicaID, true, db.bookmarkCount, bookmarks);
+				folders.push(tmpVO);
 			}
-
-			return tmpArr;
+			
+			return folders;
 		}
 		//--------------------------------------------------------------------------
 		//

@@ -6,6 +6,7 @@ package classes.topMenu.model
 	{
 		public var id:String; 
 		public var hash:String; 
+		[Bindable]
 		public var parent:String = null;
 		public var children:Array = [];
 		public var visited:int = 0;
@@ -38,6 +39,18 @@ package classes.topMenu.model
 				case TopMenuItemConst.VISITED_DISABLED:
 					icon = null;
 					break;
+			}
+		}
+		
+		public function calculateFolderIcon():void
+		{
+			if (hasChildren())
+			{
+				icon = TopMenuItemConst.FOLDER_ICON;
+			}
+			else
+			{
+				icon = null;
 			}
 		}
 	}
