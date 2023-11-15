@@ -6,9 +6,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.moonshine.domino.field.FieldDefinition;
+import com.moonshine.domino.util.ConfigurationUtils;
+import com.moonshine.domino.util.DominoUtils;
 
 import genesis.LinkProcessor;
 import lotus.domino.NotesException;
+import lotus.domino.View;
 import lotus.domino.ViewEntryCollection;
 
 /**
@@ -35,5 +38,25 @@ public class CustomBookmarkRead extends CustomBookmarkReadBase {
 		//only support JSON
 		// TODO:  throw an error instead
 		return true;
+	}
+	
+	@Override
+	protected View getLookupView() throws NotesException {
+		// Use a sorted view until UI handles sorting
+		String viewName = "Bookmarks/FlatForAgent";
+		try {
+			String configViewName = ConfigurationUtils.getConfigAsString(agentDatabase, "bookmarks_view");
+			if (DominoUtils.isValueEmpty(configViewName)) {
+				getLog().dbg("Using default view name for bookmarks");
+				
+			}
+			else {
+				viewName = configViewName;
+			}
+		}
+		catch (Exception ex) {
+			getLog().err("Exception while reading lookup view");
+		}
+		return agentDatabase.getView(viewName);
 	}
 }
