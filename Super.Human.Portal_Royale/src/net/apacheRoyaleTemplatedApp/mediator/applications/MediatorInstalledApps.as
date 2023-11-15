@@ -148,9 +148,8 @@ package mediator.applications
 						var configurationDetails:ConfigurationAppDetails = new ConfigurationAppDetails();
 							configurationDetails.currentState = "installedApp";
 							configurationDetails.percentWidth = 100;
-							configurationDetails.description = link.description;
 							configurationDetails.server = link.server;
-							configurationDetails.database = link.database;
+							configurationDetails.database = link.database;						
 							configurationDetails.viewName = link.view;
 							configurationDetails.clientOpenLink = link.url ? '<a height="100%" width="100%" href="' + link.url + '" target="_blank">Open in Client</a>' : null;
 							configurationDetails.nomadOpenLink = link.nomadURL ? '<a height="100%" width="100%" href="' + link.nomadURL + '" target="_blank">Open in Nomad</a>' : null;
@@ -159,6 +158,10 @@ package mediator.applications
 						dbContainer.addElement(configurationDetails);
 						
 						view.installedAppLinks.addElement(dbContainer);
+						
+						//Fix problem with databinding and states - Royale issue
+						configurationDetails.description = "";
+						configurationDetails.description = link.description;
 					}
 				}
 			}

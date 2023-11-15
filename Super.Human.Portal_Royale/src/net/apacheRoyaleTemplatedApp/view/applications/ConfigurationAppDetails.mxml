@@ -60,7 +60,7 @@
 	</j:beads>
 
 	<j:Card>
-		<j:CardHeader visible="{description != null}">
+		<j:CardHeader visible="{description != null}" excludeFrom="bookmark">
 			<html:H4 text="{description}" percentWidth="100"/>
 		</j:CardHeader>
 		<j:CardPrimaryContent>

@@ -85,7 +85,7 @@
 		<j:Label localId="browserHtmlLabel" className="cursorPointer noLinkWhiteLabelStyle"
 				 multiline="true" percentWidth="100"/>
 	</j:HGroup>
-	<j:VGroup includeIn="database" itemsVerticalAlign="itemsCenter">
+	<j:VGroup includeIn="database" itemsVerticalAlign="itemsCenter" gap="2">
 		<j:HGroup gap="1" itemsVerticalAlign="itemsCenter" className="bookmarkTitleContainer"
 				  minHeight="40" width="220">
 			<j:Label localId="databaseHtmlLabel" multiline="true" percentWidth="85" className="cursorPointer noLinkWhiteLabelStyle"/>
