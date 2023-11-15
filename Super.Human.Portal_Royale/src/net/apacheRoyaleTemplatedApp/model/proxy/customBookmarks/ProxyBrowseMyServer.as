@@ -99,20 +99,32 @@ package model.proxy.customBookmarks
 					for (var i:int = 0; i < server.databasePath.length; i++)
 					{
 						var dbPath:String = server.databasePath[i];
-	
+						var item:Object = {};			
+							item.id = dbPath;
+							
 						var hasPathInChildrenRoot:Boolean = childrenRoot.some(function(child:String, index:int, arr:Array):Boolean {
 															return child == dbPath;
 														});
 						var hasPathInMenuItems:Boolean = menuItems.hasOwnProperty(dbPath);
 						if (hasPathInChildrenRoot || hasPathInMenuItems)
 						{
+							if (i > 0 && hasPathInMenuItems)
+							{
+								item.parent = server.databasePath[i - 1];
+								var parentChildren:Array = menuItems[item.parent].children;
+								if (!parentChildren.some(function(child:String, index:int, arr:Array):Boolean {
+															return child == item.id;
+														}))
+								{
+									menuItems[item.parent].children.push(item.id);
+								}
+							}
+							
 							continue;	
 						}
-						
-						var item:Object = {};			
-							item.id = dbPath;
-							item.label = dbPath;
-							item.children = [];
+
+						item.label = dbPath;
+						item.children = [];
 						if (i == 0)
 						{
 							item.parent = "menu";
