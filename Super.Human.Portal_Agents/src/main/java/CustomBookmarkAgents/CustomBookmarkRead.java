@@ -10,6 +10,7 @@ import com.moonshine.domino.util.ConfigurationUtils;
 import com.moonshine.domino.util.DominoUtils;
 
 import genesis.LinkProcessor;
+import lotus.domino.Database;
 import lotus.domino.NotesException;
 import lotus.domino.View;
 import lotus.domino.ViewEntryCollection;
@@ -21,7 +22,7 @@ public class CustomBookmarkRead extends CustomBookmarkReadBase {
 
 	@Override
     protected void writeDocuments(ViewEntryCollection entries, Collection<FieldDefinition> fieldList) throws NotesException {
-    		LinkProcessor linkProcessor = new LinkProcessor(session, getLog());
+    		LinkProcessor linkProcessor = new LinkProcessor(session, getLog(), agentDatabase);
     		linkProcessor.setAllowRemoteServer(true);
     		
     		super.writeDocuments(entries, fieldList);

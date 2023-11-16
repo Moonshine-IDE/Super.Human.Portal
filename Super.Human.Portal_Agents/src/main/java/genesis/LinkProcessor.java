@@ -10,8 +10,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.moonshine.domino.log.LogInterface;
+import com.moonshine.domino.util.ConfigurationUtils;
 import com.moonshine.domino.util.DominoUtils;
 
+import lotus.domino.Database;
 import lotus.domino.Name;
 import lotus.domino.NotesException;
 import lotus.domino.Session;
@@ -35,12 +37,16 @@ public class LinkProcessor
 	 * This is not desired for the central Genesis Direcotry, but could be useful for custom bookmarks and custom Genesis directories. */
 	private boolean allowRemoteServer = false;
 	
-	public LinkProcessor(Session session, LogInterface log)
+	/** Cache the configured default action */
+	protected String defaultAction = null;
+	public static final String DEFAULT_ACTION_NOMAD = "nomad";
+	
+	public LinkProcessor(Session session, LogInterface log, Database configDatabase)
 	{
 		this.session = session;
 		this.log = log;
 		
-		initializeInsertionParameters();
+		initializeInsertionParameters(configDatabase);
 	}
 	
 	protected LogInterface getLog() {
@@ -163,7 +169,16 @@ public class LinkProcessor
 				
 				// // This was added to test the GUI logic for views.  Remove this and configure a real example
 				// link.put("view", "Configuration");
+				
+				// specify the default action for the link/bookmark
+				// either "nomad" or "notes" for now.
+				String defaultAction = JSONUtils.getStringSafe(link, "defaultAction");
+				if (DominoUtils.isValueEmpty(defaultAction)) {
+					link.put("defaultAction", getDefaultAction());
+				}
+				// else:  keep existing value for defaultAction
     			}
+    			// else:  no special logic for 'browser' type
     			
     			
 				
@@ -229,7 +244,7 @@ public class LinkProcessor
     /**
      * Initialize insertion parameters that can be applied to the Genesis application list, including the local server name.
      */
-    protected void initializeInsertionParameters() {
+    protected void initializeInsertionParameters(Database configDatabase) {
     		Name nameObj = null;
     		try {
     			String name = session.getServerName();
@@ -245,6 +260,21 @@ public class LinkProcessor
     		}
     		finally {
     			DominoUtils.recycle(session, nameObj);
+    		}
+    		
+    		
+    		// Load Configuration values - TODO:  move this to a different method?
+    		// defaultAction
+    		try {
+    			// TODO:  get a configuration database from a parameter instead
+    			defaultAction = ConfigurationUtils.getConfigAsString(session.getCurrentDatabase(), "link_default_action");
+    			if (DominoUtils.isValueEmpty(defaultAction)) {
+    				defaultAction = DEFAULT_ACTION_NOMAD;
+    			}
+    		}
+    		catch (Exception ex) {
+    			getLog().err("Failed to load configured default action:  ", ex);
+    			defaultAction = DEFAULT_ACTION_NOMAD;
     		}
     }
     
@@ -296,5 +326,9 @@ public class LinkProcessor
     		catch (JSONException ex) {
     			getLog().err("Failed to update key '" + key + "'");
 		}
+    }
+    
+    protected String getDefaultAction() {
+    		return defaultAction;
     }
 }

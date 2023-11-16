@@ -207,7 +207,7 @@ public class GenesisInstall extends GenesisRead
 					
 					// build the default URL
 					// TODO:  this is specialized for SHI Domino instances.  Make this more general, or only run for SHI instances?
-					LinkProcessor processor = new LinkProcessor(session, getLog());
+					LinkProcessor processor = new LinkProcessor(session, getLog(), agentDatabase);
 					String url = "http://" + processor.serverCommon;
 					url += ":82/";  // Default for SHI Domino servers.  TODO:  determine this from server document?
 					

@@ -68,7 +68,7 @@ public class DatabaseRead extends CRUDAgentBase
 		// Generate the access URLs based on LinkProcessor logic
 		// json.put("url", "TODO");
 		// json.put("nomadURL", "TODO");
-		LinkProcessor processor = new LinkProcessor(session, getLog());
+		LinkProcessor processor = new LinkProcessor(session, getLog(), agentDatabase);
 		// set allowRemoteServer if we add support for reading other servers later
 		processor.cleanupLink(json);
 		

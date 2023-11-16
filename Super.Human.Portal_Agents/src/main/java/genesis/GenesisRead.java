@@ -70,7 +70,7 @@ public class GenesisRead extends CRUDAgentBase
         ViewEntryCollection additionalDirectories = null;
         try {
         		loadInstalledApps();
-        		linkProcessor = new LinkProcessor(session, getLog());
+        		linkProcessor = new LinkProcessor(session, getLog(), agentDatabase);
         		
         		// The central directory.  Use "" for the label for now.
         		addApplicationsFromDirectory(getDataURL(), DEFAULT_DIRECTORY_LABEL, entries, linkProcessor);
