@@ -99,6 +99,7 @@
 				var items:Array = TopMenuUtils.getChildren(item.parent, this.model);
 				this.setRootMenuItems(items);
 				this.rootMenu.selectedItem = item.parent == "menu" ? item : this.model[item.id];
+				this.selectedItem = this.rootMenu.selectedItem;
 				
 				items = TopMenuUtils.getChildren(item.id, this.model);
 				this.setSubMenuItems(items);
@@ -133,12 +134,12 @@
 			var items:Array = TopMenuUtils.getSiblings("menu", this.model);
 			this.setRootMenuItems(items);
 			
-			this.selectedIndexManager = new SelectedIndexManager(items, this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			this.selectedItem = this.rootMenu.selectedItem;
 			
 			this.refreshMenu(ChangeSourceConst.SUB_MENU);
 			this.refreshMenuTitle();
 
+			this.selectedIndexManager = new SelectedIndexManager(model, this.rootMenu.dataProvider, this.subMenu.dataProvider, this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_LOADED, this.rootMenu.selectedItem));
 		}
 
@@ -205,15 +206,16 @@
 		private function onPreviousSelectionClick(event:MouseEvent):void
 		{
 			var previous:Object = this.selectedIndexManager.calculatePreviousSelection();
-			this.rootMenu.selectedIndex = previous.selectedIndex;
-			this.subMenu.selectedIndex = previous.subSelectedIndex;
-			
-			this.refreshMenu(ChangeSourceConst.ROOT_MENU);
-			
-			this.selectedItem = this.subMenu.selectedItem;
-			if (!this.selectedItem)
+			if (previous.navigateToParent)
 			{
-				this.selectedItem = this.rootMenu.selectedItem;
+				this.navigateToItem(previous.navigateToParent);
+			}
+			else
+			{
+				this.rootMenu.selectedIndex = previous.selectedIndex;
+				this.subMenu.selectedIndex = previous.subSelectedIndex;	
+				
+				this.selectedItem = this.refreshMenu(ChangeSourceConst.ROOT_MENU);
 			}
 			
 			if (_showMarks)
@@ -231,17 +233,18 @@
 		private function onNextSelectionClick(event:MouseEvent):void
 		{
 			var next:Object = this.selectedIndexManager.calculateNextSelection();
-			this.rootMenu.selectedIndex = next.selectedIndex;
-			this.subMenu.selectedIndex = next.subSelectedIndex;
-			
-			this.refreshMenu(ChangeSourceConst.SUB_MENU);
-			
-			this.selectedItem = this.subMenu.selectedItem;
-			if (!this.selectedItem)
+			if (next.navigateToParent)
 			{
-				this.selectedItem = this.rootMenu.selectedItem;
+				this.navigateToItem(next.navigateToParent);
 			}
-			
+			else
+			{
+				this.rootMenu.selectedIndex = next.selectedIndex;
+				this.subMenu.selectedIndex = next.subSelectedIndex;
+
+				this.selectedItem = this.refreshMenu(ChangeSourceConst.SUB_MENU);
+			}
+
 			if (_showMarks)
 			{
 				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
@@ -377,6 +380,7 @@
 			var dp:ArrayList = new ArrayList(menu);
 			this.rootMenu.dataProvider = dp;
 			this.rootMenu.selectedIndex = 0;
+			this.selectedItem = this.rootMenu.selectedItem;
 							
 			if (this.selectedIndexManager)
 			{

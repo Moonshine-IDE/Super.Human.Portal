@@ -2,7 +2,7 @@ package classes.topMenu.helpers
 {
 	public class SelectedIndexManager 
 	{
-		private var _source:Array;
+		private var model:Object;
 		
 		private var _currentSource:Array;
 		private var _currentSubSource:Array;
@@ -31,10 +31,11 @@ package classes.topMenu.helpers
 			_subSelectedIndex = value;
 		}
 		
-		public function SelectedIndexManager(source:Array, selectedIndex:int = -1, subSelectedIndex:int = -1)
+		public function SelectedIndexManager(model:Object, rootMenuDataProvider:Object, subMenuDataProvider:Object, selectedIndex:int = -1, subSelectedIndex:int = -1)
 		{
-			_source = source;
-			_currentSource = source;
+			this.model = model;
+			_currentSource = rootMenuDataProvider ? rootMenuDataProvider.source : [];
+			_currentSubSource = subMenuDataProvider ? subMenuDataProvider.source : [];
 			_selectedIndex = selectedIndex;
 			_subSelectedIndex = subSelectedIndex;
 		}
@@ -42,54 +43,57 @@ package classes.topMenu.helpers
 		public function calculateNextSelection():Object
 		{
 			var selection:int = this.selectedIndex;
+			var selectedItem:Object = null;
 			var subSelection:int = -1;
-			if (_source)
+			if (_currentSource)
 			{
-				var selectedItem:Object = _source[this.selectedIndex];
+				selectedItem = _currentSource[this.selectedIndex];
 				
 				if (selectedItem && selectedItem.children.length > 0)
 				{
 					if (selectedItem.children.length > this.subSelectedIndex + 1)
 					{
-						subSelection = this.subSelectedIndex + 1;
+						subSelection = this.getNextSelectedIndex(selectedItem.children.length, this.subSelectedIndex);
 					}
 					else
 					{
-						selection = this.getNextSelectedIndex(_source.length, this.selectedIndex);
+						selection = this.getNextSelectedIndex(_currentSource.length, this.selectedIndex);
 						subSelection = -1;
 					}
 				}
 				else
 				{
-					selection = this.selectedIndex + 1;
-					if (_source.length - 1 < selection)
-					{
-						selection = 0;
-					}
-					
+					selection = this.getNextSelectedIndex(_currentSource.length, this.selectedIndex);
 					subSelection = -1;
 				}
 			}
 			
+			var navigateToParent:Object = null;
+			if (selection == -1 && subSelection == -1)
+			{
+				navigateToParent = model[selectedItem.parent];
+			}
+			
 			this.selectedIndex = selection;
 			this.subSelectedIndex = subSelection;
-			
-			return {selectedIndex: this.selectedIndex, subSelectedIndex: this.subSelectedIndex};
+	
+			return {selectedIndex: this.selectedIndex, subSelectedIndex: this.subSelectedIndex, navigateToParent: navigateToParent};
 		}
 		
 		public function calculatePreviousSelection():Object
 		{
 			var selection:int = this.selectedIndex;
+			var selectedItem:Object = null;
 			var subSelection:int = -1;
-			if (_source)
+			if (_currentSource)
 			{
-				var selectedItem:Object = _source[this.selectedIndex];
+				selectedItem = _currentSource[this.selectedIndex];
 				
 				if (selectedItem && selectedItem.children.length > 0)
 				{
 					if (this.subSelectedIndex - 1 >= 0)
 					{
-						subSelection = this.subSelectedIndex - 1;
+						subSelection = this.getPreviousSelectedIndex(this.subSelectedIndex);
 					}
 					else
 					{
@@ -99,24 +103,26 @@ package classes.topMenu.helpers
 				}
 				else
 				{
-					selection = this.selectedIndex - 1;
-					if (selection < 0)
-					{
-						selection = _source.length - 1;
-					}
-					subSelection = this.getSubSelectionForPreviousStep(selection);
+					selection = this.getPreviousSelectedIndex(this.selectedIndex);
+					subSelection = this.getPreviousSelectedIndex(this.subSelectedIndex);
 				}
+			}
+			
+			var navigateToParent:Object = null;
+			if (selection == -1 && subSelection == -1)
+			{
+				navigateToParent = model[selectedItem.parent];
 			}
 			
 			this.selectedIndex = selection;
 			this.subSelectedIndex = subSelection;
 			
-			return {selectedIndex: this.selectedIndex, subSelectedIndex: this.subSelectedIndex};
+			return {selectedIndex: this.selectedIndex, subSelectedIndex: this.subSelectedIndex, navigateToParent: navigateToParent};
 		}
 		
 		public function updateSource(source:Array):void
 		{
-			this._source = source;
+			this._currentSource = source;
 		}
 		
 		public function getSubSelectedIndex():int
@@ -138,7 +144,7 @@ package classes.topMenu.helpers
 				return nextSelection;
 			}
 			
-			return 0;
+			return -1;
 		}
 		
 		private function getPreviousSelectedIndex(currentSelection:int):int
@@ -149,12 +155,12 @@ package classes.topMenu.helpers
 				return previousSelection;
 			}
 			
-			return _source.length - 1;
+			return -1;
 		}
 		
 		private function getSubSelectionForPreviousStep(selection:int):int
 		{
-			var selectedItem:Object = _source[selection];
+			var selectedItem:Object = _currentSource[selection];
 			var subSelection:int = 0;
 			if (selectedItem.children)
 			{
