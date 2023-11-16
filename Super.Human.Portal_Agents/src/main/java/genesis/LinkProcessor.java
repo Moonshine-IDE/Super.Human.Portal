@@ -41,6 +41,8 @@ public class LinkProcessor
 	protected String defaultAction = null;
 	public static final String DEFAULT_ACTION_NOMAD = "nomad";
 	
+	protected String baseNomadURL = null;
+	
 	public LinkProcessor(Session session, LogInterface log, Database configDatabase)
 	{
 		this.session = session;
@@ -157,10 +159,7 @@ public class LinkProcessor
 					// https://nomadweb.%SERVER_COMMON%/nomad/#/%NOTES_URL%
 					String url = JSONUtils.getStringSafe(link, "url");
 					if (!DominoUtils.isValueEmpty(url)) {
-						// NOTE:  I am intentionally using the member instead of the local serverCommon variable.
-						// This determines the Nomad server, rather than the server for the link.
-						// Maybe this should be a separate configured (or user-specific) value instead, but that can be a future update.
-						nomadURL = "https://nomadweb." + this.serverCommon + "/nomad/#/" + url;
+						nomadURL = getBaseNomadURL() + "/#/" + url;
 						link.put("nomadURL", nomadURL);
 					}
 					// else:  if we could not generate a Notes URL, we can't generate a Nomad URL.
@@ -264,18 +263,23 @@ public class LinkProcessor
     		
     		
     		// Load Configuration values - TODO:  move this to a different method?
-    		// defaultAction
+    		defaultAction = getConfigStringSafe(configDatabase, "link_default_action", DEFAULT_ACTION_NOMAD);
+    		baseNomadURL = getConfigStringSafe(configDatabase, "nomad_base_url", null);  // default to null, which will cause it to be generated based on the local server
+    }
+    
+    protected String getConfigStringSafe(Database configDatabase, String name, String defaultValue) {
     		try {
     			// TODO:  get a configuration database from a parameter instead
-    			defaultAction = ConfigurationUtils.getConfigAsString(session.getCurrentDatabase(), "link_default_action");
-    			if (DominoUtils.isValueEmpty(defaultAction)) {
-    				defaultAction = DEFAULT_ACTION_NOMAD;
+    			String value = ConfigurationUtils.getConfigAsString(configDatabase, name);
+    			if (DominoUtils.isValueEmpty(value)) {
+    				value = defaultValue;
     			}
+    			return value;
     		}
     		catch (Exception ex) {
-    			getLog().err("Failed to load configured default action:  ", ex);
-    			defaultAction = DEFAULT_ACTION_NOMAD;
-    		}
+    			getLog().err("Failed to load configured value for '" + name + "':  ", ex);
+    			return defaultValue;
+    		}	
     }
     
     protected String getAbbrNameSafe(String name) {
@@ -330,5 +334,22 @@ public class LinkProcessor
     
     protected String getDefaultAction() {
     		return defaultAction;
+    }
+    
+    /**
+     * Get the base Nomad URL to use for links.
+     * The expected format is https://nomad.server.com/nomad
+     */
+    protected String getBaseNomadURL() {
+    		if (null != baseNomadURL) {
+    			// use the configured value
+    			return baseNomadURL;
+    		}
+    		
+    		
+		// NOTE:  I am intentionally using the member instead of the local serverCommon variable.
+		// This determines the Nomad server, rather than the server for the link.
+		// Maybe this should be a separate configured (or user-specific) value instead, but that can be a future update.
+    		return "https://nomadweb." + this.serverCommon + "/nomad";
     }
 }
