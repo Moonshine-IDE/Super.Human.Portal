@@ -84,9 +84,6 @@
 			<topMenu:style>
 				<js:SimpleCSSStyles marginLeft="-10" paddingBottom="64"/>
 			</topMenu:style>
-			<topMenu:beads>
-				<beads:TopMenuSortingBead />
-			</topMenu:beads>
 		</topMenu:TopMenu>
 		<j:Card>
 			<j:style>

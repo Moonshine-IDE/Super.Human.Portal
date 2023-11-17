@@ -68,6 +68,7 @@ package model.proxy.customBookmarks
 					var servers:Array = ParseCentral.parseDatabases(jsonData.databases);
 					this.setData(servers);
 					this.parseServersToUIItems(servers);
+					this.sortParsedItems();
 					
 					sendNotification(NOTE_SERVERS_LIST_FETCHED, _menuItems);
 				}
@@ -149,6 +150,28 @@ package model.proxy.customBookmarks
 					}
 				}
 			}
+		}
+		
+		private function sortParsedItems():void
+		{		
+			for each (var menuItem:Object in _menuItems)
+			{
+				menuItem.children.sort(ord);
+			}
+		}
+		
+		private function ord(idA:String, idB:String):int 
+		{
+			// Nodes with children come first
+			var a:Object = _menuItems[idA];
+			var b:Object = _menuItems[idB];
+			if (a.children.length > 0 && b.children.length == 0) return -1;
+			if (a.children.length == 0 && b.children.length > 0) return 1;
+	
+			// Then sort by label
+			if (a.label < b.label) return -1;
+			if (a.label > b.label) return 1;
+			return 0;
 		}
 	}
 }
