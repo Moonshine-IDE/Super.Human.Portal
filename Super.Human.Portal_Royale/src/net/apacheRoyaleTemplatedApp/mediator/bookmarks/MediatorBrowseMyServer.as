@@ -85,7 +85,7 @@ package mediator.bookmarks
 			switch (note.getName()) 
 			{
 				case ProxyBrowseMyServer.NOTE_SERVERS_LIST_FETCHED:
-					this.view.topMenu.initializeMenuModel(note.getBody());
+					this.view.topMenu.initializeMenuModel(browseMyServerProxy.menuItems, browseMyServerProxy.itemsOrder);
 					this.updateView();
 					break;
 				case ProxyBrowseMyServer.NOTE_SERVERS_LIST_FETCH_FAILED:

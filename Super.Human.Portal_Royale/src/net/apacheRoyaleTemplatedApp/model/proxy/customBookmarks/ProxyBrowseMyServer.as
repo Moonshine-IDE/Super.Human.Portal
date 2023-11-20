@@ -42,6 +42,13 @@ package model.proxy.customBookmarks
 			return _menuItems;
 		}
 		
+		private var _itemsOrder:Array = [];
+
+		public function get itemsOrder():Array
+		{
+			return _itemsOrder;
+		}
+		
 		public function getServersList():void
 		{
 			var successCallback:Function = this.busyManagerProxy.wrapSuccessFunction(onServersListFetched);
@@ -69,6 +76,7 @@ package model.proxy.customBookmarks
 					this.setData(servers);
 					this.parseServersToUIItems(servers);
 					this.sortParsedItems();
+					this.depthFirstSearch();
 					
 					sendNotification(NOTE_SERVERS_LIST_FETCHED, _menuItems);
 				}
@@ -154,17 +162,36 @@ package model.proxy.customBookmarks
 		
 		private function sortParsedItems():void
 		{		
-			for each (var menuItem:Object in _menuItems)
+			for each (var menuItem:Object in this.menuItems)
 			{
 				menuItem.children.sort(ord);
 			}
 		}
 		
+		private function depthFirstSearch():void 
+		{
+			var visited:Object = {};
+			dfsVisit(this.menuItems["menu"], visited);
+		}
+		
+		private function dfsVisit(item:Object, visited:Object):void 
+		{
+			if (visited[item.id] == true) return;
+			visited[item.id] = true;
+	
+			itemsOrder.push(item.id);
+			for each (var childId:String in item.children) 
+			{
+				var child:Object = this.menuItems[childId];
+				dfsVisit(child, visited);
+			}
+		}
+
 		private function ord(idA:String, idB:String):int 
 		{
 			// Nodes with children come first
-			var a:Object = _menuItems[idA];
-			var b:Object = _menuItems[idB];
+			var a:Object = this.menuItems[idA];
+			var b:Object = this.menuItems[idB];
 			if (a.children.length > 0 && b.children.length == 0) return -1;
 			if (a.children.length == 0 && b.children.length > 0) return 1;
 	

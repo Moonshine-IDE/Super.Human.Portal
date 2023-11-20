@@ -73,7 +73,7 @@
 		{
 			if (item.parent == null)
 			{
-				this.initializeMenuModel(null);
+				this.initializeMenuModel(null, null);
 			}
 			else if (this.rootMenu.selectedItem && this.rootMenu.selectedItem.parent == item.parent)
 			{
@@ -103,7 +103,7 @@
 			}	
 		}
 
-		public function initializeMenuModel(data:Object):void
+		public function initializeMenuModel(data:Object, itemsOrder:Array):void
 		{
 			if (!data && this.model.data) 
 			{
@@ -116,6 +116,11 @@
 			else
 			{
 				return;
+			}
+			
+			if (itemsOrder && !this.model["itemsOrder"])
+			{
+				this.model["itemsOrder"] = itemsOrder;
 			}
 			
 			for (var key:String in data)
@@ -160,7 +165,7 @@
 			{
 				var data:Object = JSON.parse(event.target["data"]);
 	
-				this.initializeMenuModel(data);
+				this.initializeMenuModel(data, data.itemsOrder);
 			}
 		}
 		
@@ -200,7 +205,7 @@
 
 		private function onPreviousSelectionClick(event:MouseEvent):void
 		{
-			var previous:Object = this.selectedIndexManager.calculatePreviousSelection();
+			/*var previous:Object = this.selectedIndexManager.calculatePreviousSelection();
 			if (previous.navigateToParent)
 			{
 				this.navigateToItem(previous.navigateToParent);
@@ -209,9 +214,9 @@
 			{
 				this.rootMenu.selectedIndex = previous.selectedIndex;
 				this.subMenu.selectedIndex = previous.subSelectedIndex;	
-				
-				this.selectedItem = this.refreshMenu(ChangeSourceConst.ROOT_MENU);
-			}
+				*/
+			this.selectedItem = this.refreshMenu(ChangeSourceConst.ROOT_MENU);
+			//}
 			
 			if (_showMarks)
 			{
@@ -227,7 +232,7 @@
 		
 		private function onNextSelectionClick(event:MouseEvent):void
 		{
-			var next:Object = this.selectedIndexManager.calculateNextSelection();
+			/*var next:Object = this.selectedIndexManager.calculateNextSelection();
 			if (next.navigateToParent)
 			{
 				this.navigateToItem(next.navigateToParent);
@@ -236,9 +241,26 @@
 			{
 				this.rootMenu.selectedIndex = next.selectedIndex;
 				this.subMenu.selectedIndex = next.subSelectedIndex;
-
-				this.selectedItem = this.refreshMenu(ChangeSourceConst.SUB_MENU);
+*/
+			var currentSelectedItem:TopMenuVO = this.rootMenu.selectedItem as TopMenuVO;
+			var currentSubSelectedItem:TopMenuVO = this.subMenu.selectedItem as TopMenuVO;
+			var nextId:String = null;
+			if (currentSubSelectedItem)
+			{
+				nextId = this.next(currentSubSelectedItem.id);
+				currentSubSelectedItem = this.model[nextId];
+				
+				this.subMenu.selectedItem = currentSubSelectedItem;
 			}
+			else
+			{
+				nextId = this.next(currentSelectedItem.id);
+				currentSelectedItem = this.model[nextId];
+				
+				this.rootMenu.selectedItem = currentSelectedItem;
+			}
+			
+			this.selectedItem = this.refreshMenu(ChangeSourceConst.SUB_MENU);
 
 			if (_showMarks)
 			{
@@ -252,6 +274,17 @@
 			this.refreshMenuTitle();
 		}
 		 
+		private function next(itemId:String):String
+		{
+			var index:int = this.model.itemsOrder.findIndex(function(id:String):Boolean {
+				return itemId == id;
+			});
+			
+			var nextId:String = this.model.itemsOrder[index + 1];
+			
+			return nextId;
+		}
+		
 		private function onCloseMenu(event:MouseEvent):void
 		{
 			if (this.menuDrawer.isOpen)
