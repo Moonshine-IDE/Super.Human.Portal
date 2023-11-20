@@ -101,8 +101,8 @@
 				this.setSubMenuItems(items);
 			}	
 			
-			this.nextDisabled = !this.canGoNext();
-			this.previousDisabled = !this.canGoPrevious();
+			this.nextDisabled = !this.canGoForward();
+			this.previousDisabled = !this.canGoBackward();
 		}
 
 		public function initializeMenuModel(data:Object, itemsOrder:Array):void
@@ -141,8 +141,8 @@
 			this.refreshMenu(ChangeSourceConst.SUB_MENU);
 			this.refreshMenuTitle();
 
-			this.nextDisabled = !this.canGoNext();
-			this.previousDisabled = !this.canGoPrevious();
+			this.nextDisabled = !this.canGoForward();
+			this.previousDisabled = !this.canGoBackward();
 			
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_LOADED, this.rootMenu.selectedItem));
 		}
@@ -184,8 +184,8 @@
 			
 			this.refreshMenuIcons();
 		
-			this.nextDisabled = !this.canGoNext();
-			this.previousDisabled = !this.canGoPrevious();
+			this.nextDisabled = !this.canGoForward();
+			this.previousDisabled = !this.canGoBackward();
 			
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem, this.subMenu.selectedItem));
 			
@@ -201,8 +201,8 @@
 				this.selectedItem = this.rootMenu.selectedItem;
 			}
 			
-			this.nextDisabled = !this.canGoNext();
-			this.previousDisabled = !this.canGoPrevious();
+			this.nextDisabled = !this.canGoForward();
+			this.previousDisabled = !this.canGoBackward();
 			
 			this.refreshMenuIcons();
 			
@@ -211,69 +211,13 @@
 			this.refreshMenuTitle();
 		}
 
-		private function onPreviousSelectionClick(event:MouseEvent):void
+		private function onTravel(direction:String):void
 		{
 			var mainSelectedItem:TopMenuVO = this.subMenu.selectedItem ? this.subMenu.selectedItem as TopMenuVO : 
 																	    this.rootMenu.selectedItem as TopMenuVO;
 			
-			var prevousId:String = previous(mainSelectedItem.id);
-			mainSelectedItem = this.model[prevousId];
-			var parentSelectedItem:TopMenuVO = this.model[mainSelectedItem.parent];
+			var nextId:String = direction == "forward" ? itemForward(mainSelectedItem.id) : itemBackward(mainSelectedItem.id);
 			
-			var rootSelectedItem:TopMenuVO = null;
-			var subSelectedItem:TopMenuVO = null;
-			if (parentSelectedItem.id == "menu")
-			{
-				rootSelectedItem = mainSelectedItem;
-			}
-			else
-			{	
-				if (mainSelectedItem.hasChildren())
-				{
-					rootSelectedItem = mainSelectedItem;
-				}	
-				else
-				{
-					rootSelectedItem = parentSelectedItem;
-					subSelectedItem = mainSelectedItem;
-				}
-			}
-			
-			var siblingsRoot:Array = TopMenuUtils.getSiblings(rootSelectedItem.id, this.model);
-			this.setRootMenuItems(siblingsRoot);
-			if (subSelectedItem)
-			{
-				var siblingsSub:Array = TopMenuUtils.getSiblings(subSelectedItem.id, this.model);
-				this.setSubMenuItems(siblingsSub);
-			}
-			else
-			{
-				var childrenRoot:Array = TopMenuUtils.getChildren(rootSelectedItem.id, this.model);
-				this.setSubMenuItems(childrenRoot);
-			}
-			
-			this.rootMenu.selectedItem = rootSelectedItem;
-			this.subMenu.selectedItem = subSelectedItem;
-			
-			this.nextDisabled = !this.canGoNext();
-			this.previousDisabled = !this.canGoPrevious();
-			
-			if (_showMarks)
-			{
-				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
-			}
-			
-			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.rootMenu.selectedItem, this.subMenu.selectedItem));
-			
-			this.refreshMenuTitle();
-		}
-		
-		private function onNextSelectionClick(event:MouseEvent):void
-		{
-			var mainSelectedItem:TopMenuVO = this.subMenu.selectedItem ? this.subMenu.selectedItem as TopMenuVO : 
-																	    this.rootMenu.selectedItem as TopMenuVO;
-			
-			var nextId:String = next(mainSelectedItem.id);
 			mainSelectedItem = this.model[nextId];
 			var parentSelectedItem:TopMenuVO = this.model[mainSelectedItem.parent];
 			
@@ -312,8 +256,8 @@
 			this.rootMenu.selectedItem = rootSelectedItem;
 			this.subMenu.selectedItem = subSelectedItem;
 
-			this.nextDisabled = !this.canGoNext();
-			this.previousDisabled = !this.canGoPrevious();
+			this.nextDisabled = !this.canGoForward();
+			this.previousDisabled = !this.canGoBackward();
 			
 			if (_showMarks)
 			{
@@ -325,7 +269,7 @@
 			this.refreshMenuTitle();
 		}
 		 
-		private function next(itemId:String):String
+		private function itemForward(itemId:String):String
 		{
 			var index:int = this.model.itemsOrder.findIndex(function(id:String):Boolean {
 				return itemId == id;
@@ -336,7 +280,7 @@
 			return nextId;
 		}
 		
-		private function previous(itemId:String):String
+		private function itemBackward(itemId:String):String
 		{
 			var index:int = this.model.itemsOrder.findIndex(function(id:String):Boolean {
 				return itemId == id;
@@ -347,7 +291,7 @@
 			return previousId;
 		}
 		
-		private function canGoNext():Boolean
+		private function canGoForward():Boolean
 		{
 			var mainSelectedItem:TopMenuVO = this.subMenu.selectedItem ? this.subMenu.selectedItem as TopMenuVO : 
 																	    this.rootMenu.selectedItem as TopMenuVO;
@@ -356,7 +300,7 @@
 			return mainSelectedItem.id != itemsOrder[itemsOrder.length - 1];
 		}
 		
-		private function canGoPrevious():Boolean
+		private function canGoBackward():Boolean
 		{
 			var mainSelectedItem:TopMenuVO = this.subMenu.selectedItem ? this.subMenu.selectedItem as TopMenuVO : 
 																	    this.rootMenu.selectedItem as TopMenuVO;
@@ -523,7 +467,7 @@
 							</j:icon>
 						</j:IconButton>
 					</j:HGroup>
-					<j:IconButton width="24" click="onPreviousSelectionClick(event)">
+					<j:IconButton width="24" click="onTravel('backward')">
 						<j:beads>
 							<j:Disabled disabled="{previousDisabled}"/>
 						</j:beads>
@@ -531,7 +475,7 @@
 							<js:MaterialIcon text="{MaterialIconType.CHEVRON_LEFT}" />
 						</j:icon>
 					</j:IconButton>
-					<j:IconButton width="24" click="onNextSelectionClick(event)">
+					<j:IconButton width="24" click="onTravel('forward')">
 						<j:beads>
 							<j:Disabled disabled="{nextDisabled}"/>
 						</j:beads>
