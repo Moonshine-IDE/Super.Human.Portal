@@ -205,25 +205,54 @@
 
 		private function onPreviousSelectionClick(event:MouseEvent):void
 		{
-			/*var previous:Object = this.selectedIndexManager.calculatePreviousSelection();
-			if (previous.navigateToParent)
+			var mainSelectedItem:TopMenuVO = this.subMenu.selectedItem ? this.subMenu.selectedItem as TopMenuVO : 
+																	    this.rootMenu.selectedItem as TopMenuVO;
+			
+			var prevousId:String = previous(mainSelectedItem.id);
+			mainSelectedItem = this.model[prevousId];
+			var parentSelectedItem:TopMenuVO = this.model[mainSelectedItem.parent];
+			
+			var rootSelectedItem:TopMenuVO = null;
+			var subSelectedItem:TopMenuVO = null;
+			if (parentSelectedItem.id == "menu")
 			{
-				this.navigateToItem(previous.navigateToParent);
+				rootSelectedItem = mainSelectedItem;
+			}
+			else
+			{	
+				if (mainSelectedItem.hasChildren())
+				{
+					rootSelectedItem = mainSelectedItem;
+				}	
+				else
+				{
+					rootSelectedItem = parentSelectedItem;
+					subSelectedItem = mainSelectedItem;
+				}
+			}
+			
+			var siblingsRoot:Array = TopMenuUtils.getSiblings(rootSelectedItem.id, this.model);
+			this.setRootMenuItems(siblingsRoot);
+			if (subSelectedItem)
+			{
+				var siblingsSub:Array = TopMenuUtils.getSiblings(subSelectedItem.id, this.model);
+				this.setSubMenuItems(siblingsSub);
 			}
 			else
 			{
-				this.rootMenu.selectedIndex = previous.selectedIndex;
-				this.subMenu.selectedIndex = previous.subSelectedIndex;	
-				*/
-			this.selectedItem = this.refreshMenu(ChangeSourceConst.ROOT_MENU);
-			//}
+				var childrenRoot:Array = TopMenuUtils.getChildren(rootSelectedItem.id, this.model);
+				this.setSubMenuItems(childrenRoot);
+			}
+			
+			this.rootMenu.selectedItem = rootSelectedItem;
+			this.subMenu.selectedItem = subSelectedItem;
 			
 			if (_showMarks)
 			{
 				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
 			}
 			
-			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem, this.subMenu.selectedItem));
+			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.rootMenu.selectedItem, this.subMenu.selectedItem));
 			
 			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			
@@ -274,13 +303,12 @@
 			this.rootMenu.selectedItem = rootSelectedItem;
 			this.subMenu.selectedItem = subSelectedItem;
 
-
 			if (_showMarks)
 			{
 				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
 			}
 			
-			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem));
+			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.rootMenu.selectedItem, this.subMenu.selectedItem));
 
 			this.refreshMenuTitle();
 		}
@@ -294,6 +322,17 @@
 			var nextId:String = this.model.itemsOrder[index + 1];
 			
 			return nextId;
+		}
+		
+		private function previous(itemId:String):String
+		{
+			var index:int = this.model.itemsOrder.findIndex(function(id:String):Boolean {
+				return itemId == id;
+			});
+			
+			var previousId:String = this.model.itemsOrder[index - 1];
+			
+			return previousId;
 		}
 		
 		private function onCloseMenu(event:MouseEvent):void
