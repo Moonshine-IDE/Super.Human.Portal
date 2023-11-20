@@ -232,35 +232,48 @@
 		
 		private function onNextSelectionClick(event:MouseEvent):void
 		{
-			/*var next:Object = this.selectedIndexManager.calculateNextSelection();
-			if (next.navigateToParent)
+			var mainSelectedItem:TopMenuVO = this.subMenu.selectedItem ? this.subMenu.selectedItem as TopMenuVO : 
+																	    this.rootMenu.selectedItem as TopMenuVO;
+			
+			var nextId:String = next(mainSelectedItem.id);
+			mainSelectedItem = this.model[nextId];
+			var parentSelectedItem:TopMenuVO = this.model[mainSelectedItem.parent];
+			
+			var rootSelectedItem:TopMenuVO = null;
+			var subSelectedItem:TopMenuVO = null;
+			if (parentSelectedItem.id == "menu")
 			{
-				this.navigateToItem(next.navigateToParent);
+				rootSelectedItem = mainSelectedItem;
 			}
 			else
-			{
-				this.rootMenu.selectedIndex = next.selectedIndex;
-				this.subMenu.selectedIndex = next.subSelectedIndex;
-*/
-			var currentSelectedItem:TopMenuVO = this.rootMenu.selectedItem as TopMenuVO;
-			var currentSubSelectedItem:TopMenuVO = this.subMenu.selectedItem as TopMenuVO;
-			var nextId:String = null;
-			if (currentSubSelectedItem)
-			{
-				nextId = this.next(currentSubSelectedItem.id);
-				currentSubSelectedItem = this.model[nextId];
-				
-				this.subMenu.selectedItem = currentSubSelectedItem;
-			}
-			else
-			{
-				nextId = this.next(currentSelectedItem.id);
-				currentSelectedItem = this.model[nextId];
-				
-				this.rootMenu.selectedItem = currentSelectedItem;
+			{	
+				if (mainSelectedItem.hasChildren())
+				{
+					rootSelectedItem = mainSelectedItem;
+				}	
+				else
+				{
+					rootSelectedItem = parentSelectedItem;
+					subSelectedItem = mainSelectedItem;
+				}
 			}
 			
-			this.selectedItem = this.refreshMenu(ChangeSourceConst.SUB_MENU);
+			var siblingsRoot:Array = TopMenuUtils.getSiblings(rootSelectedItem.id, this.model);
+			this.setRootMenuItems(siblingsRoot);
+			if (subSelectedItem)
+			{
+				var siblingsSub:Array = TopMenuUtils.getSiblings(subSelectedItem.id, this.model);
+				this.setSubMenuItems(siblingsSub);
+			}
+			else
+			{
+				var childrenRoot:Array = TopMenuUtils.getChildren(rootSelectedItem.id, this.model);
+				this.setSubMenuItems(childrenRoot);
+			}
+			
+			this.rootMenu.selectedItem = rootSelectedItem;
+			this.subMenu.selectedItem = subSelectedItem;
+
 
 			if (_showMarks)
 			{
@@ -268,9 +281,7 @@
 			}
 			
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem));
-			
-			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
-			
+
 			this.refreshMenuTitle();
 		}
 		 
