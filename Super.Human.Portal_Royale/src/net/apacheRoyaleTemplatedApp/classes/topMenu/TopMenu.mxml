@@ -241,16 +241,28 @@
 			}
 			
 			var siblingsRoot:Array = TopMenuUtils.getSiblings(rootSelectedItem.id, this.model);
-			this.setRootMenuItems(siblingsRoot);
+			var dataProvider:Array = this.rootMenu.dataProvider.source;
+			if (isArraySame(dataProvider, siblingsRoot) == false)
+			{
+				this.setRootMenuItems(siblingsRoot);
+			}
+			
+			dataProvider = this.subMenu.dataProvider.source;
 			if (subSelectedItem)
 			{
 				var siblingsSub:Array = TopMenuUtils.getSiblings(subSelectedItem.id, this.model);
-				this.setSubMenuItems(siblingsSub);
+				if (isArraySame(dataProvider, siblingsSub) == false)
+				{
+					this.setSubMenuItems(siblingsSub);
+				}
 			}
 			else
 			{
 				var childrenRoot:Array = TopMenuUtils.getChildren(rootSelectedItem.id, this.model);
-				this.setSubMenuItems(childrenRoot);
+				if (isArraySame(dataProvider, childrenRoot) == false)
+				{
+					this.setSubMenuItems(childrenRoot);
+				}
 			}
 			
 			this.rootMenu.selectedItem = rootSelectedItem;
@@ -267,6 +279,19 @@
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.rootMenu.selectedItem, this.subMenu.selectedItem));
 
 			this.refreshMenuTitle();
+		}
+
+		private function onCloseMenu(event:MouseEvent):void
+		{
+			if (this.menuDrawer.isOpen)
+			{
+				this.menuDrawer.close();
+			}
+			else
+			{
+				this.menuDrawer.open();
+			}
+			this.menuOpen.visible = !this.menuDrawer.isOpen;
 		}
 		 
 		private function itemForward(itemId:String):String
@@ -309,19 +334,15 @@
 			return mainSelectedItem.id != itemsOrder[1];
 		}
 		
-		private function onCloseMenu(event:MouseEvent):void
+		private function isArraySame(array1:Array, array2:Array):Boolean
 		{
-			if (this.menuDrawer.isOpen)
-			{
-				this.menuDrawer.close();
-			}
-			else
-			{
-				this.menuDrawer.open();
-			}
-			this.menuOpen.visible = !this.menuDrawer.isOpen;
+			if (array1.length == 0 && array2.length == 0) return true;
+			
+			if (array1.length == 0 || array2.length == 0) return false;
+			
+			return array1[0].id == array2[0].id;
 		}
-
+		
 		private function refreshMenu(changeSource:String):Object
 		{
 			var currentSelectedItem:TopMenuVO = this.subMenu.selectedItem as TopMenuVO;
