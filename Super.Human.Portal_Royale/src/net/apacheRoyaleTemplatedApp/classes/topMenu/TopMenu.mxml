@@ -18,7 +18,6 @@
 	<![CDATA[
 		import classes.topMenu.classes.ChangeSourceConst;
 		import classes.topMenu.events.TopMenuEvent;
-		import classes.topMenu.helpers.SelectedIndexManager;
 		import classes.topMenu.helpers.TopMenuUtils;
 		import classes.topMenu.model.TopMenuVO;
 
@@ -29,8 +28,11 @@
 		import org.apache.royale.net.beads.CORSCredentialsBead;
 		import org.apache.royale.net.events.FaultEvent;
 
-		private var selectedIndexManager:SelectedIndexManager;
-
+		[Bindable]
+		private var nextDisabled:Boolean;
+		[Bindable]
+		private var previousDisabled:Boolean;
+		
 		private var _selectedItem:Object;
 
 		[Bindable]
@@ -83,7 +85,6 @@
 				}
 
 				this.subMenu.selectedIndex = -1;
-				this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			}
 			else if (this.subMenu.selectedItem && this.subMenu.selectedItem.parent == item.parent)
 			{
@@ -98,9 +99,10 @@
 				
 				items = TopMenuUtils.getChildren(item.id, this.model);
 				this.setSubMenuItems(items);
-				
-				this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			}	
+			
+			this.nextDisabled = !this.canGoNext();
+			this.previousDisabled = !this.canGoPrevious();
 		}
 
 		public function initializeMenuModel(data:Object, itemsOrder:Array):void
@@ -139,7 +141,9 @@
 			this.refreshMenu(ChangeSourceConst.SUB_MENU);
 			this.refreshMenuTitle();
 
-			this.selectedIndexManager = new SelectedIndexManager(model, this.rootMenu.dataProvider, this.subMenu.dataProvider, this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
+			this.nextDisabled = !this.canGoNext();
+			this.previousDisabled = !this.canGoPrevious();
+			
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_LOADED, this.rootMenu.selectedItem));
 		}
 
@@ -180,9 +184,11 @@
 			
 			this.refreshMenuIcons();
 		
+			this.nextDisabled = !this.canGoNext();
+			this.previousDisabled = !this.canGoPrevious();
+			
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem, this.subMenu.selectedItem));
 			
-			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			this.refreshMenuTitle();
 		}
 		
@@ -195,11 +201,13 @@
 				this.selectedItem = this.rootMenu.selectedItem;
 			}
 			
+			this.nextDisabled = !this.canGoNext();
+			this.previousDisabled = !this.canGoPrevious();
+			
 			this.refreshMenuIcons();
 			
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.selectedItem, this.subMenu.selectedItem));
 			
-			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			this.refreshMenuTitle();
 		}
 
@@ -247,14 +255,15 @@
 			this.rootMenu.selectedItem = rootSelectedItem;
 			this.subMenu.selectedItem = subSelectedItem;
 			
+			this.nextDisabled = !this.canGoNext();
+			this.previousDisabled = !this.canGoPrevious();
+			
 			if (_showMarks)
 			{
 				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
 			}
 			
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_ITEM_CHANGE, this.rootMenu.selectedItem, this.subMenu.selectedItem));
-			
-			this.selectedIndexManager.refreshSelectedIndex(this.rootMenu.selectedIndex, this.subMenu.selectedIndex);
 			
 			this.refreshMenuTitle();
 		}
@@ -303,6 +312,9 @@
 			this.rootMenu.selectedItem = rootSelectedItem;
 			this.subMenu.selectedItem = subSelectedItem;
 
+			this.nextDisabled = !this.canGoNext();
+			this.previousDisabled = !this.canGoPrevious();
+			
 			if (_showMarks)
 			{
 				TopMenuUtils.recalculateVisited(this.selectedItem as TopMenuVO, this.model);
@@ -333,6 +345,24 @@
 			var previousId:String = this.model.itemsOrder[index - 1];
 			
 			return previousId;
+		}
+		
+		private function canGoNext():Boolean
+		{
+			var mainSelectedItem:TopMenuVO = this.subMenu.selectedItem ? this.subMenu.selectedItem as TopMenuVO : 
+																	    this.rootMenu.selectedItem as TopMenuVO;
+			var itemsOrder:Array = this.model.itemsOrder;
+			
+			return mainSelectedItem.id != itemsOrder[itemsOrder.length - 1];
+		}
+		
+		private function canGoPrevious():Boolean
+		{
+			var mainSelectedItem:TopMenuVO = this.subMenu.selectedItem ? this.subMenu.selectedItem as TopMenuVO : 
+																	    this.rootMenu.selectedItem as TopMenuVO;
+			var itemsOrder:Array = this.model.itemsOrder;
+			
+			return mainSelectedItem.id != itemsOrder[1];
 		}
 		
 		private function onCloseMenu(event:MouseEvent):void
@@ -453,12 +483,6 @@
 			this.rootMenu.dataProvider = dp;
 			this.rootMenu.selectedIndex = 0;
 			this.selectedItem = this.rootMenu.selectedItem;
-							
-			if (this.selectedIndexManager)
-			{
-				this.selectedIndexManager.updateSource(dp.source);
-			}
-
 		}
 		
 		private function setSubMenuItems(menu:Array):void
@@ -500,11 +524,17 @@
 						</j:IconButton>
 					</j:HGroup>
 					<j:IconButton width="24" click="onPreviousSelectionClick(event)">
+						<j:beads>
+							<j:Disabled disabled="{previousDisabled}"/>
+						</j:beads>
 						<j:icon>
 							<js:MaterialIcon text="{MaterialIconType.CHEVRON_LEFT}" />
 						</j:icon>
 					</j:IconButton>
 					<j:IconButton width="24" click="onNextSelectionClick(event)">
+						<j:beads>
+							<j:Disabled disabled="{nextDisabled}"/>
+						</j:beads>
 						<j:icon>
 							<js:MaterialIcon text="{MaterialIconType.CHEVRON_RIGHT}" />
 						</j:icon>
