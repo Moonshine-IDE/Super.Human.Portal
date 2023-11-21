@@ -72,7 +72,7 @@ package model.proxy.customBookmarks
 				}
 				else
 				{
-					var servers:Array = null;//ParseCentral.parseDatabases(jsonData.databases);
+					var servers:Array = ParseCentral.parseDatabases(jsonData.databases);
 					
 					if (servers && servers.length > 0)
 					{
