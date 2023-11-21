@@ -35,6 +35,13 @@ public class DatabaseRead extends CRUDAgentBase
 				try {
 					identifier = curDatabase.getFilePath();
 					json.put(getDatabaseJSON(curDatabase));
+					// // Use this to test only nested on only top-level entries
+					// if (identifier.contains("/")) {
+					// 	// json.put(getDatabaseJSON(curDatabase));
+					// }
+					// else {
+					// 	json.put(getDatabaseJSON(curDatabase));
+					// }
 				}
 				catch (Exception ex) {
 					getLog().err("Could not process database '" + identifier + "': ", ex);
