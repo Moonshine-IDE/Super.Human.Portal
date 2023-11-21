@@ -197,8 +197,8 @@
 					</html:Ul>
 				</j:VGroup>
 			</j:CardPrimaryContent>
-			<j:CardActions itemsHorizontalAlign="itemsRight" gap="1" includeIn="selectedDatabaseState">
-				<j:VGroup visible="{selectedItem.hasBookmarks}" percentWidth="100"
+			<j:CardActions itemsHorizontalAlign="itemsRight" itemsVerticalAlign="itemsCenter" gap="1" includeIn="selectedDatabaseState">
+				<!--<j:VGroup visible="{selectedItem.hasBookmarks}" percentWidth="100"
 						  itemsHorizontalAlign="itemsLeft" itemsVerticalAlign="itemsCenter">
 					<j:VGroup itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter">
 						<js:MaterialIcon text="{MaterialIconType.CHECK}">
@@ -208,10 +208,18 @@
 						</js:MaterialIcon>
 						<j:Label text="Bookmarked!" className="bigFont"/>
 					</j:VGroup>
-				</j:VGroup>
+				</j:VGroup>-->
 				<j:Button localId="clientOpen" text="Open in Client" minWidth="130" className="noLinkStyle"/>
 				<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle"/>
 				<j:Button localId="bookmarkAdd" text="Add Bookmark" minWidth="130" className="noLinkStyle"/>
+				<j:VGroup itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" visible="{selectedItem.hasBookmarks}">
+					<js:MaterialIcon text="{MaterialIconType.CHECK}">
+						<js:style>
+							<js:SimpleCSSStyles fontSize="28"/>
+						</js:style>
+					</js:MaterialIcon>
+					<j:Label text="Bookmarked!" className="bigFont"/>
+				</j:VGroup>
 			</j:CardActions>
 		</j:Card>
 	</j:HGroup>
