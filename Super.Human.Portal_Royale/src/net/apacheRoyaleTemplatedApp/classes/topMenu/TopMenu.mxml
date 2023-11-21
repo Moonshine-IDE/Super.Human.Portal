@@ -35,20 +35,20 @@
 		
 		private var _selectedItem:Object;
 
-		[Bindable]
 		public function get selectedItem():Object
 		{
-			return _selectedItem;
-		}
-
-		public function set selectedItem(value:Object):void
-		{
-			if (_selectedItem != value)
-			{
-				_selectedItem = value;
-			}
+			if (!this.rootMenu) return null;
+			
+			return this.rootMenu.selectedItem;
 		}
 		
+		public function get subSelectedItem():Object
+		{
+			if (!this.subMenu) return null;
+			
+			return this.subMenu.selectedItem;
+		}
+
 		private var _showMarks:Boolean = false;
 		
 		public function set showMarks(value:Boolean):void
@@ -95,7 +95,6 @@
 				var items:Array = TopMenuUtils.getChildren(item.parent, this.model);
 				this.setRootMenuItems(items);
 				this.rootMenu.selectedItem = item.parent == "menu" ? item : this.model[item.id];
-				this.selectedItem = this.rootMenu.selectedItem;
 				
 				items = TopMenuUtils.getChildren(item.id, this.model);
 				this.setSubMenuItems(items);
@@ -137,8 +136,6 @@
 			
 			var items:Array = TopMenuUtils.getSiblings("menu", this.model);
 			this.setRootMenuItems(items);
-			
-			this.selectedItem = this.rootMenu.selectedItem;
 			
 			this.refreshMenu(ChangeSourceConst.SUB_MENU);
 			this.refreshMenuTitle();
@@ -182,7 +179,7 @@
 
 		private function onRootMenuChange(event:Event):void
 		{
-			this.selectedItem = this.refreshMenu(ChangeSourceConst.ROOT_MENU);
+			this.refreshMenu(ChangeSourceConst.ROOT_MENU);
 			
 			this.refreshMenuIcons();
 		
@@ -197,11 +194,6 @@
 		private function onSubMenuChange(event:Event):void
 		{
 			this.refreshMenu(ChangeSourceConst.SUB_MENU);
-			this.selectedItem = this.subMenu.selectedItem;
-			if (!this.selectedItem)
-			{
-				this.selectedItem = this.rootMenu.selectedItem;
-			}
 			
 			this.nextDisabled = !this.canGoForward();
 			this.previousDisabled = !this.canGoBackward();
@@ -450,7 +442,6 @@
 			var dp:ArrayList = new ArrayList(menu);
 			this.rootMenu.dataProvider = dp;
 			this.rootMenu.selectedIndex = 0;
-			this.selectedItem = this.rootMenu.selectedItem;
 		}
 		
 		private function setSubMenuItems(menu:Array):void
