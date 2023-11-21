@@ -48,7 +48,7 @@ package mediator.bookmarks
 			this.view.copyToClipboardDatabase.addEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.addEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
 			
-			this.view.currentState = "selectedFolderState";
+			this.refreshCurrentState(view.topMenu.selectedItem, view.topMenu.subSelectedItem);
 			if (!this.browseMyServerProxy.getData())
 			{
 				this.browseMyServerProxy.getServersList();
@@ -109,16 +109,7 @@ package mediator.bookmarks
 			}
 			
 			this.refreshButtonLinks();
-				
-			view.currentState = "selectedDatabaseState";
-			if (event.item && event.item.children.length >= 1)
-			{
-				view.currentState = "selectedFolderState";
-			}
-			else if (event.item && event.item.children.length >= 1 && event.item == null)
-			{
-				view.currentState = "selectedFolderState";
-			}
+			this.refreshCurrentState(event.item, null);
 		}
 
 		private function onTopMenuItemChange(event:TopMenuEvent):void
@@ -129,16 +120,7 @@ package mediator.bookmarks
 			view.selectedItem = event.subItem ? event.subItem.data : event.item.data;
 			
 			this.refreshButtonLinks();
-				
-			view.currentState = "selectedDatabaseState";
-			if (event.subItem && event.subItem.children.length >= 1)
-			{
-				view.currentState = "selectedFolderState";
-			}
-			else if (event.item && event.item.children.length >= 1 && event.subItem == null)
-			{
-				view.currentState = "selectedFolderState";
-			}
+			this.refreshCurrentState(event.item, event.subItem);
 		}
 
 		private function onCopyToClipboardServer(event:Object):void
@@ -187,6 +169,19 @@ package mediator.bookmarks
 			{
 				view.openClient.html = "<a target='_blank' href='" + view.selectedItem.url + "'>Open in Client</a>";
 				view.openNomadWeb.html = "<a target='_blank' href='" + view.selectedItem.nomadURL + "'>Open in Nomad</a>";
+			}
+		}
+
+		private function refreshCurrentState(item:Object, subItem:Object):void
+		{
+			view.currentState = "selectedDatabaseState";
+			if (subItem && subItem.children.length >= 1)
+			{
+				view.currentState = "selectedFolderState";
+			}
+			else if (item && item.children.length >= 1 && subItem == null)
+			{
+				view.currentState = "selectedFolderState";
 			}
 		}
 	}
