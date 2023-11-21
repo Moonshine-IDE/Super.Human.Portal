@@ -72,13 +72,17 @@ package model.proxy.customBookmarks
 				}
 				else
 				{
-					var servers:Array = ParseCentral.parseDatabases(jsonData.databases);
-					this.setData(servers);
-					this.parseServersToUIItems(servers);
-					this.sortParsedItems();
-					this.depthFirstSearch();
+					var servers:Array = null;//ParseCentral.parseDatabases(jsonData.databases);
 					
-					sendNotification(NOTE_SERVERS_LIST_FETCHED, _menuItems);
+					if (servers && servers.length > 0)
+					{
+						this.setData(servers);
+						this.parseServersToUIItems(servers);
+						this.sortParsedItems();
+						this.depthFirstSearch();
+					}
+					
+					sendNotification(NOTE_SERVERS_LIST_FETCHED, menuItems);
 				}
 			}
 			else
