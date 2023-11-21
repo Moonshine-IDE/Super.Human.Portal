@@ -130,6 +130,8 @@
 				this.model[key] = TopMenuUtils.transformObjectToMenuVOItems(data[key], data);
 			}
 	
+			if (!this.model.hasOwnProperty("menu")) return;
+			
 			TopMenuUtils.recalculateMarkedMenu(_showMarks, model, model["menu"]);
 			TopMenuUtils.recalculateFolderStyleMenu(_folderMenuStyle, model, model["menu"]);
 			
@@ -220,6 +222,7 @@
 			
 			mainSelectedItem = this.model[nextId];
 			var parentSelectedItem:TopMenuVO = this.model[mainSelectedItem.parent];
+			if (!parentSelectedItem) return;
 			
 			var rootSelectedItem:TopMenuVO = null;
 			var subSelectedItem:TopMenuVO = null;
