@@ -11,14 +11,15 @@ package model.vo
 		public var view:String;
 		public var type:String;
 		public var url:String;
-		public var nomadURL:String
+		public var nomadURL:String;
+		public var defaultAction:String = "nomad";
 		public var description:String;
       
 		public var onlyDatabase:Boolean = false;
 		
 		public function BookmarkVO(group:String = "Default", dominoUniversalID:String = "", name:String = "", 
 										server:String = "", database:String = "", view:String = "",
-										type:String = "", url:String = "", nomadURL:String = "", description:String = "")
+										type:String = "", url:String = "", nomadURL:String = "", defaultAction:String = "nomad", description:String = "")
 		{
 			this.group = group;
 			this.dominoUniversalID = dominoUniversalID;
@@ -29,6 +30,7 @@ package model.vo
 			this.type = type;
 			this.url = url;
 			this.nomadURL = nomadURL;
+			this.defaultAction = defaultAction;
 			this.description = description;
 		}
 		
@@ -43,6 +45,7 @@ package model.vo
 				view: this.view,
 				type: this.type,
 				url: this.url,
+				defaultAction: this.defaultAction,
 				nomadURL: this.nomadURL,
 				description: this.description
 			}

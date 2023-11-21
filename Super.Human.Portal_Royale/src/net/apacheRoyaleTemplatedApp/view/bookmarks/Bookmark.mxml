@@ -45,7 +45,12 @@
 				}
 				else if (currentState == "database")
 				{
-					this.databaseHtmlLabel.html = bookmark.nomadURL ? '<a height="100%" width="100%" href="' + bookmark.nomadURL + '" target="_blank">' + bookmark.name + '</a>' : bookmark.name;
+					var urlOpenDefault:String = bookmark.nomadURL ? '<a height="100%" width="100%" href="' + bookmark.nomadURL + '" target="_blank">' + bookmark.name + '</a>' : bookmark.name;
+					if (bookmark.defaultAction != "nomad")
+					{
+						urlOpenDefault = bookmark.url ? '<a height="100%" width="100%" href="' + bookmark.url + '" target="_blank">' + bookmark.name + '</a>' : bookmark.name;
+					}
+					this.defaultOpenUrl.html = urlOpenDefault;
 					this.configurationDetails.clientOpenLink = bookmark.url ? '<a height="100%" width="100%" href="' + bookmark.url + '" target="_blank">Open in Client</a>' : null;
 					this.configurationDetails.nomadOpenLink = bookmark.nomadURL ? '<a height="100%" width="100%" href="' + bookmark.nomadURL + '" target="_blank">Open in Nomad</a>' : null;
 				}
@@ -92,7 +97,11 @@
 		<j:HGroup percentWidth="100" itemsVerticalAlign="itemsCenter" gap="2">
 			<j:HGroup gap="1" itemsVerticalAlign="itemsCenter" className="bookmarkTitleContainer"
 					minHeight="40" width="220">
-				<j:Label localId="databaseHtmlLabel" multiline="true" percentWidth="85" className="cursorPointer noLinkWhiteLabelStyle"/>
+				<j:Label localId="defaultOpenUrl" multiline="true" percentWidth="85" className="cursorPointer noLinkWhiteLabelStyle">
+					<j:style>
+						<js:SimpleCSSStyles padding="5"/>
+					</j:style>
+				</j:Label>
 				<js:MaterialIcon text="{MaterialIconType.ARROW_DROP_DOWN}" click="onShowHideDbConfigClick(event)" className="materialDropDownArrow"/>
 			</j:HGroup>
 			<j:Label text="{bookmark.description}" multiline="true" className="bigFont" visible="{bookmark.description != null}"/>

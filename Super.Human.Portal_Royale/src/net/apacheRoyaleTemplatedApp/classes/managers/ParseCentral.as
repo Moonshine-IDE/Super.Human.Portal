@@ -305,7 +305,7 @@ package classes.managers
 				var bookmark:Object = jsonData[i];
 				var tmpVO:BookmarkVO = new BookmarkVO(bookmark.group, bookmark.DominoUniversalID, bookmark.name,
 																 bookmark.server, bookmark.database, bookmark.view,
-																 bookmark.type, bookmark.url, bookmark.nomadURL, bookmark.description);
+																 bookmark.type, bookmark.url, bookmark.nomadURL, bookmark.defaultAction, bookmark.description);
 				
 				tmpArr.push(tmpVO);
 			}
