@@ -1,12 +1,19 @@
 package auth;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Vector;
+
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.json.JSONArray;
 import org.w3c.dom.Element;
 
 import com.moonshine.domino.crud.CRUDAgentBase;
 import com.moonshine.domino.security.AllowAllSecurity;
 import com.moonshine.domino.security.SecurityInterface;
+import com.moonshine.domino.util.ConfigurationUtils;
+import com.moonshine.domino.util.DominoUtils;
 
 import lotus.domino.*;
 
@@ -54,6 +61,8 @@ public class XMLAuthenticationTest extends CRUDAgentBase {
 			jsonRoot.put("status", status);
 			// legacy name - remove once code is updated
 			jsonRoot.put("state", status);
+			
+			
 		}
 		else {
 			Element statusElement = xmlDoc.createElement("status");
@@ -64,5 +73,115 @@ public class XMLAuthenticationTest extends CRUDAgentBase {
 			stateElement.appendChild(xmlDoc.createTextNode(status));
 			xmlRoot.appendChild(stateElement);
 		}
+		
+		// write login URL
+		String loginURL = getLoginURL();
+		if (useJSON()) {
+			jsonRoot.put("loginURL", loginURL);
+		}
+		else {
+			Element statusElement = xmlDoc.createElement("loginURL");
+			if (null == loginURL) {
+				// normalize as ""
+				statusElement.appendChild(xmlDoc.createTextNode(""));
+			}
+			else {
+				statusElement.appendChild(xmlDoc.createTextNode(loginURL));
+			}
+			
+			xmlRoot.appendChild(statusElement);
+		}
+		
+		// write the security roles
+		Collection<String> roles = getRoles();
+		if (useJSON()) {
+			JSONArray jsonRoles = new JSONArray();
+			jsonRoot.put("roles", jsonRoles);
+			for (String role : roles) {
+				jsonRoles.put(role);
+			}
+		}
+		else {
+			Element rolesElement = xmlDoc.createElement("roles");
+			for (String role : roles) {
+				Element roleElement = xmlDoc.createElement("role");
+				roleElement.appendChild(xmlDoc.createTextNode(role));
+				rolesElement.appendChild(roleElement);
+			}
+			
+			xmlRoot.appendChild(rolesElement);
+		}
+		
+		
+	}
+	
+	/**
+	 * Return a URL to use for authentication instead of the Royale login form
+	 */
+	public String getLoginURL() {
+		String loginURL = null;
+		try {
+			loginURL = ConfigurationUtils.getConfigAsString(agentDatabase, "login_url");		
+		}
+		catch (Exception ex) {
+			// ignore the error - it indicates the config was not found
+		}
+		
+		if (DominoUtils.isValueEmpty(loginURL)) {
+			return null; // normalize
+		}
+		else {
+			return loginURL;
+		}
+	}
+	
+	/**
+	 * Get the security roles for the authenticated (or anonymous) user.
+	 */
+	public Collection<String> getRoles() {
+		Collection<String> roles = new ArrayList<String>();
+		
+		// TODO:  replace this with a real implementation based on getSecurity()
+		Vector testRoles = null;
+		try {
+			testRoles = ConfigurationUtils.getConfigAsVector(agentDatabase, "test_security_roles");
+		}
+		catch (Exception ex) {
+			getLog().err("Failed to read 'test_security_roles':  ", ex);
+		}
+		
+		if (isVectorEmpty(testRoles)) {
+			// // hard-code with non-admin roles
+			// roles.add("Documentation");
+			// roles.add("Bookmarks");
+			// roles.add("BrowseServer");
+			
+			// for the initial implementation, Administrator is the only role.  Exclude Administrator for the default case
+		}
+		else {
+			for (Object role : testRoles) {
+				roles.add(role.toString());
+			}
+		}
+		
+		return roles;
+	}
+	
+	public boolean isVectorEmpty(Vector vector) {
+		if (null == vector || vector.isEmpty()) {
+			return true;
+		}
+		
+		// check if there is one entry, which is blank
+		if (vector.size() > 2) {
+			return false;  // found at least one real value
+		}
+		else if (DominoUtils.isValueEmpty(vector.get(0).toString())) {
+			return true;
+		}
+		else {  // one non-empty entry
+			return false;
+		}
+		
 	}
 }
