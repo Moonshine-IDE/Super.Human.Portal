@@ -74,6 +74,11 @@ package model.proxy.customBookmarks
 				{
 					var servers:Array = ParseCentral.parseDatabases(jsonData.databases);
 					
+					_menuItems = {
+						menu: { id: "menu", label: "Menu", hash: "", parent: null, children: [] }
+					};
+					_itemsOrder = [];
+			
 					if (servers && servers.length > 0)
 					{
 						this.setData(servers);
@@ -100,11 +105,6 @@ package model.proxy.customBookmarks
 		{
 			var serversList:Array = [];
 
-			var childrenRoot:Array = [];
-			_menuItems = {
-				menu: { id: "menu", label: "Menu", hash: "", parent: null, children: childrenRoot }
-			};
-			
 			for each (var server:ServerVO in servers)
 			{
 				if (server.databasePath)
@@ -117,7 +117,7 @@ package model.proxy.customBookmarks
 						var slicedIds:Array = server.databasePath.slice(0, i + 1);			
 							item.id = slicedIds.join("/");
 							
-						var hasPathInChildrenRoot:Boolean = childrenRoot.some(function(child:String, index:int, arr:Array):Boolean {
+						var hasPathInChildrenRoot:Boolean = _menuItems.menu.children.some(function(child:String, index:int, arr:Array):Boolean {
 															return child == item.id;
 														});
 						var hasPathInMenuItems:Boolean = menuItems.hasOwnProperty(item.id);
@@ -144,7 +144,7 @@ package model.proxy.customBookmarks
 						if (i == 0)
 						{
 							item.parent = "menu";
-							childrenRoot.push(item.id);
+							_menuItems.menu.children.push(item.id);
 						}
 						else
 						{
