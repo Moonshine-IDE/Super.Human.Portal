@@ -29,9 +29,9 @@
 		import org.apache.royale.net.events.FaultEvent;
 
 		[Bindable]
-		private var nextDisabled:Boolean;
+		private var nextDisabled:Boolean = true;
 		[Bindable]
-		private var previousDisabled:Boolean;
+		private var previousDisabled:Boolean = true;
 		
 		private var _selectedItem:Object;
 
@@ -99,7 +99,7 @@
 				items = TopMenuUtils.getChildren(item.id, this.model);
 				this.setSubMenuItems(items);
 			}	
-			
+
 			this.nextDisabled = !this.canGoForward();
 			this.previousDisabled = !this.canGoBackward();
 		}
@@ -112,16 +112,16 @@
 			}
 			else if (data)
 			{
-				this.model["data"] = data;
+				this.model.data = data;
 			}
 			else
 			{
 				return;
 			}
 			
-			if (itemsOrder && !this.model["itemsOrder"])
+			if (itemsOrder)
 			{
-				this.model["itemsOrder"] = itemsOrder;
+				this.model.itemsOrder = itemsOrder;
 			}
 			
 			for (var key:String in data)
