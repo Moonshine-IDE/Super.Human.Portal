@@ -175,6 +175,7 @@ package model.proxy.login
 			var serverUserName:String = loginResult.username;
 			var commonName:String = loginResult.common_name;
 			var status:String = loginResult.status ? loginResult.state : "";
+			var roles:Array = loginResult.roles ? loginResult.roles : [];
 			
 			if (status.toLowerCase() == "authenticated")
 			{
@@ -183,7 +184,7 @@ package model.proxy.login
 					username = serverUserName;
 				}
 				
-				var user:UserVO = new UserVO(username, serverUserName, commonName, status);
+				var user:UserVO = new UserVO(username, serverUserName, commonName, status, roles);
 				this.setData(user);
 				
 				// get all the configuration before
