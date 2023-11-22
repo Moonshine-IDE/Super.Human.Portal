@@ -6,8 +6,6 @@ package mediator.applications
     import model.proxy.urlParams.ProxyUrlParameters;
     import model.vo.ApplicationVO;
 
-    import org.apache.royale.events.MouseEvent;
-    import org.apache.royale.icons.MaterialIcon;
     import org.apache.royale.jewel.IconButton;
     import org.apache.royale.jewel.VGroup;
     import org.puremvc.as3.multicore.interfaces.IMediator;
@@ -15,6 +13,7 @@ package mediator.applications
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
     import view.applications.ConfigurationAppDetails;
+    import view.controls.LinkWithDescriptionAppButton;
     
     public class MediatorInstalledApps extends Mediator implements IMediator
     {
@@ -130,20 +129,18 @@ package mediator.applications
 						var dbContainer:VGroup = new VGroup();
 							dbContainer.percentWidth = 100;
 							dbContainer.gap = 2;
-							
-						var icon:MaterialIcon = new MaterialIcon();
-							icon.text = MaterialIconType.ARROW_DROP_DOWN;
-							
-						iconButton = new IconButton();
-						iconButton.height = 40;
-						iconButton.className = "linksGapInstallApp";
-						iconButton.emphasis = "primary";
-						iconButton.text = link.name;
-						iconButton.rightPosition = true;
-						iconButton.icon = icon;
-						iconButton.addEventListener(MouseEvent.CLICK, onShowHideDbConfigClick);
-							
-						dbContainer.addElement(iconButton);
+
+						var urlOpenDefault:String = link.nomadURL ? '<a height="100%" width="100%" href="' + link.nomadURL + '" target="_blank">' + link.name + '</a>' : link.name;
+						if (link.defaultAction != "nomad")
+						{
+							urlOpenDefault = link.url ? '<a height="100%" width="100%" href="' + link.url + '" target="_blank">' + link.name + '</a>' : link.name;
+						}
+						var linkWithDescription:LinkWithDescriptionAppButton = new LinkWithDescriptionAppButton();
+							linkWithDescription.description = link.description;
+							linkWithDescription.linkLabel = urlOpenDefault;
+							linkWithDescription.addEventListener("showClick", onShowHideDbConfigClick);
+						
+						dbContainer.addElement(linkWithDescription);
 						
 						var configurationDetails:ConfigurationAppDetails = new ConfigurationAppDetails();
 							configurationDetails.currentState = "installedApp";
@@ -158,10 +155,6 @@ package mediator.applications
 						dbContainer.addElement(configurationDetails);
 						
 						view.installedAppLinks.addElement(dbContainer);
-						
-						//Fix problem with databinding and states - Royale issue
-						configurationDetails.description = "";
-						configurationDetails.description = link.description;
 					}
 				}
 			}
@@ -182,10 +175,10 @@ package mediator.applications
 				
 				for (var j:int = 0; j < linkEl.numElements; j++)
 				{
-					var internalItem:Object = linkEl.getElementAt(j) as IconButton;
+					var internalItem:Object = linkEl.getElementAt(j) as LinkWithDescriptionAppButton;
 					if (internalItem)
 					{
-						internalItem.removeEventListener(MouseEvent.CLICK, onShowHideDbConfigClick);
+						internalItem.removeEventListener("showClick", onShowHideDbConfigClick);
 					}
 				}
 					
@@ -193,29 +186,16 @@ package mediator.applications
 			}
 		}
 
-		private function onShowHideDbConfigClick(event:MouseEvent):void
+		private function onShowHideDbConfigClick(event:Event):void
 		{
-			var iconButton:IconButton = event.currentTarget as IconButton;
-			var currentIcon:MaterialIcon = iconButton.icon as MaterialIcon;
-			var showHideConfig:Boolean = false;
-			
-			if (currentIcon.text == MaterialIconType.ARROW_DROP_DOWN)
-			{
-				currentIcon.text = MaterialIconType.ARROW_DROP_UP;
-				showHideConfig = true;
-			}
-			else
-			{
-				currentIcon.text = MaterialIconType.ARROW_DROP_DOWN;
-			}
-			
-			var configContainer:Object = iconButton.parent;
+			var linkWithDescription:LinkWithDescriptionAppButton = event.currentTarget as LinkWithDescriptionAppButton;
+			var configContainer:Object = linkWithDescription.parent;
 			for (var i:int = 0; i < configContainer.numElements; i++)
 			{
 				var config:Object = configContainer.getElementAt(i);
 				if (config is ConfigurationAppDetails)
 				{
-					config.visible = showHideConfig;
+					config.visible = linkWithDescription.show;
 					break;
 				}
 			}
