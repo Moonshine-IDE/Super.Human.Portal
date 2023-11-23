@@ -274,6 +274,8 @@ package model.proxy.customBookmarks
 						bookmark.type = updatedBookmark.type;
 						bookmark.url = updatedBookmark.url;
 						bookmark.view = updatedBookmark.view;
+						bookmark.defaultAction = updatedBookmark.defaultAction;
+						bookmark.description = updatedBookmark.description;
 					}
 				
 					sendNotification(NOTE_BOOKMARK_UPDATE_SUCCESS, bookmark);
