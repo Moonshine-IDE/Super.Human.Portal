@@ -138,6 +138,8 @@ package mediator
 						initializeViewGettingStarted();
 						initializeListOfInstalledApps();
 						initializeListOfBookmarks();
+										
+						sendNotification(ApplicationConstants.COMMAND_EXECUTE_ROLES);
 						break;
 					case ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS:
 						initializeGenesisApplicationsList();
