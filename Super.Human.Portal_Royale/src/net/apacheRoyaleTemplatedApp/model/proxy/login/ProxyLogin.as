@@ -46,6 +46,11 @@ package model.proxy.login
 			proxyUrlParams = facade.retrieveProxy(ProxyUrlParameters.NAME) as ProxyUrlParameters;
 		}
 		
+		public function get user():UserVO
+		{
+			return this.getData() as UserVO;
+		}
+		
 		private var _config:Object;
 		
 		public function get config():Object

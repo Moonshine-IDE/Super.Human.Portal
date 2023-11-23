@@ -22,6 +22,9 @@ package mediator.bookmarks
     import view.bookmarks.Bookmark;
     import view.bookmarks.event.BookmarkEvent;
     import model.proxy.customBookmarks.ProxyBrowseMyServer;
+    import model.proxy.login.ProxyLogin;
+    import constants.Roles;
+    import org.apache.royale.jewel.beads.controls.Disabled;
     
     public class MediatorBookmarks extends Mediator implements IMediator
     {
@@ -32,6 +35,7 @@ package mediator.bookmarks
 		
 		private var bookmarksProxy:ProxyBookmarks;
 		private var urlParamsProxy:ProxyUrlParameters;
+		private var loginProxy:ProxyLogin;
 		
 		public function MediatorBookmarks(mediatorName:String, component:IBookmarksView) 
 		{
@@ -43,6 +47,8 @@ package mediator.bookmarks
 			super.onRegister();
 			
 			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
+			this.loginProxy = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
+			
 			this.view["addEventListener"]("stateChangeComplete", onViewStateChangeComplete);
 			
 			if (this.bookmarksProxy.selectedGroup != "Browse My Server")
@@ -53,7 +59,6 @@ package mediator.bookmarks
 			{
 				this.view.currentState = this.bookmarksProxy.selectedGroup == "Browse My Server" ?
 											BROWSE_MY_SERVER_VIEW_STATE : BOOKMARKS_VIEW_STATE;
-			
 			}
 		}
 		
@@ -119,7 +124,13 @@ package mediator.bookmarks
 				{
 					view.refreshButton.removeEventListener(MouseEvent.CLICK, onRefreshServersListClick);
 				}
-				view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
+				
+				var addBookmarkDisabled:Disabled = view.addBookmark["getBeadByType"](Disabled);
+					addBookmarkDisabled.disabled = !(loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR));
+				if (!addBookmarkDisabled.disabled)
+				{
+					view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
+				}
 				view.title = "Bookmarks";
 				view.groupName = bookmarksProxy.selectedGroup;
 				
@@ -165,6 +176,8 @@ package mediator.bookmarks
 				bookmarkView.addEventListener(BookmarkEvent.DELETE_BOOKMARK, onModifyBookmark);
 									
 				view.bookmarksList.addElement(bookmarkView);
+				
+				bookmarkView.editable = loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR);
 			}
 		}
 

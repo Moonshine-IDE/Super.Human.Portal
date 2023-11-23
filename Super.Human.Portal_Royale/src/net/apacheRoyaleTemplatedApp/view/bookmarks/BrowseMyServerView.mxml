@@ -211,7 +211,11 @@
 				</j:VGroup>-->
 				<j:Button localId="clientOpen" text="Open in Client" minWidth="130" className="noLinkStyle"/>
 				<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle"/>
-				<j:Button localId="bookmarkAdd" text="Add Bookmark" minWidth="130" className="noLinkStyle"/>
+				<j:Button localId="bookmarkAdd" text="Add Bookmark" minWidth="130" className="noLinkStyle">
+					<j:beads>
+						<j:Disabled disabled="false"/>
+					</j:beads>
+				</j:Button>
 				<j:VGroup itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" visible="{selectedItem.hasBookmarks}">
 					<js:MaterialIcon text="{MaterialIconType.CHECK}">
 						<js:style>

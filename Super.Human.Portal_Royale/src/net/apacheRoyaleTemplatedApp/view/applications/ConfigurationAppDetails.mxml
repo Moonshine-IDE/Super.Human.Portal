@@ -30,6 +30,8 @@
 			public var clientOpenLink:String;
 			[Bindable]
 			public var nomadOpenLink:String;
+			[Bindable]
+			public var editable:Boolean;
 
 			private function onCopyToClipboardServerClick(event:MouseEvent):void
 			{
@@ -113,11 +115,17 @@
 		<j:CardActions itemsHorizontalAlign="itemsRight" gap="1">
 			<j:HGroup gap="1" percentWidth="100" includeIn="bookmark">
 				<j:IconButton click="onEditButtonClick(event)">
+					<j:beads>
+						<j:Disabled disabled="{editable == false}"/>
+					</j:beads>
 					<j:icon>
 						<js:MaterialIcon text="{MaterialIconType.EDIT}"/>
 					</j:icon>
 				</j:IconButton>
 				<j:IconButton click="onDeleteButtonClick(event)">
+					<j:beads>
+						<j:Disabled disabled="{editable == false}"/>
+					</j:beads>
 					<j:icon>
 						<js:MaterialIcon text="{MaterialIconType.DELETE}"/>
 					</j:icon>

@@ -70,5 +70,16 @@ package model.vo
 		{
 			_roles = value;
 		}
+		
+		public function hasRole(role:String):Boolean
+		{
+			if (!_roles || _roles.length == 0) return false;
+			
+			var someRole:Boolean = _roles.some(function(item:String, index:int, arr:Array):Boolean {
+				return item == role;
+			});
+			
+			return someRole;
+		}
 	}
 }

@@ -21,6 +21,9 @@
 			import model.vo.BookmarkVO;
 
 			import view.bookmarks.event.BookmarkEvent;
+			
+			[Bindable]
+			public var editable:Boolean;
 						
 			[Bindable]
 			private var urlOpenDefault:String;
@@ -85,7 +88,7 @@
 		<controls:LinkWithDescriptionAppButton showClick="onShowHideDbConfigClick(event)" linkLabel="{urlOpenDefault}" description="{bookmark.description}"/>
 		<applications:ConfigurationAppDetails localId="configurationDetails" server="{bookmark.server}"
 											 database="{bookmark.database}" viewName="{bookmark.view}" nomadOpenLink="{bookmark.nomadURL}"
-											 percentWidth="100" visible="false" 
+											 percentWidth="100" visible="false" editable="{editable}" 
 											 editButtonClick="onEditBookmark(event)" deleteButtonClick="onDeleteBookmark(event)"/>
 	</j:VGroup>
 </j:HGroup>
