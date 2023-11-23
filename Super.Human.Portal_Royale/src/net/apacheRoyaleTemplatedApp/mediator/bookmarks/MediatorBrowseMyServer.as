@@ -10,9 +10,9 @@ package mediator.bookmarks
 
 	import model.proxy.customBookmarks.ProxyBookmarks;
 	import model.proxy.customBookmarks.ProxyBrowseMyServer;
+	import model.vo.ApplicationVO;
 	import model.vo.BookmarkVO;
 	import model.vo.PopupVO;
-	import model.vo.ServerVO;
 
 	import org.apache.royale.events.MouseEvent;
 	import org.puremvc.as3.multicore.interfaces.IMediator;
@@ -20,10 +20,6 @@ package mediator.bookmarks
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
 	import utils.ClipboardText;
-	import model.vo.ApplicationVO;
-	import org.apache.royale.jewel.beads.controls.Disabled;
-	import constants.Roles;
-	import model.proxy.login.ProxyLogin;
 								
 	public class MediatorBrowseMyServer extends Mediator implements IMediator
 	{
@@ -31,7 +27,6 @@ package mediator.bookmarks
 
 		private var bookmarksProxy:ProxyBookmarks;
 		private var browseMyServerProxy:ProxyBrowseMyServer;
-		private var loginProxy:ProxyLogin;
 		
 		public function MediatorBrowseMyServer(component:IBrowseMyServerView) 
 		{
@@ -44,27 +39,22 @@ package mediator.bookmarks
 			
 			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
 			this.browseMyServerProxy = facade.retrieveProxy(ProxyBrowseMyServer.NAME) as ProxyBrowseMyServer;
-			this.loginProxy = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			
 			this.view.breadcrump.addEventListener(BreadcrumpEvent.BREADCRUMP_ITEM_CLICK, onBreadcrumpItemClick);
 			this.view.topMenu.addEventListener(TopMenuEvent.MENU_LOADED, onTopMenuItemChange);
 			this.view.topMenu.addEventListener(TopMenuEvent.MENU_ITEM_CHANGE, onTopMenuItemChange);
+			this.view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
 			this.view.copyToClipboardServer.addEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.addEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.addEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
-			
-			var addBookmarkDisabled:Disabled = view.addBookmark["getBeadByType"](Disabled);
-				addBookmarkDisabled.disabled = !(loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR));
-			if (!addBookmarkDisabled.disabled)
-			{
-				view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
-			}
-			
+				
 			this.refreshCurrentState(view.topMenu.selectedItem, view.topMenu.subSelectedItem);
 			if (!this.browseMyServerProxy.getData())
 			{
 				this.browseMyServerProxy.getServersList();
 			}
+			
+			sendNotification(ApplicationConstants.COMMAND_EXECUTE_ROLES);
 		}
 		
 		override public function onRemove():void 

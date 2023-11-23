@@ -2,6 +2,7 @@ package
 {	
 	import constants.ApplicationConstants;
 
+	import controller.roles.CommandRoles;
 	import controller.startup.CommandPostStartup;
 	import controller.startup.CommandStartup;
 
@@ -26,6 +27,7 @@ package
 		{
 			registerCommand(ApplicationConstants.COMMAND_STARTUP, CommandStartup);
 			registerCommand(ApplicationConstants.COMMAND_POST_STARTUP, CommandPostStartup);
+			registerCommand(ApplicationConstants.COMMAND_EXECUTE_ROLES, CommandRoles);
 			
 			this.sendNotification(ApplicationConstants.COMMAND_STARTUP, app);
 			this.sendNotification(ApplicationConstants.COMMAND_POST_STARTUP);

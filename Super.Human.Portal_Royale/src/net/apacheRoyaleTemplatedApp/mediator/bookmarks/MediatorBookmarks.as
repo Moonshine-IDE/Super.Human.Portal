@@ -8,6 +8,7 @@ package mediator.bookmarks
     import mediator.popup.MediatorPopup;
 
     import model.proxy.customBookmarks.ProxyBookmarks;
+    import model.proxy.customBookmarks.ProxyBrowseMyServer;
     import model.proxy.urlParams.ProxyUrlParameters;
     import model.vo.ApplicationVO;
     import model.vo.BookmarkVO;
@@ -21,10 +22,6 @@ package mediator.bookmarks
 
     import view.bookmarks.Bookmark;
     import view.bookmarks.event.BookmarkEvent;
-    import model.proxy.customBookmarks.ProxyBrowseMyServer;
-    import model.proxy.login.ProxyLogin;
-    import constants.Roles;
-    import org.apache.royale.jewel.beads.controls.Disabled;
     
     public class MediatorBookmarks extends Mediator implements IMediator
     {
@@ -35,7 +32,6 @@ package mediator.bookmarks
 		
 		private var bookmarksProxy:ProxyBookmarks;
 		private var urlParamsProxy:ProxyUrlParameters;
-		private var loginProxy:ProxyLogin;
 		
 		public function MediatorBookmarks(mediatorName:String, component:IBookmarksView) 
 		{
@@ -47,7 +43,6 @@ package mediator.bookmarks
 			super.onRegister();
 			
 			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
-			this.loginProxy = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			
 			this.view["addEventListener"]("stateChangeComplete", onViewStateChangeComplete);
 			
@@ -119,23 +114,21 @@ package mediator.bookmarks
 		{
 			if (view.currentState == BOOKMARKS_VIEW_STATE)
 			{
-				facade.removeMediator(MediatorBrowseMyServer.NAME);
+				facade.removeMediator(MediatorBrowseMyServer.NAME);		
 				if (view.refreshButton)
 				{
 					view.refreshButton.removeEventListener(MouseEvent.CLICK, onRefreshServersListClick);
 				}
 				
-				var addBookmarkDisabled:Disabled = view.addBookmark["getBeadByType"](Disabled);
-					addBookmarkDisabled.disabled = !(loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR));
-				if (!addBookmarkDisabled.disabled)
-				{
-					view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
-				}
+				view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
+
 				view.title = "Bookmarks";
 				view.groupName = bookmarksProxy.selectedGroup;
 				
 				this.cleanUpBookmarksList();
 				this.updateListOfBookmarks();
+				
+				sendNotification(ApplicationConstants.COMMAND_EXECUTE_ROLES);		
 			}
 			else if (view["currentState"] == BROWSE_MY_SERVER_VIEW_STATE)
 			{
@@ -171,13 +164,11 @@ package mediator.bookmarks
 					bookmarkView.bookmark = bookmark;
 					bookmarkView.currentState = "database";
 				}
-				
+
 				bookmarkView.addEventListener(BookmarkEvent.EDIT_BOOKMARK, onModifyBookmark);
 				bookmarkView.addEventListener(BookmarkEvent.DELETE_BOOKMARK, onModifyBookmark);
 									
 				view.bookmarksList.addElement(bookmarkView);
-				
-				bookmarkView.editable = loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR);
 			}
 		}
 

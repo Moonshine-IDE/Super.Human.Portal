@@ -11,7 +11,7 @@ package controller.startup
 		/**
 		 * 
 		 */
-		override protected function initializeMacroCommand() :void
+		override protected function initializeMacroCommand():void
 		{
 			addSubCommand(CommandPrepareController);
 			addSubCommand(CommandPrepareModel);
