@@ -454,6 +454,12 @@ a:hover {
 	IBeadView: ClassReference("view.controls.FormItemView");
 }
 
+.horizontalContentItemsCenteredFormItem {
+	IBeadModel: ClassReference("classes.models.CustomFormItemModel");
+	IFormItemContentArea: ClassReference("view.controls.HGroupItemsCenteredForm");
+	IBeadView: ClassReference("view.controls.FormItemView");
+}
+
 .layout.horizontal.bookmarkTitleContainer {
     background: linear-gradient(#54b7f3, #24a3ef);
     borderRadius: 0.25rem;
