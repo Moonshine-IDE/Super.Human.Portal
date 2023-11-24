@@ -5,18 +5,27 @@
 		 xmlns:dataGrid="classes.com.devexpress.js.dataGrid.*" xmlns:beads="classes.com.devexpress.js.dataGrid.beads.*" 
 		 xmlns:models="classes.com.devexpress.js.dataGrid.beads.models.*"
 		 implements="interfaces.IEditBookmarkView" className="bodyPadding"
-		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" gap="5">
+		 itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsTop" gap="5"
+		 currentState="browser">
+	<j:states>
+		<js:State name="browser"/>
+		<js:State name="database"/>
+	</j:states>
+	
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+
 	<fx:Script>
 		<![CDATA[
 			import model.vo.BookmarkVO;
 
-			import org.apache.royale.events.Event;
 			import org.apache.royale.events.IEventDispatcher;
 			import org.apache.royale.jewel.RadioButton;
 			import org.apache.royale.jewel.Snackbar;
+			import org.apache.royale.jewel.beads.controls.Disabled;
 
 			import view.bookmarks.event.BookmarkEvent;
-			import org.apache.royale.jewel.beads.controls.Disabled;
 
 			private var _bookmark:BookmarkVO;
 
@@ -63,33 +72,6 @@
 			public function get selectedBookmarkType():String
 			{
 				return _selectedBookmarkType;	
-			}
-			
-			private var _browserFormVisible:Boolean;
-			
-			[Bindable]
-			public function get browserFormVisible():Boolean
-			{
-				return _browserFormVisible;
-			}
-			
-			public function set browserFormVisible(value:Boolean):void
-			{
-				_browserFormVisible = value;
-			}
-			
-			[Bindable]
-			private var _databaseFormVisible:Boolean;
-			
-			[Bindable]
-			public function get databaseFormVisible():Boolean
-			{
-				return _databaseFormVisible;
-			}
-			
-			public function set databaseFormVisible(value:Boolean):void
-			{
-				_databaseFormVisible = value;
 			}
 				
 			public function setBookmarkTypes(types:Array):void
@@ -163,6 +145,13 @@
 				return this.viewTextInput.text;
 			}
 			
+			public function get descriptionText():String
+			{
+				if (!this.descriptionTextArea) return "";
+				
+				return this.descriptionTextArea.text;
+			}
+			
 			public function installationResult(message:String):void
 			{
 				Snackbar.show(message, 4000, null);
@@ -196,10 +185,6 @@
 			
 		]]>
 	</fx:Script>
-
-	<j:beads>
-		<js:ContainerDataBinding />
-	</j:beads>
 
 	<j:Grid gap="false" minHeight="40">
 		<j:GridCell desktopNumerator="1" desktopDenominator="2" tabletNumerator="1" tabletDenominator="2" phoneNumerator="1" phoneDenominator="2">
@@ -245,7 +230,7 @@
 				</controls:CustomFormItem>
 				<controls:CustomFormItem localId="formBrowserType" className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemRequiredBookmarkLabel"
-										label="URL:" visible="{browserFormVisible}" required="{browserFormVisible}">							
+										label="URL:" includeIn="browser" required="true">							
 					<j:TextInput localId="urlTextInput" className="flexShrink"
 								 text="{bookmark.url}">
 						<j:beads>
@@ -255,7 +240,7 @@
 				</controls:CustomFormItem>
 				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemRequiredBookmarkLabel"
-										label="Server:" visible="{databaseFormVisible}" required="{databaseFormVisible}">							
+										label="Server:" includeIn="database" required="true">							
 					<j:TextInput localId="serverTextInput" className="flexShrink"
 								 text="{bookmark.server}">
 						<j:beads>
@@ -265,7 +250,7 @@
 				</controls:CustomFormItem>
 				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemRequiredBookmarkLabel"
-										label="Database:" visible="{databaseFormVisible}" required="{databaseFormVisible}">							
+										label="Database:" includeIn="database" required="true">							
 					<j:TextInput localId="databaseTextInput" className="flexShrink"
 								 text="{bookmark.database}">
 						<j:beads>
@@ -275,9 +260,15 @@
 				</controls:CustomFormItem>
 				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
 										labelClass="formItemNonRequiredBookmarkLabel"
-										label="View:" visible="{databaseFormVisible}">							
+										label="View:" includeIn="database">							
 					<j:TextInput localId="viewTextInput" className="flexShrink"
 								 text="{bookmark.view}"/>
+				</controls:CustomFormItem>
+				<controls:CustomFormItem className="horizontalContentCenterExpandFormItem"
+										labelClass="formItemNonRequiredBookmarkLabel"
+										label="Description:">							
+					<j:TextArea localId="descriptionTextArea" className="flexShrink" text="{bookmark.description}"
+								minHeight="100"/>
 				</controls:CustomFormItem>
 			</j:Form>
 		</j:CardPrimaryContent>

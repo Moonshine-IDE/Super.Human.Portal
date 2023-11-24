@@ -6,6 +6,7 @@ package interfaces
 
 	public interface IEditBookmarkView extends IEventDispatcher, IResetView
 	{
+		function set currentState(value:String):void;
 		function get bookmark():BookmarkVO;
 		function set bookmark(value:BookmarkVO):void;
 		function get bookmarkForm():IEventDispatcher;
@@ -13,8 +14,6 @@ package interfaces
 		function get cancelBookmark():IEventDispatcher;
 		function get titleBookmark():String;
 		function set titleBookmark(value:String):void;
-		function set browserFormVisible(value:Boolean):void
-		function set databaseFormVisible(value:Boolean):void
 		function get selectedBookmarkType():String;
 		function setBookmarkTypes(types:Array):void;
 		
@@ -24,5 +23,6 @@ package interfaces
 		function get serverText():String;	
 		function get databaseText():String;
 		function get viewText():String;
+		function get descriptionText():String;
 	}
 }
