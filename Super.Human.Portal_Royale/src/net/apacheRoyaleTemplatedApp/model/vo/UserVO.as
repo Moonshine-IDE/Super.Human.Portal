@@ -2,13 +2,14 @@ package model.vo
 {
 	public class UserVO  
 	{
-		public function UserVO(username:String, serverUsername:String, commonName:String, status:String, roles:Array = null)
+		public function UserVO(username:String, serverUsername:String, commonName:String, status:String, roles:Array = null, loginUrl:String = null)
 		{
 			this.username = username;
 			this.serverUsername = serverUsername;
 			this.commonName = commonName;
 			this.status = status;
 			this.roles = roles;
+			this.loginUrl = loginUrl;
 		}
 		
 		private var _serverUsername:String;
@@ -69,6 +70,18 @@ package model.vo
 		public function set roles(value:Array):void
 		{
 			_roles = value;
+		}
+		
+		private var _loginUrl:String;
+
+		public function get loginUrl():String
+		{
+			return _loginUrl;
+		}
+		
+		public function set loginUrl(value:String):void
+		{
+			_loginUrl = value;
 		}
 		
 		public function hasRole(role:String):Boolean

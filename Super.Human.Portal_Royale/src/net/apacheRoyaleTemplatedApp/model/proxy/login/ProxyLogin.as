@@ -189,7 +189,7 @@ package model.proxy.login
 					username = serverUserName;
 				}
 				
-				var user:UserVO = new UserVO(username, serverUserName, commonName, status, roles);
+				var user:UserVO = new UserVO(username, serverUserName, commonName, status, roles, loginResult.loginURL);
 				this.setData(user);
 				
 				// get all the configuration before
@@ -198,7 +198,7 @@ package model.proxy.login
 			}
 			else
 			{
-				sendNotification(NOTE_ANONYMOUS_USER);
+				sendNotification(NOTE_ANONYMOUS_USER, {loginUrl: loginResult.loginURL});
 			}
 		}
 	}

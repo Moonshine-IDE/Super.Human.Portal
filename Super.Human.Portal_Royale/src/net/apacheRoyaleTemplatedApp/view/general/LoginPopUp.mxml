@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:j="library://ns.apache.org/royale/jewel"
-		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:validators="classes.validators.*" xmlns:beads="classes.beads.*"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:validators="classes.validators.*" xmlns:beads="classes.beads.*" xmlns:html="library://ns.apache.org/royale/html"
 		 itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsCenter"
 		 implements="interfaces.ILoginView" visible="false"
-		 className="loginBackground" xmlns:controls="view.controls.*">
+		 className="loginBackground" xmlns:controls="view.controls.*" currentState="loginInternal">
+	<j:states>
+		<js:State name="loginInternal"/>
+		<js:State name="loginExternal"/>
+	</j:states>
 	<j:beads>
 		<js:ContainerDataBinding />
 	</j:beads>	
@@ -36,6 +40,11 @@
 				return new BusyOperator(btnLogin);
 			}
 
+			public function get loginButton():Object
+			{
+				return this.btnLogin;	
+			}
+			
 			public function get password():String
 			{
 				return this.txtPassword.text;
@@ -108,6 +117,8 @@
 			
 			public function resetValidation():void
 			{
+				if (currentState != "loginInternal") return;
+				
 				var host:IPopUpHost = UIUtils.findPopUpHost(loginForm);
 				(host as IUIBase).dispatchEvent(new Event("cleanValidationErrors"));
 			}
@@ -115,7 +126,7 @@
 	</fx:Script>
 	<j:Card className="loginViewBackground" itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter">
 		<j:Image src="resources/images/loginlogo.jpg"/>
-		<j:Form localId="loginForm" percentWidth="100">
+		<j:Form localId="loginForm" percentWidth="100" includeIn="loginInternal">
 			<j:beads>
 				<j:FormValidator id="validatorForm" trigger="{btnLogin}" triggerEvent="click" />
 				<validators:LoginFormValidator localId="loginFormValidator" trigger="{this}" triggerEvent="loginFailed"/>
@@ -139,9 +150,14 @@
 				</j:TextInput>
 			</controls:CustomFormItem>
 		</j:Form>
-		<j:Button id="btnLogin" text="Login Now" className="lowercase"
+		<html:H3 text="Open external browser tab to login." includeIn="loginExternal">
+			<html:style>
+				<js:SimpleCSSStyles padding="10"/>
+			</html:style>
+		</html:H3>
+		<j:Button id="btnLogin" text="Login Now" className="lowercase noLinkWhiteButtonStyle"
 				  percentWidth="80" emphasis="primary"/>
-		<j:HGroup gap="1" itemsHorizontalAlign="itemsCenter">
+		<j:HGroup gap="1" itemsHorizontalAlign="itemsCenter" includeIn="loginInternal">
 			<j:Label localId="forgotPasswordLabel" 
 					 className="cursor-pointer loginPopupLinks"
 					 text="Forgot Password?"/>

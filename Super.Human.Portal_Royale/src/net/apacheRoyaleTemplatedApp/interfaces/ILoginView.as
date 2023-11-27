@@ -6,12 +6,14 @@ package interfaces
 
 	public interface ILoginView 
 	{
+		function set currentState(value:String):void;
 		function get isFormValid():Boolean;
 		function get formValidator():Object;
 		function get username():String;
 		function get password():String;
 		function get usernameText():IEventDispatcher;
 		function get passwordText():IEventDispatcher;
+		function get loginButton():Object;
 		function get form():IEventDispatcher;
 		function get forgotPassword():IEventDispatcher;
 		function get newRegistration():IEventDispatcher;

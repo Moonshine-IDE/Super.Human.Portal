@@ -349,6 +349,15 @@ a:hover {
   padding-right: 12px;
 }
 
+.jewel.button.noLinkWhiteButtonStyle a {
+  color: #FFFFFF;
+  text-decoration: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
 .jewel.label.noLinkWhiteLabelStyle a {
   color: #FFFFFF;
   text-decoration: none;

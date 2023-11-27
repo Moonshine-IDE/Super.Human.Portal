@@ -19,7 +19,7 @@ package mediator
 
 		private var loginProxy:ProxyLogin;
 		private var forceShow:Boolean;
-		
+
 		public function MediatorLoginPopup(component:ILoginView, forceShow:Boolean = false) 
 		{
 			super(NAME, component);		
@@ -31,7 +31,6 @@ package mediator
 		{			
 			super.onRegister();
 
-			view.form.addEventListener("valid", onFormValid);
 			view.usernameText.addEventListener(Event.CHANGE, onTextChange);
 			view.passwordText.addEventListener(Event.CHANGE, onTextChange);
 			view.usernameText["element"].addEventListener("keypress", onTextKeyDown);
@@ -44,6 +43,7 @@ package mediator
 				
 			view["visible"] = this.forceShow;
 			view.resetView();
+			this.refreshLoginState(null);
 		}
 
 		override public function onRemove():void 
@@ -95,6 +95,8 @@ package mediator
 				case ProxyLogin.NOTE_ANONYMOUS_USER:
 					sendNotification(ProxyLogin.NOTE_LOGOUT_SUCCESS);
 					sendNotification(ApplicationConstants.COMMAND_LOGOUT_CLEANUP);
+					
+					refreshLoginState(note.getBody());
 					break;
 				case ProxyLogin.NOTE_LOGOUT_SUCCESS:
 					view["visible"] = true;
@@ -102,7 +104,7 @@ package mediator
 					break;					
 			}
 		}
-		
+
 		public function get view():ILoginView
 		{
 			return viewComponent as ILoginView;
@@ -137,5 +139,31 @@ package mediator
 		{
 			sendNotification(ApplicationConstants.NOTE_OPEN_NEWREGISTRATION);
 		}				
+
+		private function refreshLoginState(data:Object):void
+		{
+			if (data && data.loginUrl)
+			{
+				if (view.form)
+				{
+					view.form.removeEventListener("valid", onFormValid);
+					view.formValidator.triggerEvent = "";
+					view.formValidator.trigger = null;
+				}
+				
+				view.loginButton.html = "<a href='" + data.loginUrl + "' target='_blank'>Open login page</a>";
+				view.currentState = "loginExternal";
+			}
+			else
+			{
+				view.currentState = "loginInternal";
+				if (view.form)
+				{
+					view.form.addEventListener("valid", onFormValid);
+					view.formValidator.triggerEvent = "click";
+					view.formValidator.trigger = view.loginButton;
+				}
+			}
+		}
     }
 }
