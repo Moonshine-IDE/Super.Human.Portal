@@ -157,7 +157,7 @@
 		</html:H3>
 		<j:Button id="btnLogin" text="Login Now" className="lowercase noLinkWhiteButtonStyle"
 				  percentWidth="80" emphasis="primary"/>
-		<j:HGroup gap="1" itemsHorizontalAlign="itemsCenter" includeIn="loginInternal">
+		<j:HGroup gap="1" itemsHorizontalAlign="itemsCenter" includeIn="loginInternal" visible="false">
 			<j:Label localId="forgotPasswordLabel" 
 					 className="cursor-pointer loginPopupLinks"
 					 text="Forgot Password?"/>
