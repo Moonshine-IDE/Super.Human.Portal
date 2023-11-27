@@ -101,6 +101,7 @@ package mediator
 				case ProxyLogin.NOTE_LOGOUT_SUCCESS:
 					view["visible"] = true;
 					view.resetView();
+					refreshLoginState(note.getBody());
 					break;					
 			}
 		}
@@ -142,7 +143,18 @@ package mediator
 
 		private function refreshLoginState(data:Object):void
 		{
+			var loginUrl:String = null;
+			
 			if (data && data.loginUrl)
+			{
+				loginUrl = data.loginUrl;
+			}
+			else if (loginProxy.user && loginProxy.user.loginUrl)
+			{
+				loginUrl = loginProxy.user.loginUrl;
+			}
+			
+			if (loginUrl)
 			{
 				if (view.form)
 				{
@@ -151,7 +163,7 @@ package mediator
 					view.formValidator.trigger = null;
 				}
 				
-				view.loginButton.html = "<a href='" + data.loginUrl + "' target='_blank'>Open login page</a>";
+				view.loginButton.html = "<a href='" + loginUrl + "' target='_blank'>Open login page</a>";
 				view.currentState = "loginExternal";
 			}
 			else
