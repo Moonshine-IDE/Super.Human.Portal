@@ -141,6 +141,11 @@ package mediator
 			sendNotification(ApplicationConstants.NOTE_OPEN_NEWREGISTRATION);
 		}				
 
+		private function onRefreshPageClick(event:MouseEvent):void
+		{
+			location.reload();	
+		}
+		
 		private function refreshLoginState(data:Object):void
 		{
 			var loginUrl:String = null;
@@ -163,8 +168,9 @@ package mediator
 					view.formValidator.trigger = null;
 				}
 				
-				view.loginButton.html = "<a href='" + loginUrl + "' target='_blank'>Open login page</a>";
+				view.loginButton.html = "<a href='" + loginUrl + "' target='_blank'>Open Login Page</a>";
 				view.currentState = "loginExternal";
+				view.refreshPageButton.addEventListener("click", onRefreshPageClick);
 			}
 			else
 			{
@@ -174,6 +180,11 @@ package mediator
 					view.form.addEventListener("valid", onFormValid);
 					view.formValidator.triggerEvent = "click";
 					view.formValidator.trigger = view.loginButton;
+				}
+				
+				if (view.refreshPageButton)
+				{
+					view.refreshPageButton.removeEventListener("click", onRefreshPageClick);
 				}
 			}
 		}

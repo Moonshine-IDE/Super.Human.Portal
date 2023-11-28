@@ -163,6 +163,10 @@ a:hover {
    textAlign: right !important;
 }
 
+.jewel.label.labelTextAlignCenter {
+   textAlign: center !important;
+}
+
 .jewel.label.brandColor {
 	color: #811937 !important;
 }

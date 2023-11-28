@@ -45,6 +45,11 @@
 				return this.btnLogin;	
 			}
 			
+			public function get refreshPageButton():Object
+			{
+				return this.btnRefresh;	
+			}
+			
 			public function get password():String
 			{
 				return this.txtPassword.text;
@@ -150,14 +155,19 @@
 				</j:TextInput>
 			</controls:CustomFormItem>
 		</j:Form>
-		<html:H3 text="Open external browser tab to login." includeIn="loginExternal">
-			<html:style>
-				<js:SimpleCSSStyles padding="10"/>
-			</html:style>
-		</html:H3>
-		<j:Button id="btnLogin" text="Login Now" className="lowercase noLinkWhiteButtonStyle"
-				  percentWidth="80" emphasis="primary"/>
-		<j:HGroup gap="1" itemsHorizontalAlign="itemsCenter" includeIn="loginInternal" visible="false">
+		<j:Label multiline="true" text="You are not authenticated.\nClick the button below to login, and refresh the page when done." 
+				includeIn="loginExternal" className="bigFont bold labelTextAlignCenter" maxWidth="500">
+			<j:style>
+				<js:SimpleCSSStyles paddingTop="10" paddingBottom="10" />
+			</j:style>
+		</j:Label>
+		<j:HGroup gap="1" itemsHorizontalAlign="itemsCenter">
+			<j:Button localId="btnRefresh" text="Refresh" className="lowercase" includeIn="loginExternal"
+					  emphasis="primary" percentWidth="100"/>
+			<j:Button localId="btnLogin" text="Login Now" className="lowercase noLinkWhiteButtonStyle"
+					  percentWidth.loginInternal="80" percentWidth="100" emphasis="primary"/>
+		</j:HGroup>
+		<j:HGroup gap="1" itemsHorizontalAlign="itemsCenter" visible="false">
 			<j:Label localId="forgotPasswordLabel" 
 					 className="cursor-pointer loginPopupLinks"
 					 text="Forgot Password?"/>

@@ -13,6 +13,7 @@ package interfaces
 		function get password():String;
 		function get usernameText():IEventDispatcher;
 		function get passwordText():IEventDispatcher;
+		function get refreshPageButton():Object;
 		function get loginButton():Object;
 		function get form():IEventDispatcher;
 		function get forgotPassword():IEventDispatcher;
