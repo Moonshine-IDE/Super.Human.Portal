@@ -43,7 +43,6 @@ package controller
 				groups.push({name: "Default"});	
 			}
 								
-			groups.sortOn("name");
 			groups.insertAt(0, {name: "Browse My Server"});
 
 			groups.forEach(function(group:Object, index:int, arr:Array):void{
