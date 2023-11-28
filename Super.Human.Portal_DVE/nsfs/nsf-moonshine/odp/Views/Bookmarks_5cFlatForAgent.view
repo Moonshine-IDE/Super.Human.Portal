@@ -3,7 +3,13 @@
   <code event="selection">
     <formula>SELECT "CustomBookmark" = Form</formula>
   </code>
-  <column sort="ascending" categorized="false" separatemultiplevalues="true" totals="none" hidedetailrows="false" width="27" resizable="true" sortnoaccent="true" sortnocase="true" showaslinks="false" itemname="$30">
+  <column sort="ascending" categorized="false" separatemultiplevalues="false" totals="none" hidedetailrows="false" width="15" resizable="true" sortnoaccent="true" sortnocase="true" showaslinks="false" itemname="REM {Default non-number values to 0};&#xA;@If (@IsNumber(index); index; 0)">
+    <font name="sans-serif" style="normal" size="9" color="#000000"/>
+    <columnheader title="Index">
+      <font name="sans-serif" style="normal" size="9" color="#000000"/>
+    </columnheader>
+  </column>
+  <column sort="ascending" categorized="false" separatemultiplevalues="true" totals="none" hidedetailrows="false" width="27" resizable="true" sortnoaccent="true" sortnocase="true" showaslinks="false" itemname="$1">
     <font name="sans-serif" style="normal" size="9" color="#000000"/>
     <columnheader title="Category">
       <font name="sans-serif" style="bold" size="9" color="#000000"/>
@@ -11,12 +17,6 @@
     <code event="value">
       <formula>group</formula>
     </code>
-  </column>
-  <column sort="ascending" categorized="false" separatemultiplevalues="false" totals="none" hidedetailrows="false" width="15" resizable="true" sortnoaccent="true" sortnocase="true" showaslinks="false" itemname="REM {Default non-number values to 0};&#xA;@If (@IsNumber(index); index; 0)">
-    <font name="sans-serif" style="normal" size="9" color="#000000"/>
-    <columnheader title="Index">
-      <font name="sans-serif" style="normal" size="9" color="#000000"/>
-    </columnheader>
   </column>
   <column sort="ascending" categorized="false" separatemultiplevalues="false" totals="none" hidedetailrows="false" width="15" resizable="true" sortnoaccent="true" sortnocase="true" showaslinks="false" itemname="name">
     <font name="sans-serif" style="normal" size="9" color="#000000"/>
