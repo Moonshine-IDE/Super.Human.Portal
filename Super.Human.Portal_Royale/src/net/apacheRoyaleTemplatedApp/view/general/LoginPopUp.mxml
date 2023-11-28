@@ -3,7 +3,7 @@
 		 xmlns:j="library://ns.apache.org/royale/jewel"
 		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:validators="classes.validators.*" xmlns:beads="classes.beads.*" xmlns:html="library://ns.apache.org/royale/html"
 		 itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsCenter"
-		 implements="interfaces.ILoginView" visible="false"
+		 implements="interfaces.ILoginView" visible="false" gap.loginExternal="1"
 		 className="loginBackground" xmlns:controls="view.controls.*" currentState="loginInternal">
 	<j:states>
 		<js:State name="loginInternal"/>
@@ -161,12 +161,10 @@
 				<js:SimpleCSSStyles paddingTop="10" paddingBottom="10" />
 			</j:style>
 		</j:Label>
-		<j:HGroup gap="1" itemsHorizontalAlign="itemsCenter">
-			<j:Button localId="btnRefresh" text="Refresh" className="lowercase" includeIn="loginExternal"
-					  emphasis="primary" percentWidth="100"/>
-			<j:Button localId="btnLogin" text="Login Now" className="lowercase noLinkWhiteButtonStyle"
-					  percentWidth.loginInternal="80" percentWidth="100" emphasis="primary"/>
-		</j:HGroup>
+		<j:Button localId="btnLogin" text="Login Now" className="lowercase noLinkWhiteButtonStyle"
+					percentWidth.loginInternal="80" percentWidth="100" maxWidth="200" emphasis="primary"/>
+		<j:Button localId="btnRefresh" text="Refresh" className="lowercase" includeIn="loginExternal"
+					emphasis="primary" percentWidth="100" maxWidth="200"/>
 		<j:HGroup gap="1" itemsHorizontalAlign="itemsCenter" visible="false">
 			<j:Label localId="forgotPasswordLabel" 
 					 className="cursor-pointer loginPopupLinks"
