@@ -136,10 +136,10 @@ package mediator
 					case ApplicationConstants.NOTE_OPEN_VIEW_HELLO:
 						//initializeViewHello();
 						initializeViewGettingStarted();
-						initializeListOfInstalledApps();
 						initializeListOfBookmarks();
 										
 						sendNotification(ApplicationConstants.COMMAND_EXECUTE_ROLES);
+						sendNotification(ApplicationConstants.COMMAND_EXECUTE_MAIN_CONTENT_ROLES);
 						break;
 					case ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS:
 						initializeGenesisApplicationsList();
@@ -240,17 +240,11 @@ package mediator
 					currentSelection: "DocumentationForm"
 				}, getQualifiedClassName(MediatorViewGettingStarted));
 			}
-			
-			private function initializeListOfInstalledApps():void
-			{
-				var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
-					genesisAppsProxy.getInstalledApps();
-			}
-			
+
 			private function initializeListOfBookmarks():void
 			{
 				var bookmarksProxy:ProxyBookmarks = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
-					bookmarksProxy.getCustomBookmarksList();	
+					bookmarksProxy.getCustomBookmarksList();
 			}
 			
 			private function initializeGenesisApplicationsList():void

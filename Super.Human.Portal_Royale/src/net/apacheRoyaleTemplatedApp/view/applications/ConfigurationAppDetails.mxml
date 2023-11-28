@@ -113,19 +113,13 @@
 			</j:SimpleTable>
 		</j:CardPrimaryContent>
 		<j:CardActions itemsHorizontalAlign="itemsRight" gap="1">
-			<j:HGroup gap="1" percentWidth="100" includeIn="bookmark">
+			<j:HGroup gap="1" percentWidth="100" includeIn="bookmark" visible="{editable}">
 				<j:IconButton click="onEditButtonClick(event)">
-					<j:beads>
-						<j:Disabled disabled="{editable == false}"/>
-					</j:beads>
 					<j:icon>
 						<js:MaterialIcon text="{MaterialIconType.EDIT}"/>
 					</j:icon>
 				</j:IconButton>
 				<j:IconButton click="onDeleteButtonClick(event)">
-					<j:beads>
-						<j:Disabled disabled="{editable == false}"/>
-					</j:beads>
 					<j:icon>
 						<js:MaterialIcon text="{MaterialIconType.DELETE}"/>
 					</j:icon>

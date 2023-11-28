@@ -19,6 +19,19 @@
 
 			import org.apache.royale.events.IEventDispatcher;
 
+			private var _editable:Boolean;
+			
+			[Bindable]
+			public function get editable():Boolean
+			{
+				return _editable;
+			}
+			
+			public function set editable(value:Boolean):void
+			{
+				_editable = value;
+			}
+			
 			private var _selectedItem:ServerVO;
 
 			[Bindable]
@@ -198,24 +211,10 @@
 				</j:VGroup>
 			</j:CardPrimaryContent>
 			<j:CardActions itemsHorizontalAlign="itemsRight" itemsVerticalAlign="itemsCenter" gap="1" includeIn="selectedDatabaseState">
-				<!--<j:VGroup visible="{selectedItem.hasBookmarks}" percentWidth="100"
-						  itemsHorizontalAlign="itemsLeft" itemsVerticalAlign="itemsCenter">
-					<j:VGroup itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter">
-						<js:MaterialIcon text="{MaterialIconType.CHECK}">
-							<js:style>
-								<js:SimpleCSSStyles fontSize="28"/>
-							</js:style>
-						</js:MaterialIcon>
-						<j:Label text="Bookmarked!" className="bigFont"/>
-					</j:VGroup>
-				</j:VGroup>-->
 				<j:Button localId="clientOpen" text="Open in Client" minWidth="130" className="noLinkStyle"/>
 				<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle"/>
-				<j:Button localId="bookmarkAdd" text="Add Bookmark" minWidth="130" className="noLinkStyle">
-					<j:beads>
-						<j:Disabled disabled="false"/>
-					</j:beads>
-				</j:Button>
+				<j:Button localId="bookmarkAdd" text="Add Bookmark" minWidth="130" className="noLinkStyle"
+						  visible="{editable}" />
 				<j:VGroup itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" visible="{selectedItem.hasBookmarks}">
 					<js:MaterialIcon text="{MaterialIconType.CHECK}">
 						<js:style>

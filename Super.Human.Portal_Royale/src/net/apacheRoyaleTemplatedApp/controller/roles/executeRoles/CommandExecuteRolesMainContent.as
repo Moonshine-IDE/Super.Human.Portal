@@ -11,6 +11,8 @@ package controller.roles.executeRoles
 
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
+    import model.proxy.customBookmarks.ProxyBookmarks;
+    import model.proxy.applicationsCatalog.ProxyGenesisApps;
 
 	public class CommandExecuteRolesMainContent extends SimpleCommand 
 	{
@@ -35,6 +37,12 @@ package controller.roles.executeRoles
 					}
 					
 					mainContentModel.navigationLinks.removeItemAt(0);
+				}
+		
+				if (loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR))
+				{
+					var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
+						genesisAppsProxy.getInstalledApps();
 				}
 			}
 		}

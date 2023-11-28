@@ -4,14 +4,13 @@ package controller.roles.executeRoles
 
     import mediator.bookmarks.MediatorBookmarks;
 
+    import model.proxy.customBookmarks.ProxyBookmarks;
     import model.proxy.login.ProxyLogin;
 
-    import org.apache.royale.jewel.beads.controls.Disabled;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 
     import view.bookmarks.Bookmark;
-    import model.proxy.customBookmarks.ProxyBookmarks;
 
 	public class CommandExecuteRolesBookmarksView extends SimpleCommand 
 	{
@@ -27,9 +26,6 @@ package controller.roles.executeRoles
 				{
 					var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 					
-					var addBookmarkDisabled:Disabled = bookmarksMediator.view.addBookmark["getBeadByType"](Disabled);
-						addBookmarkDisabled.disabled = !(loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR));
-						
 					var bookmarkCount:int = bookmarksMediator.view.bookmarksList.numElements;
 					for (var i:int = 0; i < bookmarkCount; i++)
 					{
