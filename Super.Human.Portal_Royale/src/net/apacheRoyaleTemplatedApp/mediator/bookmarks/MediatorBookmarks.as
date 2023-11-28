@@ -55,6 +55,8 @@ package mediator.bookmarks
 				this.view.currentState = this.bookmarksProxy.selectedGroup == "Browse My Server" ?
 											BROWSE_MY_SERVER_VIEW_STATE : BOOKMARKS_VIEW_STATE;
 			}
+			
+			sendNotification(ApplicationConstants.COMMAND_EXECUTE_BOOKMARKS_ROLES);
 		}
 		
 		override public function onRemove():void 

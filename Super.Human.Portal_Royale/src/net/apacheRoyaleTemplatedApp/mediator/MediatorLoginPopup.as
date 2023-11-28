@@ -168,7 +168,7 @@ package mediator
 					view.formValidator.trigger = null;
 				}
 				
-				view.loginButton.html = "<a href='" + loginUrl + "' target='_blank'>Open Login Page</a>";
+				view.loginButton.html = "<a href='" + loginUrl + "' target='_blank'>Open Login Page in New Tab</a>";
 				view.currentState = "loginExternal";
 				view.refreshPageButton.addEventListener("click", onRefreshPageClick);
 			}
