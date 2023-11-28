@@ -25,6 +25,7 @@ package controller.roles.executeRoles
 				if (bookmarksMediator.view.currentState == MediatorBookmarks.BOOKMARKS_VIEW_STATE)
 				{
 					var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
+					var hasAdminRole:Boolean = loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR);
 					
 					var bookmarkCount:int = bookmarksMediator.view.bookmarksList.numElements;
 					for (var i:int = 0; i < bookmarkCount; i++)
@@ -32,9 +33,11 @@ package controller.roles.executeRoles
 						var bookmark:Bookmark = bookmarksMediator.view.bookmarksList.getElementAt(i) as Bookmark;
 						if (bookmark)
 						{
-							bookmark.editable = loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR);
+							bookmark.editable = hasAdminRole;
 						}
 					}
+					
+					bookmarksMediator.view.addBookmark["visible"] = hasAdminRole;
 				}
 			}
 		}
