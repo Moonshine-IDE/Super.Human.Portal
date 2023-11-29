@@ -92,8 +92,9 @@
 	
 	<!--BookmarkView-->
 	<j:Card percentWidth="100" includeIn="bookmarksView">
-		<j:CardHeader>
-			<html:H3 text="{groupName}" percentWidth="100"/>
+		<j:CardHeader minHeight="63">
+			<html:H3 text="{groupName}" percentWidth="100">
+			</html:H3>
 		</j:CardHeader>
 		<j:CardPrimaryContent>
 			<j:beads>
