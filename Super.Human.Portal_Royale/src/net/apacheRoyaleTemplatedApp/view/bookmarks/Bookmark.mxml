@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <j:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:j="library://ns.apache.org/royale/jewel"
-		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:applications="view.applications.*"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:applications="view.applications.*" xmlns:controls="view.controls.*"
 		 itemsVerticalAlign="itemsCenter" gap="4" initComplete="onBookmarkInitComplete(event)"
 		 currentState="browser">
 	<j:states>
@@ -20,10 +20,14 @@
 		<![CDATA[
 			import model.vo.BookmarkVO;
 
-			import org.apache.royale.events.MouseEvent;
-
 			import view.bookmarks.event.BookmarkEvent;
+			
+			[Bindable]
+			public var editable:Boolean;
 						
+			[Bindable]
+			private var urlOpenDefault:String;
+			
 			private var _bookmark:BookmarkVO;
 
 			[Bindable]
@@ -45,33 +49,20 @@
 				}
 				else if (currentState == "database")
 				{
-					var urlOpenDefault:String = bookmark.nomadURL ? '<a height="100%" width="100%" href="' + bookmark.nomadURL + '" target="_blank">' + bookmark.name + '</a>' : bookmark.name;
+					urlOpenDefault = bookmark.nomadURL ? '<a height="100%" width="100%" href="' + bookmark.nomadURL + '" target="_blank">' + bookmark.name + '</a>' : bookmark.name;
 					if (bookmark.defaultAction != "nomad")
 					{
 						urlOpenDefault = bookmark.url ? '<a height="100%" width="100%" href="' + bookmark.url + '" target="_blank">' + bookmark.name + '</a>' : bookmark.name;
 					}
-					this.defaultOpenUrl.html = urlOpenDefault;
 					this.configurationDetails.clientOpenLink = bookmark.url ? '<a height="100%" width="100%" href="' + bookmark.url + '" target="_blank">Open in Client</a>' : null;
 					this.configurationDetails.nomadOpenLink = bookmark.nomadURL ? '<a height="100%" width="100%" href="' + bookmark.nomadURL + '" target="_blank">Open in Nomad</a>' : null;
 				}
 			}
 			
-			private function onShowHideDbConfigClick(event:MouseEvent):void
+			private function onShowHideDbConfigClick(event:Event):void
 			{
-				var iconButton:MaterialIcon = event.currentTarget as MaterialIcon;
-				var showHideConfig:Boolean = false;
-				
-				if (iconButton.text == MaterialIconType.ARROW_DROP_DOWN)
-				{
-					iconButton.text = MaterialIconType.ARROW_DROP_UP;
-					showHideConfig = true;
-				}
-				else
-				{
-					iconButton.text = MaterialIconType.ARROW_DROP_DOWN;
-				}
-				
-				configurationDetails.visible = showHideConfig;
+				var linkWithDescription:LinkWithDescriptionAppButton = event.currentTarget as LinkWithDescriptionAppButton;
+				configurationDetails.visible = linkWithDescription.show;
 			}
 
 			private function onEditBookmark(event:Event):void
@@ -94,21 +85,10 @@
 		<j:Label text="{bookmark.description}" multiline="true" className="bigFont" visible="{bookmark.description != null}"/>
 	</j:HGroup>
 	<j:VGroup includeIn="database" itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsLeft" gap="2">
-		<j:HGroup percentWidth="100" itemsVerticalAlign="itemsCenter" gap="2">
-			<j:HGroup gap="1" itemsVerticalAlign="itemsCenter" className="bookmarkTitleContainer"
-					minHeight="40" width="220">
-				<j:Label localId="defaultOpenUrl" multiline="true" percentWidth="85" className="cursorPointer noLinkWhiteLabelStyle">
-					<j:style>
-						<js:SimpleCSSStyles padding="5"/>
-					</j:style>
-				</j:Label>
-				<js:MaterialIcon text="{MaterialIconType.ARROW_DROP_DOWN}" click="onShowHideDbConfigClick(event)" className="materialDropDownArrow"/>
-			</j:HGroup>
-			<j:Label text="{bookmark.description}" multiline="true" className="bigFont" visible="{bookmark.description != null}"/>
-		</j:HGroup>
-		<applications:ConfigurationAppDetails localId="configurationDetails" description="{bookmark.description}" server="{bookmark.server}"
+		<controls:LinkWithDescriptionAppButton showClick="onShowHideDbConfigClick(event)" linkLabel="{urlOpenDefault}" description="{bookmark.description}"/>
+		<applications:ConfigurationAppDetails localId="configurationDetails" server="{bookmark.server}"
 											 database="{bookmark.database}" viewName="{bookmark.view}" nomadOpenLink="{bookmark.nomadURL}"
-											 percentWidth="100" visible="false" 
+											 percentWidth="100" visible="false" editable="{editable}" 
 											 editButtonClick="onEditBookmark(event)" deleteButtonClick="onDeleteBookmark(event)"/>
 	</j:VGroup>
 </j:HGroup>

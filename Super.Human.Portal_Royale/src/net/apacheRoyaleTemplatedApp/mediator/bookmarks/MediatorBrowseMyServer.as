@@ -10,9 +10,9 @@ package mediator.bookmarks
 
 	import model.proxy.customBookmarks.ProxyBookmarks;
 	import model.proxy.customBookmarks.ProxyBrowseMyServer;
+	import model.vo.ApplicationVO;
 	import model.vo.BookmarkVO;
 	import model.vo.PopupVO;
-	import model.vo.ServerVO;
 
 	import org.apache.royale.events.MouseEvent;
 	import org.puremvc.as3.multicore.interfaces.IMediator;
@@ -20,7 +20,6 @@ package mediator.bookmarks
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
 	import utils.ClipboardText;
-	import model.vo.ApplicationVO;
 								
 	public class MediatorBrowseMyServer extends Mediator implements IMediator
 	{
@@ -40,6 +39,7 @@ package mediator.bookmarks
 			
 			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
 			this.browseMyServerProxy = facade.retrieveProxy(ProxyBrowseMyServer.NAME) as ProxyBrowseMyServer;
+			
 			this.view.breadcrump.addEventListener(BreadcrumpEvent.BREADCRUMP_ITEM_CLICK, onBreadcrumpItemClick);
 			this.view.topMenu.addEventListener(TopMenuEvent.MENU_LOADED, onTopMenuItemChange);
 			this.view.topMenu.addEventListener(TopMenuEvent.MENU_ITEM_CHANGE, onTopMenuItemChange);
@@ -47,12 +47,14 @@ package mediator.bookmarks
 			this.view.copyToClipboardServer.addEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.addEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.addEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
-			
+				
 			this.refreshCurrentState(view.topMenu.selectedItem, view.topMenu.subSelectedItem);
 			if (!this.browseMyServerProxy.getData())
 			{
 				this.browseMyServerProxy.getServersList();
 			}
+			
+			sendNotification(ApplicationConstants.COMMAND_EXECUTE_BROWSE_MY_SERVER_ROLES);
 		}
 		
 		override public function onRemove():void 

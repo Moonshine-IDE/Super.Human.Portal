@@ -20,8 +20,6 @@
 			import org.apache.royale.events.Event;
 
 			[Bindable]
-			public var description:String;
-			[Bindable]
 			public var server:String;
 			[Bindable]
 			public var database:String;
@@ -32,6 +30,8 @@
 			public var clientOpenLink:String;
 			[Bindable]
 			public var nomadOpenLink:String;
+			[Bindable]
+			public var editable:Boolean;
 
 			private function onCopyToClipboardServerClick(event:MouseEvent):void
 			{
@@ -60,9 +60,6 @@
 	</j:beads>
 
 	<j:Card>
-		<j:CardHeader visible="{description != null}" excludeFrom="bookmark">
-			<html:H4 text="{description}" percentWidth="100"/>
-		</j:CardHeader>
 		<j:CardPrimaryContent>
 			<j:SimpleTable className="formTable">
 				<j:TBody>
@@ -116,7 +113,7 @@
 			</j:SimpleTable>
 		</j:CardPrimaryContent>
 		<j:CardActions itemsHorizontalAlign="itemsRight" gap="1">
-			<j:HGroup gap="1" percentWidth="100" includeIn="bookmark">
+			<j:HGroup gap="1" percentWidth="100" includeIn="bookmark" visible="{editable}">
 				<j:IconButton click="onEditButtonClick(event)">
 					<j:icon>
 						<js:MaterialIcon text="{MaterialIconType.EDIT}"/>

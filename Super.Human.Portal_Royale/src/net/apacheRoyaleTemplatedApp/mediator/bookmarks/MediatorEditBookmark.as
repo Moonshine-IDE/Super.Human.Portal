@@ -110,6 +110,7 @@ package mediator.bookmarks
 			bookmarksProxy.selectedBookmark.group = groupName;
 			bookmarksProxy.selectedBookmark.name = view.nameText;
 			bookmarksProxy.selectedBookmark.type = view.selectedBookmarkType;
+			bookmarksProxy.selectedBookmark.description = view.descriptionText;
 			
 			if (view.selectedBookmarkType == ApplicationVO.LINK_BROWSER)
 			{
@@ -162,8 +163,7 @@ package mediator.bookmarks
 
 		private function typeBookmarkChangeRefresh(bookmarkType:String):void
 		{
-			view.browserFormVisible = bookmarkType == ApplicationVO.LINK_BROWSER;
-			view.databaseFormVisible = bookmarkType == ApplicationVO.LINK_DATABASE;
+			view.currentState = bookmarkType == ApplicationVO.LINK_BROWSER ? "browser" : "database";
 		}
     }
 }

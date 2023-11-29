@@ -63,11 +63,11 @@
 			</j:HGroup>
 		</j:GridCell>
 	</j:Grid>
-	<j:Card percentWidth="100" itemsHorizontalAlign="itemsLeft" itemsVerticalAlign="itemsCenter">
-		<html:H4 localId="descriptionApp" text="No description"/>
-	</j:Card>
 	<j:Card localId="linksInstalledAppContainer" percentWidth="100" percentHeight="100" itemsVerticalAlign="itemsCenter"
 			visible="false">
+		<j:CardHeader minHeight="63">
+			<html:H4 localId="descriptionApp" text="No description"/>
+		</j:CardHeader>
 		<j:CardPrimaryContent>
 			<j:VGroup localId="linksInstalledApp" gap="2">
 			</j:VGroup>

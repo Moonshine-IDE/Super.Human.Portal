@@ -37,12 +37,14 @@ a:hover {
 	IBeadController: ClassReference("classes.beads.CollapsibleNavSingleSelectionMouseController");
 	IItemRenderer: ClassReference("view.renderers.navigation.CollapsibleDrawerLinkItemRenderer");
 	ISelectableItemRenderer: ClassReference("org.apache.royale.jewel.beads.itemRenderers.ClassSelectorListSelectableItemRendererBead");
+	IBeadKeyController: ClassReference(null);
 }
 
 .navWithClickableSectionItemRenderer {
 	IBeadController: ClassReference("classes.beads.CollapsibleNavSingleSelectionWithSectionClickMouseController");
 	IItemRenderer: ClassReference("view.renderers.navigation.CollapsibleDrawerLinkWitSectionClickItemRenderer");
 	ISelectableItemRenderer: ClassReference("org.apache.royale.jewel.beads.itemRenderers.ClassSelectorListSelectableItemRendererBead");
+	IBeadKeyController: ClassReference(null);
 }
 
 .sliderViewStyle {
@@ -159,6 +161,10 @@ a:hover {
 
 .jewel.label.labelTextAlignRight {
    textAlign: right !important;
+}
+
+.jewel.label.labelTextAlignCenter {
+   textAlign: center !important;
 }
 
 .jewel.label.brandColor {
@@ -349,6 +355,15 @@ a:hover {
   padding-right: 12px;
 }
 
+.jewel.button.noLinkWhiteButtonStyle a {
+  color: #FFFFFF;
+  text-decoration: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
 .jewel.label.noLinkWhiteLabelStyle a {
   color: #FFFFFF;
   text-decoration: none;
@@ -454,6 +469,12 @@ a:hover {
 	IBeadView: ClassReference("view.controls.FormItemView");
 }
 
+.horizontalContentItemsCenteredFormItem {
+	IBeadModel: ClassReference("classes.models.CustomFormItemModel");
+	IFormItemContentArea: ClassReference("view.controls.HGroupItemsCenteredForm");
+	IBeadView: ClassReference("view.controls.FormItemView");
+}
+
 .layout.horizontal.bookmarkTitleContainer {
     background: linear-gradient(#54b7f3, #24a3ef);
     borderRadius: 0.25rem;
@@ -497,7 +518,6 @@ a:hover {
 
 .jewel.button.primary.linksGapInstallApp {
 	marginBottom: 4px !important;
-	marginLeft: 4px !important;
 	minWidth: 220px;
 	height: 40px;
 }
@@ -517,6 +537,7 @@ a:hover {
 
 .topMenuList {
     ISelectableItemRenderer: ClassReference("org.apache.royale.jewel.beads.itemRenderers.ClassSelectorListSelectableItemRendererBead");
+    IBeadKeyController: ClassReference(null);
     width: 100%;
 }
 

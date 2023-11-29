@@ -27,11 +27,12 @@
 		import org.apache.royale.net.HTTPService;
 		import org.apache.royale.net.beads.CORSCredentialsBead;
 		import org.apache.royale.net.events.FaultEvent;
+		import org.apache.royale.events.KeyboardEvent;
 
 		[Bindable]
-		private var nextDisabled:Boolean;
+		private var nextDisabled:Boolean = true;
 		[Bindable]
-		private var previousDisabled:Boolean;
+		private var previousDisabled:Boolean = true;
 		
 		private var _selectedItem:Object;
 
@@ -99,7 +100,7 @@
 				items = TopMenuUtils.getChildren(item.id, this.model);
 				this.setSubMenuItems(items);
 			}	
-			
+
 			this.nextDisabled = !this.canGoForward();
 			this.previousDisabled = !this.canGoBackward();
 		}
@@ -112,16 +113,16 @@
 			}
 			else if (data)
 			{
-				this.model["data"] = data;
+				this.model.data = data;
 			}
 			else
 			{
 				return;
 			}
 			
-			if (itemsOrder && !this.model["itemsOrder"])
+			if (itemsOrder)
 			{
-				this.model["itemsOrder"] = itemsOrder;
+				this.model.itemsOrder = itemsOrder;
 			}
 			
 			for (var key:String in data)
@@ -142,6 +143,11 @@
 
 			this.nextDisabled = !this.canGoForward();
 			this.previousDisabled = !this.canGoBackward();
+			
+			if (!this.hasEventListener(KeyboardEvent.KEY_DOWN))
+			{
+				this.addEventListener(KeyboardEvent.KEY_DOWN, onArrowKeyDown);
+			}
 			
 			this.dispatchEvent(new TopMenuEvent(TopMenuEvent.MENU_LOADED, this.rootMenu.selectedItem));
 		}
@@ -289,6 +295,21 @@
 			this.menuOpen.visible = !this.menuDrawer.isOpen;
 		}
 		 
+		private function onArrowKeyDown(event:KeyboardEvent):void
+		{
+			if (event.currentTarget != this) return;
+			
+			switch (event.code) 
+			{
+				case "ArrowRight":
+					this.onTravel("forward");
+				break;
+				case "ArrowLeft":
+					this.onTravel("backward");
+				break;
+			}
+		}
+		
 		private function itemForward(itemId:String):String
 		{
 			var index:int = this.model.itemsOrder.findIndex(function(id:String):Boolean {
@@ -482,7 +503,7 @@
 							</j:icon>
 						</j:IconButton>
 					</j:HGroup>
-					<j:IconButton width="24" click="onTravel('backward')">
+					<j:IconButton localId="arrowLeft" width="24" click="onTravel('backward')">
 						<j:beads>
 							<j:Disabled disabled="{previousDisabled}"/>
 						</j:beads>
@@ -490,7 +511,7 @@
 							<js:MaterialIcon text="{MaterialIconType.CHEVRON_LEFT}" />
 						</j:icon>
 					</j:IconButton>
-					<j:IconButton width="24" click="onTravel('forward')">
+					<j:IconButton localId="arrowRight" width="24" click="onTravel('forward')">
 						<j:beads>
 							<j:Disabled disabled="{nextDisabled}"/>
 						</j:beads>

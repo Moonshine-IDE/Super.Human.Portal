@@ -38,14 +38,29 @@ package controller
 				}
 			}
 			
+			var defaultItem:Array = [];
 			if (groups.length == 0)
 			{
-				groups.push({name: "Default"});	
+				defaultItem.push({name: "Default"});	
 			}
-								
-			groups.sortOn("name");
+			else
+			{
+				var defaultIndex:int = groups.findIndex(function(group:Object, index:int, arr:Array):Boolean{
+					return group.name == "Default";
+				});
+				if (defaultIndex >= 0)
+				{
+					defaultItem = groups.splice(defaultIndex, 1);
+				}
+			}
+					
 			groups.insertAt(0, {name: "Browse My Server"});
-
+			
+			if (defaultItem.length > 0)
+			{
+				groups.insertAt(1, defaultItem[0]);
+			}
+			
 			groups.forEach(function(group:Object, index:int, arr:Array):void{
 								
 				var menuItem:NavigationLinkVO = new NavigationLinkVO(group.name, "", "mdi mdi-apps mdi-24px", 

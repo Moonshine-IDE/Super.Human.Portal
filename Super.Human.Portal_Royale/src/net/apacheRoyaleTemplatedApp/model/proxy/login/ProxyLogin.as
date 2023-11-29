@@ -46,6 +46,11 @@ package model.proxy.login
 			proxyUrlParams = facade.retrieveProxy(ProxyUrlParameters.NAME) as ProxyUrlParameters;
 		}
 		
+		public function get user():UserVO
+		{
+			return this.getData() as UserVO;
+		}
+		
 		private var _config:Object;
 		
 		public function get config():Object
@@ -61,6 +66,13 @@ package model.proxy.login
 			var failureCallback:Function = this.busyManagerProxy.wrapFailureFunction(onLoginFailed);
 			
 			loginServiceDelegate.testAuthentication(successCallback, failureCallback);
+		}
+		
+		public function testAuthenticationWithoutBusyIndicator():void
+		{
+			if (proxyUrlParams.isPasswordReset) return;
+			
+			loginServiceDelegate.testAuthentication(onXMLAuthTestSuccess, onLoginFailed);
 		}
 		
 		public function signin(userValue:String, passwordValue:String):void 
@@ -158,9 +170,12 @@ package model.proxy.login
 		
 		private function onLogout(event:Event):void
 		{
+			this.setData(null);
 			sendNotification(ProxyLogin.NOTE_LOGOUT_SUCCESS, {forceShow: true});
 			sendNotification(ApplicationConstants.COMMAND_LOGOUT_CLEANUP);
 			proxyUrlParams.setData(null);
+			
+			this.testAuthenticationWithoutBusyIndicator();
 		}
 
 		private function getGeneralConfiguration():void
@@ -175,6 +190,7 @@ package model.proxy.login
 			var serverUserName:String = loginResult.username;
 			var commonName:String = loginResult.common_name;
 			var status:String = loginResult.status ? loginResult.state : "";
+			var roles:Array = loginResult.roles ? loginResult.roles : [];
 			
 			if (status.toLowerCase() == "authenticated")
 			{
@@ -183,7 +199,7 @@ package model.proxy.login
 					username = serverUserName;
 				}
 				
-				var user:UserVO = new UserVO(username, serverUserName, commonName, status);
+				var user:UserVO = new UserVO(username, serverUserName, commonName, status, roles, loginResult.loginURL);
 				this.setData(user);
 				
 				// get all the configuration before
@@ -192,7 +208,7 @@ package model.proxy.login
 			}
 			else
 			{
-				sendNotification(NOTE_ANONYMOUS_USER);
+				sendNotification(NOTE_ANONYMOUS_USER, {loginUrl: loginResult.loginURL});
 			}
 		}
 	}

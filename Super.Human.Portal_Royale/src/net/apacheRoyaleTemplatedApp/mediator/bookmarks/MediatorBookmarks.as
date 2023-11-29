@@ -8,6 +8,7 @@ package mediator.bookmarks
     import mediator.popup.MediatorPopup;
 
     import model.proxy.customBookmarks.ProxyBookmarks;
+    import model.proxy.customBookmarks.ProxyBrowseMyServer;
     import model.proxy.urlParams.ProxyUrlParameters;
     import model.vo.ApplicationVO;
     import model.vo.BookmarkVO;
@@ -21,7 +22,6 @@ package mediator.bookmarks
 
     import view.bookmarks.Bookmark;
     import view.bookmarks.event.BookmarkEvent;
-    import model.proxy.customBookmarks.ProxyBrowseMyServer;
     
     public class MediatorBookmarks extends Mediator implements IMediator
     {
@@ -43,6 +43,7 @@ package mediator.bookmarks
 			super.onRegister();
 			
 			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
+			
 			this.view["addEventListener"]("stateChangeComplete", onViewStateChangeComplete);
 			
 			if (this.bookmarksProxy.selectedGroup != "Browse My Server")
@@ -53,8 +54,9 @@ package mediator.bookmarks
 			{
 				this.view.currentState = this.bookmarksProxy.selectedGroup == "Browse My Server" ?
 											BROWSE_MY_SERVER_VIEW_STATE : BOOKMARKS_VIEW_STATE;
-			
 			}
+			
+			sendNotification(ApplicationConstants.COMMAND_EXECUTE_BOOKMARKS_ROLES);
 		}
 		
 		override public function onRemove():void 
@@ -114,17 +116,21 @@ package mediator.bookmarks
 		{
 			if (view.currentState == BOOKMARKS_VIEW_STATE)
 			{
-				facade.removeMediator(MediatorBrowseMyServer.NAME);
+				facade.removeMediator(MediatorBrowseMyServer.NAME);		
 				if (view.refreshButton)
 				{
 					view.refreshButton.removeEventListener(MouseEvent.CLICK, onRefreshServersListClick);
 				}
+				
 				view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
+
 				view.title = "Bookmarks";
 				view.groupName = bookmarksProxy.selectedGroup;
 				
 				this.cleanUpBookmarksList();
 				this.updateListOfBookmarks();
+				
+				sendNotification(ApplicationConstants.COMMAND_EXECUTE_ROLES);		
 			}
 			else if (view["currentState"] == BROWSE_MY_SERVER_VIEW_STATE)
 			{
@@ -160,7 +166,7 @@ package mediator.bookmarks
 					bookmarkView.bookmark = bookmark;
 					bookmarkView.currentState = "database";
 				}
-				
+
 				bookmarkView.addEventListener(BookmarkEvent.EDIT_BOOKMARK, onModifyBookmark);
 				bookmarkView.addEventListener(BookmarkEvent.DELETE_BOOKMARK, onModifyBookmark);
 									

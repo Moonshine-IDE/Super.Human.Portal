@@ -9,6 +9,8 @@ package interfaces
 
 	public interface IBrowseMyServerView extends IResetView
 	{
+		function get editable():Boolean;
+		function set editable(value:Boolean):void;
 		function get breadcrump():Breadcrump;
 		function get topMenu():TopMenu;
 		function get selectedItem():ServerVO;
