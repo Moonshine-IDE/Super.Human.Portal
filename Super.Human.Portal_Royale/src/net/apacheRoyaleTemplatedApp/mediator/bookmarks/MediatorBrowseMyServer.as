@@ -54,7 +54,7 @@ package mediator.bookmarks
 				this.browseMyServerProxy.getServersList();
 			}
 			
-			sendNotification(ApplicationConstants.COMMAND_EXECUTE_ROLES);
+			sendNotification(ApplicationConstants.COMMAND_EXECUTE_BROWSE_MY_SERVER_ROLES);
 		}
 		
 		override public function onRemove():void 

@@ -81,8 +81,9 @@ package constants
 		public static const COMMAND_STARTUP:String = NAME + SEPARATOR + "CommandStartup";
 		public static const COMMAND_POST_STARTUP:String = NAME + SEPARATOR + "CommandPostStartup";
 		public static const COMMAND_EXECUTE_ROLES:String = NAME + SEPARATOR + "CommandExecuteRoles";
-		public static const COMMAND_EXECUTE_BOOKMARKS_ROLES:String = NAME + SEPARATOR + "CommandExecutBookmarksRoles";
 		public static const COMMAND_EXECUTE_MAIN_CONTENT_ROLES:String = NAME + SEPARATOR + "CommandExecuteMainContentRoles";
+		public static const COMMAND_EXECUTE_BOOKMARKS_ROLES:String = NAME + SEPARATOR + "CommandExecutBookmarksRoles";
+		public static const COMMAND_EXECUTE_BROWSE_MY_SERVER_ROLES:String = NAME + SEPARATOR + "CommandExecutBrowseMyServerRoles";
 		public static const COMMAND_START_POST_LOGIN:String = NAME + SEPARATOR + "CommandStartPostLogin";
 		public static const COMMAND_LOGOUT_CLEANUP:String = NAME + SEPARATOR + "CommandLogoutCleanup";
 		public static const COMMAND_REFRESH_NAV_ITEMS_ENABLED:String = NAME + SEPARATOR + "CommandRefreshNavItemsEnabled";
