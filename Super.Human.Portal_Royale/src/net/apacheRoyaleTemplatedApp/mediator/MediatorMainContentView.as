@@ -230,6 +230,9 @@ package mediator
 			
 			private function initializeViewGettingStarted():void
 			{
+				//Make sure getting started from previous session is not present
+				facade.removeMediator(MediatorViewGettingStarted.NAME);
+				
 				this.removeMediatorFromAdditionalNavigation(view.viewInstalledAppsNavigation);
 				this.removeMediatorFromAdditionalNavigation(view.viewBookmarksNavigation);
 				

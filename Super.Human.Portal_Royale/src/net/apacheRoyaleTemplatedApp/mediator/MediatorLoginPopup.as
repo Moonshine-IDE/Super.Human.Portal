@@ -12,6 +12,7 @@ package mediator
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+    import org.apache.royale.utils.Timer;
     
     public class MediatorLoginPopup extends Mediator implements IMediator
     {
@@ -20,6 +21,8 @@ package mediator
 		private var loginProxy:ProxyLogin;
 		private var forceShow:Boolean;
 
+		private var refreshPageTimer:Timer;
+		
 		public function MediatorLoginPopup(component:ILoginView, forceShow:Boolean = false) 
 		{
 			super(NAME, component);		
@@ -84,6 +87,8 @@ package mediator
 					view.errorMessage = null;
 					view.loginFailed = false;
 					view.loginBusyOperator.hideBusy();
+					
+					disposeRefreshPageTimer();
 					break;	
 				case ProxyLogin.NOTE_LOGIN_FAILED:
 				case ProxyLogin.NOTE_ACCOUNTS_LOAD_FAILED:
@@ -93,14 +98,17 @@ package mediator
 					view.loginBusyOperator.hideBusy();
 					break;
 				case ProxyLogin.NOTE_ANONYMOUS_USER:
-					sendNotification(ProxyLogin.NOTE_LOGOUT_SUCCESS);
-					sendNotification(ApplicationConstants.COMMAND_LOGOUT_CLEANUP);
-					
+					if (!this.refreshPageTimer || !this.refreshPageTimer.running)
+					{
+						sendNotification(ProxyLogin.NOTE_LOGOUT_SUCCESS);
+						sendNotification(ApplicationConstants.COMMAND_LOGOUT_CLEANUP);
+					}
 					refreshLoginState(note.getBody());
 					break;
 				case ProxyLogin.NOTE_LOGOUT_SUCCESS:
 					view["visible"] = true;
 					view.resetView();
+					
 					refreshLoginState(note.getBody());
 					break;					
 			}
@@ -146,9 +154,15 @@ package mediator
 			location.reload();	
 		}
 		
+		private function onRefreshPageTimer(event:Event):void
+		{
+			loginProxy.testAuthenticationWithoutBusyIndicator();
+		}
+		
 		private function refreshLoginState(data:Object):void
 		{
 			var loginUrl:String = null;
+			this.disposeRefreshPageTimer();
 			
 			if (data && data.loginUrl)
 			{
@@ -168,9 +182,12 @@ package mediator
 					view.formValidator.trigger = null;
 				}
 				
-				view.loginButton.html = "<a href='" + loginUrl + "' target='_blank'>Open Login Page in New Tab</a>";
 				view.currentState = "loginExternal";
+				view.loginButton.html = "<a href='" + loginUrl + "' target='_blank'>Open Login Page in New Tab</a>";
 				view.refreshPageButton.addEventListener("click", onRefreshPageClick);
+				this.refreshPageTimer = new Timer(5000);
+				this.refreshPageTimer.addEventListener(Timer.TIMER, onRefreshPageTimer);
+				this.refreshPageTimer.start();
 			}
 			else
 			{
@@ -186,6 +203,15 @@ package mediator
 				{
 					view.refreshPageButton.removeEventListener("click", onRefreshPageClick);
 				}
+			}
+		}
+
+		private function disposeRefreshPageTimer():void
+		{
+			if (this.refreshPageTimer)
+			{
+				this.refreshPageTimer.removeEventListener(Timer.TIMER, onRefreshPageTimer);
+				this.refreshPageTimer.stop();
 			}
 		}
     }

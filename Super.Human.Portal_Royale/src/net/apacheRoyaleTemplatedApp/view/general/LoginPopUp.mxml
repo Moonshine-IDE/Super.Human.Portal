@@ -155,16 +155,17 @@
 				</j:TextInput>
 			</controls:CustomFormItem>
 		</j:Form>
-		<j:Label multiline="true" text="You are not authenticated.\nClick the button below to login, and refresh the page when done." 
-				includeIn="loginExternal" className="bigFont bold labelTextAlignCenter" maxWidth="500">
+		<j:Label multiline="true" text="You are not authenticated.\nClick the Login button to continue." 
+				includeIn="loginExternal" className="bigFont bold labelTextAlignCenter">
 			<j:style>
 				<js:SimpleCSSStyles paddingTop="10" paddingBottom="10" />
 			</j:style>
 		</j:Label>
-		<j:Button localId="btnLogin" text="Login Now" className="lowercase noLinkWhiteButtonStyle"
-					percentWidth.loginInternal="80" percentWidth="100" maxWidth="200" emphasis="primary"/>
+		<j:Button localId="btnLogin" text.loginInternal="Login Now" className="lowercase noLinkWhiteButtonStyle"
+				  percentWidth.loginInternal="80" percentWidth="100" maxWidth="200" emphasis="primary"
+				  minHeight="40"/>
 		<j:Button localId="btnRefresh" text="Refresh" className="lowercase" includeIn="loginExternal"
-					emphasis="primary" percentWidth="100" maxWidth="200"/>
+					emphasis="primary" percentWidth="100" maxWidth="200" minHeight="40"/>
 		<j:HGroup gap="1" itemsHorizontalAlign="itemsCenter" visible="false">
 			<j:Label localId="forgotPasswordLabel" 
 					 className="cursor-pointer loginPopupLinks"

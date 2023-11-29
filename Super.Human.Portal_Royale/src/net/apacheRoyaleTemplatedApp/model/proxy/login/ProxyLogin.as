@@ -68,6 +68,13 @@ package model.proxy.login
 			loginServiceDelegate.testAuthentication(successCallback, failureCallback);
 		}
 		
+		public function testAuthenticationWithoutBusyIndicator():void
+		{
+			if (proxyUrlParams.isPasswordReset) return;
+			
+			loginServiceDelegate.testAuthentication(onXMLAuthTestSuccess, onLoginFailed);
+		}
+		
 		public function signin(userValue:String, passwordValue:String):void 
 		{
 			this.username = userValue;
@@ -163,9 +170,12 @@ package model.proxy.login
 		
 		private function onLogout(event:Event):void
 		{
+			this.setData(null);
 			sendNotification(ProxyLogin.NOTE_LOGOUT_SUCCESS, {forceShow: true});
 			sendNotification(ApplicationConstants.COMMAND_LOGOUT_CLEANUP);
 			proxyUrlParams.setData(null);
+			
+			this.testAuthenticationWithoutBusyIndicator();
 		}
 
 		private function getGeneralConfiguration():void
