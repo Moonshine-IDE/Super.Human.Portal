@@ -1,18 +1,20 @@
 package mediator
 {
     import constants.ApplicationConstants;
+    import constants.PopupType;
 
     import interfaces.ILoginView;
 
     import model.proxy.login.ProxyLogin;
     import model.vo.PasswordResetVO;
+    import model.vo.PopupVO;
 
     import org.apache.royale.events.Event;
     import org.apache.royale.events.MouseEvent;
+    import org.apache.royale.utils.Timer;
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-    import org.apache.royale.utils.Timer;
     
     public class MediatorLoginPopup extends Mediator implements IMediator
     {
@@ -75,6 +77,7 @@ package mediator
 			interests.push(ProxyLogin.NOTE_LOGOUT_SUCCESS);
 			interests.push(ProxyLogin.NOTE_ANONYMOUS_USER);
 			interests.push(ProxyLogin.NOTE_ACCOUNTS_LOAD_FAILED);
+			interests.push(ProxyLogin.NOTE_LOGIN_FAILED_ON_SERVER);
 			
 			return interests;
 		}
@@ -96,6 +99,13 @@ package mediator
 					view.errorMessage = String(note.getBody());
 					view.loginFailed = true;
 					view.loginBusyOperator.hideBusy();
+					break;
+				case ProxyLogin.NOTE_LOGIN_FAILED_ON_SERVER:
+					view["visible"] = true;
+					view.resetView();
+					
+					this.refreshLoginState(null);
+					sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, this.mediatorName, String(note.getBody())));
 					break;
 				case ProxyLogin.NOTE_ANONYMOUS_USER:
 					if (!this.refreshPageTimer || !this.refreshPageTimer.running)

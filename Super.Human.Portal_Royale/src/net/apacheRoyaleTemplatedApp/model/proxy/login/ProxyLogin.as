@@ -19,6 +19,7 @@ package model.proxy.login
 		public static const NAME:String = "ProxyLogin";
 		public static const NOTE_LOGIN_SUCCESS:String = NAME + "NoteLoginSucces";
 		public static const NOTE_LOGIN_FAILED:String = NAME + "NoteLoginFailed";
+		public static const NOTE_LOGIN_FAILED_ON_SERVER:String = NAME + "NoteLoginFailedOnServer";
 		public static const NOTE_LOGOUT_SUCCESS:String = NAME + "NoteLogoutSucces";
 		public static const NOTE_ANONYMOUS_USER:String = NAME + "NoteAnonymousUser";
 		public static const NOTE_INVALID_DOMINO_DOMAIN:String = NAME + "NoteInvalidDominoDomain";
@@ -104,7 +105,18 @@ package model.proxy.login
 		
 		private function onXMLAuthTestSuccess(event:Event):void
 		{
-			var loginResult:Object = JSON.parse(event.target.data);
+			var loginResult:Object = null;
+			
+			try
+			{
+				loginResult = JSON.parse(event.target.data);
+			}
+			catch (e:Object)
+			{
+				this.failOnServer(event.target.data);
+				return;
+			}
+			
 			var serverUserName:String = loginResult ? String(loginResult.username).toLowerCase() : null;
 			
 			if (serverUserName == "anonymous")
@@ -132,7 +144,7 @@ package model.proxy.login
 		private function onSignedIn(event:Event):void
 		{
 			var eventData:String = String(event.target["data"]);
-			if (eventData && eventData.indexOf("<html>") != -1)
+			if (eventData && eventData.indexOf("<html") != -1)
 			{
 				sendNotification(ProxyLogin.NOTE_LOGIN_FAILED, "You provided an invalid username or password. Please sign in again.");
 				return;	
@@ -178,6 +190,15 @@ package model.proxy.login
 			this.testAuthenticationWithoutBusyIndicator();
 		}
 
+		private function failOnServer(data:Object):void
+		{
+			var eventData:String = String(data);
+			if (eventData && eventData.indexOf("<html") != -1)
+			{
+				sendNotification(ProxyLogin.NOTE_LOGIN_FAILED_ON_SERVER, "You are logged in as an invalid user, or there is an error on the server. Please contact support if the problem persists.");
+			}	
+		}
+		
 		private function getGeneralConfiguration():void
 		{
 			loginServiceDelegate.loadGeneralConfiguration(onGeneralConfigurationLoaded, onLoginFailed);
