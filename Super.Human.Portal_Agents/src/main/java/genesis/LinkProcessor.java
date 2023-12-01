@@ -119,6 +119,9 @@ public class LinkProcessor
     					link.put("database", database);
     				}
     				
+    				// trim extra whitespace if it is found to avoid breaking the links
+    				database = database.trim();
+    				
 				if (isDatabaseName(database)) {
 					String origURL = JSONUtils.getStringSafe(link, "url");
 					if (DominoUtils.isValueEmpty(origURL) || isDatabaseName(origURL)) {

@@ -167,7 +167,7 @@ public class DatabaseRead extends CRUDAgentBase
 			dbName = "";
 		}
 		
-		return getCommonName(server).toLowerCase() + "!" + dbName.toLowerCase();
+		return getCommonName(server).toLowerCase() + "!" + dbName.trim().toLowerCase();
 	}
 	
 	protected String getCommonName(String serverName) {
