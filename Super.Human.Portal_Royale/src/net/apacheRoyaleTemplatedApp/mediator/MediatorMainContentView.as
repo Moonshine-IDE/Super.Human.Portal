@@ -123,7 +123,10 @@ package mediator
 						break;					
 					case ProxyLogin.NOTE_LOGIN_SUCCESS:
 						sendNotification(ApplicationConstants.COMMAND_APPLY_APP_TITLE);
-						view.authenticationId = (loginProxy.getData() as UserVO).commonName;
+						var user:UserVO = loginProxy.getData() as UserVO;
+						view.authenticationId = user.commonName;
+						view.logout["visible"] = user.username != "Anonymous";
+						
 						sendNotification(ApplicationConstants.COMMAND_START_POST_LOGIN);
 						initializeLoggedUserInformation();
 						break;							
