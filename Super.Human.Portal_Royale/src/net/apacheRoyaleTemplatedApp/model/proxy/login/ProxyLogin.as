@@ -183,6 +183,7 @@ package model.proxy.login
 		private function onLogout(event:Event):void
 		{
 			this.setData(null);
+			this.username = null;
 			sendNotification(ProxyLogin.NOTE_LOGOUT_SUCCESS, {forceShow: true});
 			sendNotification(ApplicationConstants.COMMAND_LOGOUT_CLEANUP);
 			proxyUrlParams.setData(null);
