@@ -22,7 +22,7 @@ public class LinkProcessorTest extends LinkProcessor {
 	private JSONArray testData = null;
 	
 	public LinkProcessorTest() {
-		super(null, new DefaultLogInterface());
+		super(null, new DefaultLogInterface(), null);
 		initializeInsertionParameters();
 	}
 	
