@@ -179,6 +179,40 @@ public class SimpleRoleSecurity  extends SecurityInterface
 			return;
 		}
 		
+		initializeUserLookupKeys();
+		
+		// TODO:  Note that I could improve the performance for the role lookups by only checking the allowedRoles.  However:
+		// - This would require an update to userRoles if addAllowedRoles is called
+		// - The full user role list is needed for agents like XMLAuthenticationTest.  This implementation could be moved to getUserRoles to be loaded on requirement
+		try {
+			// Universal roles
+			userRoles.add(ROLE_ALL);
+			if (isAnonymous()) {
+				userRoles.add(ROLE_ANONYMOUS);
+			}
+			else {
+				userRoles.add(ROLE_NOT_ANONYMOUS);
+			}
+			
+			// Custom roles
+			Collection<String> fullRoleList = getFullRoleList();
+			for (Object roleObj : fullRoleList) {
+				String role = roleObj.toString();
+				if (hasUserRole(role)) {
+					userRoles.add(role);
+				}
+			}
+			
+		}
+		catch (Exception ex) {
+			log.err("Exception in initializeUserRoles: ", ex);
+		}
+	}
+	
+	protected void initializeUserLookupKeys() {
+		// reset
+		userLookupKeys.clear();
+		
 		// initialize allowed keys for the user
 		if (isAnonymous()) {
 			userLookupKeys.add(normalizeName("anonymous"));
@@ -188,7 +222,7 @@ public class SimpleRoleSecurity  extends SecurityInterface
 		else {
 			Name name = null;
 			try {
-				name = session.createName(getUserID());
+				name = createName(getUserID());
 				// common variations on name
 				userLookupKeys.add(normalizeName(name.getAbbreviated()));
 				userLookupKeys.add(normalizeName(name.getCommon()));
@@ -210,33 +244,13 @@ public class SimpleRoleSecurity  extends SecurityInterface
 				DominoUtils.recycle(session, name);
 			}
 		}
-		
-		// TODO:  Note that I could improve the performance for the role lookups by only checking the allowedRoles.  However:
-		// - This would require an update to userRoles if addAllowedRoles is called
-		// - The full user role list is needed for agents like XMLAuthenticationTest.  This implementation could be moved to getUserRoles to be loaded on requirement
-		try {
-			// Universal roles
-			userRoles.add(ROLE_ALL);
-			if (isAnonymous()) {
-				userRoles.add(ROLE_ANONYMOUS);
-			}
-			else {
-				userRoles.add(ROLE_NOT_ANONYMOUS);
-			}
-			
-			// Custom roles
-			Vector fullRoleList = ConfigurationUtils.getConfigAsVector(roleDatabase, roleListKey);
-			for (Object roleObj : fullRoleList) {
-				String role = roleObj.toString();
-				if (hasUserRole(role)) {
-					userRoles.add(role);
-				}
-			}
-			
-		}
-		catch (Exception ex) {
-			log.err("Exception in initializeUserRoles: ", ex);
-		}
+	}
+	
+	/**
+	 * Wrapper for session.createName.  Will be overwritten in unit tests
+	 */
+	protected Name createName(String rawName) throws NotesException {
+		return session.createName(rawName);
 	}
 	
 	protected String normalizeName(String original) {
@@ -266,15 +280,7 @@ public class SimpleRoleSecurity  extends SecurityInterface
 		}
 		
 		try {
-			// I am not normalizing this, since roles are case-sensitive with the initial design
-			String configKey = "role_" + role + "_users";
-			Vector configList = ConfigurationUtils.getConfigAsVector(roleDatabase, configKey);
-			// normalize to lowercase for case insensitive matching
-			Set<String> cleanedList = new HashSet<String>();
-			for (Object listEntry : configList) {
-				String cleaned = normalizeName(listEntry.toString());
-				cleanedList.add(cleaned);
-			}
+			Collection<String> cleanedList = getUserListForRole(role);
 			
 			// Check if the user is included directly in the list
 			for (String key : userLookupKeys) {
@@ -295,6 +301,43 @@ public class SimpleRoleSecurity  extends SecurityInterface
 		}
 		
 
+	}
+	
+	protected Collection<String> getUserListForRole(String role) {
+		try {
+			// I am not normalizing this, since roles are case-sensitive with the initial design
+			String configKey = "role_" + role + "_users";
+			Vector configList = ConfigurationUtils.getConfigAsVector(roleDatabase, configKey);
+			// normalize to lowercase for case insensitive matching
+			Set<String> cleanedList = new HashSet<String>();
+			for (Object listEntry : configList) {
+				String cleaned = normalizeName(listEntry.toString());
+				cleanedList.add(cleaned);
+			}
+			return cleanedList;
+		}
+		catch (Exception ex) {
+			log.err("No user list found for role '" + role + "':", ex);
+			return new TreeSet<String>();
+		}
+	}
+	
+	protected Collection<String> getFullRoleList() {
+		try {
+			Vector fullRoleList = ConfigurationUtils.getConfigAsVector(roleDatabase, roleListKey);
+			if (null == fullRoleList) {
+				return new ArrayList<String>();
+			}
+			ArrayList<String> list = new ArrayList<String>();
+			for (Object obj : fullRoleList) {
+				list.add(obj.toString());
+			}
+			return list;
+		}
+		catch (Exception ex) {
+			log.err("Error while reading full role list:  ", ex);
+			return new ArrayList<String>();
+		}
 	}
 	
 	/**

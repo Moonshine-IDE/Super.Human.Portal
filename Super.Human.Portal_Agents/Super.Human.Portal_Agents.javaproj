@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <project>
   <gradleBuild>
     <option commandLine="clean importAll"/>
@@ -12,9 +11,11 @@
   </gradleBuild>
   <classpaths>
     <class path="src/main/java"/>
+    <class path="src/test/java"/>
   </classpaths>
   <build>
     <option mainclass="Super.Human.Portal_Agents"/>
+    <option mainClassPath=""/>
   </build>
   <options>
     <option projectType="java-domino"/>

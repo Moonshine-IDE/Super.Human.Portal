@@ -11,7 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import lotus.domino.NotesException
+import lotus.domino.Database;
+import lotus.domino.NotesException;
 
 import util.JSONUtils;
 import util.ValidationException;
@@ -27,7 +28,7 @@ public class LinkProcessorTest extends LinkProcessor {
 	
 
 	@Override
-	protected void initializeInsertionParameters() {
+	protected void initializeInsertionParameters(Database configDatabase) {
 		serverAbbr = 'test-1.test.com/test';
 		serverCommon = 'test-1.test.com';
 			addInsertionParameter("%SERVER_ABBR%", serverAbbr);

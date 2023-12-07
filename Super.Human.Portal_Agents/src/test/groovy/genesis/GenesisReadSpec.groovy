@@ -27,7 +27,7 @@ class GenesisReadSpec extends Specification {
 		}
 		
 		@Override
-		protected JSONArray getGenesisAppList()
+		protected JSONArray getGenesisAppList(String url)
 				throws NotesException, Exception, ValidationException, IOException {
 			return testData;
 		}
