@@ -139,9 +139,10 @@ public class XMLAuthenticationTest extends CRUDAgentBase {
 	 * Get the security roles for the authenticated (or anonymous) user.
 	 */
 	public Collection<String> getRoles() {
-		Collection<String> roles = new ArrayList<String>();
 		
-		// TODO:  replace this with a real implementation based on getSecurity()
+		// Allow the roles to be overridden with the "test_security_roles" configuration value.
+		// This should not be a security concern if the individual agent security is implemented properly.
+		// TODO:  revisit this logic before the release.  Is it easy to setup role configuration for testing?
 		Vector testRoles = null;
 		try {
 			testRoles = ConfigurationUtils.getConfigAsVector(agentDatabase, "test_security_roles");
@@ -151,20 +152,15 @@ public class XMLAuthenticationTest extends CRUDAgentBase {
 		}
 		
 		if (isVectorEmpty(testRoles)) {
-			// // hard-code with non-admin roles
-			// roles.add("Documentation");
-			// roles.add("Bookmarks");
-			// roles.add("BrowseServer");
-			
-			// for the initial implementation, Administrator is the only role.  Exclude Administrator for the default case
-		}
-		else {
+			Collection<String> roles = new ArrayList<String>();
 			for (Object role : testRoles) {
 				roles.add(role.toString());
 			}
+			return roles;
 		}
 		
-		return roles;
+		SimpleRoleSecurity roleManager = new SimpleRoleSecurity(agentDatabase, session, getLog());
+		return roleManager.getUserRoles();
 	}
 	
 	public boolean isVectorEmpty(Vector vector) {

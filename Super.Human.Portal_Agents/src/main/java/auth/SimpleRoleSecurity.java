@@ -33,7 +33,7 @@ import lotus.domino.Session;
  * </ul>
  * 
  * To configure additional roles:<ol>
- *   <li>Define a list of roles in a {@value DEFAULT_ROLE_LIST_KEY} config document.</li>
+ *   <li>Define a list of roles in a {@value #DEFAULT_ROLE_LIST_KEY} config document.</li>
  *   <li>For each role, define a config document named "role_%ROLE%_users" and populate it with user entries.</li>
  * </ol>
  * 
@@ -91,7 +91,9 @@ public class SimpleRoleSecurity  extends SecurityInterface
 	public SimpleRoleSecurity(Database roleDatabase, Session session, LogInterface log) {
 		
 		super(session);
+		this.log = log;
 		this.roleDatabase = roleDatabase;
+		initializeAllowAnonymous();
 		initializeUserRoles();
 	}
 	
@@ -134,18 +136,18 @@ public class SimpleRoleSecurity  extends SecurityInterface
 			String allowAnonymousStr = ConfigurationUtils.getConfigAsString(session.getCurrentDatabase(), ALLOW_ANONYMOUS_KEY);
 //			log.dbg(ALLOW_ANONYMOUS_KEY + "='" + allowAnonymousStr + "'.");
 			if (DominoUtils.isValueEmpty(allowAnonymousStr)) {
-				allowAnonymous = DEFAULT_ALLOW_ANONYMOUS;  // default to false
+				setAllowAnonymous(DEFAULT_ALLOW_ANONYMOUS);  // default to false
 			}
 			else {
-				allowAnonymous = null != allowAnonymousStr && allowAnonymousStr.equals("true");
+				setAllowAnonymous(allowAnonymousStr.equals("true"));
 			}
 			
 		}
 		catch (Exception ex) {
 			log.err("Could not read configuration value '" + ALLOW_ANONYMOUS_KEY + "'", ex);
-			allowAnonymous = DEFAULT_ALLOW_ANONYMOUS;
+			setAllowAnonymous(DEFAULT_ALLOW_ANONYMOUS);
 		}
-		
+		//log.dbg("allowAnonymous=" + this.allowAnonymous);
 	}
 	
 	/**
@@ -173,6 +175,7 @@ public class SimpleRoleSecurity  extends SecurityInterface
 		
 		// in order to have any roles, the user must be authenticated
 		if (!isAuthenticated()) {
+			log.err("Rejecting all roles for non-authenticated user '" + getUserID() + "'.");
 			return;
 		}
 		
@@ -182,28 +185,30 @@ public class SimpleRoleSecurity  extends SecurityInterface
 			// universal wildcard
 			userLookupKeys.add(WILDCARD_ALL);
 		}
-		Name name = null;
-		try {
-			name = session.createName(getUserID());
-			// common variations on name
-			userLookupKeys.add(normalizeName(name.getAbbreviated()));
-			userLookupKeys.add(normalizeName(name.getCommon()));
-			userLookupKeys.add(normalizeName(name.getCanonical()));
-			
-			// Organization wildcard
-			String org = normalizeName(name.getOrganization());
-			userLookupKeys.add(normalizeName("*/" + org));  //normalize name is overkill for now, but I did this to future-proof the code
-			
-			// universal wildcard
-			userLookupKeys.add(WILDCARD_ALL);
-			// universal user (not anonymous)
-			userLookupKeys.add(WILDCARD_NOT_ANONYMOUS);
-		}
-		catch (NotesException ex) {
-			log.err("Error processing user name:  ", ex);
-		}
-		finally {
-			DominoUtils.recycle(session, name);
+		else {
+			Name name = null;
+			try {
+				name = session.createName(getUserID());
+				// common variations on name
+				userLookupKeys.add(normalizeName(name.getAbbreviated()));
+				userLookupKeys.add(normalizeName(name.getCommon()));
+				userLookupKeys.add(normalizeName(name.getCanonical()));
+				
+				// Organization wildcard
+				String org = normalizeName(name.getOrganization());
+				userLookupKeys.add(normalizeName("*/" + org));  //normalize name is overkill for now, but I did this to future-proof the code
+				
+				// universal wildcard
+				userLookupKeys.add(WILDCARD_ALL);
+				// universal user (not anonymous)
+				userLookupKeys.add(WILDCARD_NOT_ANONYMOUS);
+			}
+			catch (NotesException ex) {
+				log.err("Error processing user name:  ", ex);
+			}
+			finally {
+				DominoUtils.recycle(session, name);
+			}
 		}
 		
 		// TODO:  Note that I could improve the performance for the role lookups by only checking the allowedRoles.  However:
@@ -262,7 +267,7 @@ public class SimpleRoleSecurity  extends SecurityInterface
 		
 		try {
 			// I am not normalizing this, since roles are case-sensitive with the initial design
-			String configKey = "role_" + role + "_user";
+			String configKey = "role_" + role + "_users";
 			Vector configList = ConfigurationUtils.getConfigAsVector(roleDatabase, configKey);
 			// normalize to lowercase for case insensitive matching
 			Set<String> cleanedList = new HashSet<String>();
