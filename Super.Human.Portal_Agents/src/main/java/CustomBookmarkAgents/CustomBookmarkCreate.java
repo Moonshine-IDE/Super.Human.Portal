@@ -1,7 +1,14 @@
 package CustomBookmarkAgents;
 
+import java.util.Collection;
+
 import org.json.JSONObject;
 
+import com.moonshine.domino.security.SecurityInterface;
+
+import auth.RoleRestrictedAgent;
+import auth.SecurityBuilder;
+import auth.SimpleRoleSecurity;
 import genesis.LinkProcessor;
 import lotus.domino.Document;
 import lotus.domino.NotesException;
@@ -9,7 +16,20 @@ import lotus.domino.NotesException;
 /**
  * Modify this class for custom changes to the agent.
  */
-public class CustomBookmarkCreate extends CustomBookmarkCreateBase {
+public class CustomBookmarkCreate extends CustomBookmarkCreateBase implements RoleRestrictedAgent {
+	
+	public Collection<String> getAllowedRoles() {
+		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+	}
+	
+	public SecurityInterface checkSecurity() {
+		return getSecurity();
+	}
+	
+	@Override
+	protected SecurityInterface createSecurityInterface() {
+		return SecurityBuilder.buildInstance(agentDatabase, this, session, getLog());
+	}
 
 	@Override
     protected void writeNewDocument(Document document) throws NotesException {

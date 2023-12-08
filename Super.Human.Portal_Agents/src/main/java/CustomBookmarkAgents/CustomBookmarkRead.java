@@ -6,9 +6,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.moonshine.domino.field.FieldDefinition;
+import com.moonshine.domino.security.SecurityInterface;
 import com.moonshine.domino.util.ConfigurationUtils;
 import com.moonshine.domino.util.DominoUtils;
 
+import auth.RoleRestrictedAgent;
+import auth.SecurityBuilder;
+import auth.SimpleRoleSecurity;
 import genesis.LinkProcessor;
 import lotus.domino.Database;
 import lotus.domino.NotesException;
@@ -18,7 +22,20 @@ import lotus.domino.ViewEntryCollection;
 /**
  * Modify this class for custom changes to the agent.
  */
-public class CustomBookmarkRead extends CustomBookmarkReadBase {
+public class CustomBookmarkRead extends CustomBookmarkReadBase implements RoleRestrictedAgent {
+	
+	public Collection<String> getAllowedRoles() {
+		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+	}
+	
+	public SecurityInterface checkSecurity() {
+		return getSecurity();
+	}
+	
+	@Override
+	protected SecurityInterface createSecurityInterface() {
+		return SecurityBuilder.buildInstance(agentDatabase, this, session, getLog());
+	}
 
 	@Override
     protected void writeDocuments(ViewEntryCollection entries, Collection<FieldDefinition> fieldList) throws NotesException {

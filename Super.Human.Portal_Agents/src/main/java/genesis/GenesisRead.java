@@ -18,11 +18,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.moonshine.domino.crud.CRUDAgentBase;
-import com.moonshine.domino.security.AllowAllSecurity;
 import com.moonshine.domino.security.SecurityInterface;
 import com.moonshine.domino.util.ConfigurationUtils;
 import com.moonshine.domino.util.DominoUtils;
 
+import auth.RoleRestrictedAgent;
+import auth.SecurityBuilder;
+import auth.SimpleRoleSecurity;
 import lotus.domino.Document;
 import lotus.domino.Name;
 import lotus.domino.NotesException;
@@ -36,7 +38,7 @@ import util.ValidationException;
 /**
  * Return a list of available Genesis applications
  */
-public class GenesisRead extends CRUDAgentBase 
+public class GenesisRead extends CRUDAgentBase implements RoleRestrictedAgent
 {
 	protected static final String DEFAULT_GENESIS_REST_API = "http://appstore.dominogenesis.com/rest/v1/apps";
 	protected static final int API_TIMEOUT_MS = 5000;
@@ -50,9 +52,17 @@ public class GenesisRead extends CRUDAgentBase
 	
 	protected LinkProcessor linkProcessor = null;
 	
+	public Collection<String> getAllowedRoles() {
+		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+	}
+	
+	public SecurityInterface checkSecurity() {
+		return getSecurity();
+	}
+	
 	@Override
 	protected SecurityInterface createSecurityInterface() {
-		return new AllowAllSecurity(session);
+		return SecurityBuilder.buildInstance(agentDatabase, this, session, getLog());
 	}
 	
 	@Override

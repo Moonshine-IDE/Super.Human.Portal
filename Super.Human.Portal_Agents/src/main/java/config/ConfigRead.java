@@ -1,23 +1,36 @@
 package config;
 
+import java.util.Collection;
+
 import org.json.JSONObject;
 
 import com.moonshine.domino.crud.CRUDAgentBase;
-import com.moonshine.domino.security.AllowAllSecurity;
 import com.moonshine.domino.security.SecurityInterface;
 import com.moonshine.domino.util.ConfigurationUtils;
 import com.moonshine.domino.util.DominoUtils;
 
+import auth.RoleRestrictedAgent;
+import auth.SecurityBuilder;
+import auth.SimpleRoleSecurity;
+
 /**
  * Return the configuration options for the application
  */
-public class ConfigRead extends CRUDAgentBase 
+public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 {
 	protected JSONObject configJSON = null;
 	
+	public Collection<String> getAllowedRoles() {
+		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+	}
+	
+	public SecurityInterface checkSecurity() {
+		return getSecurity();
+	}
+	
 	@Override
 	protected SecurityInterface createSecurityInterface() {
-		return new AllowAllSecurity(session);
+		return SecurityBuilder.buildInstance(agentDatabase, this, session, getLog());
 	}
 	
 	@Override

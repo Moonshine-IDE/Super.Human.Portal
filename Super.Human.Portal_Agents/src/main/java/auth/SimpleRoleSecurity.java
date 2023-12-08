@@ -110,6 +110,21 @@ public class SimpleRoleSecurity  extends SecurityInterface
 		addAllowedRole(role);
 	}
 	
+	/**
+	 * Initialize the security with a list of roles.
+	 * Add additional roles with {@link #addAllowedRole(String)}.
+	 * @param roleDatabase  the role configuration database
+	 * @param session  the session
+	 * @param log  the log
+	 */
+	public SimpleRoleSecurity(Database roleDatabase, Collection<String> roles, Session session, LogInterface log)
+	{
+		this(roleDatabase, session, log);
+		for (String role : roles) {
+			addAllowedRole(role);
+		}
+	}
+	
 
 	/**
 	 * See {@link #isAuthorizedForRoles()}.

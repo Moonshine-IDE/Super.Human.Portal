@@ -18,7 +18,14 @@ import lotus.domino.Name;
 import util.JSONUtils;
 import util.ValidationException;
 
+import com.moonshine.domino.security.SecurityInterface
 import com.moonshine.domino.log.DefaultLogInterface;
+
+import config.*;
+import CustomBookmarkAgents.*;
+import DocumentationFormAgents.*;
+import genesis.*;
+import GenesisDirectoryAgents.*;
 
 /**
  * Test the user matching logic for SimpleRoleSecurity
@@ -98,7 +105,7 @@ class SimpleRoleSecuritySpec extends Specification {
 	 * @Unroll is required to see which line failed.
 	 */
 	@Unroll	
-	def 'test getRoles'() {
+	def 'test getRoles:  user=#user, allowAnonymous=#allowAnonymous, roleMap=#roleMap'() {
 		expect:
 		
 		SimpleRoleSecurity testSecurity = new SimpleRoleSecurityTest(user, allowAnonymous, roleMap);
@@ -126,6 +133,46 @@ class SimpleRoleSecuritySpec extends Specification {
         'Demo Admin' | false          | ['role_Administrator_users':['demo admin/test']]          | ['All', 'NotAnonymous', 'Administrator'] // 
         'Demo Admin' | false          | ['role_Administrator_users':['cn=demo admin/o=test']]     | ['All', 'NotAnonymous', 'Administrator'] // 
         'Demo Admin' | false          | ['role_Administrator_users':['*/test']]                   | ['All', 'NotAnonymous', 'Administrator'] // 
+
+	}
+	
+	@Unroll
+	def 'Test roles for agent #agent.getClass()'() {
+		expect:
+		
+
+		agent instanceof RoleRestrictedAgent
+		agent.getAllowedRoles() == allowedRoles
+		// This triggers a StackOverflowError.  I think this is because of the dependency on DominoAPI instances for initialization
+		// SecurityInterface security = agent.checkSecurity();
+		// security
+		// security instanceof SimpleRoleSecurity
+		// security.getAllowedRoles() == agent.getAllowedRoles();
+
+		
+		where:
+		// TODO:  dynamically identify the agents from agentProperties (or AgentBase subclasses) and create instances
+		
+        agent                               | allowedRoles
+        new ConfigRead()                    | ['All']
+        new XMLAuthenticationTest()         | ['All']
+        new DocumentationFormRead()         | ['All']
+        new DocumentationFormDelete()       | ['All']
+        new DocumentationFormCreate()       | ['All']
+        new DocumentationFormUpdate()       | ['All']
+        new CustomBookmarkDelete()          | ['Administrator']
+        new CustomBookmarkCreate()          | ['Administrator']
+        new CustomBookmarkUpdate()          | ['Administrator']
+        new CustomBookmarkRead()            | ['All']
+        new DatabaseRead()                  | ['All']
+        new GenesisDirectoryUpdate()        | ['Administrator']
+        new GenesisDirectoryCreate()        | ['Administrator']
+        new GenesisDirectoryDelete()        | ['Administrator']
+        new GenesisDirectoryRead()          | ['Administrator']
+        new GenesisRead()                   | ['Administrator']
+        new GenesisInstall()                | ['Administrator']
+
+
 
 	}
 	

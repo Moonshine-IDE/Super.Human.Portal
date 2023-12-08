@@ -2,15 +2,18 @@ package genesis;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.JSONObject;
 
-import com.moonshine.domino.security.AllowAllSecurity;
 import com.moonshine.domino.security.SecurityInterface;
 import com.moonshine.domino.util.DominoUtils;
 
+import auth.RoleRestrictedAgent;
+import auth.SecurityBuilder;
+import auth.SimpleRoleSecurity;
 import lotus.domino.Document;
 import lotus.domino.NotesException;
 import lotus.domino.View;
@@ -23,8 +26,13 @@ import util.ValidationException;
 public class GenesisInstall extends GenesisRead 
 {
 	@Override
+	public Collection<String> getAllowedRoles() {
+		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+	}
+	
+	@Override
 	protected SecurityInterface createSecurityInterface() {
-		return new AllowAllSecurity(session);
+		return SecurityBuilder.buildInstance(agentDatabase, this, session, getLog());
 	}
 	
 	@Override

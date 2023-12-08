@@ -8,10 +8,13 @@ import org.json.JSONObject;
 
 import com.moonshine.domino.field.FieldDefinition;
 import com.moonshine.domino.field.FieldType;
+import com.moonshine.domino.security.SecurityInterface;
 import com.moonshine.domino.util.DominoUtils;
 import com.moonshine.domino.util.ParameterException;
 import com.moonshine.domino.util.PublicException;
 
+import auth.RoleRestrictedAgent;
+import auth.SecurityBuilder;
 import genesis.LinkProcessor;
 import lotus.domino.Database;
 import lotus.domino.Document;
@@ -21,7 +24,20 @@ import lotus.domino.View;
 /**
  * Modify this class for custom changes to the agent.
  */
-public class CustomBookmarkUpdate extends CustomBookmarkUpdateBase {
+public class CustomBookmarkUpdate extends CustomBookmarkUpdateBase implements RoleRestrictedAgent {
+	
+	public Collection<String> getAllowedRoles() {
+		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+	}
+	
+	public SecurityInterface checkSecurity() {
+		return getSecurity();
+	}
+	
+	@Override
+	protected SecurityInterface createSecurityInterface() {
+		return SecurityBuilder.buildInstance(agentDatabase, this, session, getLog());
+	}
 
     /**
      * Override the default logic to return the document after edits

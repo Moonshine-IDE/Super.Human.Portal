@@ -13,6 +13,9 @@ import com.moonshine.domino.security.AllowAllSecurity;
 import com.moonshine.domino.security.SecurityInterface;
 import com.moonshine.domino.util.DominoUtils;
 
+import auth.RoleRestrictedAgent;
+import auth.SecurityBuilder;
+import auth.SimpleRoleSecurity;
 import genesis.LinkProcessor;
 import lotus.domino.Database;
 import lotus.domino.DbDirectory;
@@ -26,10 +29,23 @@ import lotus.domino.ViewEntryCollection;
 /**
  * Return a list of the databases on the server
  */
-public class DatabaseRead extends CRUDAgentBase
+public class DatabaseRead extends CRUDAgentBase implements RoleRestrictedAgent
 {
 	
 	protected Map<String, Collection<String> > bookmarkCache = null;
+	
+	public Collection<String> getAllowedRoles() {
+		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+	}
+	
+	public SecurityInterface checkSecurity() {
+		return getSecurity();
+	}
+	
+	@Override
+	protected SecurityInterface createSecurityInterface() {
+		return SecurityBuilder.buildInstance(agentDatabase, this, session, getLog());
+	}
 	
 	@Override
 	protected void runAction() {
@@ -190,11 +206,6 @@ public class DatabaseRead extends CRUDAgentBase
 		String key = buildDatabaseLookupString(server, dbName);
 		getLog().dbg("Key:  '" + key + "'.");
 		return bookmarkCache.get(key);
-	}
-	
-	@Override
-	protected SecurityInterface createSecurityInterface() {
-		return new AllowAllSecurity(session);
 	}
 	
 	@Override

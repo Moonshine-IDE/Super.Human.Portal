@@ -23,12 +23,27 @@ import lotus.domino.*;
  * @author JAnderson
  *
  */
-public class XMLAuthenticationTest extends CRUDAgentBase {
+public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrictedAgent {
 	
+	public Collection<String> getAllowedRoles() {
+		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+	}
+	
+	public SecurityInterface checkSecurity() {
+		return getSecurity();
+	}
 	
 	@Override
 	protected SecurityInterface createSecurityInterface() {
-		return new ConfiguredAnonymousSecurity(session, getLog());
+		//return SecurityBuilder.buildInstance(agentDatabase, this, session, getLog());
+		// need to build this manually to override allowAnonymous
+		SimpleRoleSecurity instance = (SimpleRoleSecurity) SecurityBuilder.buildInstance(agentDatabase, this, session, getLog());
+		// Nevermind. Changing allowAnonymous could change the roles
+		// if (!instance.allowAnonymous) {
+		// 	instance.setAllowAnonymous(true);
+		// 	instance.initializeUserRoles(); // rerun this
+		// }
+		return instance;
 	}
 
 	protected void runAction() {
@@ -148,10 +163,11 @@ public class XMLAuthenticationTest extends CRUDAgentBase {
 			testRoles = ConfigurationUtils.getConfigAsVector(agentDatabase, "test_security_roles");
 		}
 		catch (Exception ex) {
-			getLog().err("Failed to read 'test_security_roles':  ", ex);
+			//getLog().err("Failed to read 'test_security_roles':  ", ex);
+			// Don't bother reporting this test-specific case
 		}
 		
-		if (isVectorEmpty(testRoles)) {
+		if (!isVectorEmpty(testRoles)) {
 			Collection<String> roles = new ArrayList<String>();
 			for (Object role : testRoles) {
 				roles.add(role.toString());
@@ -159,7 +175,14 @@ public class XMLAuthenticationTest extends CRUDAgentBase {
 			return roles;
 		}
 		
-		SimpleRoleSecurity roleManager = new SimpleRoleSecurity(agentDatabase, session, getLog());
+		SimpleRoleSecurity roleManager = null;
+		if (getSecurity() instanceof RoleRestrictedAgent) {
+			roleManager = (SimpleRoleSecurity) getSecurity();
+		} 
+		else {
+			// create a special instance
+			roleManager = new SimpleRoleSecurity(agentDatabase, session, getLog());
+		}
 		return roleManager.getUserRoles();
 	}
 	
