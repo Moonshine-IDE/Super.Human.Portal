@@ -72,7 +72,7 @@ package model.proxy
 			{
 				sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP,
 				 	new PopupVO(PopupType.WARNING, MediatorMainContentView.NAME, 
-					"You do not have sufficient rights to performn this operation. If you feel this is in error please contact <a href='mailto:Support@Prominic.NET'>Support@Prominic.NET</a>."));
+					"You do not have sufficient rights to perform this operation. If you feel this is in error please contact <a href='mailto:Support@Prominic.NET'>Support@Prominic.NET</a>."));
 			}
 			
 			return true;
