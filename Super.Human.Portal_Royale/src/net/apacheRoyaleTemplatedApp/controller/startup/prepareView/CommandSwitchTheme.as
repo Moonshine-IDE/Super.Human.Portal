@@ -26,10 +26,12 @@ package controller.startup.prepareView
 				case Theme.DARK:
 					themeProxy.themeId = loadCSS("resources/themes/" + Theme.DARK + "/defaults.css");
 					themeProxy.theme = Theme.DARK;
+					window["DevExpress"].ui.themes.current("generic." + Theme.DARK);
 					break;
 				default:
 					themeProxy.themeId = loadCSS("resources/themes/" + Theme.LIGHT + "/defaults.css");
 					themeProxy.theme = Theme.LIGHT;
+					window["DevExpress"].ui.themes.current("generic." + Theme.LIGHT);
 					break;
 			}
 		}		
