@@ -1,6 +1,7 @@
 package mediator
 {
     import constants.ApplicationConstants;
+    import constants.Theme;
 
     import interfaces.IMainContentView;
 
@@ -9,6 +10,7 @@ package mediator
     import mediator.applications.MediatorGenesisEditDir;
     import mediator.bookmarks.MediatorEditBookmark;
 
+    import model.proxy.ProxyTheme;
     import model.proxy.ProxyVersion;
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
     import model.proxy.busy.ProxyBusyManager;
@@ -53,6 +55,7 @@ package mediator
 				view.viewDrawer.addEventListener("openDrawer", onOpenCloseDrawer);
 				view.viewDrawer.addEventListener("closeDrawer", onOpenCloseDrawer);
 				view.logout.addEventListener(MouseEvent.CLICK, onLogoutClick);
+				view.switchTheme.addEventListener(MouseEvent.CLICK, onSwitchTheme);
 				view.viewButtonDrawer.addEventListener(MouseEvent.CLICK, onDrawerButtonShowHide);
 				view.viewDrawerNavigation.addEventListener(Event.CHANGE, onNavigationSectionChange);
 				view.viewDrawerNavigation.addEventListener("sectionChange", onNavigationSectionChange);
@@ -380,6 +383,13 @@ package mediator
 				proxyUrlParams.setData(null);
 				
 				loginProxy.logout();
+			}
+			
+			private function onSwitchTheme(event:MouseEvent):void
+			{
+				var themeProxy:ProxyTheme = facade.retrieveProxy(ProxyTheme.NAME) as ProxyTheme;
+				var theme:String = themeProxy.theme;
+				sendNotification(ApplicationConstants.COMMAND_SWITCH_THEME, theme == Theme.DARK ? Theme.LIGHT : Theme.DARK);
 			}
 			
 			private function onNavigationSectionChange(event:Event):void

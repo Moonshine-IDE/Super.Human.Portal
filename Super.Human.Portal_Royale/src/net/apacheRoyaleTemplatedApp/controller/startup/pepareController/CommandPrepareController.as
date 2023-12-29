@@ -20,11 +20,13 @@ package controller.startup.pepareController
 
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
+	import controller.startup.prepareView.CommandSwitchTheme;
 									
 	public class CommandPrepareController extends SimpleCommand
 	{
 		override public function execute(note:INotification):void
 		{
+			facade.registerCommand(ApplicationConstants.COMMAND_SWITCH_THEME, CommandSwitchTheme);
 			facade.registerCommand(ApplicationConstants.COMMAND_START_PASSWORD_RESET, CommandStartPasswordReset);
 			facade.registerCommand(ApplicationConstants.COMMAND_START_NEW_REGISTRATION, CommandStartNewRegistration);
 			facade.registerCommand(ApplicationConstants.COMMAND_CLEAN_URL_PARAMETERS, CommandCleanUrlParameters);

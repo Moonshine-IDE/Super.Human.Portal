@@ -80,6 +80,7 @@ package constants
 		//----------------------------------
 		public static const COMMAND_STARTUP:String = NAME + SEPARATOR + "CommandStartup";
 		public static const COMMAND_POST_STARTUP:String = NAME + SEPARATOR + "CommandPostStartup";
+		public static const COMMAND_SWITCH_THEME:String = NAME + SEPARATOR + "CommandSwitchTheme";
 		public static const COMMAND_EXECUTE_ROLES:String = NAME + SEPARATOR + "CommandExecuteRoles";
 		public static const COMMAND_EXECUTE_MAIN_CONTENT_ROLES:String = NAME + SEPARATOR + "CommandExecuteMainContentRoles";
 		public static const COMMAND_EXECUTE_BOOKMARKS_ROLES:String = NAME + SEPARATOR + "CommandExecutBookmarksRoles";

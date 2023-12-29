@@ -120,6 +120,11 @@
 				this.lblLoggedUser.text = "Hello, "+ value +"!";
 			}
 			
+			public function get switchTheme():IEventDispatcher
+			{
+				return this.themeSwitch;
+			}
+			
 			private var _authenticationId:String = "";
 			
 			[Bindable]
@@ -369,6 +374,14 @@
 				<html:H2 localId="mainTitle" text="Super.Human.Portal"/>
             </j:BarSection>
 			<j:BarSection itemsHorizontalAlign="itemsRight" gap="2">
+				<j:ToggleButton localId="themeSwitch">
+					<j:icon>
+						<js:MaterialToggleIcon text="dark_mode" selectedText="light_mode" />
+					</j:icon>
+					<j:beads>
+						<j:ToolTip toolTip="Switch between Light and Dark theme."/>
+					</j:beads>
+				</j:ToggleButton>
 				<j:IconButton>
                     <j:icon>
                         <js:MaterialIcon text="{MaterialIconType.ACCOUNT_BOX}"/>

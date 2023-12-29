@@ -18,6 +18,7 @@ package interfaces
 		function set logoutVisible(value:Boolean):void;
 		function get logout():IEventDispatcher;
 		function set loggedUsername(value:String):void;
+		function get switchTheme():IEventDispatcher;
 		function set authenticationId(value:String):void;
 		function get versionText():String;
 		function set versionText(value:String):void;

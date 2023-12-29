@@ -1,8 +1,11 @@
 package controller.startup.prepareModel
 {
+	import constants.Theme;
+
 	import model.proxy.ProxyCreateAccount;
 	import model.proxy.ProxyPasswordStrength;
 	import model.proxy.ProxySessionCheck;
+	import model.proxy.ProxyTheme;
 	import model.proxy.ProxyVersion;
 	import model.proxy.applicationsCatalog.ProxyGenesisApps;
 	import model.proxy.applicationsCatalog.ProxyGenesisDirs;
@@ -26,6 +29,7 @@ package controller.startup.prepareModel
 		{	
 			var dataUrl:String = "";
 			
+			facade.registerProxy(new ProxyTheme(Theme.LIGHT));
 			facade.registerProxy(new ProxyBusyManager());
 			facade.registerProxy(new ProxyVersion());
 

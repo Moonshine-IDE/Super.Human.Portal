@@ -10,6 +10,7 @@ package
 	import org.puremvc.as3.multicore.patterns.facade.Facade;
 	import controller.roles.executeRoles.CommandExecuteRolesBookmarksView;
 	import controller.roles.executeRoles.CommandExecuteRolesBrowseMyServerView;
+	import constants.Theme;
 
 	public class ApplicationFacade extends Facade
 	{		
@@ -17,6 +18,21 @@ package
 			super(key);
 		}	
 
+		private var _theme:String;
+		
+		public function setTheme(theme:String):void
+		{
+			if (_theme != theme)
+			{
+				_theme = theme;
+			}
+		}
+		
+		public function getTheme():String
+		{
+			return _theme;
+		}
+		
 		/**
 		 * ApplicationFacade Factory Method
 		*/
