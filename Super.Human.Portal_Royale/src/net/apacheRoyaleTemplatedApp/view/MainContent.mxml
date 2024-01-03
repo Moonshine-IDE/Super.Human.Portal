@@ -290,7 +290,7 @@
 	<j:FooterBar id="appFooter" fixed="true">
 		<j:BarRow>
 			<j:BarSection>
-				<j:Label className="smallFontGrey" text="{versionText}"/>
+				<j:Label className="smallFont" text="{versionText}"/>
 			</j:BarSection>
 			<j:BarSection itemsHorizontalAlign="itemsCenter">
 				<j:Label className="smallFont" html="{footerText}" percentWidth="100">
@@ -300,8 +300,7 @@
 				</j:Label>
 			</j:BarSection>
 			<j:BarSection itemsHorizontalAlign="itemsRight">
-				<j:Label id="authIdLabel" 
-						 className="smallFontGrey" text="{authenticationId}"/>
+				<j:Label id="authIdLabel" className="smallFont" text="{authenticationId}"/>
 			</j:BarSection>
 		</j:BarRow>
 	</j:FooterBar>

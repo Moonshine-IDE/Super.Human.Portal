@@ -354,13 +354,32 @@
   box-shadow: none;
   color: #47651e;
 }
+
 .jewel.topappbar .jewel.barrow {
-	background: linear-gradient(#404040, #262626);
+	background: #2a2a2a;
+}
+.jewel.footerbar .footerBarAppHeader {
+	background: #2a2a2a !important;	
+}
+.jewel.navigation {
+	background-color: #2a2a2a;
+}
+.jewel.navigationlink.selectable {
+	color: #ffffff;
+}
+.jewel.drawer.fixed .drawermain {
+	background-color: #2a2a2a;
 }
 .jewel.drawerheader {
-	background: linear-gradient(#404040, #262626);
+	background: #2a2a2a;
+}
+.jewel.navigationgroup.no-submenu.hovered {
+	background: #2a2a2a !important;
 }
 .jewel.navigationgroup.no-submenu.selected {
-	background: linear-gradient(#404040, #262626) !important;
+	background: #444 !important;
+}
+.jewel.section {
+	background: #2a2a2a;
 }
 /*# sourceMappingURL=defaults.css.map */
