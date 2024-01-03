@@ -398,5 +398,8 @@
 .topMenuListItemRenderer.selected {
 	background: #444 !important;
 }
+.jewel.label.labelLink {
+	color: #ffffff !important;	
+}
 
 /*# sourceMappingURL=defaults.css.map */
