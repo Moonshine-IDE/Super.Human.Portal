@@ -364,6 +364,9 @@
 .jewel.navigation {
 	background-color: #2a2a2a;
 }
+.jewel.navigationlink.hovered {
+	background: #2a2a2a !important;
+}
 .jewel.navigationlink.selectable {
 	color: #ffffff;
 }
@@ -382,4 +385,18 @@
 .jewel.section {
 	background: #2a2a2a;
 }
+
+.topMenuListItemRenderer {
+	color: #ffffff !important;	
+}
+.topMenuListItemRenderer.hovered {
+	background: #2a2a2a !important;
+}
+.topMenuListItemRenderer.selected.hovered {
+	background: #444 !important;
+}
+.topMenuListItemRenderer.selected {
+	background: #444 !important;
+}
+
 /*# sourceMappingURL=defaults.css.map */
