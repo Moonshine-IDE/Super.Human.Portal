@@ -446,4 +446,12 @@
 	color: #ffffff !important;	
 }
 
+.jewel.button.noLinkStyle a {
+  color: #ffffff;
+  text-decoration: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
 /*# sourceMappingURL=defaults.css.map */

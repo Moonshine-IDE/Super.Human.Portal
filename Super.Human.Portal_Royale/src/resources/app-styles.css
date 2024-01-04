@@ -341,15 +341,6 @@ a:hover {
   background: linear-gradient(#f16c42,#ed4812);
 }
 
-.jewel.button.noLinkStyle a {
-  color: #808080;
-  text-decoration: none;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 12px;
-  padding-right: 12px;
-}
-
 .jewel.button.noLinkWhiteButtonStyle a {
   color: #FFFFFF;
   text-decoration: none;

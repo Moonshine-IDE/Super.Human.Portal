@@ -6,11 +6,9 @@ package model.proxy
 	{
 		public static const NAME:String = "ProxyTheme";
 
-		public function ProxyTheme(theme:String)
+		public function ProxyTheme()
 		{
 			super(NAME);
-			
-			this.theme = theme;
 		}
 		
 		private var _themeId:String;

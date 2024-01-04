@@ -375,7 +375,7 @@
 			<j:BarSection itemsHorizontalAlign="itemsRight" gap="2">
 				<j:ToggleButton localId="themeSwitch">
 					<j:icon>
-						<js:MaterialToggleIcon text="dark_mode" selectedText="light_mode" />
+						<js:MaterialToggleIcon text="light_mode" selectedText="dark_mode" />
 					</j:icon>
 					<j:beads>
 						<j:ToolTip toolTip="Switch between Light and Dark theme."/>
