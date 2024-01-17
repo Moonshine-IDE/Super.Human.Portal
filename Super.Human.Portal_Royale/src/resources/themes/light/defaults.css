@@ -364,4 +364,28 @@
   padding-right: 12px;
 }
 
+.dx-datagrid-header-panel {
+	background-color: #f5f8fa;
+	border-bottom: none;
+}
+
+.dx-datagrid-header-panel .dx-toolbar {
+	background-color: #f5f8fa;
+}
+
+.dx-datagrid-action {
+	background: linear-gradient(#e6e6e6, #cccccc);
+	border: 1px solid #b3b3b3;
+	box-shadow: inset 0 1px 0 white;
+}
+.dx-datagrid-text-content div {
+	font-weight: bold !important;
+	color: #808080 !important;
+}
+
+
+.jewel.label.brandColor {
+	color: #EC1C24 !important;
+}
+
 /*# sourceMappingURL=defaults.css.map */

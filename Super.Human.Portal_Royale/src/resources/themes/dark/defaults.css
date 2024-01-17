@@ -18,221 +18,181 @@
 @namespace "http://www.w3.org/1999/xhtml";
 .jewel.badge.emphasized {
   background: #8CC63C;
-  color: #FFFFFF;
+  color: #dedede;
 }
 
-.jewel.button {
-	background: linear-gradient(#54b7f3,#24a3ef);
+.jewel.button, .jewel.button.primary {
+	background: #1ca8dd;
 	border-radius: 0.25rem;
-	border: 1px solid #0f88d1;
-	box-shadow: inset 0 1px 0 #9bd5f8;
-	color: #FFFFFF;
-	text-shadow: 0 -1px 0 rgba(10,90,138,0.7);
+	border-color: transparent;
+	box-shadow: none;
+	color: #2a2a2a;
+	text-shadow: none;
 }
 
-.jewel.button:hover, .jewel.button:hover:focus {
-  background: linear-gradient(#3CADF1, #1198e9);
-  border: 1px solid #0d79ba;
-  color: #FFFFFF;
+.jewel.button:focus, .jewel.button.primary:focus {
+  background: #40b9e7;
+  border-color: transparent;
+  box-shadow: none;
+  color: #2a2a2a;
 }
-.jewel.button:active, .jewel.button:active:focus {
-  background: linear-gradient(#1198e9, #0d79ba);
-  border: 1px solid #0a5a8a;
-  box-shadow: inset 0px 1px 3px 0px rgba(50, 50, 50, 0.5);
-  color: #FFFFFF;
-}
-.jewel.button:focus {
-  border: 1px solid #0f88d1;
-  box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  color: #FFFFFF;
-}
-.jewel.button[disabled] {
-  background: #f3f3f3 !important;
-  border: 1px solid #d9d9d9 !important;
+
+.jewel.button:hover, .jewel.button:hover:focus, .jewel.button.primary:hover, .jewel.button.primary:hover:focus {
+  background: #40b9e7 !important;
   box-shadow: none !important;
-  color: silver;
-  text-shadow: unset;
-}
-.jewel.button[disabled]:hover, .jewel.button[disabled]:hover:focus {
-  color: silver;
+  border-color: transparent;
+  color: #2a2a2a !important;
+  text-shadow: none !important;
 }
 
-.jewel.button.emphasized {
-  background: linear-gradient(#98cc50, #7eb435);
-  border: 1px solid #638c29;
-  box-shadow: inset 0 1px 0 #bbdd8b;
-  border-radius: 0.25rem;
-  color: #FFFFFF;
-  text-shadow: 0 -1px 0 rgba(57, 81, 24, 0.7);
+.jewel.button:active, .jewel.button:active:focus, .jewel.button.primary:active, .jewel.button.primary:active:focus {
+  background: #7fd0ef;
+  border-color: transparent;
+  box-shadow: none;
+  color: #2a2a2a;
 }
-.jewel.button.emphasized:hover, .jewel.button.emphasized:hover:focus {
-  background: linear-gradient(#8CC63C, #71a02f);
-  border: 1px solid #557923;
-  color: #FFFFFF;
-}
-.jewel.button.emphasized:active, .jewel.button.emphasized:active:focus {
-  background: linear-gradient(#71a02f, #557923);
-  border: 1px solid #395118;
-  box-shadow: inset 0px 1px 3px 0px rgba(50, 50, 50, 0.5);
-  color: #FFFFFF;
-}
-.jewel.button.emphasized:focus {
-  border: 1px solid #638c29;
-  box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  color: #FFFFFF;
-}
-.jewel.button.emphasized[disabled] {
-  background: #404040 !important;
-  border: 1px solid #0d0d0d !important;
+
+.jewel.button[disabled], .jewel.button.primary[disabled] {
+  background: #1ca8dd !important;
+  border-color: transparent !important;
   box-shadow: none !important;
-  color: #737373;
+  color: #2a2a2a;
   text-shadow: unset;
-}
-.jewel.button.emphasized[disabled]:hover, .jewel.button.emphasized[disabled]:hover:focus {
-  color: #737373;
+  opacity: .7;
 }
 
-.jewel.button.emphasized.outlined {
-  background: rgba(140, 198, 60, 0.05);
-  border: 1px solid #71a02f;
-  box-shadow: none;
-  color: #638c29;
-  text-shadow: none;
-}
-.jewel.button.emphasized.outlined:hover, .jewel.button.emphasized.outlined:hover:focus {
-  background: rgba(140, 198, 60, 0.15);
-  border: 1px solid #638c29;
-  color: #47651e;
-}
-.jewel.button.emphasized.outlined:active, .jewel.button.emphasized.outlined:active:focus {
-  background: rgba(140, 198, 60, 0.25);
-  border: 1px solid #5a8126;
-  box-shadow: none;
-  color: #47651e;
-}
-.jewel.button.emphasized.outlined:focus {
-  border: 1px solid #557923;
-  box-shadow: none;
-  color: #47651e;
-}
-.jewel.button.emphasized.outlined[disabled] {
-  background: rgba(64, 64, 64, 0.1) !important;
-  border: 1px solid #0d0d0d !important;
-  color: #737373;
-  text-shadow: unset;
-}
-.jewel.button.emphasized.outlined[disabled]:hover, .jewel.button.emphasized.outlined[disabled]:hover:focus {
-  color: #737373;
+.jewel.button[disabled]:hover, .jewel.button[disabled]:hover:focus, .jewel.button.primary[disabled]:hover {
+  cursor: default;
 }
 
-.jewel.button.emphasized.unboxed {
-  background: rgba(140, 198, 60, 0);
-  border: 1px solid transparent;
-  box-shadow: none;
-  color: #638c29;
-  text-shadow: none;
-}
-.jewel.button.emphasized.unboxed:hover, .jewel.button.emphasized.unboxed:hover:focus {
-  background: rgba(140, 198, 60, 0.15);
-  border: 1px solid transparent;
-  color: #47651e;
-}
-.jewel.button.emphasized.unboxed:active, .jewel.button.emphasized.unboxed:active:focus {
-  background: rgba(140, 198, 60, 0.25);
-  border: 1px solid transparent;
-  box-shadow: none;
-  color: #47651e;
-}
-.jewel.button.emphasized.unboxed:focus {
-  background: rgba(140, 198, 60, 0.15);
-  border: 1px solid transparent;
-  box-shadow: none;
-  color: #47651e;
-}
-.jewel.button.emphasized.unboxed[disabled] {
-  background: rgba(64, 64, 64, 0) !important;
-  border: 1px solid transparent !important;
-  color: #737373;
-  text-shadow: unset;
-}
-.jewel.button.emphasized.unboxed[disabled]:hover, .jewel.button.emphasized.unboxed[disabled]:hover:focus {
-  color: #737373;
+.jewel.button.secondary {
+	background: #d9534f;
+	border-radius: 0.25rem;
+	border-color: transparent;
+	box-shadow: none;
+	color: #000;
+	text-shadow: none;
 }
 
-.jewel.checkbox.emphasized input + span::before {
-  background: linear-gradient(#7f7f7f, #737373);
-  border: 1px solid #333333;
-}
-.jewel.checkbox.emphasized input + span::after {
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='22' height='22' fill-opacity='0'/%3E%3Cpolygon fill='%238CC63C' points='3.50018311 12.4854126 8.48547363 17.4989624 18.4641113 7.47589111 15.5010376 4.51739502 8.48547363 11.5650024 6.52087402 9.47265625'/%3E%3C/svg%3E") no-repeat center center;
-}
-.jewel.checkbox.emphasized input:checked + span::after, .jewel.checkbox.emphasized input:checked:active + span::after {
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='22' height='22' fill-opacity='0'/%3E%3Cpolygon fill='%238CC63C' points='3.50018311 12.4854126 8.48547363 17.4989624 18.4641113 7.47589111 15.5010376 4.51739502 8.48547363 11.5650024 6.52087402 9.47265625'/%3E%3C/svg%3E") no-repeat center center;
-}
-.jewel.checkbox.emphasized input:indeterminate + span::after, .jewel.checkbox.emphasized input:indeterminate:active + span::after {
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='22' height='22' fill-opacity='0'/%3E%3Crect stroke-width='0' stroke='%23FFFFFF' height='12' width='12' y='5' x='5' fill='%238CC63C' /%3E%3C/svg%3E") no-repeat center center;
-}
-.jewel.checkbox.emphasized input:focus + span::before, .jewel.checkbox.emphasized input:checked:focus + span::before, .jewel.checkbox.emphasized input:checked:active:focus + span::before, .jewel.checkbox.emphasized input:indeterminate:focus + span::before, .jewel.checkbox.emphasized input:indeterminate:active:focus + span::before {
-  background: linear-gradient(#d2e9b2, #bbdd8b);
-  border: 1px solid #638c29;
-}
-.jewel.checkbox.emphasized input[disabled] + span {
-  color: #737373;
-}
-.jewel.checkbox.emphasized input[disabled] + span::before {
-  background: #404040;
-  border: 1px solid #0d0d0d;
-}
-.jewel.checkbox.emphasized input:checked[disabled] + span::after {
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='22' height='22' fill-opacity='0'/%3E%3Cpolygon fill='%23191919' points='3.50018311 12.4854126 8.48547363 17.4989624 18.4641113 7.47589111 15.5010376 4.51739502 8.48547363 11.5650024 6.52087402 9.47265625'/%3E%3C/svg%3E") no-repeat center center;
-}
-.jewel.checkbox.emphasized input:indeterminate[disabled] + span::after {
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='22' height='22' fill-opacity='0'/%3E%3Crect stroke-width='0' stroke='%23FFFFFF' height='12' width='12' y='5' x='5' fill='%23191919' /%3E%3C/svg%3E") no-repeat center center;
-}
-.jewel.checkbox.emphasized.rejected input:indeterminate + span::after, .jewel.checkbox.emphasized.rejected input:indeterminate:active + span::after {
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='22' height='22' fill-opacity='0'/%3E%3Cline stroke-width='4' stroke='%238CC63C' stroke-linecap='undefined' stroke-linejoin='undefined' y2='10.9375' x2='17' y1='11.0625' x1='5' fill='none' /%3E%3C/svg%3E") no-repeat center center;
-}
-.jewel.checkbox.emphasized.rejected input:indeterminate[disabled] + span::after {
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 22 22' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='22' height='22' fill-opacity='0'/%3E%3Cline stroke-width='4' stroke='%23191919' stroke-linecap='undefined' stroke-linejoin='undefined' y2='10.9375' x2='17' y1='11.0625' x1='5' fill='none' /%3E%3C/svg%3E") no-repeat center center;
+.jewel.button.secondary:focus {
+  background: #d9534f;
+  border-color: transparent;
+  box-shadow: none;
+  color: #000;
+  opacity: .8;
 }
 
-.jewel.switch.emphasized input:checked + .switch {
-  background: linear-gradient(#8cc63c, #a3d263);
-  box-shadow: 0px 0px 0px 1px #7eb435;
-}
-.jewel.switch.emphasized input:focus + .switch {
-  box-shadow: 0px 0px 0px 1px #71a02f;
-}
-.jewel.switch.emphasized input:checked + .switch::before {
-  background: #f5faee;
-}
-.jewel.switch.emphasized input[disabled]:checked + .switch {
-  background: #8c8c8c;
-  box-shadow: 0px 0px 0px 1px #7f7f7f;
-}
-.jewel.switch.emphasized input[disabled] + .switch {
-  background: #737373;
-  box-shadow: 0px 0px 0px 1px #999999;
-}
-.jewel.switch.emphasized input[disabled] + .switch::before {
-  background: #595959;
-}
-.jewel.switch.emphasized .switch {
-  background: linear-gradient(#595959, #737373);
-  box-shadow: 0px 0px 0px 1px #4c4c4c;
-}
-.jewel.switch.emphasized .switch::before {
-  background: #f5faee;
-  box-shadow: 1px 0px 1px 0px rgba(0, 0, 0, 0.1);
+.jewel.button.secondary:hover, .jewel.button.secondary:hover:focus {
+  background: #d9534f !important;
+  box-shadow: none !important;
+  border-color: transparent;
+  color: #000 !important;
+  text-shadow: none !important;
+  opacity: .8;
 }
 
+.jewel.button.icon.secondary:hover {
+	background: #d9534f !important;
+}
+
+.jewel.button.icon.left-space:hover {
+	background: #40b9e7 !important;	
+}
+
+.jewel.button.icon:hover {
+	background: #40b9e7 !important;
+}
+
+.jewel.tabbarbutton {
+  background-color: transparent;
+  border-color: #1997c6;
+  color: #1997c6;
+}
+.jewel.tabbarbutton.selected {
+    color: #2a2a2a;
+    background: #1ca8dd;
+}
+
+.jewel.checkbox input + span::before {
+  background: #2a2a2a;
+  border: 1px solid #4d4d4d;
+  color: #dedede;
+}
+
+.jewel.checkbox:hover input + span::before {
+	color: #dedede;
+	border: 1px solid #1ca8dd;
+}
+
+.jewel.checkbox input[disabled] + span::before {
+	background: #2a2a2a !important;
+    border: 1px solid #4d4d4d;
+    color: #dedede;
+	opacity: .7;
+}
+
+.jewel.checkbox input + span::after {
+	background: url("data:image/svg+xml,%3Csvg fill='%231ca8dd' version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='22px' height='22px' viewBox='-83.12 -83.12 581.82 581.82' xml:space='preserve'%3E%3Cg id='SVGRepo_bgCarrier' stroke-width='0'%3E%3C/g%3E%3Cg id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round'%3E%3C/g%3E%3Cg id='SVGRepo_iconCarrier'%3E%3Cg%3E%3Cpath d='M411.47,96.426l-46.319-46.32c-5.482-5.482-14.371-5.482-19.853,0L152.348,243.058l-82.066-82.064 c-5.48-5.482-14.37-5.482-19.851,0l-46.319,46.32c-5.482,5.481-5.482,14.37,0,19.852l138.311,138.31 c2.741,2.742,6.334,4.112,9.926,4.112c3.593,0,7.186-1.37,9.926-4.112L411.47,116.277c2.633-2.632,4.111-6.203,4.111-9.925 C415.582,102.628,414.103,99.059,411.47,96.426z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important;
+}
+
+.jewel.checkbox input[disabled] + span::after {
+	background: url("data:image/svg+xml,%3Csvg fill='%231ca8dd' version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='22px' height='22px' viewBox='-83.12 -83.12 581.82 581.82' xml:space='preserve'%3E%3Cg id='SVGRepo_bgCarrier' stroke-width='0'%3E%3C/g%3E%3Cg id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round'%3E%3C/g%3E%3Cg id='SVGRepo_iconCarrier'%3E%3Cg%3E%3Cpath d='M411.47,96.426l-46.319-46.32c-5.482-5.482-14.371-5.482-19.853,0L152.348,243.058l-82.066-82.064 c-5.48-5.482-14.37-5.482-19.851,0l-46.319,46.32c-5.482,5.481-5.482,14.37,0,19.852l138.311,138.31 c2.741,2.742,6.334,4.112,9.926,4.112c3.593,0,7.186-1.37,9.926-4.112L411.47,116.277c2.633-2.632,4.111-6.203,4.111-9.925 C415.582,102.628,414.103,99.059,411.47,96.426z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important;
+	opacity: .7;
+}
+
+.jewel.radiobutton input + span::before {
+  background: #2a2a2a;
+  border: 1px solid #4d4d4d;
+  color: #dedede;
+}
+
+.jewel.radiobutton:hover input + span::before {
+	color: #dedede;
+	border: 1px solid #1ca8dd;
+}
+
+.jewel.list {
+	background: #2a2a2a;
+	border: 1px solid #4d4d4d !important;	
+	color: #dedede;
+	box-shadow: none;
+}
+.jewel.list .jewel.item.primary.hovered {
+	background: #2a2a2a;	
+	color: #dedede !important;
+}
+
+.jewel.datagrid {
+  background: #2a2a2a;
+  border: 1px solid #4d4d4d;	
+}
+.jewel.datagrid .jewel.list.column {
+  background: #2a2a2a;
+  border: 1px solid #4d4d4d;
+  color: #dedede;
+}
+.jewel.datagrid .jewel.list.column .jewel.item.datagrid.primary.hovered {
+	background: #2a2a2a;
+}
+.jewel.datagrid .jewel.list.column .jewel.item.datagrid.primary.selected {
+	background: #444;
+}
 .jewel.datagrid .jewel.list.column .jewel.item.datagrid.emphasized.hovered {
   background: #a8d46b;
 }
 .jewel.datagrid .jewel.list.column .jewel.item.datagrid.emphasized.selected, .jewel.datagrid .jewel.list.column .jewel.item.datagrid.emphasized.selectable:active {
   background: #9cce58;
 }
-
+.jewel.datagrid .jewel.buttonbar.header .jewel.button {
+  background: #2a2a2a;
+  border: 1px solid #4d4d4d;
+  color: #dedede;
+  text-shadow: none;
+  box-shadow: none;
+}
+.jewel.datagrid .jewel.list.column .jewel.item.datagrid {
+  border-bottom: none;
+}
 .jewel.item.emphasized.hovered {
   background: #8CC63C;
 }
@@ -251,7 +211,7 @@
   border-bottom: none;
 }
 .jewel.snackbar.emphasized .jewel.snackbar-message {
-  color: #FFFFFF;
+  color: #dedede;
 }
 .jewel.snackbar.emphasized .jewel.snackbar-action {
   color: #E2D70B;
@@ -285,24 +245,24 @@
   border: 1px solid #638c29;
   box-shadow: inset 0 1px 0 #bbdd8b;
   border-radius: 0.25rem;
-  color: #FFFFFF;
+  color: #dedede;
   text-shadow: 0 -1px 0 rgba(57, 81, 24, 0.7);
 }
 .jewel.togglebutton.emphasized:hover, .jewel.togglebutton.emphasized:hover:focus {
   background: linear-gradient(#8CC63C, #71a02f);
   border: 1px solid #557923;
-  color: #FFFFFF;
+  color: #dedede;
 }
 .jewel.togglebutton.emphasized:active, .jewel.togglebutton.emphasized:active:focus {
   background: linear-gradient(#71a02f, #557923);
   border: 1px solid #395118;
   box-shadow: inset 0px 1px 3px 0px rgba(50, 50, 50, 0.5);
-  color: #FFFFFF;
+  color: #dedede;
 }
 .jewel.togglebutton.emphasized:focus {
   border: 1px solid #638c29;
   box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  color: #FFFFFF;
+  color: #dedede;
 }
 .jewel.togglebutton.emphasized[disabled] {
   background: #404040 !important;
@@ -315,7 +275,7 @@
   background: linear-gradient(#71a02f, #557923);
   border: 1px solid #395118;
   box-shadow: inset 0px 1px 3px 0px rgba(50, 50, 50, 0.5);
-  color: #FFFFFF;
+  color: #dedede;
 }
 
 .jewel.togglebutton.emphasized.outlined {
@@ -392,14 +352,64 @@
 }
 .jewel.card {
 	background: 	#2a2a2a !important;
-	color: #ffffff;
+	border: 1px solid #4d4d4d;	
+	color: #dedede;
+}
+
+.jewel.textinput {
+	color: #dedede;
+}
+
+.jewel.textinput input {
+	background: #2a2a2a;
+	color: #dedede;
+	border: 1px solid #4d4d4d;
+}
+
+.jewel.textinput input[disabled] {
+	background: #2a2a2a;
+	color: #dedede;
+	border: 1px solid #4d4d4d;
+	opacity: .7;
+}
+
+.jewel.textarea textarea {
+	background: #2a2a2a;
+	color: #dedede;
+	border: 1px solid #4d4d4d;
+}
+
+.jewel.dropdownlist {
+	background-color: #2a2a2a;
+	color: #dedede;
+	border: 1px solid #4d4d4d;
+}
+
+.jewel.dropdownlist[disabled] {
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 8' version='1.1' xmlns='http://www.w3.org/2000/svg'%3E%3Cg stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg transform='translate(0.000000, -1.000000)' fill='%231CA8DD' fill-rule='nonzero'%3E%3Cg transform='translate(-2.000000, 0.000000)'%3E%3Cpolygon transform='translate(8.000000, 4.705000) scale(1, -1) translate(-8.000000, -4.705000) ' points='3.41 8.41 8 3.83 12.59 8.41 14 7 8 1 2 7'%3E%3C/polygon%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E") !important;
+	background-color: #2a2a2a;
+	color: #dedede;
+	border: 1px solid #4d4d4d;
+	opacity: .8;
 }
 
 .jewel.topappbar .jewel.barrow {
 	background: #2a2a2a;
 }
+.jewel.topappbar .jewel.barsection button {
+	color: #dedede !important;
+}
+.jewel.topappbar .topBarAppHeader {
+	background: #2a2a2a !important;
+	border-top: 1px solid black !important;
+	border-bottom: 1px solid #4d4d4d !important;
+	color: #dedede !important;
+}
+
 .jewel.footerbar .footerBarAppHeader {
 	background: #2a2a2a !important;	
+	border-top: 1px solid #4d4d4d !important;
+	color: #dedede !important;
 }
 .jewel.navigation {
 	background-color: #2a2a2a;
@@ -408,13 +418,15 @@
 	background: #2a2a2a !important;
 }
 .jewel.navigationlink.selectable {
-	color: #ffffff;
+	color: #dedede !important;
 }
 .jewel.drawer.fixed .drawermain {
 	background-color: #2a2a2a;
+	border-right: 1px solid #4d4d4d !important;
 }
 .jewel.drawerheader {
 	background: #2a2a2a;
+	border-bottom: 1px solid #4d4d4d !important;
 }
 .jewel.navigationgroup.no-submenu.hovered {
 	background: #2a2a2a !important;
@@ -422,12 +434,118 @@
 .jewel.navigationgroup.no-submenu.selected {
 	background: #444 !important;
 }
+.jewel.navigationgroup.no-submenu.selected a {
+	color: #dedede !important;
+}
 .jewel.section {
 	background: #2a2a2a;
 }
 
+.jewel.alert {
+	background: #2a2a2a;
+}
+
+.jewel.alert .jewel.titlebar .jewel.label {
+	color: #dedede !important;
+}
+
+.jewel.alert .content .jewel.label {
+	color: #dedede;
+}
+
+.jewel.titlebar.info {
+	background: #1ca8dd;
+	color: #dedede;
+}
+
+.jewel.titlebar.error {
+	background: #d9534f;
+	color: #dedede;
+}
+
+.datechooser-popup {
+	color: #dedede;
+}
+
+.jewel.datechooser .jewel.table {
+	background: #2a2a2a;
+	border: 1px solid #4d4d4d;
+}
+
+.jewel.datechooser .jewel.table .jewel.tableheadercell {
+	background: #2a2a2a;
+	border: 1px solid #4d4d4d;
+}
+
+.jewel.datechooser .jewel.table .jewel.tableheadercell {
+	border: none;	
+}
+
+.jewel.datechooser .jewel.table .jewel.tableheadercell.buttonsRow {
+	border-bottom: 1px solid #4d4d4d;	
+}
+
+.jewel.datechooser .jewel.table .jewel.button {
+	border: 1px solid #4d4d4d;
+	background: #2a2a2a;
+	color: #dedede;
+}
+
+.jewel.datechooser .jewel.table .jewel.button:hover {
+	border: 1px solid #4d4d4d;
+	background: #2a2a2a !important;
+	color: #dedede !important;
+  	box-shadow: none !important;
+  	text-shadow: none !important;
+  	opacity: .8;
+}
+
+.jewel.datefield .jewel.button {
+	border: 1px solid #4d4d4d;
+	background: #2a2a2a;
+	color: #dedede;
+}
+
+.jewel.datefield .jewel.button:hover {
+	border: 1px solid #4d4d4d;
+	background: #2a2a2a !important;
+	color: #dedede !important;
+  	box-shadow: none !important;
+  	text-shadow: none !important;	
+  	opacity: .8;
+}
+
+.jewel.formheading {
+	color: #1ca8dd;
+}
+
+.jewel.label {
+	color: #dedede;
+}
+
+h3 {
+	color: #dedede;
+}
+
+a {
+	color: #1ca8dd;
+}
+
+a:link {
+	color: #1ca8dd;
+}
+
+a:hover {
+	color: #1ca8dd;
+	opacity: .8;	
+}
+
+a font {
+	color: #1ca8dd;
+}
+
 .topMenuListItemRenderer {
-	color: #ffffff !important;	
+	color: #dedede !important;	
 }
 .topMenuListItemRenderer.hovered {
 	background: #2a2a2a !important;
@@ -439,19 +557,36 @@
 	background: #444 !important;
 }
 .jewel.button.icon.topMenuListItemRendererIcon {
-	color: #ffffff !important;	
+	color: #dedede !important;	
 }
 
 .jewel.label.labelLink {
-	color: #ffffff !important;	
+	color: #dedede !important;	
 }
 
 .jewel.button.noLinkStyle a {
-  color: #ffffff;
+  color: #2a2a2a;
   text-decoration: none;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 12px;
   padding-right: 12px;
 }
+
+.jewel.card.loginViewBackground {
+	background: 	#2a2a2a !important;
+}
+
+.downloadPasswordEmphasize {
+	border: 1px solid #4d4d4d !important;
+}
+
+.downloadPasswordEmphasize jewel.label {
+	color: #d9534f !important;
+}
+
+.jewel.label.brandColor {
+	color: #d9534f !important;
+}
+
 /*# sourceMappingURL=defaults.css.map */
