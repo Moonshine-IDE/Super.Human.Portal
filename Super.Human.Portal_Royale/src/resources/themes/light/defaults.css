@@ -397,4 +397,7 @@
 	color: #EC1C24 !important;
 }
 
+.prominicLogo {
+	content: url('../../images/loginlogo.jpg');
+}
 /*# sourceMappingURL=defaults.css.map */

@@ -130,7 +130,7 @@
 		]]>
 	</fx:Script>
 	<j:Card className="loginViewBackground" itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter">
-		<j:Image src="resources/images/prominic-logo-stacked-WHITE.png" width="200" height="200"/>
+		<j:Image className="prominicLogo"/>
 		<j:Form localId="loginForm" percentWidth="100" includeIn="loginInternal">
 			<j:beads>
 				<j:FormValidator id="validatorForm" trigger="{btnLogin}" triggerEvent="click" />

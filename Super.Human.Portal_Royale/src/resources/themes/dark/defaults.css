@@ -599,4 +599,9 @@ a font {
 	color: #d9534f !important;
 }
 
+.prominicLogo {
+	content: url('../../images/prominic-logo-stacked-WHITE.png');
+	width: 200px;
+	height: 200px;
+}
 /*# sourceMappingURL=defaults.css.map */
