@@ -130,7 +130,7 @@
 		]]>
 	</fx:Script>
 	<j:Card className="loginViewBackground" itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter">
-		<j:Image src="resources/images/loginlogo.jpg"/>
+		<j:Image src="resources/images/prominic-logo-stacked-WHITE.png" width="200" height="200"/>
 		<j:Form localId="loginForm" percentWidth="100" includeIn="loginInternal">
 			<j:beads>
 				<j:FormValidator id="validatorForm" trigger="{btnLogin}" triggerEvent="click" />
@@ -155,7 +155,7 @@
 				</j:TextInput>
 			</controls:CustomFormItem>
 		</j:Form>
-		<j:Label multiline="true" text="You are not authenticated.\nClick the Login button to continue." 
+		<j:Label multiline="true" text="You are not authenticated. Click the Login button to continue." 
 				includeIn="loginExternal" className="bigFont bold labelTextAlignCenter">
 			<j:style>
 				<js:SimpleCSSStyles paddingTop="10" paddingBottom="10" />

@@ -342,8 +342,6 @@ a:hover {
 }
 
 .jewel.button.noLinkWhiteButtonStyle a {
-  color: #FFFFFF;
-  text-decoration: none;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 12px;
@@ -509,8 +507,6 @@ a:hover {
 }
 
 .jewel.button.primary.noLinkStyleInstallApp a {
-  color: #FFFFFF;
-  text-decoration: none;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 25px;

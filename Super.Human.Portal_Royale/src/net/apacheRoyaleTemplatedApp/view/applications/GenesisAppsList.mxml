@@ -108,7 +108,7 @@
 	</j:Card>	
 	<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
 		<j:Label percentWidth="100" text="* Select item to see more details and install application."
-				 className="smallFont italic brandColor labelTextAlignRight"/>
+				 className="brandColor labelTextAlignRight"/>
 	</j:HGroup>
 	<dataGrid:DataGrid localId="genesisApps" className="dataGridJS scrollHeightGenAppGridJS" filterRow="{filterRow}"
 					   headerFilter="{filterHeader}">

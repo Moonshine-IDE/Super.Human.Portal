@@ -290,10 +290,10 @@
 	<j:FooterBar id="appFooter" fixed="true">
 		<j:BarRow>
 			<j:BarSection>
-				<j:Label className="smallFont" text="{versionText}"/>
+				<j:Label text="{versionText}"/>
 			</j:BarSection>
 			<j:BarSection itemsHorizontalAlign="itemsCenter">
-				<j:Label className="smallFont" html="{footerText}" percentWidth="100">
+				<j:Label html="{footerText}" percentWidth="100">
 					<j:beads>
 						<j:TextAlign align="center"/>
 					</j:beads>

@@ -383,6 +383,15 @@
 	color: #808080 !important;
 }
 
+.jewel.button.noLinkWhiteButtonStyle a {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.jewel.button.primary.noLinkStyleInstallApp a {
+  color: #FFFFFF;
+  text-decoration: none;
+}
 
 .jewel.label.brandColor {
 	color: #EC1C24 !important;
