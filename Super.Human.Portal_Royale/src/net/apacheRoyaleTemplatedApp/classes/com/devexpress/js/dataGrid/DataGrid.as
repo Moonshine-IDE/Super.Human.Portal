@@ -183,6 +183,42 @@ package classes.com.devexpress.js.dataGrid
 		}
 		
 		/**
+		 *
+		 * @default: true
+		 * @royaleignorecoercion classes.com.devexpress.js.dataGrid.beads.models.IDataGridModel
+		 */
+		public function set showRowLines(value:Boolean):void
+		{
+			model["showRowLines"] = value;
+		}
+		
+		/**
+		 * @royaleignorecoercion classes.com.devexpress.js.dataGrid.beads.models.IDataGridModel
+		 */
+		public function get showRowLines():Boolean
+		{
+			return model["showRowLines"];
+		}
+		
+		/**
+		 *
+		 * @default: true
+		 * @royaleignorecoercion classes.com.devexpress.js.dataGrid.beads.models.IDataGridModel
+		 */
+		public function set showBorders(value:Boolean):void
+		{
+			model["showBorders"] = value;
+		}
+		
+		/**
+		 * @royaleignorecoercion classes.com.devexpress.js.dataGrid.beads.models.IDataGridModel
+		 */
+		public function get showBorders():Boolean
+		{
+			return model["showBorders"];
+		}
+		
+		/**
 		 * Specifies a text string shown when the DataGrid does not display any data.
 		 * @default: "No data"
 		 **/

@@ -26,17 +26,25 @@ package classes.com.devexpress.js.dataGrid.beads
 		
 		private function headerTemplateFunction(container:Object, info:Object, element:Object = null):void
 		{
-			window["$"](container[0].parentElement).css("background", "linear-gradient(#e6e6e6, #cccccc)");
-			window["$"](container[0].parentElement).css("border", "1px solid #b3b3b3");
+			var currentTheme:String = window["DevExpress"].ui.themes.current();
+			if (currentTheme && currentTheme.indexOf("dark") > 0)
+			{
+				window["$"]('<div>')
+						.css("font-weight", "bold")
+						.css("color", "#dedede")
+						.html(info.column.caption)
+						.appendTo(container);
+			}
+			else
+			{
+				window["$"]('<div>')
+						.css("font-weight", "bold")
+						.css("color", "#808080")
+						.html(info.column.caption)
+						.appendTo(container);
+			}
+			
 			window["$"](container[0].parentElement).css("padding", "10px");
-			window["$"](container[0].parentElement).css("box-shadow", "inset 0 1px 0 white");
-			
-			
-			window["$"]('<div>')
-					.css("font-weight", "bold")
-					.css("color", "#808080")
-                    .html(info.column.caption)
-                    .appendTo(container);
 		}
 	}
 }

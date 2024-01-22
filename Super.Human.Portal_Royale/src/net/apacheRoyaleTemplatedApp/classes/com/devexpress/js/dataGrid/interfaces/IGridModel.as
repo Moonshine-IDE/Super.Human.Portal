@@ -28,6 +28,12 @@ package classes.com.devexpress.js.dataGrid.interfaces
 		
 		function get showColumnLines():Boolean;
 		function set showColumnLines(value:Boolean):void;
+
+		function get showRowLines():Boolean;
+		function set showRowLines(value:Boolean):void;
+
+		function get showBorders():Boolean;
+		function set showBorders(value:Boolean):void;
 		
 		function set noDataText(value:String):void;
 		function get noDataText():String;

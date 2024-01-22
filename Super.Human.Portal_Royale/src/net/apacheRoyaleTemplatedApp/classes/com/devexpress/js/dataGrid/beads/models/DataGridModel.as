@@ -174,6 +174,40 @@ package classes.com.devexpress.js.dataGrid.beads.models
 				dispatchEvent(new Event("optionsChanged"));
 			}				
 		}
+				
+		private var _showRowLines:Boolean;
+		
+		public function get showRowLines():Boolean
+		{
+			return _showRowLines;
+		}
+		
+		public function set showRowLines(value:Boolean):void
+		{
+			if (this._showRowLines != value)
+			{
+				this._showRowLines = value;	
+				
+				dispatchEvent(new Event("optionsChanged"));
+			}				
+		}
+		
+		private var _showBorders:Boolean = true;
+		
+		public function get showBorders():Boolean
+		{
+			return _showBorders;
+		}
+		
+		public function set showBorders(value:Boolean):void
+		{
+			if (this._showBorders != value)
+			{
+				this._showBorders = value;	
+				
+				dispatchEvent(new Event("optionsChanged"));
+			}				
+		}
 
 		private var _noDataText:String = "No data";
 		

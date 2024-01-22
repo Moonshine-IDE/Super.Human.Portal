@@ -171,6 +171,9 @@
   border: 1px solid #4d4d4d;
   color: #dedede;
 }
+.jewel.datagrid .jewel.list.column .jewel.item.datagrid.primary.selectable:active {
+	background: #2a2a2a;
+}
 .jewel.datagrid .jewel.list.column .jewel.item.datagrid.primary.hovered {
 	background: #2a2a2a;
 }
@@ -189,6 +192,10 @@
   color: #dedede;
   text-shadow: none;
   box-shadow: none;
+}
+.jewel.datagrid .jewel.buttonbar.header .jewel.button:hover {
+	background: #2a2a2a !important;
+	color: #dedede !important;
 }
 .jewel.datagrid .jewel.list.column .jewel.item.datagrid {
   border-bottom: none;

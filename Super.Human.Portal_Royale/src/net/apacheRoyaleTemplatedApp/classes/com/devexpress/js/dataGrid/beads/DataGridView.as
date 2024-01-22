@@ -141,6 +141,8 @@ package classes.com.devexpress.js.dataGrid.beads
 				searchPanel: grModel.searchPanel,
 				scrolling: grModel.scrolling,
 				showColumnLines: grModel.showColumnLines,
+				showRowLines: grModel.showRowLines,
+				showBorders: grModel.showBorders,
 				noDataText: grModel.noDataText
 			});		
 		}
