@@ -590,6 +590,11 @@ a font {
   text-decoration: none;
 }
 
+.jewel.label.noLinkWhiteLabelStyle a {
+  color: #2a2a2a;
+  text-decoration: none;
+}
+
 .jewel.card.loginViewBackground {
 	background: 	#2a2a2a !important;
 }
