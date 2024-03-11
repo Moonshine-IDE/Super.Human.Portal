@@ -29,6 +29,12 @@ if (notesInstallation.toLowerCase().startsWith('/applications/')) { // treat as 
 		notesJarPath = "$notesJarExtDir/Notes.jar"
 	}
 	if (!(new File(notesJarPath).exists())) {
+		// alternative location for macOS and Notes 14:  /Applications/HCL Notes.app/Contents/Resources/ndext/Notes.jar 
+		logger.info "Notes.jar not found at $notesJarPath"
+		notesJarExtDir = "$notesInstallation/../Resources/ndext"
+		notesJarPath = "$notesJarExtDir/Notes.jar"
+	}
+	if (!(new File(notesJarPath).exists())) {
 		logger.info "Notes.jar not found at $notesJarPath"
 		throw new GradleException("ERROR: Could not find Notes.jar")
 	}
