@@ -61,7 +61,7 @@
   opacity: .7;
 }
 
-.jewel.button[disabled]:hover, .jewel.button[disabled]:hover:focus, .jewel.button.primary[disabled]:hover {
+.jewel.button[disabled]:hover, .jewel.button[disabled]:hover:focus, .jewel.button.primary[disabled]:hover, .jewel.button.secondary[disabled]:hover {
   cursor: default;
 }
 
@@ -89,6 +89,14 @@
   color: #000 !important;
   text-shadow: none !important;
   opacity: .8;
+}
+
+.jewel.button.secondary[disabled] {
+	background: #d9534f !important;
+	border-color: transparent !important;	
+	box-shadow: none !important;
+  	text-shadow: unset;
+  	opacity: .7;
 }
 
 .jewel.button.icon.secondary:hover {
