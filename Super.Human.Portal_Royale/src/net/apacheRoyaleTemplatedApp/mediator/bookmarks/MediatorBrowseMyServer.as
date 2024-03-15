@@ -47,8 +47,7 @@ package mediator.bookmarks
 			this.view.copyToClipboardServer.addEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.addEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.addEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
-			this.view.openNomadWeb.addEventListener(MouseEvent.CLICK, onOpenNomadWeb);
-			
+				
 			this.refreshCurrentState(view.topMenu.selectedItem, view.topMenu.subSelectedItem);
 			if (!this.browseMyServerProxy.getData())
 			{
@@ -69,7 +68,6 @@ package mediator.bookmarks
 			this.view.copyToClipboardServer.removeEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.removeEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.removeEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
-			this.view.openNomadWeb.removeEventListener(MouseEvent.CLICK, onOpenNomadWeb);
 			
 			this.bookmarksProxy = null;
 			this.browseMyServerProxy = null;
@@ -156,26 +154,6 @@ package mediator.bookmarks
 			this.bookmarksProxy.selectedBookmark = bookmark;
 			this.bookmarksProxy.selectedBookmark.type = ApplicationVO.LINK_DATABASE;
 			sendNotification(ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK);
-		}
-		
-		private function onOpenNomadWeb(event:MouseEvent):void
-		{
-			event.preventDefault();
-			
-			var hashHrefPrefix:String = '#/';
-			var hrefUrl:URL = new URL(view.selectedItem.nomadURL);
-			var subUrl:String = hrefUrl.hash.substring(hrefUrl.hash.indexOf(hashHrefPrefix) + hashHrefPrefix.length);
-			var serviceWorker:Object = navigator["serviceWorker"];
-			
-			if (serviceWorker && serviceWorker.controller) 
-			{
-				serviceWorker.controller.postMessage({
-					type: 'openNotesUri',
-					payload: {
-						notesUri: decodeURIComponent(subUrl)
-					}
-				});
-			}
 		}
 		
 		private function updateView():void
