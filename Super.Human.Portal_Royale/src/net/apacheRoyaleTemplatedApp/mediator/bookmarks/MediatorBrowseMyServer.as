@@ -160,22 +160,7 @@ package mediator.bookmarks
 		
 		private function onOpenNomadWeb(event:MouseEvent):void
 		{
-			event.preventDefault();
-			
-			var hashHrefPrefix:String = '#/';
-			var hrefUrl:URL = new URL(view.selectedItem.nomadURL);
-			var subUrl:String = hrefUrl.hash.substring(hrefUrl.hash.indexOf(hashHrefPrefix) + hashHrefPrefix.length);
-			var serviceWorker:Object = navigator["serviceWorker"];
-			
-			if (serviceWorker && serviceWorker.controller) 
-			{
-				serviceWorker.controller.postMessage({
-					type: 'openNotesUri',
-					payload: {
-						notesUri: decodeURIComponent(subUrl)
-					}
-				});
-			}
+			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, view.selectedItem.nomadURL);
 		}
 		
 		private function updateView():void

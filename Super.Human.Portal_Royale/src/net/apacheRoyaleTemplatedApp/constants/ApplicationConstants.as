@@ -107,5 +107,6 @@ package constants
 		public static const COMMAND_CLEAN_URL_PARAMETERS:String = NAME + SEPARATOR + "CommandCleanUrlParameters";
 		public static const COMMAND_AUTH_TEST:String = NAME + SEPARATOR + "CommandAuthTest";
 		public static const COMMAND_GET_LTPA_TOKEN:String = NAME + SEPARATOR + "CommandGetLTPAToken";
+		public static const COMMAND_LAUNCH_NOMAD_LINK:String = NAME + SEPARATOR + "CommandLaunchNomadLink";
 	}
 }

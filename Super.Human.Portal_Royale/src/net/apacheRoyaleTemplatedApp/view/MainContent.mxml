@@ -230,6 +230,11 @@
 				return this.viewInstalledApp;	
 			}
 			
+			public function get viewNomadHelper():Object
+			{
+				return nomadHelper;	
+			}
+			
 			public function get installedAppsSection():Object
 			{
 				return this.sectionInstalledApps;	
@@ -450,4 +455,5 @@
 			<bookmarks:EditBookmarkView localId="editBookmarkView"/>
 		</j:ScrollableSectionContent>
     </j:ApplicationMainContent>
+	<j:Group id="nomadHelper" visible="false"/>
 </j:ResponsiveView>

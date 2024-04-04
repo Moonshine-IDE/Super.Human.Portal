@@ -47,6 +47,7 @@ package interfaces
 		function get bookmarksView():IBookmarksView;
 		function get bookmarksViewSection():Object;
 		function get viewEditBookmark():IEditBookmarkView;
+		function get viewNomadHelper():Object
 		
 		function set title(value:String):void;
 		

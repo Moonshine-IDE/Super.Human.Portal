@@ -21,6 +21,7 @@ package controller.startup.pepareController
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 	import controller.startup.prepareView.CommandSwitchTheme;
+	import controller.CommandLaunchNomadLink;
 									
 	public class CommandPrepareController extends SimpleCommand
 	{
@@ -46,6 +47,7 @@ package controller.startup.pepareController
 			facade.registerCommand(ApplicationConstants.COMMAND_START_POST_LOGIN, CommandPostLogin);
 			facade.registerCommand(ApplicationConstants.COMMAND_AUTH_TEST, CommandAuthenticationTest);
 			facade.registerCommand(ApplicationConstants.COMMAND_GET_LTPA_TOKEN, CommandGetLTPAToken);
+			facade.registerCommand(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, CommandLaunchNomadLink);
 		}
 	}
 }
