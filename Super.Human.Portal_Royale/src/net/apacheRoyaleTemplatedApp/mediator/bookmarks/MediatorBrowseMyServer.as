@@ -160,6 +160,8 @@ package mediator.bookmarks
 		
 		private function onOpenNomadWeb(event:MouseEvent):void
 		{
+			event.preventDefault();
+			
 			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, view.selectedItem.nomadURL);
 		}
 		
@@ -174,6 +176,7 @@ package mediator.bookmarks
 		
 		private function refreshButtonLinks():void
 		{
+			
 			if (view.selectedItem)
 			{
 				view.openClient.html = "<a target='_blank' href='" + view.selectedItem.url + "'>Open in Client</a>";

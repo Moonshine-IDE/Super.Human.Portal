@@ -455,5 +455,5 @@
 			<bookmarks:EditBookmarkView localId="editBookmarkView"/>
 		</j:ScrollableSectionContent>
     </j:ApplicationMainContent>
-	<j:Group id="nomadHelper" visible="false"/>
+	<html:Iframe id="nomadHelper" visible="false"></html:Iframe>
 </j:ResponsiveView>
