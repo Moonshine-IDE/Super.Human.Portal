@@ -5,6 +5,7 @@ package controller
 	import org.apache.royale.html.elements.Iframe;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
+	import org.apache.royale.jewel.Snackbar;
 
 	public class CommandLaunchNomadLink extends SimpleCommand
 	{
@@ -12,9 +13,12 @@ package controller
 		{
 			var mainMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;
 			var nomadHelper:Iframe = mainMediator.view.viewNomadHelper as Iframe;
-			var link:String = String(note.getBody());
+			var link:String = note.getBody().link;
 			var encodedLink:String = encodeURIComponent(link);
 			nomadHelper.src = "https://nomadweb.venus.startcloud.com/nomad/nomadhelper.html?link=" + encodedLink;
+			
+			var appName:String = note.getBody().name;
+			Snackbar.show("Application " + appName + " has been opened in HCL Nomad web", 4000, null);
 		}
 	}
 }

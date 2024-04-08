@@ -162,7 +162,8 @@ package mediator.bookmarks
 		{
 			event.preventDefault();
 			
-			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, view.selectedItem.nomadURL);
+			var selectedApp:Object = view.topMenu.selectedItem;
+			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, {name: selectedApp.data.name, link: view.selectedItem.nomadURL});
 		}
 		
 		private function updateView():void

@@ -1,11 +1,14 @@
 package mediator.applications
 {
+    import constants.ApplicationConstants;
+
     import interfaces.IInstalledAppView;
 
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
     import model.proxy.urlParams.ProxyUrlParameters;
     import model.vo.ApplicationVO;
 
+    import org.apache.royale.events.MouseEvent;
     import org.apache.royale.jewel.IconButton;
     import org.apache.royale.jewel.VGroup;
     import org.puremvc.as3.multicore.interfaces.IMediator;
@@ -145,16 +148,20 @@ package mediator.applications
 						var configurationDetails:ConfigurationAppDetails = new ConfigurationAppDetails();
 							configurationDetails.currentState = "installedApp";
 							configurationDetails.percentWidth = 100;
+							configurationDetails.data = link;
 							configurationDetails.server = link.server;
 							configurationDetails.database = link.database;						
 							configurationDetails.viewName = link.view;
 							configurationDetails.clientOpenLink = link.url ? '<a height="100%" width="100%" href="' + link.url + '" target="_blank">Open in Client</a>' : null;
 							configurationDetails.nomadOpenLink = link.nomadURL ? '<a height="100%" width="100%" href="' + link.nomadURL + '" target="_blank">Open in Nomad</a>' : null;
+
 							configurationDetails.visible = false;
 							
 						dbContainer.addElement(configurationDetails);
 						
 						view.installedAppLinks.addElement(dbContainer);
+						
+						configurationDetails.openInNomad.addEventListener(MouseEvent.CLICK, onOpenNomadWeb);
 					}
 				}
 			}
@@ -175,13 +182,20 @@ package mediator.applications
 				
 				for (var j:int = 0; j < linkEl.numElements; j++)
 				{
-					var internalItem:Object = linkEl.getElementAt(j) as LinkWithDescriptionAppButton;
+					var linkItem:Object = linkEl.getElementAt(j);
+					var internalItem:Object = linkItem as LinkWithDescriptionAppButton;
 					if (internalItem)
 					{
 						internalItem.removeEventListener("showClick", onShowHideDbConfigClick);
 					}
-				}
 					
+					var confItem:Object = linkItem as ConfigurationAppDetails;
+					if (confItem)
+					{
+						confItem.openInNomad.removeEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+					}
+				}
+				
 				view.installedAppLinks.removeElement(linkEl);
 			}
 		}
@@ -199,6 +213,15 @@ package mediator.applications
 					break;
 				}
 			}
+		}
+		
+		private function onOpenNomadWeb(event:Event):void
+		{
+			event.preventDefault();
+			
+			var confView:ConfigurationAppDetails = event["nativeEvent"].currentTarget.royale_wrapper.parent.parent.parent as ConfigurationAppDetails;
+			var selectedApp:Object = confView.data;
+			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, {name: selectedApp.database, link: selectedApp.nomadURL});
 		}
     }
 }

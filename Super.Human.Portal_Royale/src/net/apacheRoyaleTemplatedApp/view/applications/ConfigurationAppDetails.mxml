@@ -18,6 +18,7 @@
 			import utils.ClipboardText;
 			import org.apache.royale.events.MouseEvent;
 			import org.apache.royale.events.Event;
+			import org.apache.royale.events.IEventDispatcher;
 
 			[Bindable]
 			public var server:String;
@@ -33,6 +34,23 @@
 			[Bindable]
 			public var editable:Boolean;
 
+			public function get openInNomad():IEventDispatcher
+			{
+				return this.openNomad;
+			}
+			
+			private var _data:Object;
+
+			public function get data():Object
+			{
+				return _data;
+			}
+
+			public function set data(value:Object):void
+			{
+				_data = value;
+			}
+			
 			private function onCopyToClipboardServerClick(event:MouseEvent):void
 			{
 				ClipboardText.copyToClipboard(server);
@@ -126,7 +144,7 @@
 				</j:IconButton>
 			</j:HGroup>
 			<j:Button className="noLinkStyle" minWidth="130" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
-			<j:Button className="noLinkStyle" minWidth="130" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
+			<j:Button localId="openNomad" className="noLinkStyle" minWidth="130" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
 		</j:CardActions>
 	</j:Card>
 </j:VGroup>
