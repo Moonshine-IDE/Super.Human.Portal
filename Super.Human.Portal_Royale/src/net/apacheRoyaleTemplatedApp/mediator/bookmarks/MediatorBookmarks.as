@@ -20,6 +20,7 @@ package mediator.bookmarks
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
+    import view.applications.ConfigurationAppDetails;
     import view.bookmarks.Bookmark;
     import view.bookmarks.event.BookmarkEvent;
     
@@ -166,7 +167,8 @@ package mediator.bookmarks
 					bookmarkView.bookmark = bookmark;
 					bookmarkView.currentState = "database";
 				}
-
+				
+				bookmarkView.addEventListener("initComplete", onBookmarkInitComplete);
 				bookmarkView.addEventListener(BookmarkEvent.EDIT_BOOKMARK, onModifyBookmark);
 				bookmarkView.addEventListener(BookmarkEvent.DELETE_BOOKMARK, onModifyBookmark);
 									
@@ -182,9 +184,25 @@ package mediator.bookmarks
 				var bookmarkItem:Object = view.bookmarksList.getElementAt(i);
 					bookmarkItem.removeEventListener(BookmarkEvent.EDIT_BOOKMARK, onModifyBookmark);
 					bookmarkItem.removeEventListener(BookmarkEvent.DELETE_BOOKMARK, onModifyBookmark);
+					bookmarkItem.removeEventListener("initComplete", onBookmarkInitComplete);
 					
 				view.bookmarksList.removeElement(bookmarkItem);
 			}
+		}
+		
+		private function onBookmarkInitComplete(event:Event):void
+		{
+			var bookmarkView:Bookmark = event.currentTarget as Bookmark;
+			bookmarkView.configurationDetails.openInNomad.addEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+		}
+		
+		private function onOpenNomadWeb(event:MouseEvent):void
+		{
+			event.preventDefault();
+
+			var confView:ConfigurationAppDetails = event["nativeEvent"].currentTarget.royale_wrapper.parent.parent.parent as ConfigurationAppDetails;
+			var selectedApp:Object = confView.data;
+			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, {name: selectedApp.database, link: selectedApp.nomadURL});
 		}
 		
 		private function onViewStateChangeComplete(event:Event):void

@@ -41,6 +41,11 @@
 				_bookmark = value;
 			}
 
+			public function get bookmarkConfig():Object
+			{
+				return configurationDetails;	
+			}
+			
 			private function onBookmarkInitComplete(event:Event):void
 			{
 				if (currentState == "browser")
@@ -86,7 +91,7 @@
 	</j:HGroup>
 	<j:VGroup includeIn="database" itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsLeft" gap="2">
 		<controls:LinkWithDescriptionAppButton showClick="onShowHideDbConfigClick(event)" linkLabel="{urlOpenDefault}" description="{bookmark.description}"/>
-		<applications:ConfigurationAppDetails localId="configurationDetails" server="{bookmark.server}"
+		<applications:ConfigurationAppDetails localId="configurationDetails" data="{bookmark}" server="{bookmark.server}"
 											 database="{bookmark.database}" viewName="{bookmark.view}" nomadOpenLink="{bookmark.nomadURL}"
 											 percentWidth="100" visible="false" editable="{editable}" 
 											 editButtonClick="onEditBookmark(event)" deleteButtonClick="onDeleteBookmark(event)"/>
