@@ -1,0 +1,28 @@
+{ 
+    "title": "Create configuration document required for nomadhelper.html", 
+    "versionjson": "1.0.0", 
+    "steps": [ 
+        { 
+            "title": "--- Import Documents ---", 
+            "databases": [ 
+                { 
+                    "action": "update", 
+                    "filePath": "SuperHumanPortal.nsf", 
+                    "documents":[
+                        { 
+                            "action": "update", 
+                            "findDocument": {
+                            		"Form":"Config Value",
+                            		"Key": "nomad_helper_url"
+                            },
+                            "computeWithForm": true,
+                            "items": {
+                                "Value":"https://nomadweb.test22.shi.com/nomad/nomadhelper.html"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
