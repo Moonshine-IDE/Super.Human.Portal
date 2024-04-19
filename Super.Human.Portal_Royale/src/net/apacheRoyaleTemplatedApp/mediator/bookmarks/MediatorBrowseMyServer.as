@@ -47,8 +47,7 @@ package mediator.bookmarks
 			this.view.copyToClipboardServer.addEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.addEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.addEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
-			this.view.openNomadWeb.addEventListener(MouseEvent.CLICK, onOpenNomadWeb);
-			
+				
 			this.refreshCurrentState(view.topMenu.selectedItem, view.topMenu.subSelectedItem);
 			if (!this.browseMyServerProxy.getData())
 			{
@@ -69,7 +68,6 @@ package mediator.bookmarks
 			this.view.copyToClipboardServer.removeEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.removeEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.removeEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
-			this.view.openNomadWeb.removeEventListener(MouseEvent.CLICK, onOpenNomadWeb);
 			
 			this.bookmarksProxy = null;
 			this.browseMyServerProxy = null;

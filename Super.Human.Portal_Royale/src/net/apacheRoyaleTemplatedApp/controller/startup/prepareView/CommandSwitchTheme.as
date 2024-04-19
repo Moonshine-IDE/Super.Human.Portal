@@ -12,26 +12,32 @@ package controller.startup.prepareView
 	{
 		override public function execute(note:INotification):void	
 		{
-			var theme:String = String(note.getBody());
-			var themeProxy:ProxyTheme = facade.retrieveProxy(ProxyTheme.NAME) as ProxyTheme;
-			
-			var themeId:* = document.getElementById(themeProxy.themeId);
+			var themeProxy:ProxyTheme = facade.retrieveProxy(ProxyTheme.NAME) as ProxyTheme;	
+			var currentTheme:Object = themeProxy.getTheme();
+	
+			var themeId:* = document.getElementById(currentTheme.themeId);
 			if (themeId)
 			{
 				document.head.removeChild(themeId);
+			}
+		
+			var theme:Object = note.getBody();
+			if (!theme)
+			{
+				theme = currentTheme.theme;
 			}
 			
 			switch (theme)
 			{
 				case Theme.DARK:
-					themeProxy.themeId = loadCSS("resources/themes/" + Theme.DARK + "/defaults.css");
-					themeProxy.theme = Theme.DARK;
+					themeId = loadCSS("resources/themes/" + Theme.DARK + "/defaults.css");
 					window["DevExpress"].ui.themes.current("generic." + Theme.DARK);
+					themeProxy.setTheme(Theme.DARK, themeId);
 					break;
 				default:
-					themeProxy.themeId = loadCSS("resources/themes/" + Theme.LIGHT + "/defaults.css");
-					themeProxy.theme = Theme.LIGHT;
+					themeId = loadCSS("resources/themes/" + Theme.LIGHT + "/defaults.css");
 					window["DevExpress"].ui.themes.current("generic." + Theme.LIGHT);
+					themeProxy.setTheme(Theme.LIGHT, themeId);
 					break;
 			}
 		}		

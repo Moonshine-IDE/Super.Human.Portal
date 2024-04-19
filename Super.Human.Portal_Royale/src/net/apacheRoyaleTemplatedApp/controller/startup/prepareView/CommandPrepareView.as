@@ -17,7 +17,7 @@ package controller.startup.prepareView
 	{
 		override public function execute(note: INotification):void	
 		{
-			sendNotification(ApplicationConstants.COMMAND_SWITCH_THEME, Theme.DARK);
+			sendNotification(ApplicationConstants.COMMAND_SWITCH_THEME);
 			
 			var app:IApplication = note.getBody() as IApplication;
 		
