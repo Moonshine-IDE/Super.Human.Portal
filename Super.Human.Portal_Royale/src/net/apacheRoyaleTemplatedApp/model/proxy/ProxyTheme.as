@@ -1,6 +1,7 @@
 package model.proxy
 {
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
+	import constants.Theme;
 	
 	public class ProxyTheme extends Proxy
 	{
@@ -9,33 +10,38 @@ package model.proxy
 		public function ProxyTheme()
 		{
 			super(NAME);
+			
+			this.setData({theme: Theme.LIGHT});
 		}
-		
-		private var _themeId:String;
 
-		public function get themeId():String
+		public function getTheme():Object
 		{
-			return _themeId;
-		}
-		
-		public function set themeId(value:String):void
-		{
-			if (_themeId != value)
+			var currentTheme:String = window["Cookies"].get("MyAccountTheme");
+			var currentThemeId:String = window["Cookies"].get("MyAccountThemeId");
+			
+			for (var t:String in Theme)
 			{
-				_themeId = value;
+				if (Theme[t] == currentTheme)
+				{
+					return {theme: currentTheme, themeId: currentThemeId};
+				}
 			}
+			
+			return this.getData();
 		}
-
-		public function get theme():String
+		
+		public function setTheme(theme:String, themeId:String):void
 		{
-			return String(this.getData());
-		}
-
-		public function set theme(value:String):void
-		{
-			if (String(this.getData()) != value)
+			for (var t:String in Theme)
 			{
-				this.setData(value);
+				if (Theme[t] == theme)
+				{
+					window["Cookies"].set("MyAccountTheme", theme);
+					window["Cookies"].set("MyAccountThemeId", themeId);
+					
+					this.setData({theme: theme, themeId: themeId});
+					break;
+				}
 			}
 		}
 	}

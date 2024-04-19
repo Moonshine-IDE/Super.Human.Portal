@@ -388,8 +388,8 @@ package mediator
 			private function onSwitchTheme(event:MouseEvent):void
 			{
 				var themeProxy:ProxyTheme = facade.retrieveProxy(ProxyTheme.NAME) as ProxyTheme;
-				var theme:String = themeProxy.theme;
-				sendNotification(ApplicationConstants.COMMAND_SWITCH_THEME, theme == Theme.DARK ? Theme.LIGHT : Theme.DARK);
+				var currentTheme:Object = themeProxy.getTheme();
+				sendNotification(ApplicationConstants.COMMAND_SWITCH_THEME, currentTheme.theme == Theme.DARK ? Theme.LIGHT : Theme.DARK);
 			}
 			
 			private function onNavigationSectionChange(event:Event):void
