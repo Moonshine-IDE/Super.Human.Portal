@@ -44,6 +44,7 @@ package mediator.bookmarks
 			this.view.topMenu.addEventListener(TopMenuEvent.MENU_LOADED, onTopMenuItemChange);
 			this.view.topMenu.addEventListener(TopMenuEvent.MENU_ITEM_CHANGE, onTopMenuItemChange);
 			this.view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
+			this.view.openNomadWeb.addEventListener(MouseEvent.CLICK, onOpenNomadWeb);
 			this.view.copyToClipboardServer.addEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.addEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.addEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
@@ -65,6 +66,7 @@ package mediator.bookmarks
 			this.view.topMenu.removeEventListener(TopMenuEvent.MENU_LOADED, onTopMenuItemChange);
 			this.view.topMenu.removeEventListener(TopMenuEvent.MENU_ITEM_CHANGE, onTopMenuItemChange);
 			this.view.addBookmark.removeEventListener(MouseEvent.CLICK, onAddBookmarkClick);
+			this.view.openNomadWeb.removeEventListener(MouseEvent.CLICK, onOpenNomadWeb);
 			this.view.copyToClipboardServer.removeEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.removeEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.removeEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);

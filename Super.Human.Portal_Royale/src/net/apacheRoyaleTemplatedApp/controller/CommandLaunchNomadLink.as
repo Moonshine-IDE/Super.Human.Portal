@@ -15,7 +15,7 @@ package controller
 		override public function execute(note:INotification):void 
 		{
 			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
-			var nomadHelperUrl:String = loginProxy.config.nomad_helper_url;
+			var nomadHelperUrl:String = loginProxy.config.config.nomad_helper_url;
 			var link:String = note.getBody().link;
 			
 			if (nomadHelperUrl)
