@@ -47,7 +47,7 @@ package mediator.applications
 			view.seeMoreDetails["text"] = "App details";
 			view.appDescription = "No description";
 			cleanUpInstalledAppLinks();
-			
+
 			this.genesisAppsProxy = null;
 		}
 		
@@ -141,7 +141,13 @@ package mediator.applications
 						var linkWithDescription:LinkWithDescriptionAppButton = new LinkWithDescriptionAppButton();
 							linkWithDescription.description = link.description;
 							linkWithDescription.linkLabel = urlOpenDefault;
+							linkWithDescription.nomadURL = link.nomadURL;
+							linkWithDescription.appName = link.name;
 							linkWithDescription.addEventListener("showClick", onShowHideDbConfigClick);
+						if (link.defaultAction == "nomad")
+						{
+							linkWithDescription.addEventListener("linkClick", onOpenInNomadLink);
+						}
 						
 						dbContainer.addElement(linkWithDescription);
 						
@@ -161,7 +167,7 @@ package mediator.applications
 						
 						view.installedAppLinks.addElement(dbContainer);
 						
-						configurationDetails.openInNomad.addEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+						configurationDetails.openInNomad.addEventListener(MouseEvent.CLICK, onOpenInNomadConfig);
 					}
 				}
 			}
@@ -187,12 +193,13 @@ package mediator.applications
 					if (internalItem)
 					{
 						internalItem.removeEventListener("showClick", onShowHideDbConfigClick);
+						internalItem.removeEventListener("linkClick", onOpenInNomadLink);
 					}
 					
 					var confItem:Object = linkItem as ConfigurationAppDetails;
 					if (confItem)
 					{
-						confItem.openInNomad.removeEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+						confItem.openInNomad.removeEventListener(MouseEvent.CLICK, onOpenInNomadConfig);
 					}
 				}
 				
@@ -215,7 +222,14 @@ package mediator.applications
 			}
 		}
 		
-		private function onOpenNomadWeb(event:Event):void
+		private function onOpenInNomadLink(event:Event):void
+		{
+			var link:LinkWithDescriptionAppButton = event.currentTarget as LinkWithDescriptionAppButton;
+			
+			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, {name: link.appName, link: link.nomadURL});
+		}
+		
+		private function onOpenInNomadConfig(event:Event):void
 		{
 			event.preventDefault();
 			

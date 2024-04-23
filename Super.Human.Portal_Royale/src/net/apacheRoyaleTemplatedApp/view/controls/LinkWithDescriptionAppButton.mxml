@@ -6,15 +6,22 @@
 	</j:beads>
 	<fx:Metadata>
 		[Event(name="showClick", type="org.apache.royale.events.Event")]
+		[Event(name="linkClick", type="org.apache.royale.event.Event")]
 	</fx:Metadata>
 	<fx:Script>
 	<![CDATA[
+		import org.apache.royale.events.MouseEvent;
+
 		[Bindable]
 		public var description:String;
 		
 		[Bindable]
 		public var linkLabel:String;
 
+		public var nomadURL:String;
+		
+		public var appName:String;
+		
 		private var _show:Boolean;
 
 		public function get show():Boolean
@@ -38,11 +45,19 @@
 			}
 			this.dispatchEvent(new Event("showClick"));
 		}
+		
+		private function onLinkClick(event:MouseEvent):void
+		{
+			event.preventDefault();
+			
+			this.dispatchEvent(new Event("linkClick"));
+		}
 	]]>
 </fx:Script>
 	<j:HGroup gap="1" itemsVerticalAlign="itemsCenter" className="bookmarkTitleContainer"
 			minHeight="40" width="220">
-		<j:Label localId="defaultOpenUrl" html="{linkLabel}" multiline="true" percentWidth="85" className="cursorPointer noLinkWhiteLabelStyle">
+		<j:Label localId="defaultOpenUrl" html="{linkLabel}" multiline="true" percentWidth="85" className="cursorPointer noLinkWhiteLabelStyle"
+				 click="onLinkClick(event)">
 			<j:style>
 				<js:SimpleCSSStyles padding="5"/>
 			</j:style>
