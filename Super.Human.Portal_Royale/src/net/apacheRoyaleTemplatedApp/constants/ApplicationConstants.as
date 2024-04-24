@@ -75,6 +75,8 @@ package constants
 		public static const NOTE_OPEN_ADD_EDIT_BOOKMARK:String = NAME + SEPARATOR + "NoteOpenAddEditBookmark";
 		public static const NOTE_OPEN_SELECTED_BOOKMARK_GROUP:String = NAME + SEPARATOR + "NoteOpenSelectedBookmarkGroup";
 		
+		public static const NOTE_FAILED_OPEN_NOMAD_LINK:String = NAME + SEPARATOR + "NoteFailedOpenNomadLink";
+		
 		//----------------------------------
 		// Commands
 		//----------------------------------

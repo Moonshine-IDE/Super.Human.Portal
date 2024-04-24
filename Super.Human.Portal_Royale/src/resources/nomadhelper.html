@@ -29,6 +29,8 @@
             });
         } else {
             console.error('No service worker registered');
+                    
+        		window.top.postMessage('[Error] No service worker registered', '*');
         }
     }
 
