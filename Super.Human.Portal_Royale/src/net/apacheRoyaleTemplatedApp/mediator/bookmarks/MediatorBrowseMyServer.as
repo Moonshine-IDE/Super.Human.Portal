@@ -15,6 +15,8 @@ package mediator.bookmarks
 	import model.vo.PopupVO;
 
 	import org.apache.royale.events.MouseEvent;
+	import org.apache.royale.net.URLRequest;
+	import org.apache.royale.net.navigateToURL;
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
@@ -80,6 +82,7 @@ package mediator.bookmarks
 			var interests:Array = super.listNotificationInterests();
 				interests.push(ProxyBrowseMyServer.NOTE_SERVERS_LIST_FETCHED);
 				interests.push(ProxyBrowseMyServer.NOTE_SERVERS_LIST_FETCH_FAILED);
+				interests.push(ApplicationConstants.NOTE_FAILED_OPEN_NOMAD_LINK);
 				
 			return interests;
 		}
@@ -94,6 +97,9 @@ package mediator.bookmarks
 					break;
 				case ProxyBrowseMyServer.NOTE_SERVERS_LIST_FETCH_FAILED:
 					sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, this.getMediatorName(), String(note.getBody())));
+					break;
+				case ApplicationConstants.NOTE_FAILED_OPEN_NOMAD_LINK:
+					navigateToURL(new URLRequest(view.selectedItem.nomadURL));
 					break;
 			}
 		}		

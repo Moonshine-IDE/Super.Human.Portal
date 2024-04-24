@@ -31,8 +31,6 @@ package mediator
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-    import model.vo.PopupVO;
-    import constants.PopupType;
                                                                                 
     public class MediatorMainContentView extends Mediator implements IMediator
     {
@@ -101,7 +99,6 @@ package mediator
 					interests.push(ApplicationConstants.NOTE_OPEN_ADD_EDIT_GENESIS_DIR);
 					interests.push(ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK);
 					interests.push(ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP);
-					interests.push(ApplicationConstants.NOTE_FAILED_OPEN_NOMAD_LINK);
 					
 				return interests;
 			}
@@ -163,9 +160,6 @@ package mediator
 						break;
 					case ApplicationConstants.NOTE_OPEN_SELECTED_BOOKMARK_GROUP:
 						selectBookmarkGroup(String(note.getBody()));
-						break;
-					case ApplicationConstants.NOTE_FAILED_OPEN_NOMAD_LINK:
-						sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, this.getMediatorName(), "Nomad Web is not running. " + String(note.getBody())));
 						break;
 				}
 			}		
