@@ -26,8 +26,7 @@ package mediator.applications
 		
 		private var genesisAppsProxy:ProxyGenesisApps;
 		private var urlParamsProxy:ProxyUrlParameters;
-		private var currentNomadURL:String;
-		
+
 		public function MediatorInstalledApps(mediatorName:String, component:IInstalledAppView) 
 		{
 			super(mediatorName, component);
@@ -58,7 +57,6 @@ package mediator.applications
 		override public function listNotificationInterests():Array 
 		{
 			var interests:Array = super.listNotificationInterests();
-				interests.push(ApplicationConstants.NOTE_FAILED_OPEN_NOMAD_LINK);
 				
 			return interests;
 		}
@@ -67,10 +65,7 @@ package mediator.applications
 		{
 			switch (note.getName()) 
 			{
-				case ApplicationConstants.NOTE_FAILED_OPEN_NOMAD_LINK:
-					navigateToURL(new URLRequest(currentNomadURL));
-					currentNomadURL = null;
-					break;
+
 			}
 		}		
 		
@@ -232,7 +227,6 @@ package mediator.applications
 		private function onOpenInNomadLink(event:Event):void
 		{
 			var link:LinkWithDescriptionAppButton = event.currentTarget as LinkWithDescriptionAppButton;
-			currentNomadURL = link.nomadURL;
 			
 			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, {name: link.appName, link: link.nomadURL});
 		}
@@ -243,7 +237,6 @@ package mediator.applications
 			
 			var confView:ConfigurationAppDetails = event["nativeEvent"].currentTarget.royale_wrapper.parent.parent.parent as ConfigurationAppDetails;
 			var selectedApp:Object = confView.data;
-			currentNomadURL = selectedApp.nomadURL;
 			
 			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, {name: selectedApp.database, link: selectedApp.nomadURL});
 		}

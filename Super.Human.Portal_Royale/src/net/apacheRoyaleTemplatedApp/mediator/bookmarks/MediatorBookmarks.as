@@ -36,8 +36,6 @@ package mediator.bookmarks
 		private var bookmarksProxy:ProxyBookmarks;
 		private var urlParamsProxy:ProxyUrlParameters;
 		
-		private var currentNomadURL:String;
-		
 		public function MediatorBookmarks(mediatorName:String, component:IBookmarksView) 
 		{
 			super(mediatorName, component);
@@ -78,7 +76,6 @@ package mediator.bookmarks
 			
 			cleanUpBookmarksList();
 			this.bookmarksProxy = null;
-			this.currentNomadURL = null;
 		}
 		
 		
@@ -88,7 +85,6 @@ package mediator.bookmarks
 				interests.push(ApplicationConstants.NOTE_OK_POPUP + MediatorPopup.NAME + this.getMediatorName());
 				interests.push(ApplicationConstants.NOTE_CANCEL_POPUP + MediatorPopup.NAME + this.getMediatorName());
 				interests.push(ProxyBookmarks.NOTE_BOOKMARK_DELETE_SUCCESS);
-				interests.push(ApplicationConstants.NOTE_FAILED_OPEN_NOMAD_LINK);
 				
 			return interests;
 		}
@@ -110,10 +106,6 @@ package mediator.bookmarks
 					break;
 				case ProxyBookmarks.NOTE_BOOKMARK_DELETE_FAILED:
 					sendNotification(ApplicationConstants.COMMAND_SHOW_POPUP, new PopupVO(PopupType.ERROR, this.getMediatorName(), String(note.getBody())));
-					break;
-				case ApplicationConstants.NOTE_FAILED_OPEN_NOMAD_LINK:
-					navigateToURL(new URLRequest(currentNomadURL));
-					currentNomadURL = null;
 					break;
 			}
 		}		
@@ -212,7 +204,6 @@ package mediator.bookmarks
 
 			var confView:ConfigurationAppDetails = event["nativeEvent"].currentTarget.royale_wrapper.parent.parent.parent as ConfigurationAppDetails;
 			var selectedApp:Object = confView.data;
-			this.currentNomadURL = selectedApp.nomadURL;
 			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, {name: selectedApp.database, link: selectedApp.nomadURL});
 		}
 		
