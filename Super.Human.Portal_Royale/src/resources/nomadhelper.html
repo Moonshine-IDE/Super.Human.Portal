@@ -27,6 +27,8 @@
                     )
                 }
             });
+            
+            window.top.postMessage('[Success] Successfully called openNotesUri', '*');
         } else {
             console.error('No service worker registered');
                     
