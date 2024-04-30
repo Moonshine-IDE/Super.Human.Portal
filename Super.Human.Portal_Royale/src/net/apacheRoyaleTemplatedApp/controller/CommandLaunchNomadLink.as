@@ -11,6 +11,12 @@ package controller
 	import org.apache.royale.net.URLRequest;
 	import constants.ApplicationConstants;
 
+	/**
+	 * This is a workaround to open a Nomad link directly in an existing Nomad tab by using the Nomad service worker.
+	 * This requires that nomadhelper.html is setup on the Nomad server.  The site must match Nomad in order to access the service worker.
+	 * If no nomadhelper.html URL is configured, or the service worker is not loaded, then open the URL with the
+	 *  default method (Open the URL in a new tab.  If Nomad is actually open, then open the database in the original Nomad tab.
+	 */
 	public class CommandLaunchNomadLink extends SimpleCommand
 	{
 		private var data:Object;
@@ -25,7 +31,7 @@ package controller
 			var link:String = note.getBody().link;
 			window["onmessage"] = null;
 			
-			if (nomadHelperUrl)  // if a nomadhelper.html URL is configured
+			if (nomadHelperUrl)  // if a nomadhelper.html URL is configured, try to open the URL with nomadhelper.html first
 			{
 				// find the placeholder iframe defined in MainContent.mxml
 				var mainMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;
@@ -38,7 +44,7 @@ package controller
 				var encodedLink:String = encodeURIComponent(link);
 				nomadHelper.src = nomadHelperUrl + "?link=" + encodedLink;
 			}
-			else   // otherwise, don't use nomadhelper.html.  Open the URL directly
+			else   // otherwise, don't use nomadhelper.html.  Open the Nomad link in a new tab.  If Nomad is open already, the database will be opened in the original tab
 			{
 				navigateToURL(new URLRequest(link));
 				
@@ -72,7 +78,7 @@ package controller
 			{
 				if (hasErrorIndex > -1)
 				{
-					// An error was reported.  Open the Nomad URL directly
+					// An error was reported.  Open the Nomad URL in a new tab.  If Nomad is already open, the database will be opened in the original tab.
 					winMessage = winMessage.substr(errorPrefix.length, winMessage.length);
 					navigateToURL(new URLRequest(data.link));
 				}
