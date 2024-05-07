@@ -17,18 +17,32 @@
         const hrefUrl = new URL(link);
         
         if (navigator && navigator.serviceWorker && navigator.serviceWorker.controller) {
-            navigator.serviceWorker.controller.postMessage({
-                type: 'openNotesUri',
-                payload: {
-                    notesUri: decodeURIComponent(
-                        hrefUrl.hash.substring(
-                            hrefUrl.hash.indexOf(HASH_PREFIX) + HASH_PREFIX.length
-                        )
-                    )
-                }
-            });
-            
-            window.top.postMessage('[Success] Successfully called openNotesUri', '*');
+       		navigator.serviceWorker.onmessage = function(event) {
+    				if (event.data.type == 'numberOfWindowClients') {
+    					if (event.data.clientCount > 1)
+    					{   		
+							navigator.serviceWorker.controller.postMessage({
+							type: 'openNotesUri',
+							payload: {
+								notesUri: decodeURIComponent(
+									hrefUrl.hash.substring(
+										hrefUrl.hash.indexOf(HASH_PREFIX) + HASH_PREFIX.length
+									)
+								)
+							}
+						});
+						           
+           			    window.top.postMessage('[Success] Successfully called openNotesUri', '*');
+					}
+					else
+					{
+						window.top.postMessage('[Error] Nomad Window is closed', '*');
+					}
+					
+    				}
+        		};
+
+			navigator.serviceWorker.controller.postMessage({type: 'numberOfWindowClients'});
         } else {
             console.error('No service worker registered');
                     
