@@ -17,17 +17,31 @@
         const hrefUrl = new URL(link);
         
         if (navigator && navigator.serviceWorker && navigator.serviceWorker.controller) {
-            navigator.serviceWorker.controller.postMessage({
-                type: 'openNotesUri',
-                payload: {
-                    notesUri: decodeURIComponent(
-                        hrefUrl.hash.substring(
-                            hrefUrl.hash.indexOf(HASH_PREFIX) + HASH_PREFIX.length
-                        )
-                    )
-                }
-            });
+        		navigator.serviceWorker.onmessageerror = function(error) {
+        			console.log("Error event:");
+        			console.log(error);
+        		}
+        		
+       		navigator.serviceWorker.onmessage = function(event) {
+       			console.log("Event SW:");
+       			console.log(event);
+
+    				if (event.data.type == 'numberOfWindowClients') {
+    					 navigator.serviceWorker.controller.postMessage({
+						type: 'openNotesUri',
+						payload: {
+							notesUri: decodeURIComponent(
+								hrefUrl.hash.substring(
+									hrefUrl.hash.indexOf(HASH_PREFIX) + HASH_PREFIX.length
+								)
+							)
+						}
+					});
+    				}
+        		};
             
+			navigator.serviceWorker.controller.postMessage({type: 'getNumberOfWindowClients'});
+           
             window.top.postMessage('[Success] Successfully called openNotesUri', '*');
         } else {
             console.error('No service worker registered');
