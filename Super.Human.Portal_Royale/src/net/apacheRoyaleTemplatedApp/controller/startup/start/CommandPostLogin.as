@@ -15,6 +15,7 @@ package controller.startup.start
 			if (proxyParams.target == "Register") return;
 			
 			sendNotification(ApplicationConstants.NOTE_OPEN_VIEW_HELLO);
+			sendNotification(ApplicationConstants.COMMAND_SHOW_BROWSER_WARNING);
 		}
 	}
 }
