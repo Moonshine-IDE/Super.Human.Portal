@@ -59,6 +59,11 @@ package model.proxy.login
 			return _config;	
 		}
 		
+		public function isNomadHelperUrlExists():Boolean 
+		{
+			return config.config.nomad_helper_url != "";
+		}
+		
 		public function testAuthentication():void
 		{
 			if (proxyUrlParams.isPasswordReset) return;
@@ -160,6 +165,7 @@ package model.proxy.login
 			if (!config) return;
 			
 			_config = config;
+			
 			sendNotification(ProxyLogin.NOTE_LOGIN_SUCCESS, this.getData() as UserVO);
 			//ParseCentral.parseAppConfig(new XML(event.target["data"]));
 		}

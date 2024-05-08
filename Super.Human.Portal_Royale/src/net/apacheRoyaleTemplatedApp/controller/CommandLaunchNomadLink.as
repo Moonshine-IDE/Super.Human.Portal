@@ -46,6 +46,14 @@ package controller
 			}
 			else   // otherwise, don't use nomadhelper.html.  Open the Nomad link in a new tab.  If Nomad is open already, the database will be opened in the original tab
 			{
+				var nomadWarningLink:Boolean = Boolean(window["Cookies"].get("SuperHumanPortalNomadHelperUrlLinkWarning"));
+				if (!loginProxy.isNomadHelperUrlExists() && nomadWarningLink == false)
+				{
+					window["Cookies"].set("SuperHumanPortalNomadHelperUrlLinkWarning", true);
+					Snackbar.show("This link is currently configured to open in a separate HCL Nomad Web window. For the best user experience, please ensure that your administrator has configured the server to open *.nsf database links in non separate HCL Nomad Web windows.",
+																0, "Close");
+				}
+				
 				navigateToURL(new URLRequest(link));
 				
 				data = null;
