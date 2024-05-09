@@ -36,8 +36,8 @@ package model.proxy
 			{
 				if (Theme[t] == theme)
 				{
-					window["Cookies"].set("SuperHumanPortalTheme", theme);
-					window["Cookies"].set("SuperHumanPortalThemeId", themeId);
+					window["Cookies"].set("SuperHumanPortalTheme", theme, { sameSite: 'strict' });
+					window["Cookies"].set("SuperHumanPortalThemeId", themeId, { sameSite: 'strict' });
 					
 					this.setData({theme: theme, themeId: themeId});
 					break;

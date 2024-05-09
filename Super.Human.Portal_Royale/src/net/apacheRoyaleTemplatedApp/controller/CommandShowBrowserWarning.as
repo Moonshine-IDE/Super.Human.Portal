@@ -11,7 +11,7 @@ package controller
 			var showBrowserWarning:Boolean = Boolean(window["Cookies"].get("SuperHumanPortalBrowserWarning"));
 			if (!showBrowserWarning)
 			{
-				window["Cookies"].set("SuperHumanPortalBrowserWarning", true);
+				window["Cookies"].set("SuperHumanPortalBrowserWarning", true, { sameSite: 'strict' });
 				
 				var uaParser:Object = new window["UAParser"]();
 				var browser:Object = uaParser.getBrowser();
