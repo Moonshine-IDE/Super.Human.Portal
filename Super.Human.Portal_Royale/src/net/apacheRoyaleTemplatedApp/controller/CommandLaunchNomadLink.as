@@ -54,7 +54,14 @@ package controller
 																0, "Close");
 				}
 				
-				navigateToURL(new URLRequest(link));
+				try
+				{
+					navigateToURL(new URLRequest(link), "_blank");
+				}
+				catch(error:Error)
+				{
+					
+				}
 				
 				data = null;
 			}
@@ -88,7 +95,15 @@ package controller
 				{
 					// An error was reported.  Open the Nomad URL in a new tab.  If Nomad is already open, the database will be opened in the original tab.
 					winMessage = winMessage.substr(errorPrefix.length, winMessage.length);
-					navigateToURL(new URLRequest(data.link));
+					
+					try
+					{
+						navigateToURL(new URLRequest(data.link), "_blank");
+					}
+					catch(e:Error)
+					{
+						
+					}
 				}
 				else if (successIndex > -1)
 				{		
