@@ -12,6 +12,9 @@ import com.moonshine.domino.util.DominoUtils;
 import auth.RoleRestrictedAgent;
 import auth.SecurityBuilder;
 import auth.SimpleRoleSecurity;
+import genesis.LinkProcessor;
+import lotus.domino.Name;
+import lotus.domino.NotesException;
 
 /**
  * Return the configuration options for the application
@@ -50,6 +53,42 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 		addConfigPropertyBoolean("ui_documentation_show_unid", false); // `true` if the DocumentationUNID column should be displayed, false otherwise.
 		addConfigPropertyString("ui_title", "Super.Human.Portal"); // The title for the application.  This may be customized with the server name or the organizational certifier.
 		addConfigPropertyString("nomad_helper_url", ""); // A URL for nomadhelper.html if this has been configured. If it is blank, open the Nomad URLs directly.
+		
+		// For nomadhelper.html instructions:  https://github.com/Moonshine-IDE/Super.Human.Portal/issues/54#issuecomment-2110781462
+		addConfigPropertyString("nomad_base_url", ""); // A URL for the corresponding Nomad server - empty if no Nomad server is defined
+		// data directory
+		// TODO:  find a dynamic way to determine this
+		// TODO:  read from notes.ini?
+		String dataDirectory = "/local/notesdata";  
+		configJSON.put("domino_data_directory", dataDirectory);
+		// server name
+		String serverName = "UNKNOWN";
+		try {
+			serverName = agentDatabase.getServer();
+			if (null == serverName) {
+				serverName = "";
+			}
+			else {
+				serverName = getAbbrNameSafe(serverName);
+			}
+		}
+		catch (NotesException ex) {
+			getLog().err("Failed to read server name.", ex);
+		}
+		configJSON.put("domino_server_name", serverName);
+		
+		//  links to SuperHumanPortal database
+		JSONObject configLink = new JSONObject();
+		configLink.put("name", "SuperHumanPortal Configuration");
+		configLink.put("type", "database");
+		configLink.put("server", serverName);
+		configLink.put("database", "SuperHumanPortal.nsf");
+		configLink.put("view", "Configuration");
+		configLink.put("defaultAction", "nomad");
+		LinkProcessor processor = new LinkProcessor(session, getLog(), agentDatabase);
+		processor.cleanupLink(configLink);
+		configJSON.put("configuration_link", configLink);
+		
 
 		
 	}
@@ -89,4 +128,16 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 		
 		configJSON.put(key, value);
 	}
+    
+    protected String getAbbrNameSafe(String name) {
+    		Name nameObj = null;
+    		try {
+    			nameObj = session.createName(name);
+    			return nameObj.getAbbreviated();
+    		}
+    		catch (NotesException ex) {
+    			getLog().err("Failed to generate abbreviated name for '" + name + "'.  Returning default value:  ", ex);
+    			return "UNKNOWN";
+    		}
+    }
 }
