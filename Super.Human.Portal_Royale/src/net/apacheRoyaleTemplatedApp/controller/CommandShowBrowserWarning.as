@@ -18,7 +18,7 @@ package controller
 				
 				if (browser.name != "Firefox")
 				{
-					var browserSnackbar:Snackbar = Snackbar.show("It appears you're currently using a browser other than Firefox. For the optimum experience and full compatibility with all the features of our app, we highly recommend utilizing Firefox.",
+					var browserSnackbar:Snackbar = Snackbar.show("It appears you are currently using a browser other than Firefox. For the optimum experience and full compatibility with all the features of our app, we highly recommend using Firefox.",
 																0, "Close");
 				}
 			}
