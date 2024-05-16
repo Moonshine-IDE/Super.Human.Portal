@@ -12,7 +12,8 @@ package view.controls.snackbarNomadHelperUrl
 			this.typeNames = "jewel snackbar layout SnackbarNomadHelperUrl";
 		}
 		
-		public static function show(dataDirectory:String, nomadBaseUrl:String, configurationNomadUrl:String, parent:Object = null):SnackbarNomadHelperUrl
+		public static function show(dataDirectory:String, nomadBaseUrl:String, configurationNomadUrl:String, 
+								   configurationNotesUrl:String, parent:Object = null):SnackbarNomadHelperUrl
 		{
 			 var snackbar:SnackbarNomadHelperUrl = new SnackbarNomadHelperUrl();
             		 snackbar.message = "";
@@ -21,6 +22,7 @@ package view.controls.snackbarNomadHelperUrl
 				 snackbar.dataDirectory = dataDirectory;
 				 snackbar.nomadBaseUrl = nomadBaseUrl;
 				 snackbar.configurationNomadUrl = configurationNomadUrl;
+				 snackbar.configurationNotesUrl = configurationNotesUrl;
 				 
            		 snackbar.show(parent);
 			return snackbar;
@@ -54,6 +56,16 @@ package view.controls.snackbarNomadHelperUrl
 		public function set configurationNomadUrl(value:String):void
 		{
 			SnackbarNomadHelperUrlModel(model).configurationNomadUrl = value;
+		}
+		
+		public function get configurationNotesUrl():String
+		{
+			return SnackbarNomadHelperUrlModel(model).configurationNotesUrl;
+		}
+
+		public function set configurationNotesUrl(value:String):void
+		{
+			SnackbarNomadHelperUrlModel(model).configurationNotesUrl = value;
 		}
 	}
 }

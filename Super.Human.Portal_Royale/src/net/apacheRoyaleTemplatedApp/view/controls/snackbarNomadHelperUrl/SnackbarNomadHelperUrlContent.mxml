@@ -14,6 +14,9 @@
 		public var dataDirectory:String = "";
 		public var nomadBaseUrl:String = "";
 		[Bindable]
+		public var configurationNotesUrl:String = "";
+		
+		[Bindable]
 		public var configurationNomadUrl:String = "";
 		
 		private function snackbarContentInitComplete(event:Event):void
@@ -30,6 +33,12 @@
 		private function onSecondMessageCopyClick(event:MouseEvent):void
 		{
 			ClipboardText.copyToClipboard(nomadBaseUrl + "/nomadhelper.html");
+		}
+		
+		private function onOpenInNotesClick(event:MouseEvent):void
+		{
+			if (!configurationNomadUrl) return;
+			navigateToURL(new URLRequest(configurationNotesUrl), "_blank");
 		}
 		
 		private function onOpenInNomadClick(event:MouseEvent):void
@@ -74,11 +83,18 @@
 						</j:icon>
 					</j:IconButton>
 				</j:HGroup>
-				<html:Div text="Open in Nomad" click="onOpenInNomadClick(event)" className="jewel snackbar-action">
-					<html:beads>
-						<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
-					</html:beads>
-				</html:Div>
+				<j:HGroup gap="2">
+					<html:Div text="Open in Notes" click="onOpenInNotesClick(event)" className="jewel snackbar-action">
+						<html:beads>
+							<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
+						</html:beads>
+					</html:Div>
+					<html:Div text="Open in Nomad" click="onOpenInNomadClick(event)" className="jewel snackbar-action">
+						<html:beads>
+							<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
+						</html:beads>
+					</html:Div>
+				</j:HGroup>
 			</j:VGroup>
 		</html:Li>
 	</html:Ul>

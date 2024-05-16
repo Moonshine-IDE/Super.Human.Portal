@@ -55,7 +55,8 @@ package controller
 					
 					SnackbarNomadHelperUrl.show(loginProxy.config.config.domino_data_directory, 
 					  						     loginProxy.config.config.nomad_base_url,
-					  						     loginProxy.config.config.configuration_link.nomadURL);
+					  						     loginProxy.config.config.configuration_link.nomadURL,
+					  						     loginProxy.config.config.configuration_link.url);
 				}
 				
 				try

@@ -12,5 +12,6 @@ package view.controls.snackbarNomadHelperUrl.beads
 		public var dataDirectory:String;
 		public var nomadBaseUrl:String;
 		public var configurationNomadUrl:String;
+		public var configurationNotesUrl:String;
 	}
 }
