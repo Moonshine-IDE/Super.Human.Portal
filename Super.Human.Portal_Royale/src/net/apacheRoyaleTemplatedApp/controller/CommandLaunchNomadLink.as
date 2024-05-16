@@ -2,14 +2,16 @@ package controller
 {
 	import mediator.MediatorMainContentView;
 
+	import model.proxy.login.ProxyLogin;
+
 	import org.apache.royale.html.elements.Iframe;
+	import org.apache.royale.jewel.Snackbar;
+	import org.apache.royale.net.URLRequest;
+	import org.apache.royale.net.navigateToURL;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
-	import org.apache.royale.jewel.Snackbar;
-	import model.proxy.login.ProxyLogin;
-	import org.apache.royale.net.navigateToURL;
-	import org.apache.royale.net.URLRequest;
-	import constants.ApplicationConstants;
+
+	import view.controls.snackbarNomadHelperUrl.SnackbarNomadHelperUrl;
 
 	/**
 	 * This is a workaround to open a Nomad link directly in an existing Nomad tab by using the Nomad service worker.
@@ -50,8 +52,10 @@ package controller
 				if (!loginProxy.isNomadHelperUrlExists() && nomadWarningLink == false)
 				{
 					window["Cookies"].set("SuperHumanPortalNomadHelperUrlLinkWarning", true, { sameSite: 'strict' });
-					Snackbar.show("This link is currently configured to open in a separate HCL Nomad Web window. For the best user experience, please ensure that your administrator has configured the server to open *.nsf database links in non separate HCL Nomad Web windows.",
-																0, "Close");
+					
+					SnackbarNomadHelperUrl.show(loginProxy.config.config.domino_data_directory, 
+					  						     loginProxy.config.config.nomad_base_url,
+					  						     loginProxy.config.config.configuration_link.nomadURL);
 				}
 				
 				try

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:j="library://ns.apache.org/royale/jewel" xmlns:html="library://ns.apache.org/royale/html" xmlns:js="library://ns.apache.org/royale/basic"
+		  initComplete="snackbarContentInitComplete(event)" percentWidth="100">
+	<j:beads>
+		<js:ContainerDataBinding />
+	</j:beads>
+	<fx:Script>
+	<![CDATA[
+		import utils.ClipboardText;
+		import org.apache.royale.net.navigateToURL;
+		import org.apache.royale.net.URLRequest;
+
+		public var dataDirectory:String = "";
+		public var nomadBaseUrl:String = "";
+		[Bindable]
+		public var configurationNomadUrl:String = "";
+		
+		private function snackbarContentInitComplete(event:Event):void
+		{
+			firstMessage.html = "Copy " + dataDirectory + "/domino/html/Super.Human.Portal/js-release/resources/nomadhelper.html to /opt/hcl/domino/notes/latest/linux/nomad-files";
+			secondMessage.html = "Update nomad_helper_url to " + nomadBaseUrl + "/nomadhelper.html in SuperHumanPortal.nsf";
+		}
+		
+		private function onFirstMessageCopyClick(event:MouseEvent):void
+		{
+			ClipboardText.copyToClipboard(dataDirectory + "/domino/html/Super.Human.Portal/js-release/resources/nomadhelper.html to /opt/hcl/domino/notes/latest/linux/nomad-files");
+		}
+		
+		private function onSecondMessageCopyClick(event:MouseEvent):void
+		{
+			ClipboardText.copyToClipboard(nomadBaseUrl + "/nomadhelper.html");
+		}
+		
+		private function onOpenInNomadClick(event:MouseEvent):void
+		{
+			if (!configurationNomadUrl) return;
+			navigateToURL(new URLRequest(configurationNomadUrl), "_blank");
+		}
+	]]>
+</fx:Script>
+	<j:Label multiline="true"
+			 text="This link is currently configured to open in a separate HCL Nomad Web window. For the best user experience, the administrator needs to setup nomadhelper.nsf like this:"/>
+	<html:Ul percentWidth="100">
+		<html:Li>
+			<html:style>
+				<js:SimpleCSSStyles paddingBottom="5"/>
+			</html:style>
+			<j:HGroup percentWidth="100" itemsVerticalAlign="itemsCenter">
+				<j:Label localId="firstMessage"
+						 multiline="true"/>
+				<j:IconButton localId="firstMessageCopyToClipboard" click="onFirstMessageCopyClick(event)">
+					<j:icon>
+						<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+							<js:style>
+								<js:SimpleCSSStyles fontSize="16"/>
+							</js:style>
+						</js:MaterialIcon>
+					</j:icon>
+				</j:IconButton>
+			</j:HGroup>
+		</html:Li>
+		<html:Li>
+			<j:VGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
+				<j:HGroup percentWidth="100" itemsVerticalAlign="itemsCenter">
+					<j:Label localId="secondMessage" multiline="true"/>
+					<j:IconButton localId="secondMessageCopyToClipboard" click="onSecondMessageCopyClick(event)">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+								<js:style>
+									<js:SimpleCSSStyles fontSize="16"/>
+								</js:style>
+							</js:MaterialIcon>
+						</j:icon>
+					</j:IconButton>
+				</j:HGroup>
+				<html:Div text="Open in Nomad" click="onOpenInNomadClick(event)" className="jewel snackbar-action">
+					<html:beads>
+						<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
+					</html:beads>
+				</html:Div>
+			</j:VGroup>
+		</html:Li>
+	</html:Ul>
+</j:VGroup>
