@@ -46,7 +46,22 @@ package controller
 			}
 			else   // otherwise, don't use nomadhelper.html.  Open the Nomad link in a new tab.  If Nomad is open already, the database will be opened in the original tab
 			{
-				navigateToURL(new URLRequest(link));
+				var nomadWarningLink:Boolean = Boolean(window["Cookies"].get("SuperHumanPortalNomadHelperUrlLinkWarning"));
+				if (!loginProxy.isNomadHelperUrlExists() && nomadWarningLink == false)
+				{
+					window["Cookies"].set("SuperHumanPortalNomadHelperUrlLinkWarning", true, { sameSite: 'strict' });
+					Snackbar.show("This link is currently configured to open in a separate HCL Nomad Web window. For the best user experience, please ensure that your administrator has configured the server to open *.nsf database links in non separate HCL Nomad Web windows.",
+																0, "Close");
+				}
+				
+				try
+				{
+					navigateToURL(new URLRequest(link), "_blank");
+				}
+				catch(error:Error)
+				{
+					
+				}
 				
 				data = null;
 			}
@@ -80,7 +95,15 @@ package controller
 				{
 					// An error was reported.  Open the Nomad URL in a new tab.  If Nomad is already open, the database will be opened in the original tab.
 					winMessage = winMessage.substr(errorPrefix.length, winMessage.length);
-					navigateToURL(new URLRequest(data.link));
+					
+					try
+					{
+						navigateToURL(new URLRequest(data.link), "_blank");
+					}
+					catch(e:Error)
+					{
+						
+					}
 				}
 				else if (successIndex > -1)
 				{		

@@ -16,8 +16,8 @@ package model.proxy
 
 		public function getTheme():Object
 		{
-			var currentTheme:String = window["Cookies"].get("MyAccountTheme");
-			var currentThemeId:String = window["Cookies"].get("MyAccountThemeId");
+			var currentTheme:String = window["Cookies"].get("SuperHumanPortalTheme");
+			var currentThemeId:String = window["Cookies"].get("SuperHumanPortalThemeId");
 			
 			for (var t:String in Theme)
 			{
@@ -36,8 +36,8 @@ package model.proxy
 			{
 				if (Theme[t] == theme)
 				{
-					window["Cookies"].set("MyAccountTheme", theme);
-					window["Cookies"].set("MyAccountThemeId", themeId);
+					window["Cookies"].set("SuperHumanPortalTheme", theme, { sameSite: 'strict' });
+					window["Cookies"].set("SuperHumanPortalThemeId", themeId, { sameSite: 'strict' });
 					
 					this.setData({theme: theme, themeId: themeId});
 					break;

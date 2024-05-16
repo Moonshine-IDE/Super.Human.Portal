@@ -108,5 +108,6 @@ package constants
 		public static const COMMAND_AUTH_TEST:String = NAME + SEPARATOR + "CommandAuthTest";
 		public static const COMMAND_GET_LTPA_TOKEN:String = NAME + SEPARATOR + "CommandGetLTPAToken";
 		public static const COMMAND_LAUNCH_NOMAD_LINK:String = NAME + SEPARATOR + "CommandLaunchNomadLink";
+		public static const COMMAND_SHOW_BROWSER_WARNING:String = NAME + SEPARATOR + "CommandShowBrowserWarning";
 	}
 }
