@@ -6,6 +6,7 @@ package view.controls.snackbarNomadHelperUrl.beads
     import org.apache.royale.jewel.beads.models.SnackbarModel;
     import org.apache.royale.jewel.Snackbar;
     import view.controls.snackbarNomadHelperUrl.SnackbarNomadHelperUrlContent;
+    import org.apache.royale.events.Event;
 
 	public class SnackbarNomadHelperUrlView extends SnackbarView 
 	{
@@ -47,17 +48,14 @@ package view.controls.snackbarNomadHelperUrl.beads
 		/**
          *  Update the text when message changed. 
          */
-        protected function messageChangeHandler(event:Event):void {
-            COMPILE::JS
-            {
-               // HTMLElement(host.element.firstChild.firstChild).innerHTML = SnackbarModel(host.model).message;
-            }
+        override protected function messageChangeHandler(event:Event):void {
+            
         }
 
         /**
          *  Show the action element or remove it, based on action text.
          */
-        protected function actionChangeHandler(event:Event):void {
+        override protected function actionChangeHandler(event:Event):void {
             var model:SnackbarModel = host.model as SnackbarModel;
 
             if (model.action) {
@@ -80,7 +78,7 @@ package view.controls.snackbarNomadHelperUrl.beads
          /**
          *  Trigger event and dismiss the host when action clicked.
          */
-        protected function actionClickHandler(event:Event):void {
+        override protected function actionClickHandler(event:Event):void {
             	actionElement.removeEventListener("click", actionClickHandler);
             	host.dispatchEvent(new Event(Snackbar.ACTION));
             	SnackbarModel(host.model).duration = -1; // set -1 to dismiss
