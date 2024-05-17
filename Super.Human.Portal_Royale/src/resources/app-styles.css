@@ -92,6 +92,10 @@ a:hover {
 	cursor: pointer;
 }
 
+.jewel.label code {
+	color: #FFD740 !important;	
+}
+
 .jewel.label.smallFont {
 	fontSize: 12px !important;
 }
