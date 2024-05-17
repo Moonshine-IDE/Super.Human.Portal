@@ -22,7 +22,7 @@
 		private function snackbarContentInitComplete(event:Event):void
 		{
 			firstMessage.html = "Copy <code>" + dataDirectory + "/domino/html/Super.Human.Portal/js-release/resources/nomadhelper.html</code> to <code>/opt/hcl/domino/notes/latest/linux/nomad-files</code>";
-			secondMessage.html = "Update nomad_helper_url to <code>" + nomadBaseUrl + "/nomadhelper.html</code> in SuperHumanPortal.nsf";
+			secondMessage.html = "Update <code>nomad_helper_url</code> to <code>" + nomadBaseUrl + "/nomadhelper.html</code> in SuperHumanPortal.nsf";
 		}
 		
 		private function onFirstMessageCopyClick(event:MouseEvent):void
