@@ -27,13 +27,12 @@ package controller
 		{
 			// Retrieve the configred nomadhelper.html URL
 			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
-			var nomadHelperUrl:String = loginProxy.config.config.nomad_helper_url;
 			data = note.getBody();
 			
 			var link:String = note.getBody().link;
 			window["onmessage"] = null;
 			
-			if (nomadHelperUrl)  // if a nomadhelper.html URL is configured, try to open the URL with nomadhelper.html first
+			if (loginProxy.isNomadHelperUrlExists())  // if a nomadhelper.html URL is configured, try to open the URL with nomadhelper.html first
 			{
 				// find the placeholder iframe defined in MainContent.mxml
 				var mainMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;
@@ -44,6 +43,7 @@ package controller
 				
 				// initialize the iframe with the Nomad URL.  This will trigger the logic in nomadhelper.html
 				var encodedLink:String = encodeURIComponent(link);
+				var nomadHelperUrl:String = loginProxy.config.config.nomad_helper_url;
 				nomadHelper.src = nomadHelperUrl + "?link=" + encodedLink;
 			}
 			else   // otherwise, don't use nomadhelper.html.  Open the Nomad link in a new tab.  If Nomad is open already, the database will be opened in the original tab

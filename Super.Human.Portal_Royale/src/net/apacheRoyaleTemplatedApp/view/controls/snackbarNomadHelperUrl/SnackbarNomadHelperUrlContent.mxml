@@ -84,16 +84,16 @@
 					</j:IconButton>
 				</j:HGroup>
 				<j:HGroup gap="2">
-					<html:Div text="Open in Notes" click="onOpenInNotesClick(event)" className="jewel snackbar-action">
-						<html:beads>
+					<j:Button text="Open in Notes" click="onOpenInNotesClick(event)">
+						<j:beads>
 							<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
-						</html:beads>
-					</html:Div>
-					<html:Div text="Open in Nomad" click="onOpenInNomadClick(event)" className="jewel snackbar-action">
-						<html:beads>
+						</j:beads>
+					</j:Button>
+					<j:Button text="Open in Nomad" click="onOpenInNomadClick(event)">
+						<j:beads>
 							<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
-						</html:beads>
-					</html:Div>
+						</j:beads>
+					</j:Button>
 				</j:HGroup>
 			</j:VGroup>
 		</html:Li>

@@ -226,20 +226,28 @@
   border-top-color: #8CC63C;
 }
 
-.jewel.snackbar.emphasized .jewel.snackbar-content {
-  background: linear-gradient(#98cc50, #7eb435);
-  border: 1px solid #638c29;
-  box-shadow: inset 0 1px 0 #bbdd8b;
-  border-bottom: none;
+.jewel.snackbar-content {
+  background: #2a2a2a !important;
+  border: 1px solid #40b9e7 !important;	
+  box-shadow: none !important;
+  border-bottom: none !important;
 }
-.jewel.snackbar.emphasized .jewel.snackbar-message {
+.jewel.snackbar-message {
   color: #dedede;
 }
-.jewel.snackbar.emphasized .jewel.snackbar-action {
-  color: #E2D70B;
+.jewel.snackbar-action {
+  color: #2a2a2a !important;
+  background: #40b9e7 !important;
+  border-radius: 0.25rem;
+  font-weight: bold;
 }
-.jewel.snackbar.emphasized .jewel.snackbar-action:hover {
-  background: linear-gradient(#8CC63C, #71a02f);
+
+.jewel.snackbar-action:hover {
+  background: #40b9e7 !important;
+  box-shadow: none !important;
+  border-color: transparent;
+  color: #2a2a2a !important;
+  text-shadow: none !important;
 }
 
 .emphasized-lightest {
@@ -463,6 +471,10 @@
 	background: #2a2a2a;
 }
 
+.jewel.label code {
+	color: #dedede !important;
+	background: #444 !important;
+}
 .jewel.alert {
 	background: #2a2a2a;
 }
