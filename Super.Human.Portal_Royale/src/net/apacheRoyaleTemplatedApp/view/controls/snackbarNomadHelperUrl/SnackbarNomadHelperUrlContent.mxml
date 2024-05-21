@@ -21,13 +21,19 @@
 		
 		private function snackbarContentInitComplete(event:Event):void
 		{
-			firstMessage.html = "Copy <code>" + dataDirectory + "/domino/html/Super.Human.Portal/js-release/resources/nomadhelper.html</code> to <code>/opt/hcl/domino/notes/latest/linux/nomad-files</code>";
+			firstPathMessage.html = "Copy <code>" + dataDirectory + "/domino/html/Super.Human.Portal/js-release/resources/nomadhelper.html</code>"
+			secondPathMessage.html = "to <code>/opt/hcl/domino/notes/latest/linux/nomad-files</code>";
 			secondMessage.html = "Update <code>nomad_helper_url</code> to <code>" + nomadBaseUrl + "/nomadhelper.html</code> in SuperHumanPortal.nsf";
 		}
 		
-		private function onFirstMessageCopyClick(event:MouseEvent):void
+		private function onFirstPathMessageCopyClick(event:MouseEvent):void
 		{
-			ClipboardText.copyToClipboard(dataDirectory + "/domino/html/Super.Human.Portal/js-release/resources/nomadhelper.html to /opt/hcl/domino/notes/latest/linux/nomad-files");
+			ClipboardText.copyToClipboard(dataDirectory + "/domino/html/Super.Human.Portal/js-release/resources/nomadhelper.html");
+		}
+		
+		private function onSecondPathMessageCopyClick(event:MouseEvent):void
+		{
+			ClipboardText.copyToClipboard("/opt/hcl/domino/notes/latest/linux/nomad-files");
 		}
 		
 		private function onSecondMessageCopyClick(event:MouseEvent):void
@@ -55,24 +61,39 @@
 			<html:style>
 				<js:SimpleCSSStyles paddingBottom="5"/>
 			</html:style>
-			<j:HGroup percentWidth="100" itemsVerticalAlign="itemsCenter">
-				<j:Label localId="firstMessage"
-						 multiline="true"/>
-				<j:IconButton localId="firstMessageCopyToClipboard" click="onFirstMessageCopyClick(event)">
-					<j:icon>
-						<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
-							<js:style>
-								<js:SimpleCSSStyles fontSize="16"/>
-							</js:style>
-						</js:MaterialIcon>
-					</j:icon>
-				</j:IconButton>
-			</j:HGroup>
+			<j:VGroup percentWidth="100" itemsVerticalAlign="itemsCenter">
+				<j:HGroup percentWidth="100" itemsVerticalAlign="itemsCenter">
+					<j:Label localId="firstPathMessage"
+							multiline="true" percentWidth="100"/>
+					<j:IconButton localId="firstPathMessageCopyToClipboard" click="onFirstPathMessageCopyClick(event)">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+								<js:style>
+									<js:SimpleCSSStyles fontSize="16"/>
+								</js:style>
+							</js:MaterialIcon>
+						</j:icon>
+					</j:IconButton>
+				</j:HGroup>
+				<j:HGroup percentWidth="100" itemsVerticalAlign="itemsCenter">
+					<j:Label localId="secondPathMessage"
+							multiline="true" percentWidth="100"/>
+					<j:IconButton localId="secondPathMessageCopyToClipboard" click="onSecondPathMessageCopyClick(event)">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+								<js:style>
+									<js:SimpleCSSStyles fontSize="16"/>
+								</js:style>
+							</js:MaterialIcon>
+						</j:icon>
+					</j:IconButton>
+				</j:HGroup>
+			</j:VGroup>
 		</html:Li>
 		<html:Li>
 			<j:VGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
 				<j:HGroup percentWidth="100" itemsVerticalAlign="itemsCenter">
-					<j:Label localId="secondMessage" multiline="true"/>
+					<j:Label localId="secondMessage" multiline="true" percentWidth="100"/>
 					<j:IconButton localId="secondMessageCopyToClipboard" click="onSecondMessageCopyClick(event)">
 						<j:icon>
 							<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
@@ -84,7 +105,7 @@
 					</j:IconButton>
 				</j:HGroup>
 				<j:HGroup gap="2">
-					<j:Button text="Open in Notes" click="onOpenInNotesClick(event)">
+					<j:Button text="Open in Client" click="onOpenInNotesClick(event)">
 						<j:beads>
 							<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
 						</j:beads>
