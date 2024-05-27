@@ -265,6 +265,12 @@ controlsSnackbarNomad|SnackbarNomadHelperUrl {
   IBeadView: ClassReference("view.controls.snackbarNomadHelperUrl.beads.SnackbarNomadHelperUrlView");
 }
 
+controlsSnackbarNomad|SnackbarNomadPopupBlocked {
+  IBeadModel: ClassReference("view.controls.snackbarNomadHelperUrl.beads.SnackbarNomadHelperUrlModel");
+  IBeadController: ClassReference("org.apache.royale.jewel.beads.controllers.SnackbarController");
+  IBeadView: ClassReference("view.controls.snackbarNomadHelperUrl.beads.SnackbarNomadPopupBlockedView");
+}
+
 .jewel.slider.noSliderInput input {
 	visibility: hidden;
 	margin: 0px !important;

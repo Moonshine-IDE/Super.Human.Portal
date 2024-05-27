@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<j:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:j="library://ns.apache.org/royale/jewel" xmlns:html="library://ns.apache.org/royale/html" xmlns:js="library://ns.apache.org/royale/basic"
+		   percentWidth="100" initComplete="onSnackbarInitComplete(event)">
+	<fx:Script>
+	<![CDATA[
+
+		private function onSnackbarInitComplete(event:Event):void
+		{
+			this.refreshAllowMessage();
+		}
+		
+		private function refreshAllowMessage():void
+		{
+			var allowUrl:String = window['link'].baseURI;
+			var domainPattern:RegExp = new RegExp(/^(?:https?:\/\/)?([^\/:?#]+)(?:[\/:?#]|$)/, "i");
+			var result:Object = domainPattern.exec(allowUrl);
+			
+			if (result)
+			{
+				allowMessage.html = 'Allow popups for <code>' + result.pop() + '</code>';
+			}
+			else
+			{
+				allowMessage.text = "Always allow pop-ups from this site.";
+			}
+		}
+	]]>
+</fx:Script>
+	<j:Label multiline="true"
+			 text="It looks like your browser has blocked a pop-up window. To proceed, please enable pop-ups for this site in your browser settings. If you need assistance, follow these steps:"/>
+	<html:Ol percentWidth="100">
+		<html:Li>
+			<j:Label multiline="true" text="Click on the pop-up blocker icon in the address bar."/>
+		</html:Li>
+		<html:Li>
+			<j:Label localId="allowMessage" multiline="true" />
+		</html:Li>
+		<html:Li>
+			<j:Label multiline="true" text="Reload the page."/>
+		</html:Li>
+	</html:Ol>
+</j:VGroup>

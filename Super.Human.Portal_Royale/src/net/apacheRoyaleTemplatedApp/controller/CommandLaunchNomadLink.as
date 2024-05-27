@@ -12,6 +12,7 @@ package controller
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 
 	import view.controls.snackbarNomadHelperUrl.SnackbarNomadHelperUrl;
+	import view.controls.snackbarNomadHelperUrl.SnackbarNomadPopupBlocked;
 
 	/**
 	 * This is a workaround to open a Nomad link directly in an existing Nomad tab by using the Nomad service worker.
@@ -65,7 +66,7 @@ package controller
 				}
 				catch(error:Error)
 				{
-					
+					SnackbarNomadPopupBlocked.show();
 				}
 				
 				data = null;
@@ -80,6 +81,7 @@ package controller
 			// Retrieve the configred nomadhelper.html URL
 			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			var nomadHelperUrl:String = loginProxy.config.config.nomad_helper_url;
+			var nomadBaseUrl:String = loginProxy.config.config.nomad_base_url;
 			
 			// Cancel any later messages - not expected
 			window["onmessage"] = null;
@@ -105,9 +107,9 @@ package controller
 					{
 						navigateToURL(new URLRequest(data.link), "_blank");
 					}
-					catch(e:Error)
+					catch(error:Error)
 					{
-						
+						SnackbarNomadPopupBlocked.show();
 					}
 				}
 				else if (successIndex > -1)
