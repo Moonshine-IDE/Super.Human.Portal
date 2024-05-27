@@ -2,6 +2,7 @@ package utils
 {
 	import org.apache.royale.collections.ArrayList;
 	import org.apache.royale.collections.CompareUtils;
+	import org.apache.royale.utils.async.PromiseTask;
 	
 	public class UtilsCore
 	{
@@ -43,6 +44,32 @@ package utils
 		public static function sortItems(collection:Array, fieldName:String=null, descending:Boolean=false, numeric:Boolean=false):void
 		{
 			collection.sortOn(fieldName, (descending ? Array.DESCENDING : null) | (numeric ? Array.NUMERIC : null));
+		}
+		
+		public static function computeHash(content:String):PromiseTask {
+			var resultPromise:PromiseTask = new PromiseTask(new Promise(function(resolve:Function, reject:Function){
+					var encoder:TextEncoder = new TextEncoder();
+					var data:Uint8Array = encoder.encode(content);
+					var promise:PromiseTask = new PromiseTask(window["crypto"].subtle.digest('SHA-256', data));
+					promise.done(function digestDone(p:PromiseTask):void{
+						if (!p.failed)
+						{
+							var hashArray:Array = Array.from(new Uint8Array(p.result));
+							resultPromise.data = hashArray.map(function(element:*, index:int, arr:Array):String{
+								return element.toString(16).padStart(2, '0');
+							}).join('');
+							
+							resolve();
+						}
+						else
+						{
+							reject();
+						}
+					})
+					promise.run();
+			}))
+		
+			return resultPromise;
 		}
 	}
 }

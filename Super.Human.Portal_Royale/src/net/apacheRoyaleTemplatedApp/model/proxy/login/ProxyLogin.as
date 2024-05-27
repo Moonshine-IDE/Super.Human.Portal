@@ -12,7 +12,13 @@ package model.proxy.login
 	import org.apache.royale.net.events.FaultEvent;
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
+	import services.NomadHelperUrlDelegate;
 	import services.login.LoginServiceDelegate;
+
+	import utils.UtilsCore;
+	import org.apache.royale.utils.async.PromiseTask;
+	import utils.NomadHelperUrlTasks;
+	import org.apache.royale.utils.async.SequentialAsyncTask;
 			
 	public class ProxyLogin extends Proxy
 	{
@@ -27,7 +33,8 @@ package model.proxy.login
 		public static const NOTE_ACCOUNTS_LOAD_FAILED:String = NAME + "NoteAccountsLoadFailed";
 		
 		protected var loginServiceDelegate:LoginServiceDelegate;
-	
+		private var nomadHelperUrlDelegate:NomadHelperUrlDelegate;
+		
 		private var username:String;
 		private var proxyUrlParams:ProxyUrlParameters;
 		private var busyManagerProxy:ProxyBusyManager;
@@ -37,6 +44,7 @@ package model.proxy.login
 			super(NAME);
 			
 			loginServiceDelegate = new LoginServiceDelegate();
+			nomadHelperUrlDelegate = new NomadHelperUrlDelegate(); 
 		}
 		
 		override public function onRegister():void
@@ -166,10 +174,38 @@ package model.proxy.login
 			
 			_config = config;
 			
-			sendNotification(ProxyLogin.NOTE_LOGIN_SUCCESS, this.getData() as UserVO);
+			if (this.isNomadHelperUrlExists())
+			{
+				var nomadHelperUrlTasks:NomadHelperUrlTasks = new NomadHelperUrlTasks();
+					nomadHelperUrlTasks.done(function(task:PromiseTask):void {
+						if (nomadHelperUrlTasks.failed)
+						{
+							sendNotification(ProxyLogin.NOTE_LOGIN_SUCCESS, getData() as UserVO);
+						}
+						else if (nomadHelperUrlTasks.completed)
+						{
+							compareNomadHelperUrl(nomadHelperUrlTasks.completedTasks[0], nomadHelperUrlTasks.completedTasks[1]);
+						}
+					});
+				nomadHelperUrlTasks.run(config.config.nomad_helper_url);
+			}
+			else
+			{
+				sendNotification(ProxyLogin.NOTE_LOGIN_SUCCESS, this.getData() as UserVO);
+			}
 			//ParseCentral.parseAppConfig(new XML(event.target["data"]));
 		}
 
+		private function onNomadHelperLoadSuccess(event:Event):void
+		{
+			nomadHelperUrlDelegate.getLocalNomadHelper(function onNomadHelperLocalSuccess(event:Event):void {
+				sendNotification(ProxyLogin.NOTE_LOGIN_SUCCESS, this.getData() as UserVO);
+			}, 
+			function onFault(event:FaultEvent):void{
+					sendNotification(ProxyLogin.NOTE_LOGIN_SUCCESS, this.getData() as UserVO);
+			});
+		}
+		
 		private function onAccountsLoadSuccess(event:Event):void
 		{
 			ParseCentral.parseAccounts(new XML(event.target["data"]));
@@ -197,6 +233,35 @@ package model.proxy.login
 			this.testAuthenticationWithoutBusyIndicator();
 		}
 
+		private function compareNomadHelperUrl(nomadHelperUrlTask:PromiseTask, nomadHelperUrlTask2:PromiseTask):void
+		{
+			var nomadHelperUrlHash:PromiseTask = UtilsCore.computeHash(nomadHelperUrlTask.result.target.responseText);
+			var nomadHelperUrlHash2:PromiseTask = UtilsCore.computeHash(nomadHelperUrlTask2.result.target.responseText);
+			
+			var sequentialHashTask:SequentialAsyncTask = new SequentialAsyncTask([
+				nomadHelperUrlHash,
+				nomadHelperUrlHash2
+			]);
+			
+			sequentialHashTask.done(function(task:PromiseTask) {
+				if (sequentialHashTask.failed)
+				{
+					sendNotification(ProxyLogin.NOTE_LOGIN_SUCCESS, getData() as UserVO);
+				}
+				else 
+				{
+					if (sequentialHashTask.completed)
+					{
+						var hash1:String = sequentialHashTask.completedTasks[0].data;
+						var hash2:String = sequentialHashTask.completedTasks[1].data;
+						
+						sendNotification(ProxyLogin.NOTE_LOGIN_SUCCESS, getData() as UserVO);
+					}
+				}
+			})
+			sequentialHashTask.run();
+		}
+		
 		private function failOnServer(data:Object):void
 		{
 			var eventData:String = String(data);
