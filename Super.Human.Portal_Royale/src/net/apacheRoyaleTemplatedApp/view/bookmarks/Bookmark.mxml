@@ -90,7 +90,8 @@
 		<j:Label text="{bookmark.description}" multiline="true" className="bigFont" visible="{bookmark.description != null}"/>
 	</j:HGroup>
 	<j:VGroup includeIn="database" itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsLeft" gap="2">
-		<controls:LinkWithDescriptionAppButton showClick="onShowHideDbConfigClick(event)" linkLabel="{urlOpenDefault}" description="{bookmark.description}"/>
+		<controls:LinkWithDescriptionAppButton localId="linkWithDesc" showClick="onShowHideDbConfigClick(event)" linkLabel="{urlOpenDefault}" description="{bookmark.description}"
+											   appName="{bookmark.name}" nomadURL="{bookmark.nomadURL}"/>
 		<applications:ConfigurationAppDetails localId="configurationDetails" data="{bookmark}" server="{bookmark.server}"
 											 database="{bookmark.database}" viewName="{bookmark.view}" nomadOpenLink="{bookmark.nomadURL}"
 											 percentWidth="100" visible="false" editable="{editable}" 
