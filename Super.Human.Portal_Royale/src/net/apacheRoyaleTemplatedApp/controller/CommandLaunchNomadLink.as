@@ -12,6 +12,7 @@ package controller
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 
 	import view.controls.snackbarNomadHelperUrl.SnackbarNomadHelperUrl;
+	import view.controls.snackbarNomadHelperUrl.SnackbarNomadPopupBlocked;
 
 	/**
 	 * This is a workaround to open a Nomad link directly in an existing Nomad tab by using the Nomad service worker.
@@ -29,7 +30,7 @@ package controller
 			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			data = note.getBody();
 			
-			var link:String = note.getBody().link;
+			var link:String = data.link;
 			window["onmessage"] = null;
 			
 			if (loginProxy.isNomadHelperUrlExists())  // if a nomadhelper.html URL is configured, try to open the URL with nomadhelper.html first
@@ -65,7 +66,7 @@ package controller
 				}
 				catch(error:Error)
 				{
-					
+					SnackbarNomadPopupBlocked.show();
 				}
 				
 				data = null;
@@ -74,18 +75,22 @@ package controller
 		
 		// This triggers on any messages sent by nomadhelper.html
 		private function onWindowMessage(event:Event):void 
-		{
-			if (!data) return;
+		{			
+			// Cancel any later messages - not expected
+			window["onmessage"] = null;
+			
+			if (!data) 
+			{
+				return;
+			}
 			
 			// Retrieve the configred nomadhelper.html URL
 			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			var nomadHelperUrl:String = loginProxy.config.config.nomad_helper_url;
-			
-			// Cancel any later messages - not expected
-			window["onmessage"] = null;
+			var nomadBaseUrl:String = loginProxy.config.config.nomad_base_url;
+
 			// Get the message from the event
 			var winMessage:String = event["data"];
-			
 			// Parse the message as an error or success message
 			var errorPrefix:String = "[Error]";
 			var successPrefix:String = "[Success]";
@@ -105,9 +110,9 @@ package controller
 					{
 						navigateToURL(new URLRequest(data.link), "_blank");
 					}
-					catch(e:Error)
+					catch(error:Error)
 					{
-						
+						SnackbarNomadPopupBlocked.show();
 					}
 				}
 				else if (successIndex > -1)

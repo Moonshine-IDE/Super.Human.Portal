@@ -23,8 +23,7 @@ package mediator.bookmarks
     import view.applications.ConfigurationAppDetails;
     import view.bookmarks.Bookmark;
     import view.bookmarks.event.BookmarkEvent;
-    import org.apache.royale.net.navigateToURL;
-    import org.apache.royale.net.URLRequest;
+    import view.controls.LinkWithDescriptionAppButton;
     
     public class MediatorBookmarks extends Mediator implements IMediator
     {
@@ -183,19 +182,43 @@ package mediator.bookmarks
 			var listCount:int = view.bookmarksList.numElements - 1;
 			for (var i:int = listCount; i >= 0; i--)
 			{
-				var bookmarkItem:Object = view.bookmarksList.getElementAt(i);
-					bookmarkItem.removeEventListener(BookmarkEvent.EDIT_BOOKMARK, onModifyBookmark);
-					bookmarkItem.removeEventListener(BookmarkEvent.DELETE_BOOKMARK, onModifyBookmark);
-					bookmarkItem.removeEventListener("initComplete", onBookmarkInitComplete);
-					
-				view.bookmarksList.removeElement(bookmarkItem);
+				var bookmarkView:Bookmark = view.bookmarksList.getElementAt(i);
+					bookmarkView.removeEventListener(BookmarkEvent.EDIT_BOOKMARK, onModifyBookmark);
+					bookmarkView.removeEventListener(BookmarkEvent.DELETE_BOOKMARK, onModifyBookmark);
+					bookmarkView.removeEventListener("initComplete", onBookmarkInitComplete);
+				if (bookmarkView.linkWithDesc && bookmarkView.bookmark.defaultAction == "nomad")
+				{
+					bookmarkView.linkWithDesc.removeEventListener("linkClick", onOpenInNomadLink);
+				}
+				
+				if (bookmarkView.configurationDetails)
+				{
+					bookmarkView.configurationDetails.openInNomad.removeEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+				}
+			
+				view.bookmarksList.removeElement(bookmarkView);
 			}
 		}
 		
 		private function onBookmarkInitComplete(event:Event):void
 		{
 			var bookmarkView:Bookmark = event.currentTarget as Bookmark;
-			bookmarkView.configurationDetails.openInNomad.addEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+			if (bookmarkView.linkWithDesc && bookmarkView.bookmark.defaultAction == "nomad")
+			{
+				bookmarkView.linkWithDesc.addEventListener("linkClick", onOpenInNomadLink);
+			}
+			
+			if (bookmarkView.configurationDetails)
+			{
+				bookmarkView.configurationDetails.openInNomad.addEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+			}
+		}
+		
+		private function onOpenInNomadLink(event:Event):void
+		{
+			var link:LinkWithDescriptionAppButton = event.currentTarget as LinkWithDescriptionAppButton;
+			
+			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, {name: link.appName, link: link.nomadURL});
 		}
 		
 		private function onOpenNomadWeb(event:MouseEvent):void
