@@ -30,7 +30,7 @@ package controller
 			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			data = note.getBody();
 			
-			var link:String = note.getBody().link;
+			var link:String = data.link;
 			window["onmessage"] = null;
 			
 			if (loginProxy.isNomadHelperUrlExists())  // if a nomadhelper.html URL is configured, try to open the URL with nomadhelper.html first
@@ -75,19 +75,22 @@ package controller
 		
 		// This triggers on any messages sent by nomadhelper.html
 		private function onWindowMessage(event:Event):void 
-		{
-			if (!data) return;
+		{			
+			// Cancel any later messages - not expected
+			window["onmessage"] = null;
+			
+			if (!data) 
+			{
+				return;
+			}
 			
 			// Retrieve the configred nomadhelper.html URL
 			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			var nomadHelperUrl:String = loginProxy.config.config.nomad_helper_url;
 			var nomadBaseUrl:String = loginProxy.config.config.nomad_base_url;
-			
-			// Cancel any later messages - not expected
-			window["onmessage"] = null;
+
 			// Get the message from the event
 			var winMessage:String = event["data"];
-			
 			// Parse the message as an error or success message
 			var errorPrefix:String = "[Error]";
 			var successPrefix:String = "[Success]";
