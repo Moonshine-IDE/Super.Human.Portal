@@ -182,15 +182,19 @@ package mediator.bookmarks
 			var listCount:int = view.bookmarksList.numElements - 1;
 			for (var i:int = listCount; i >= 0; i--)
 			{
-				var bookmarkView:Object = view.bookmarksList.getElementAt(i);
+				var bookmarkView:Bookmark = view.bookmarksList.getElementAt(i);
 					bookmarkView.removeEventListener(BookmarkEvent.EDIT_BOOKMARK, onModifyBookmark);
 					bookmarkView.removeEventListener(BookmarkEvent.DELETE_BOOKMARK, onModifyBookmark);
 					bookmarkView.removeEventListener("initComplete", onBookmarkInitComplete);
-				if (bookmarkView.bookmark.defaultAction == "nomad")
+				if (bookmarkView.linkWithDesc && bookmarkView.bookmark.defaultAction == "nomad")
 				{
 					bookmarkView.linkWithDesc.removeEventListener("linkClick", onOpenInNomadLink);
 				}
-				bookmarkView.configurationDetails.openInNomad.removeEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+				
+				if (bookmarkView.configurationDetails)
+				{
+					bookmarkView.configurationDetails.openInNomad.removeEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+				}
 			
 				view.bookmarksList.removeElement(bookmarkView);
 			}
@@ -199,11 +203,15 @@ package mediator.bookmarks
 		private function onBookmarkInitComplete(event:Event):void
 		{
 			var bookmarkView:Bookmark = event.currentTarget as Bookmark;
-			if (bookmarkView.bookmark.defaultAction == "nomad")
+			if (bookmarkView.linkWithDesc && bookmarkView.bookmark.defaultAction == "nomad")
 			{
 				bookmarkView.linkWithDesc.addEventListener("linkClick", onOpenInNomadLink);
 			}
-			bookmarkView.configurationDetails.openInNomad.addEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+			
+			if (bookmarkView.configurationDetails)
+			{
+				bookmarkView.configurationDetails.openInNomad.addEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+			}
 		}
 		
 		private function onOpenInNomadLink(event:Event):void
