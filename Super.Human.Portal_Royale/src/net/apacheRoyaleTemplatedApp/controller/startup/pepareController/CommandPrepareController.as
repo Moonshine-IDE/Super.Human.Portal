@@ -7,22 +7,22 @@ package controller.startup.pepareController
 	import controller.CommandAuthenticationTest;
 	import controller.CommandCleanUrlParameters;
 	import controller.CommandGetLTPAToken;
+	import controller.CommandLaunchNomadLink;
 	import controller.CommandLogoutCleanUp;
 	import controller.CommandNavigationItemsEnabled;
 	import controller.CommandNavigationRefreshInstalledApps;
 	import controller.CommandProxyManager;
 	import controller.CommandRefreshNavigationBookmarks;
 	import controller.CommandRemoveRegisterMainContentView;
+	import controller.CommandShowBrowserWarning;
 	import controller.CommandShowPopup;
+	import controller.startup.prepareView.CommandSwitchTheme;
 	import controller.startup.start.CommandPostLogin;
 	import controller.startup.start.CommandStartNewRegistration;
 	import controller.startup.start.CommandStartPasswordReset;
 
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
-	import controller.startup.prepareView.CommandSwitchTheme;
-	import controller.CommandLaunchNomadLink;
-	import controller.CommandShowBrowserWarning;
 									
 	public class CommandPrepareController extends SimpleCommand
 	{

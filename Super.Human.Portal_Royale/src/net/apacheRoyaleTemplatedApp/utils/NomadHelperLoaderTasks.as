@@ -1,18 +1,19 @@
 package utils
 {
     import org.apache.royale.utils.async.SequentialAsyncTask;
-    import services.NomadHelperUrlDelegate;
+    import services.NomadHelperDelegate;
     import org.apache.royale.utils.async.AsyncTask;
     import org.apache.royale.utils.async.PromiseTask;
     import org.apache.royale.net.events.FaultEvent;
 
-	public class NomadHelperUrlTasks extends SequentialAsyncTask 
+    /**
+     * Class load local resources/nomadhelper.html and deployed nomadhelper.html
+     **/
+	public class NomadHelperLoaderTasks extends SequentialAsyncTask 
 	{
-		public function NomadHelperUrlTasks(tasks:Array=null)
+		public function NomadHelperLoaderTasks(tasks:Array=null)
 		{
 			super(tasks);
-			
-			
 		}
 		
 		override public function run(data:Object=null):void 
@@ -24,7 +25,7 @@ package utils
 			}
 			
 			var localNomadHelperTask:PromiseTask = new PromiseTask(new Promise(function(resolve:Function, reject:Function){
-				var localNomadHelper:NomadHelperUrlDelegate = new NomadHelperUrlDelegate();
+				var localNomadHelper:NomadHelperDelegate = new NomadHelperDelegate();
 					localNomadHelper.getLocalNomadHelper(function(event:Event):void{
 						resolve(event);
 					}, function onFault(fault:FaultEvent):void{
@@ -34,7 +35,7 @@ package utils
 			this.addTask(localNomadHelperTask);
 			
 			var remoteNomadHelperTask:PromiseTask = new PromiseTask(new Promise(function(resolve:Function, reject:Function){
-				var localNomadHelper:NomadHelperUrlDelegate = new NomadHelperUrlDelegate();
+				var localNomadHelper:NomadHelperDelegate = new NomadHelperDelegate();
 					localNomadHelper.getNomadHelper(String(data), function(event:Event):void{
 						resolve(event);
 					}, function onFault(fault:FaultEvent):void{

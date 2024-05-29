@@ -17,6 +17,7 @@ package controller.startup.prepareModel
 
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
+	import model.proxy.ProxyNomadHelperComparer;
 				
 	public class CommandPrepareModel extends SimpleCommand
 	{
@@ -32,6 +33,7 @@ package controller.startup.prepareModel
 			facade.registerProxy(new ProxyVersion());
 
 			facade.registerProxy(new ProxyUrlParameters());
+			facade.registerProxy(new ProxyNomadHelperComparer());
 			facade.registerProxy(new ProxyLogin());
 			facade.registerProxy(new ProxyNewRegistration());
 			facade.registerProxy(new ProxySessionCheck());

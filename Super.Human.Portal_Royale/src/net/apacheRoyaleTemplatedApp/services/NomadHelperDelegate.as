@@ -7,7 +7,7 @@ package services
 	import org.apache.royale.net.beads.CORSCredentialsBead;
 	import org.apache.royale.net.events.FaultEvent;
 	
-	public class NomadHelperUrlDelegate
+	public class NomadHelperDelegate
 	{
 		public function getNomadHelper(nomadHelperUrl:String, resultCallback:Function, faultCallback:Function=null):void 
 		{
