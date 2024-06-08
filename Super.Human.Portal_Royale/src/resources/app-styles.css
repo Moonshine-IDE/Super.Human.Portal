@@ -57,6 +57,26 @@ a:hover {
 	IBeadModel: ClassReference("classes.com.devexpress.js.dataGrid.beads.models.DataGridModel");
 }
 
+.tileViewJS {
+	IBeadView: ClassReference("classes.com.devexpress.js.tileView.beads.TileViewView");
+	IBeadModel: ClassReference("classes.com.devexpress.js.tileView.beads.models.TileViewModel");
+}
+
+.card-title.cardTileTitle {
+	fontSize: 1.3em !important;
+	fontWeight: bold !important;
+	textAlign: center;
+}
+
+.material-icons.cardTileIcon {
+	fontSize: 100px !important;
+}
+
+.jewel.card.cardTile {
+	background: none !important;
+	border: none !important;
+}
+
 .jewel.item.gridJSRendererClean {
 	border: none;
 	box-shadow: none;	

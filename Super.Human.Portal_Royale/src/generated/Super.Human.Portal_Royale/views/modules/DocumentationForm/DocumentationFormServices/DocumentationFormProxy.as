@@ -165,7 +165,9 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
             {
                 var json:Object = JSON.parse(fetchedData as String);
                 if (!json.errorMessage)
-                {
+                {				
+                    loadConfig();
+                        
                     if (("documents" in json) && (json.documents is Array))
                     {
                         items = [];
@@ -175,10 +177,9 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
                             items.push(
                                 DocumentationFormVO.getDocumentationFormVO(json.documents[i])
                             );
+                            item.showUnid = this.showUnid;
                         }
-        					
-                        loadConfig();
-                        
+ 
                         this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
                     }
                 }
@@ -339,7 +340,7 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
             );
         }
         
-        private function loadConfig():void
+        public function loadConfig():void
         {
       		var facade:ApplicationFacade = ApplicationFacade.getInstance("SuperHumanPortal_Royale");
 			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;

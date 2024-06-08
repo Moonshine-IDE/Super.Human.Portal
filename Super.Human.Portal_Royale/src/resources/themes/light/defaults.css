@@ -397,6 +397,18 @@
 	color: #EC1C24 !important;
 }
 
+.jewel.card.cardTile {
+	background: none !important;
+	border: none !important;
+}
+
+.jewel.button.icon.cardTileButtonIcon {
+	border: none !important;
+	background: none !important;
+	padding: 0 !important;
+    boxShadow: none !important;
+}
+
 .prominicLogo {
 	content: url('../../images/loginlogo.jpg');
 }

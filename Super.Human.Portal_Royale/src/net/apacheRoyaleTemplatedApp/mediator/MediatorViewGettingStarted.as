@@ -7,6 +7,8 @@ package mediator
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
     import view.general.BusyOperator;
+    import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormServices.DocumentationFormProxy;
+    import classes.com.devexpress.js.tileView.events.TileViewEvent;
 
     public class MediatorViewGettingStarted extends Mediator implements IMediator
     {
@@ -21,12 +23,16 @@ package mediator
 		{
 			super.onRegister();
 			
-			view.refreshItems();
+			var proxy:DocumentationFormProxy = DocumentationFormProxy.getInstance();
+				proxy.loadConfig();
+			view.tileGettingStarted.addEventListener(TileViewEvent.CLICK_ITEM, onTileViewClickItem);
 		}
 
 		override public function onRemove():void 
 		{			
 			super.onRemove();
+			
+			view.tileGettingStarted.removeEventListener(TileViewEvent.CLICK_ITEM, onTileViewClickItem);
 		}	
 		
 		public function get busyOperatory():BusyOperator
@@ -51,6 +57,12 @@ package mediator
 		public function get view():Object
 		{
 			return viewComponent as Object;
+		}
+		
+		private function onTileViewClickItem(event:TileViewEvent):void
+		{
+			var item:Object = event.item;
+			view.refreshItems();
 		}
     }
 }

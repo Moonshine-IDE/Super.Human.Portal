@@ -34,9 +34,43 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 		{
 				_DocumentationBody = value;
 		}
+		
+		private var _showUnid:Boolean;
 
+		public function get showUnid():Boolean
+		{
+			return _showUnid;
+		}
 
+		public function set showUnid(value:Boolean):void
+		{
+			_showUnid = value;
+		}
+		
+		private var _emptyImage:String = "image";
 
+		public function get emptyImage():String
+		{
+			return _emptyImage;
+		}
+
+		public function set emptyImage(value:String):void
+		{
+			_emptyImage = value;
+		}
+		
+		private var _image:String;
+
+		public function get image():String
+		{
+			return _image;
+		}
+
+		public function set image(value:String):void
+		{
+			_image = value;
+		}
+		
 		public function DocumentationFormVO()
 		{
 		}

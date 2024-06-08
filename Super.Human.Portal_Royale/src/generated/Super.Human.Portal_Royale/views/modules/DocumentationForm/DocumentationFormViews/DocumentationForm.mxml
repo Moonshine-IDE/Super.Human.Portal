@@ -1,14 +1,16 @@
 <j:VGroup  xmlns:j="library://ns.apache.org/royale/jewel" xmlns:fx="http://ns.adobe.com/mxml/2009"
 			xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html"
 			xmlns:dataGrid="Super.Human.Portal_Royale.classes.dataGrid.*"
-			xmlns:components="Super.Human.Portal_Royale.views.components.*" xmlns:htmlEditor="Super.Human.Portal_Royale.classes.htmlEditor.*"
-			currentState="dataGridState" gap="5" stateChangeComplete="{this.dispatchEvent(new Event('valueChange'))}"
+			xmlns:components="Super.Human.Portal_Royale.views.components.*" xmlns:htmlEditor="Super.Human.Portal_Royale.classes.htmlEditor.*" 
+			xmlns:tileView="classes.com.devexpress.js.tileView.*"
+			currentState="startview" gap="5" stateChangeComplete="{this.dispatchEvent(new Event('valueChange'))}"
 			itemsVerticalAlign="itemsTop" initComplete="onViewInitComplete(event)" percentHeight="100" className="bodyPadding">
   <j:beads>
     <js:ContainerDataBinding/>
     <js:SimpleStatesImpl/>
   </j:beads>
   <j:states>
+  	<js:State name="startview"/>
     <js:State name="dataGridState"/>
     <js:State name="contentState"/>
   </j:states>
@@ -20,6 +22,7 @@
 	import org.apache.royale.jewel.Alert;
 	import Super.Human.Portal_Royale.classes.htmlEditor.events.HtmlEditorEvent;
 	import Super.Human.Portal_Royale.classes.htmlEditor.helpers.ToolbarItems;
+	import model.vo.TileViewVO;
 
 	[Bindable] private var proxy:DocumentationFormProxy = DocumentationFormProxy.getInstance();
 
@@ -33,6 +36,29 @@
         proxy.addEventListener(ErrorEvent.SERVER_ERROR, onServerError);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_UPDATED, onServerItemChanged);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_REMOVED, onServerItemChanged);
+        
+        tileGettingStarted.dataProvider = [
+			  		new TileViewVO("Using this Portal", "Run your Notes application in the cloud from any browser. Add bookmarks to key company resources for your employees -- both Domino databases and external URLs to for example your payroll time tracking system.", null, MaterialIconType.HOME, 3),
+			  		new TileViewVO("Application Marketplace", "Explore free and paid applications you can add to your environment. These range from simple utility apps to complex CRMs.", null, MaterialIconType.STORE, 3),
+					new TileViewVO("Cloud Desktops & Mobile e-mail", "Mobile e-mail is just the first step.   Your entire set of Windows applications can be run in Cloud Desktops. This gives all of your staff a consistent interface and aids in recovery from ransomware attacks.", null, MaterialIconType.CLOUD, 3),
+					new TileViewVO("Developer's Corner", "Do you want to build a new app for Domino?   Browser based, Mobile first, REST, JSON, native Mac, Windows, Linux, and more? There are more ways than ever to deliver compelling user experiences with Domino.", null, MaterialIconType.CODE, 3),
+					new TileViewVO("MFA, Security & Compliance", "Multi-Factor Authentication is critical in today's world.   Security training for your employees. Assess compliance needs ahead of your annual cyber liability insurance policy renewals.", null, MaterialIconType.SECURITY, 3),
+					new TileViewVO("Verse, Calendaring & Meetings", "Group calendaring helps your team stay organized and connected to vendors and customers. Schedule integration with MS Teams, Zoom, WebEx, GoToMeting, and Sametime directly from Notes and Verse. The Verse e-mail interface groups your key communications automatically.", null, MaterialIconType.PERM_CONTACT_CALENDAR, 3)
+			  	];
+    }
+    
+    public function resetDocumentationForm():void
+    {
+    		this.currentState = 'startview';
+    		this.proxy.selectedIndex = -1;
+        
+        if (this.itemVO)
+        {
+        		this.itemVO.DocumentationName = null;
+        		this.itemVO.DocumentationUNID = null;
+    		}
+
+        this.itemVO = null;
     }
     
     public function refreshItems():void
@@ -50,7 +76,7 @@
         		this.itemVO.DocumentationName = null;
         		this.itemVO.DocumentationUNID = null;
     		}
-    		
+
         this.itemVO = null;
     }
 
@@ -105,7 +131,8 @@
     private function onServerItemChanged(event:Event):void
     {
         this.currentState = 'dataGridState';
-        this.dg.refreshCurrentDataProvider();
+        this.dg.dataProvider = this.proxy.items;
+      //  this.dg.refreshCurrentDataProvider();
     }
 
     private function onServerError(event:ErrorEvent):void
@@ -138,7 +165,7 @@
 	}
 
 ]]></fx:Script>
-  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2" excludeFrom="contentState">
+  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2" includeIn="dataGridState">
       <j:style>
           <js:SimpleCSSStyles padding="10"/>
       </j:style>
@@ -223,7 +250,12 @@
 </j:VGroup>
 
 
-  <dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName', allowSorting: false, allowFiltering: true, filterType: 'exclude'}, 
+  <!--<dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName', allowSorting: false, allowFiltering: true, filterType: 'exclude'}, 
   							   {caption: 'DocumentationUNID', dataField: 'DocumentationUNID', dataType: 'number', alignment: 'left', sortOrder: 'asc', allowFiltering: false, visible: this.proxy.showUnid}]}" dataProvider="{this.proxy.items}" 
-  					 filterRow="{ {visible: true, applyFilter: 'auto'} }" localId="dg" includeIn="dataGridState" className="dxDataGrid scrollHeightDocFormGridJS" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>
+  					 filterRow="{ {visible: true, applyFilter: 'auto'} }" localId="dg" includeIn="dataGridState" className="dxDataGrid scrollHeightDocFormGridJS" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>-->
+  <tileView:TileView localId="dg" includeIn="dataGridState" className="tileViewJS" 
+  					percentWidth="100" baseItemWidth="200" baseItemHeight="250" itemMargin="5" direction="vertical" 
+  					itemRenderer="Super.Human.Portal_Royale.views.renderers.DocumentationTileRenderer"/>
+  <tileView:TileView localId="tileGettingStarted" className="tileViewJS" direction="vertical" includeIn="startview"
+					  percentWidth="100"  baseItemHeight="400" itemMargin="10" itemRenderer="Super.Human.Portal_Royale.views.renderers.CardTileRenderer"/>
 </j:VGroup>

@@ -22,11 +22,11 @@
 }
 
 .jewel.button, .jewel.button.primary {
-	background: #1ca8dd;
+	background: #1ca8dd !important;
 	border-radius: 0.25rem;
 	border-color: transparent;
 	box-shadow: none;
-	color: #2a2a2a;
+	color: #2a2a2a !important;
 	text-shadow: none;
 }
 
