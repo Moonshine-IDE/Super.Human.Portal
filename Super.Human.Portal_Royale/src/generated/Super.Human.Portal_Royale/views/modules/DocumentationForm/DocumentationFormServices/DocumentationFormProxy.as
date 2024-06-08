@@ -173,11 +173,9 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
                         items = [];
                         for (var i:int=0; i < json.documents.length; i++)
                         {
-                            var item:DocumentationFormVO = new DocumentationFormVO();
-                            items.push(
-                                DocumentationFormVO.getDocumentationFormVO(json.documents[i])
-                            );
-                            item.showUnid = this.showUnid;
+                            var item:DocumentationFormVO = DocumentationFormVO.getDocumentationFormVO(json.documents[i]);
+	                            item.showUnid = this.showUnid;
+                            items.push(item);
                         }
  
                         this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
