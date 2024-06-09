@@ -28,7 +28,10 @@ package classes.com.devexpress.js.tileView.beads
 	        
 	        window["$"](host.element).dxTileView({
 	        		onItemClick: function onItemClick(event:Object):void {
-					host.dispatchEvent(new TileViewEvent(TileViewEvent.CLICK_ITEM, event.itemData))
+	        			host["selectedIndex"] = event.itemIndex;
+	        			host["selectedItem"] = event.itemData;
+	        			
+					host.dispatchEvent(new TileViewEvent(TileViewEvent.CLICK_ITEM, event.itemData, event.itemIndex));
 				}});
 	        this._model.addEventListener("dataProviderChanged", handleDataProviderChanged);
 	        this._model.addEventListener("itemRendererChanged", handleItemRendererChanged);
@@ -81,8 +84,11 @@ package classes.com.devexpress.js.tileView.beads
 			window["$"](host.element).dxTileView({
 				itemTemplate: function itemTemplate(itemData:Object, itemIndex:int, itemElement:Object):void {
 					var renderer:Object = _model.itemRenderer.newInstance();
+						renderer.index = itemIndex;
+						
 					var div:View = new View();
-
+						div.percentHeight = 100;
+						
 					renderer.data = itemData;
 					div.addElement(renderer as IChild);	
 					itemElement.append(div.element);

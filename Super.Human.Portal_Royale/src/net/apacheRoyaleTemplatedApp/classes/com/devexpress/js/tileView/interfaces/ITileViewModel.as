@@ -3,8 +3,9 @@ package classes.com.devexpress.js.tileView.interfaces
     import org.apache.royale.core.IHasDataProvider;
     import org.apache.royale.events.IEventDispatcher;
     import org.apache.royale.core.IFactory;
+    import org.apache.royale.core.ISelectionModel;
 
-	public interface ITileViewModel extends IHasDataProvider, IEventDispatcher
+	public interface ITileViewModel extends IHasDataProvider, IEventDispatcher, ISelectionModel
 	{
 		function get dataSource():Object;
 		function set dataSource(value:Object):void;

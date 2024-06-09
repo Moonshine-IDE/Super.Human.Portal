@@ -2,11 +2,10 @@ package classes.com.devexpress.js.tileView.beads.models
 {
     import classes.com.devexpress.js.tileView.interfaces.ITileViewModel;
 
-    import org.apache.royale.jewel.beads.models.DataProviderModel;
     import org.apache.royale.core.IFactory;
-    import org.apache.royale.core.ISelectionModel;
+    import org.apache.royale.jewel.beads.models.DataProviderModel;
 
-	public class TileViewModel extends DataProviderModel implements ITileViewModel, ISelectionModel
+	public class TileViewModel extends DataProviderModel implements ITileViewModel
 	{
 		public function TileViewModel()
 		{
@@ -116,7 +115,7 @@ package classes.com.devexpress.js.tileView.beads.models
 			}
 		}
 
-		private var _selectedIndex:int;
+		private var _selectedIndex:int = -1;
 		
 		public function get selectedIndex():int
 		{

@@ -77,6 +77,10 @@ a:hover {
 	border: none !important;
 }
 
+.card-actions.cardTileActions {
+	borderTop: none !important;
+}
+
 .jewel.item.gridJSRendererClean {
 	border: none;
 	box-shadow: none;	

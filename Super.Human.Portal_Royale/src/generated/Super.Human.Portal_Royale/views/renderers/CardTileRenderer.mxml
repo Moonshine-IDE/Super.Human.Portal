@@ -27,7 +27,7 @@
         }
 	]]>
 </fx:Script>
-	<j:Card percentHeight="100" percentWidth="100" maxHeight="300" className="cardTile">
+	<j:Card percentHeight="100" percentWidth="100" className="cardTile">
 		<j:CardTitle text="{dataVO.title}" className="cardTileTitle" multiline="true" percentWidth="100"/>
 		<j:CardPrimaryContent itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" gap="2">
 			<j:IconButton visible="{dataVO.imageIcon != null}" className="cardTileButtonIcon">
@@ -37,7 +37,7 @@
 			</j:IconButton>
 			<j:Label multiline="true" text="{dataVO.description}"/>
 		</j:CardPrimaryContent>
-		<j:CardActions visible="{dataVO.link != null}">
+		<j:CardActions visible="{dataVO.link != null}" className="cardTileActions">
 			<j:Button text="See More"/>
 		</j:CardActions>
 	</j:Card>
