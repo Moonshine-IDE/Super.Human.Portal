@@ -11,6 +11,7 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
     import org.apache.royale.events.EventDispatcher;
     import org.apache.royale.jewel.Snackbar;
     import org.apache.royale.net.events.FaultEvent;
+    import model.vo.TileViewVO;
 
 	public class DocumentationFormProxy extends EventDispatcher
 	{
@@ -81,6 +82,25 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
             _items = value;
         }
         
+        private var _mainItems:Array = new Array(
+        				new TileViewVO("usingThisPortal", "Using this Portal", "Run your Notes application in the cloud from any browser. Add bookmarks to key company resources for your employees -- both Domino databases and external URLs to for example your payroll time tracking system.", null, MaterialIconType.HOME, 3),
+			  		new TileViewVO("appMarketplace", "Application Marketplace", "Explore free and paid applications you can add to your environment. These range from simple utility apps to complex CRMs.", null, MaterialIconType.STORE, 3),
+					new TileViewVO("cloudAndMobileEmail", "Cloud Desktops & Mobile e-mail", "Mobile e-mail is just the first step.   Your entire set of Windows applications can be run in Cloud Desktops. This gives all of your staff a consistent interface and aids in recovery from ransomware attacks.", null, MaterialIconType.CLOUD, 3),
+					new TileViewVO("devCenter", "Developer's Corner", "Do you want to build a new app for Domino?   Browser based, Mobile first, REST, JSON, native Mac, Windows, Linux, and more? There are more ways than ever to deliver compelling user experiences with Domino.", null, MaterialIconType.CODE, 3),
+					new TileViewVO("mfaSecurity", "MFA, Security & Compliance", "Multi-Factor Authentication is critical in today's world.   Security training for your employees. Assess compliance needs ahead of your annual cyber liability insurance policy renewals.", null, MaterialIconType.SECURITY, 3),
+					new TileViewVO("verseCalndarAndMeetings", "Verse, Calendaring & Meetings", "Group calendaring helps your team stay organized and connected to vendors and customers. Schedule integration with MS Teams, Zoom, WebEx, GoToMeting, and Sametime directly from Notes and Verse. The Verse e-mail interface groups your key communications automatically.", null, MaterialIconType.PERM_CONTACT_CALENDAR, 3));
+
+		[Bindable]
+        public function get mainItems():Array
+        {
+        		return _mainItems;
+        }
+
+        public function set mainItems(value:Array):void
+        {
+        		_mainItems = value;
+        }
+        
         private var _selectedIndex:int;
         public function get selectedIndex():int
         {
@@ -98,6 +118,66 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
             {
                 this.serviceDelegate.getDocumentationFormList(onDocumentationFormListLoaded, onDocumentationFormListLoadFailed);
             }
+        }
+        
+        private var _breadcrumpItems:Object = {gettingStarted: {
+        				id: "gettingStarted",
+        				parent: null,
+        				hash: null,
+        				label: "Getting Started",
+        				visited: -1,
+        				icon: "folder_open",
+        				data: {},
+        				children: []
+        			}};
+
+        public function get breadcrumpItems():Object
+        {
+        		return _breadcrumpItems;
+        }
+        
+        public function getBreadcrumpModel():Object
+        {
+        		var breadcrumpItems:Array = [];
+        		
+        		var bItem:Object = null;
+        		for each (var tileItem:TileViewVO in mainItems)
+        		{      			
+        			bItem = {
+        				id: tileItem.id,
+        				parent: "gettingStarted",
+        				hash: null,
+        				label: tileItem.title,
+        				visited: -1,
+        				icon: tileItem.imageIcon,
+        				data: {},
+        				children: []
+        			};
+        			
+        			breadcrumpItems.push(bItem.id);
+        			_breadcrumpItems[bItem.id] = bItem;
+        		}
+        		
+        		_breadcrumpItems.children = breadcrumpItems;
+        		
+        		/*for each (var docItem:DocumentationFormVO in items)
+        		{      			
+        			bItem = {
+        				id: docItem.DominoUniversalID,
+        				parent: "gettingStarted",
+        				hash: null,
+        				label: docItem.DocumentationName,
+        				visited: -1,
+        				icon: docItem.image ? docItem.image : docItem.emptyImage,
+        				data: docItem,
+        				children: []
+        			};
+        			
+        			breadcrumpItems.push(bItem.id);
+        			rootBreadcrump[bItem.id] = bItem;
+        		}*/
+        		
+        		return _breadcrumpItems;		
         }
         
         public function submitItem(value:DocumentationFormVO):void

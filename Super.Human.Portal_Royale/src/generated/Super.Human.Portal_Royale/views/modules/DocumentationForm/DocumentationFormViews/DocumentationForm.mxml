@@ -2,7 +2,7 @@
 			xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html"
 			xmlns:dataGrid="Super.Human.Portal_Royale.classes.dataGrid.*"
 			xmlns:components="Super.Human.Portal_Royale.views.components.*" xmlns:htmlEditor="Super.Human.Portal_Royale.classes.htmlEditor.*" 
-			xmlns:tileView="classes.com.devexpress.js.tileView.*"
+			xmlns:tileView="classes.com.devexpress.js.tileView.*" xmlns:breadcrump="classes.breadcrump.*"
 			currentState="startview" gap="5" stateChangeComplete="{this.dispatchEvent(new Event('valueChange'))}"
 			itemsVerticalAlign="itemsTop" initComplete="onViewInitComplete(event)" percentHeight="100" className="bodyPadding">
   <j:beads>
@@ -24,7 +24,7 @@
 	import Super.Human.Portal_Royale.classes.htmlEditor.helpers.ToolbarItems;
 	import model.vo.TileViewVO;
 
-	[Bindable] private var proxy:DocumentationFormProxy = DocumentationFormProxy.getInstance();
+	[Bindable] private var proxy:DocumentationFormProxy;
 
 	[Bindable] private var itemVO:DocumentationFormVO;
 	[Bindable] private var isDisabled:Boolean = false;
@@ -33,18 +33,13 @@
 
     private function onViewInitComplete(event:Event):void
     {
+    	 	proxy = DocumentationFormProxy.getInstance();
         proxy.addEventListener(ErrorEvent.SERVER_ERROR, onServerError);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_UPDATED, onServerItemChanged);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_REMOVED, onServerItemChanged);
         
-        tileGettingStarted.dataProvider = [
-			  		new TileViewVO("Using this Portal", "Run your Notes application in the cloud from any browser. Add bookmarks to key company resources for your employees -- both Domino databases and external URLs to for example your payroll time tracking system.", null, MaterialIconType.HOME, 3),
-			  		new TileViewVO("Application Marketplace", "Explore free and paid applications you can add to your environment. These range from simple utility apps to complex CRMs.", null, MaterialIconType.STORE, 3),
-					new TileViewVO("Cloud Desktops & Mobile e-mail", "Mobile e-mail is just the first step.   Your entire set of Windows applications can be run in Cloud Desktops. This gives all of your staff a consistent interface and aids in recovery from ransomware attacks.", null, MaterialIconType.CLOUD, 3),
-					new TileViewVO("Developer's Corner", "Do you want to build a new app for Domino?   Browser based, Mobile first, REST, JSON, native Mac, Windows, Linux, and more? There are more ways than ever to deliver compelling user experiences with Domino.", null, MaterialIconType.CODE, 3),
-					new TileViewVO("MFA, Security & Compliance", "Multi-Factor Authentication is critical in today's world.   Security training for your employees. Assess compliance needs ahead of your annual cyber liability insurance policy renewals.", null, MaterialIconType.SECURITY, 3),
-					new TileViewVO("Verse, Calendaring & Meetings", "Group calendaring helps your team stay organized and connected to vendors and customers. Schedule integration with MS Teams, Zoom, WebEx, GoToMeting, and Sametime directly from Notes and Verse. The Verse e-mail interface groups your key communications automatically.", null, MaterialIconType.PERM_CONTACT_CALENDAR, 3)
-			  	];
+        breadcrumpGettingStarted.model = proxy.breadcrumpItems;
+        breadcrumpGettingStarted.buildBreadcrump(proxy.breadcrumpItems.gettingStarted);
     }
     
     public function resetDocumentationForm():void
@@ -61,6 +56,8 @@
     		}
 
         this.itemVO = null;
+        
+        breadcrumpGettingStarted.buildBreadcrump(proxy.breadcrumpItems.gettingStarted);
     }
     
     public function refreshItems():void
@@ -139,6 +136,12 @@
     {
         this.currentState = 'dataGridState';
         this.dg.dataProvider = this.proxy.items;
+        
+        breadcrumpGettingStarted.model = proxy.getBreadcrumpModel();
+        if (tileGettingStarted.selectedItem)
+        {
+        		breadcrumpGettingStarted.buildBreadcrump(breadcrumpGettingStarted.model[tileGettingStarted.selectedItem.id]);
+    		}
       //  this.dg.refreshCurrentDataProvider();
     }
 
@@ -172,6 +175,8 @@
 	}
 
 ]]></fx:Script>
+  <breadcrump:Breadcrump localId="breadcrumpGettingStarted"/>
+  
   <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2" includeIn="dataGridState">
       <j:style>
           <js:SimpleCSSStyles padding="10"/>
@@ -224,46 +229,47 @@
       </j:Button>
   </j:HGroup>
   
-<j:VGroup includeIn="contentState" percentWidth="100" percentHeight="100" xmlns:j="library://ns.apache.org/royale/jewel"
-		  gap="6">
-  
-  <j:beads>
-    
-    <j:ScrollingViewport/>
-    
-  </j:beads>
-  
-  <j:HGroup gap="2" itemsVerticalAlign="itemsCenter">
-    
-    <components:DominoTextInputMultiline text="{itemVO.DocumentationName}" change="{itemVO.DocumentationName = event.currentTarget.text;}" 
-    										isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
-    										isTextArea="true" fontSize="x-large"/>
-    
-    <j:Label text="(" className="cursor-pointer" visible="{isDisabled &amp;&amp; this.proxy.showUnid}"/>
-    
-    <components:DominoTextInputMultiline text="{itemVO.DocumentationUNID}" change="{itemVO.DocumentationUNID = event.currentTarget.text;}" 
-    										isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
-    										isTextArea="false" visible="{this.proxy.showUnid}"/>
-    
-    <j:Label text="{isDisabled ? ')' : '(DocumentationUNID)'}" className="cursor-pointer" visible="{this.proxy.showUnid}"/>
-    
-  </j:HGroup>
-
-  <j:HGroup percentWidth="100">
-    <htmlEditor:HtmlEditor data="{itemVO.DocumentationBody}" readOnly="{isDisabled}" 
-    						  toolbarItems="{isDisabled ? [] : ToolbarItems.ALL_ITEMS}"
-    						  textChange="onHtmlEditorTextChange(event)" />
-  </j:HGroup>
-  
-</j:VGroup>
+	<j:VGroup includeIn="contentState" percentWidth="100" percentHeight="100" xmlns:j="library://ns.apache.org/royale/jewel"
+			gap="6">
+	
+		<j:beads>
+			<j:ScrollingViewport/>
+		</j:beads>
+		
+		<j:HGroup gap="2" itemsVerticalAlign="itemsCenter">
+			
+			<components:DominoTextInputMultiline text="{itemVO.DocumentationName}" change="{itemVO.DocumentationName = event.currentTarget.text;}" 
+													isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
+													isTextArea="true" fontSize="x-large"/>
+			
+			<j:Label text="(" className="cursor-pointer" visible="{isDisabled &amp;&amp; this.proxy.showUnid}"/>
+			
+			<components:DominoTextInputMultiline text="{itemVO.DocumentationUNID}" change="{itemVO.DocumentationUNID = event.currentTarget.text;}" 
+													isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
+													isTextArea="false" visible="{this.proxy.showUnid}"/>
+			
+			<j:Label text="{isDisabled ? ')' : '(DocumentationUNID)'}" className="cursor-pointer" visible="{this.proxy.showUnid}"/>
+			
+		</j:HGroup>
+		
+		<j:HGroup percentWidth="100">
+			<htmlEditor:HtmlEditor data="{itemVO.DocumentationBody}" readOnly="{isDisabled}" 
+									toolbarItems="{isDisabled ? [] : ToolbarItems.ALL_ITEMS}"
+									textChange="onHtmlEditorTextChange(event)" />
+		</j:HGroup>
+	
+	</j:VGroup>
 
 
   <!--<dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName', allowSorting: false, allowFiltering: true, filterType: 'exclude'}, 
   							   {caption: 'DocumentationUNID', dataField: 'DocumentationUNID', dataType: 'number', alignment: 'left', sortOrder: 'asc', allowFiltering: false, visible: this.proxy.showUnid}]}" dataProvider="{this.proxy.items}" 
   					 filterRow="{ {visible: true, applyFilter: 'auto'} }" localId="dg" includeIn="dataGridState" className="dxDataGrid scrollHeightDocFormGridJS" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>-->
-  <tileView:TileView localId="dg" includeIn="dataGridState" className="tileViewJS" 
+   
+  <tileView:TileView localId="dg" className="tileViewJS" 
   					percentWidth="100" baseItemWidth="245" baseItemHeight="300" itemMargin="5" direction="vertical" 
-  					itemRenderer="Super.Human.Portal_Royale.views.renderers.DocumentationTileRenderer"/>
+  					itemRenderer="Super.Human.Portal_Royale.views.renderers.DocumentationTileRenderer"
+  					includeIn="dataGridState"/>
   <tileView:TileView localId="tileGettingStarted" className="tileViewJS" direction="vertical" includeIn="startview"
-					  percentWidth="100"  baseItemHeight="350" itemMargin="10" itemRenderer="Super.Human.Portal_Royale.views.renderers.CardTileRenderer"/>
+					  percentWidth="100"  baseItemHeight="350" itemMargin="10" itemRenderer="Super.Human.Portal_Royale.views.renderers.CardTileRenderer"
+					 dataProvider="{proxy.mainItems}"/>
 </j:VGroup>
