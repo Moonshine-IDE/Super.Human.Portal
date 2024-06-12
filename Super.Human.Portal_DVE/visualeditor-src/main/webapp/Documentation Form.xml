@@ -1,16 +1,58 @@
 <mockup>
-  <MainApplication title="" width="700" height="450" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+  
+  <MainApplication title="" propagatenoreplace="false" noreplace="false" windowsTitle="" width="700" height="450" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+    
     <Paragraph percentWidth="100" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop" wrap="true">
-      <Field height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="18" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" name="DocumentationName" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" width="138" fieldHint="" helpDescription=""/>
+      
+      <Field width="138" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="18" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" name="DocumentationName" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+      
       <Label size="18" color="system" fontStyle="normal" fontName="serif">%28</Label>
-      <Field height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="18" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" name="DocumentationUNID" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" width="138" fieldHint="" helpDescription=""/>
+      
+      <Field width="138" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="18" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" name="DocumentationUNID" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+      
       <Label size="18" color="system" fontStyle="normal" fontName="serif">%29</Label>
+      
     </Paragraph>
+    
     <Paragraph percentWidth="100" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop" wrap="true">
+      
+      <Label size="12" color="system" fontStyle="normal" fontName="serif">%20Categories%3A</Label>
+      
+      <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="Categories" allowmultivalues="true" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+      
+    </Paragraph>
+    
+    <Paragraph percentWidth="100" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop" wrap="true">
+      
       <Label size="12" color="system" fontStyle="normal" fontName="serif">%20</Label>
+      
     </Paragraph>
+    
     <Paragraph percentWidth="100" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop" wrap="true">
+      
       <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" name="DocumentationBody" kind="editable" type="richtext" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+      
     </Paragraph>
+    
   </MainApplication>
+  
+  <dominoGlobalsObject options="T3B0aW9uIFB1YmxpYw==" terminate="U3ViIFRlbWluYXRlCkVuZCBTdWI=" initialize="U3ViIEluaXRpYWxpemUKRW5kIFN1Yg=="/>
+  <dominoFormObject>
+    <querymodechange lotusscript="U3ViIFF1ZXJ5bW9kZWNoYW5nZShTb3VyY2UgQXMgTm90ZXN1aWRvY3VtZW50LCBDb250aW51ZSBBcyBWYXJpYW50KQpFbmQgU3Vi" isCustomFunction="false"/>
+    <queryrecalc lotusscript="U3ViIFF1ZXJ5cmVjYWxjKFNvdXJjZSBBcyBOb3Rlc3VpZG9jdW1lbnQsIENvbnRpbnVlIEFzIFZhcmlhbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <webQuerySave formula="QENvbW1hbmQoW1Rvb2xzUnVuTWFjcm9dOyAiPFlvdXIgYWdlbnQgZ29lcyBoZXJlPiIp" isCustomFunction="false"/>
+    <webQueryOpen formula="QENvbW1hbmQoW1Rvb2xzUnVuTWFjcm9dOyAiPFlvdXIgYWdlbnQgZ29lcyBoZXJlPiIp" isCustomFunction="false"/>
+    <querysend lotusscript="U3ViIFF1ZXJ5c2VuZChTb3VyY2UgQXMgTm90ZXN1aWRvY3VtZW50LCBDb250aW51ZSBBcyBWYXJpYW50KQpFbmQgU3Vi" isCustomFunction="false"/>
+    <postsend lotusscript="U3ViIFBvc3RzZW5kKFNvdXJjZSBBcyBOb3Rlc3VpZG9jdW1lbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <postmodechange lotusscript="U3ViIFBvc3Rtb2RlY2hhbmdlKFNvdXJjZSBBcyBOb3Rlc3VpZG9jdW1lbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <initialize lotusscript="U3ViIEluaXRpYWxpemUKRW5kIFN1Yg==" isCustomFunction="false"/>
+    <querySave lotusscript="U3ViIFF1ZXJ5c2F2ZShTb3VyY2UgQXMgTm90ZXN1aWRvY3VtZW50LCBDb250aW51ZSBBcyBWYXJpYW50KQpFbmQgU3Vi" isCustomFunction="false"/>
+    <queryopen lotusscript="U3ViIFF1ZXJ5b3BlbihTb3VyY2UgQXMgTm90ZXN1aWRvY3VtZW50LCBNb2RlIEFzIEludGVnZXIsIElzbmV3ZG9jIEFzIFZhcmlhbnQsIENvbnRpbnVlIEFzIFZhcmlhbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <postsave lotusscript="U3ViIFBvc3RzYXZlKFNvdXJjZSBBcyBOb3Rlc3VpZG9jdW1lbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <terminate lotusscript="U3ViIFRlcm1pbmF0ZQpFbmQgU3Vi" isCustomFunction="false"/>
+    <queryclose lotusscript="U3ViIFF1ZXJ5Y2xvc2UoU291cmNlIEFzIE5vdGVzdWlkb2N1bWVudCwgQ29udGludWUgQXMgVmFyaWFudCkKRW5kIFN1Yg==" isCustomFunction="false"/>
+    <postopen lotusscript="U3ViIFBvc3RvcGVuKFNvdXJjZSBBcyBOb3Rlc3VpZG9jdW1lbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <postrecalc lotusscript="U3ViIFBvc3RyZWNhbGMoU291cmNlIEFzIE5vdGVzdWlkb2N1bWVudCkKRW5kIFN1Yg==" isCustomFunction="false"/>
+  </dominoFormObject>
+  <dominoCustomObject/>
 </mockup>

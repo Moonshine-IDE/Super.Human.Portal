@@ -1,0 +1,224 @@
+<mockup>
+  
+  <MainApplication title="" propagatenoreplace="false" noreplace="false" windowsTitle="IkNhdGVnb3J5Ig==" width="700" height="450" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+    
+    <Label size="12" color="system" fontStyle="normal" fontName="serif">Category</Label>
+    
+    <Grid width="480" height="400">
+      
+      <Row class="ui-g">
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">ID%3A</Label>
+            
+          </Div>
+          
+        </Column>
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="CategoryID" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+            
+          </Div>
+          
+        </Column>
+        
+      </Row>
+      
+      <Row class="ui-g">
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">Label%3A</Label>
+            
+          </Div>
+          
+        </Column>
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="Label" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+            
+          </Div>
+          
+        </Column>
+        
+      </Row>
+      
+      <Row class="ui-g">
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">Icon%3A</Label>
+            
+          </Div>
+          
+        </Column>
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="Icon" kind="editable" type="text" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+            
+          </Div>
+          
+        </Column>
+        
+      </Row>
+      
+      <Row class="ui-g">
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            
+            <Label size="12" color="system" fontStyle="normal" fontName="serif">Order</Label>
+            
+          </Div>
+          
+        </Column>
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left">
+            
+            <Field width="100" height="30" value="" required="false" recalonchange="false" recalcchoices="false" keyformulachoices="false" securityOptionsInput="null" alignPardef="left" numberColumns="1" color="black" size="10" fontStyle="normal" fonName="sans-serif" spacingInterline="1" spacingAbove="1" spacingBelow="1" object="defaultvalue" name="Order" kind="editable" type="number" digits="0" format="general" parens="false" percent="false" punctuated="false" listdisplayseparator="newline" listinputseparators="comma semicolon newline" fieldHint="" helpDescription=""/>
+            
+          </Div>
+          
+        </Column>
+        
+      </Row>
+      
+      <Row class="ui-g">
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+      </Row>
+      
+      <Row class="ui-g">
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+      </Row>
+      
+      <Row class="ui-g">
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+      </Row>
+      
+      <Row class="ui-g">
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+      </Row>
+      
+      <Row class="ui-g">
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+      </Row>
+      
+      <Row class="ui-g">
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+        <Column class="ui-g-6 ui-lg-6 ui-sm-6 ui-md-6 ui-xl-6">
+          
+          <Div percentWidth="100" percentHeight="100" class="flexVerticalLayout flexVerticalLayoutLeft flexVerticalLayoutTop" wrap="false" direction="Vertical" vpostion="left"/>
+          
+        </Column>
+        
+      </Row>
+      
+    </Grid>
+    
+  </MainApplication>
+  
+  <dominoGlobalsObject options="T3B0aW9uIFB1YmxpYw==" terminate="U3ViIFRlbWluYXRlCkVuZCBTdWI=" initialize="U3ViIEluaXRpYWxpemUKRW5kIFN1Yg=="/>
+  <dominoFormObject>
+    <querymodechange lotusscript="U3ViIFF1ZXJ5bW9kZWNoYW5nZShTb3VyY2UgQXMgTm90ZXN1aWRvY3VtZW50LCBDb250aW51ZSBBcyBWYXJpYW50KQpFbmQgU3Vi" isCustomFunction="false"/>
+    <queryrecalc lotusscript="U3ViIFF1ZXJ5cmVjYWxjKFNvdXJjZSBBcyBOb3Rlc3VpZG9jdW1lbnQsIENvbnRpbnVlIEFzIFZhcmlhbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <webQuerySave formula="QENvbW1hbmQoW1Rvb2xzUnVuTWFjcm9dOyAiPFlvdXIgYWdlbnQgZ29lcyBoZXJlPiIp" isCustomFunction="false"/>
+    <webQueryOpen formula="QENvbW1hbmQoW1Rvb2xzUnVuTWFjcm9dOyAiPFlvdXIgYWdlbnQgZ29lcyBoZXJlPiIp" isCustomFunction="false"/>
+    <querysend lotusscript="U3ViIFF1ZXJ5c2VuZChTb3VyY2UgQXMgTm90ZXN1aWRvY3VtZW50LCBDb250aW51ZSBBcyBWYXJpYW50KQpFbmQgU3Vi" isCustomFunction="false"/>
+    <postsend lotusscript="U3ViIFBvc3RzZW5kKFNvdXJjZSBBcyBOb3Rlc3VpZG9jdW1lbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <postmodechange lotusscript="U3ViIFBvc3Rtb2RlY2hhbmdlKFNvdXJjZSBBcyBOb3Rlc3VpZG9jdW1lbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <initialize lotusscript="U3ViIEluaXRpYWxpemUKRW5kIFN1Yg==" isCustomFunction="false"/>
+    <querySave lotusscript="U3ViIFF1ZXJ5c2F2ZShTb3VyY2UgQXMgTm90ZXN1aWRvY3VtZW50LCBDb250aW51ZSBBcyBWYXJpYW50KQpFbmQgU3Vi" isCustomFunction="false"/>
+    <queryopen lotusscript="U3ViIFF1ZXJ5b3BlbihTb3VyY2UgQXMgTm90ZXN1aWRvY3VtZW50LCBNb2RlIEFzIEludGVnZXIsIElzbmV3ZG9jIEFzIFZhcmlhbnQsIENvbnRpbnVlIEFzIFZhcmlhbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <postsave lotusscript="U3ViIFBvc3RzYXZlKFNvdXJjZSBBcyBOb3Rlc3VpZG9jdW1lbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <terminate lotusscript="U3ViIFRlcm1pbmF0ZQpFbmQgU3Vi" isCustomFunction="false"/>
+    <queryclose lotusscript="U3ViIFF1ZXJ5Y2xvc2UoU291cmNlIEFzIE5vdGVzdWlkb2N1bWVudCwgQ29udGludWUgQXMgVmFyaWFudCkKRW5kIFN1Yg==" isCustomFunction="false"/>
+    <postopen lotusscript="U3ViIFBvc3RvcGVuKFNvdXJjZSBBcyBOb3Rlc3VpZG9jdW1lbnQpCkVuZCBTdWI=" isCustomFunction="false"/>
+    <postrecalc lotusscript="U3ViIFBvc3RyZWNhbGMoU291cmNlIEFzIE5vdGVzdWlkb2N1bWVudCkKRW5kIFN1Yg==" isCustomFunction="false"/>
+  </dominoFormObject>
+  <dominoCustomObject/>
+</mockup>
