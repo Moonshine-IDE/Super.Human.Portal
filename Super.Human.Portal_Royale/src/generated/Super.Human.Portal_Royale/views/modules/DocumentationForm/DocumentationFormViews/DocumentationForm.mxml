@@ -46,9 +46,13 @@
     {
     		this.currentState = 'startview';
     		this.proxy.selectedIndex = -1;
-    		this.dg.selectedIndex = -1;
-    		this.dg.selectedItem = null;
-        
+    		
+    		if (this.dg)
+    		{
+    			this.dg.selectedIndex = -1;
+    			this.dg.selectedItem = null;
+   		} 
+   		
         if (this.itemVO)
         {
         		this.itemVO.DocumentationName = null;
