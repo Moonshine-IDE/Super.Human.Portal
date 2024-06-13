@@ -10,7 +10,7 @@ Component | Notes
 ----------|------
 server | A FQDN or IP address.  This can also include a port
 database | The path to the Domino database, relative to the Notes Data Directory
-action | Follows the format DocumentationForm<Action>.  See [Actions](#actions) below
+action | Follows the format Category<Action>.  See [Actions](#actions) below
 `?OpenAgent` | This is required by Domino to reference the agent.
 Parameters | See [Shared Parameters](#shared-parameters) and [Actions](#actions)
 
@@ -81,10 +81,11 @@ TODO:  support special format?
 Document properties | Type | Multivalue | Notes
 --------------------|------|------------|------
 DominoUniveralID    | Text | No         | Used as the lookup key for Create and Update agents.
-DocumentationName | Text | false | 
-DocumentationUNID | Text | false | 
-Categories | Text | true | 
-DocumentationBody | Richtext | false | 
+CategoryID | Text | false | 
+Label | Text | false | 
+Description | Text | false | 
+Icon | Text | false | 
+Order | Text | false | 
 
 
 ### Create
@@ -96,10 +97,11 @@ Create a new document.  Run `Document.computeWithForm` before saving the documen
 
 Parameters | Type | Multivalue | Required | Notes
 -----------|------|------------|----------|------
-DocumentationName | Text | false | false | 
-DocumentationUNID | Text | false | false | 
-Categories | Text | true | false | 
-DocumentationBody | Richtext | false | false | 
+CategoryID | Text | false | false | 
+Label | Text | false | false | 
+Description | Text | false | false | 
+Icon | Text | false | false | 
+Order | Text | false | false | 
 
 
 Response properties | JSON Format | Notes
@@ -134,10 +136,11 @@ Update a document.  Run `Document.computeWithForm` before saving the document.  
 Parameters | Type | Multivalue | Required | Notes
 -----------|------|------------|----------|------
 DominoUniversalID | Text | No | Yes | 
-DocumentationName | Text | false | false | 
-DocumentationUNID | Text | false | false | 
-Categories | Text | true | false | 
-DocumentationBody | Richtext | false | false | 
+CategoryID | Text | false | false | 
+Label | Text | false | false | 
+Description | Text | false | false | 
+Icon | Text | false | false | 
+Order | Text | false | false | 
 
 
 Response:  No additional values.  TODO: return the document?
