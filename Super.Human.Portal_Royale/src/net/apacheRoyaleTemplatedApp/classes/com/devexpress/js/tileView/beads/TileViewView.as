@@ -10,6 +10,7 @@ package classes.com.devexpress.js.tileView.beads
     import org.apache.royale.core.IStrand;
     import org.apache.royale.html.beads.GroupView;
     import org.apache.royale.jewel.View;
+    import org.apache.royale.events.MouseEvent;
 
 	public class TileViewView extends GroupView 
 	{
@@ -32,6 +33,9 @@ package classes.com.devexpress.js.tileView.beads
 	        			host["selectedItem"] = event.itemData;
 	        			
 					host.dispatchEvent(new TileViewEvent(TileViewEvent.CLICK_ITEM, event.itemData, event.itemIndex));
+				},
+				onDisposing: function onDisposing(element:Object, component:Object):void {
+					var e:Object = element;
 				}});
 	        this._model.addEventListener("dataProviderChanged", handleDataProviderChanged);
 	        this._model.addEventListener("itemRendererChanged", handleItemRendererChanged);
@@ -90,6 +94,9 @@ package classes.com.devexpress.js.tileView.beads
 						div.percentHeight = 100;
 						
 					renderer.data = itemData;
+					renderer.addEventListener(MouseEvent.DOUBLE_CLICK, function onItemDoubleClick(event:MouseEvent):void {
+						host.dispatchEvent(new TileViewEvent(TileViewEvent.DOUBLE_CLICK_ITEM, _model.selectedItem, _model.selectedIndex));
+					});
 					div.addElement(renderer as IChild);	
 					itemElement.append(div.element);
 			}});

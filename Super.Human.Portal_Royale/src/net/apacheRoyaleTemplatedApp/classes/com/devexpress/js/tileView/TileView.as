@@ -7,7 +7,8 @@ package classes.com.devexpress.js.tileView
     import classes.com.devexpress.js.tileView.events.TileViewEvent;
               
     [Event(name="clickItemTileView", type="classes.com.devexpress.js.tileView.events.TileViewEvent")]
-          
+    [Event(name="doubleClickItemTileView", type="classes.com.devexpress.js.tileView.events.TileViewEvent")]
+    
 	public class TileView extends Group 
 	{
 		public function TileView()

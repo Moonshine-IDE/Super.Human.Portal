@@ -1,18 +1,20 @@
 package mediator
 {
-    import interfaces.IViewHello;
+    import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormServices.DocumentationFormProxy;
+
+    import classes.com.devexpress.js.tileView.events.TileViewEvent;
 
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
     import view.general.BusyOperator;
-    import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormServices.DocumentationFormProxy;
-    import classes.com.devexpress.js.tileView.events.TileViewEvent;
 
     public class MediatorViewGettingStarted extends Mediator implements IMediator
     {
 		public static const NAME:String = 'MediatorViewGettingStarted';
+		
+		private var proxy:DocumentationFormProxy;
 		
 		public function MediatorViewGettingStarted(component:Object) 
 		{
@@ -23,8 +25,10 @@ package mediator
 		{
 			super.onRegister();
 			
-			var proxy:DocumentationFormProxy = DocumentationFormProxy.getInstance();
-				proxy.loadConfig();
+			proxy = DocumentationFormProxy.getInstance();
+			proxy.loadConfig();
+			
+			view.addEventListener("stateChangeComplete", onViewStateChange);
 			view.tileGettingStarted.addEventListener(TileViewEvent.CLICK_ITEM, onTileViewClickItem);
 		}
 
@@ -32,7 +36,12 @@ package mediator
 		{			
 			super.onRemove();
 			
+			view.removeEventListener("stateChangeComplete", onViewStateChange);
 			view.tileGettingStarted.removeEventListener(TileViewEvent.CLICK_ITEM, onTileViewClickItem);
+			if (view.dg)
+			{
+				view.dg.removeEventListener(TileViewEvent.DOUBLE_CLICK_ITEM, onDgTileDoubleClickItem);
+			}
 		}	
 		
 		public function get busyOperatory():BusyOperator
@@ -50,7 +59,7 @@ package mediator
 			
 			switch (note.getName()) 
 			{
-									
+								
 			}
 		}		
 		
@@ -59,10 +68,28 @@ package mediator
 			return viewComponent as Object;
 		}
 		
+		private function onViewStateChange(event:Event):void
+		{
+			if (view.currentState == "dataGridState")
+			{
+				if (proxy.editable)
+				{
+					if (view.dg && !view.dg.hasEventListener(TileViewEvent.DOUBLE_CLICK_ITEM))
+					{
+						view.dg.addEventListener(TileViewEvent.DOUBLE_CLICK_ITEM, onDgTileDoubleClickItem);
+					}
+				}
+			}
+		}
+		
 		private function onTileViewClickItem(event:TileViewEvent):void
 		{
-			var item:Object = event.item;
 			view.refreshItems();
+		}
+		
+		private function onDgTileDoubleClickItem(event:TileViewEvent):void
+		{
+			view.initReadOnlyForm();
 		}
     }
 }

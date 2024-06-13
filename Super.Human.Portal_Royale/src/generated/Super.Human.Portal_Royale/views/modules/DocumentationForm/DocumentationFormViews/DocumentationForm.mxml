@@ -3,14 +3,13 @@
 			xmlns:dataGrid="Super.Human.Portal_Royale.classes.dataGrid.*"
 			xmlns:components="Super.Human.Portal_Royale.views.components.*" xmlns:htmlEditor="Super.Human.Portal_Royale.classes.htmlEditor.*" 
 			xmlns:tileView="classes.com.devexpress.js.tileView.*" xmlns:breadcrump="classes.breadcrump.*"
-			currentState="startview" gap="5" stateChangeComplete="{this.dispatchEvent(new Event('valueChange'))}"
+			currentState="startview" gap="5" stateChangeComplete="onDocumentationFormStateChange(event)"
 			itemsVerticalAlign="itemsTop" initComplete="onViewInitComplete(event)" percentHeight="100" className="bodyPadding">
   <j:beads>
     <js:ContainerDataBinding/>
-    <js:SimpleStatesImpl/>
   </j:beads>
   <j:states>
-  	<js:State name="startview"/>
+  	<js:State name="startview" />
     <js:State name="dataGridState"/>
     <js:State name="contentState"/>
   </j:states>
@@ -23,6 +22,7 @@
 	import Super.Human.Portal_Royale.classes.htmlEditor.events.HtmlEditorEvent;
 	import Super.Human.Portal_Royale.classes.htmlEditor.helpers.ToolbarItems;
 	import model.vo.TileViewVO;
+	import classes.com.devexpress.js.tileView.events.TileViewEvent;
 
 	[Bindable] private var proxy:DocumentationFormProxy;
 
@@ -33,13 +33,18 @@
 
     private function onViewInitComplete(event:Event):void
     {
-    	 	proxy = DocumentationFormProxy.getInstance();
+    	    proxy = DocumentationFormProxy.getInstance();
         proxy.addEventListener(ErrorEvent.SERVER_ERROR, onServerError);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_UPDATED, onServerItemChanged);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_REMOVED, onServerItemChanged);
         
         breadcrumpGettingStarted.model = proxy.breadcrumpItems;
         breadcrumpGettingStarted.buildBreadcrump(proxy.breadcrumpItems.gettingStarted);
+    }
+    
+    private function onDocumentationFormStateChange(event:Event):void
+    {
+    		this.dispatchEvent(new Event('valueChange'));	
     }
     
     public function resetDocumentationForm():void
@@ -83,7 +88,7 @@
         this.itemVO = null;
     }
 
-    private function initReadOnlyForm():void
+    public function initReadOnlyForm():void
     {
     		this.currentState = 'contentState';
         this.isDisabled = true;
@@ -131,11 +136,6 @@
         this.itemVO = dg.selectedItem.clone();
     }
 
-    private function onGridDoubleClick(event:Event):void
-    {
-        this.initReadOnlyForm();
-    }
-
     private function onServerItemChanged(event:Event):void
     {
         this.currentState = 'dataGridState';
@@ -177,6 +177,8 @@
 	{
 		this.itemVO.DocumentationBody = event.text;
 	}
+	
+
 
 ]]></fx:Script>
   <breadcrump:Breadcrump localId="breadcrumpGettingStarted"/>
