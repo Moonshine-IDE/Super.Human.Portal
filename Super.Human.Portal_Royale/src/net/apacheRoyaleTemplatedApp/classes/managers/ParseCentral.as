@@ -13,6 +13,7 @@ package classes.managers
 
 	import utils.UtilsCore;
 	import model.vo.ServerVO;
+	import model.vo.CategoryVO;
 	
 	/**
 	 * ParseCentral
@@ -332,6 +333,32 @@ package classes.managers
 			
 			return folders;
 		}
+		
+		/**
+		 * Parse genesis application catalog list
+		 *
+		 * @return Array
+		 */
+		public static function parseCategoriesList(jsonData:Array):Array 
+		{
+			var tmpArr:Array = [];
+			
+			var viewEntryCount:int = jsonData.length;
+			
+			for (var i:int = 0; i < viewEntryCount; i++)
+			{
+				var cat:Object = jsonData[i];
+				var tmpVO:CategoryVO = new CategoryVO(cat.DominoUniversalID, cat.CategoryID, cat.Description,
+													 Number(cat.Order), cat.Label, cat.Icon);
+				
+				tmpArr.push(tmpVO);
+			}
+			
+			UtilsCore.sortItems(tmpArr, "order", false, true);
+			
+			return tmpArr;
+		}
+		
 		//--------------------------------------------------------------------------
 		//
 		//  PRIVATE STATIC API

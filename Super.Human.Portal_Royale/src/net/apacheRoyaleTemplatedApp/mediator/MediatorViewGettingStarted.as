@@ -15,7 +15,7 @@ package mediator
 		public static const NAME:String = 'MediatorViewGettingStarted';
 		
 		private var proxy:DocumentationFormProxy;
-		
+
 		public function MediatorViewGettingStarted(component:Object) 
 		{
 			super(NAME, component);
@@ -24,12 +24,15 @@ package mediator
 		override public function onRegister():void 
 		{
 			super.onRegister();
+
 			
 			proxy = DocumentationFormProxy.getInstance();
 			proxy.loadConfig();
 			
 			view.addEventListener("stateChangeComplete", onViewStateChange);
 			view.tileGettingStarted.addEventListener(TileViewEvent.CLICK_ITEM, onTileViewClickItem);
+			
+			view.refreshItems();
 		}
 
 		override public function onRemove():void 
@@ -52,6 +55,7 @@ package mediator
 		override public function listNotificationInterests():Array 
 		{
 			var interests:Array = super.listNotificationInterests();
+				
 			return interests;
 		}
 
@@ -84,7 +88,7 @@ package mediator
 		
 		private function onTileViewClickItem(event:TileViewEvent):void
 		{
-			view.refreshItems();
+			proxy.dispatchEvent(new Event(DocumentationFormProxy.EVENT_ITEM_UPDATED));
 		}
 		
 		private function onDgTileDoubleClickItem(event:TileViewEvent):void

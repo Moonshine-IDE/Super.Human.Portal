@@ -3,15 +3,19 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
     import Super.Human.Portal_Royale.classes.events.ErrorEvent;
     import Super.Human.Portal_Royale.classes.utils.Utils;
     import Super.Human.Portal_Royale.classes.vo.Constants;
+    import Super.Human.Portal_Royale.tasks.DocumentationLoaderTask;
     import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormServices.DocumentationFormServices;
     import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormVO.DocumentationFormVO;
 
+    import classes.managers.ParseCentral;
+
     import model.proxy.login.ProxyLogin;
+    import model.vo.CategoryVO;
 
     import org.apache.royale.events.EventDispatcher;
     import org.apache.royale.jewel.Snackbar;
     import org.apache.royale.net.events.FaultEvent;
-    import model.vo.TileViewVO;
+    import org.apache.royale.utils.async.PromiseTask;
 
 	public class DocumentationFormProxy extends EventDispatcher
 	{
@@ -77,19 +81,20 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
         {
             return _items;
         }
+        
         public function set items(value:Array):void
         {
             _items = value;
         }
         
-        private var _mainItems:Array = new Array(
+        private var _mainItems:Array = [];/*new Array(
         				new TileViewVO("usingThisPortal", "Using this Portal", "Run your Notes application in the cloud from any browser. Add bookmarks to key company resources for your employees -- both Domino databases and external URLs to for example your payroll time tracking system.", null, MaterialIconType.HOME, 3),
 			  		new TileViewVO("appMarketplace", "Application Marketplace", "Explore free and paid applications you can add to your environment. These range from simple utility apps to complex CRMs.", null, MaterialIconType.STORE, 3),
 					new TileViewVO("cloudAndMobileEmail", "Cloud Desktops & Mobile e-mail", "Mobile e-mail is just the first step.   Your entire set of Windows applications can be run in Cloud Desktops. This gives all of your staff a consistent interface and aids in recovery from ransomware attacks.", null, MaterialIconType.CLOUD, 3),
 					new TileViewVO("devCenter", "Developer's Corner", "Do you want to build a new app for Domino?   Browser based, Mobile first, REST, JSON, native Mac, Windows, Linux, and more? There are more ways than ever to deliver compelling user experiences with Domino.", null, MaterialIconType.CODE, 3),
 					new TileViewVO("mfaSecurity", "MFA, Security & Compliance", "Multi-Factor Authentication is critical in today's world.   Security training for your employees. Assess compliance needs ahead of your annual cyber liability insurance policy renewals.", null, MaterialIconType.SECURITY, 3),
 					new TileViewVO("verseCalndarAndMeetings", "Verse, Calendaring & Meetings", "Group calendaring helps your team stay organized and connected to vendors and customers. Schedule integration with MS Teams, Zoom, WebEx, GoToMeting, and Sametime directly from Notes and Verse. The Verse e-mail interface groups your key communications automatically.", null, MaterialIconType.PERM_CONTACT_CALENDAR, 3));
-
+*/
 		[Bindable]
         public function get mainItems():Array
         {
@@ -114,10 +119,31 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 
         public function requestItems():void
         {
-            if (Constants.AGENT_BASE_URL)
-            {
-                this.serviceDelegate.getDocumentationFormList(onDocumentationFormListLoaded, onDocumentationFormListLoadFailed);
-            }
+        		var documentationTask:DocumentationLoaderTask = new DocumentationLoaderTask();
+        		Utils.setBusy();
+        		
+        		documentationTask.done(function(task:PromiseTask):void {
+        			if (documentationTask.failed)
+				{
+					Utils.removeBusy();
+					if (documentationTask.failedTasks.length == 2)
+					{
+						onCategoriesListFetchFailed(documentationTask.failedTasks[0].result);
+						onDocumentationFormListLoadFailed(documentationTask.failedTasks[1].result);
+					}
+					else
+					{
+						onDocumentationFormListLoadFailed(documentationTask.failedTasks[0]);
+					}
+				}
+				else if (documentationTask.completed)
+				{
+					onCategoriesListFetched(documentationTask.completedTasks[0].result);
+					onDocumentationFormListLoaded(documentationTask.completedTasks[1].result);
+				}
+        		});
+        		
+        		documentationTask.run();
         }
         
         private var _breadcrumpItems:Object = {gettingStarted: {
@@ -141,15 +167,15 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
         		var breadcrumpItems:Array = [];
         		
         		var bItem:Object = null;
-        		for each (var tileItem:TileViewVO in mainItems)
+        		for each (var tileItem:CategoryVO in mainItems)
         		{      			
         			bItem = {
         				id: tileItem.id,
         				parent: "gettingStarted",
         				hash: null,
-        				label: tileItem.title,
+        				label: tileItem.label,
         				visited: -1,
-        				icon: tileItem.imageIcon,
+        				icon: tileItem.icon,
         				data: {},
         				children: []
         			};
@@ -258,7 +284,7 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
                             items.push(item);
                         }
  
-                        this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
+                        //this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
                     }
                 }
                 else
@@ -284,6 +310,46 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
             Snackbar.show("Loading lists of new DocumentationForm failed!\n"+ event.message.toLocaleString(), 8000, null);
         }
         
+        private function onCategoriesListFetched(event:Event):void
+		{
+			Utils.removeBusy();
+			var fetchedData:String = event.target["data"];
+			if (fetchedData)
+			{
+				var jsonData:Object = JSON.parse(fetchedData);
+				var errorMessage:String = jsonData["errorMessage"];
+				
+				if (errorMessage)
+				{
+					this.dispatchEvent(
+                        new ErrorEvent(
+                            ErrorEvent.SERVER_ERROR,
+                            errorMessage,
+                            ("validationErrors" in jsonData) ? jsonData.validationErrors : null
+                        )
+                    );
+				}
+				else
+				{
+					mainItems = ParseCentral.parseCategoriesList(jsonData.documents);
+				}
+			}
+			else
+			{
+				this.dispatchEvent(
+                        new ErrorEvent(
+                            ErrorEvent.SERVER_ERROR,
+                            "Getting application's categories list failed.")
+                    );
+			}
+		}
+		
+		private function onCategoriesListFetchFailed(event:FaultEvent):void
+        {
+            Utils.removeBusy();
+            Snackbar.show("Getting application's categories list failed: " + event.message.toLocaleString(), 8000, null);
+        }
+		
         private function onDocumentationFormCreated(event:Event):void
 		{
 			Utils.removeBusy();

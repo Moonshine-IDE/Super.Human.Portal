@@ -276,6 +276,7 @@
   					itemRenderer="Super.Human.Portal_Royale.views.renderers.DocumentationTileRenderer"
   					includeIn="dataGridState"/>
   <tileView:TileView localId="tileGettingStarted" className="tileViewJS" direction="vertical" includeIn="startview"
-					  percentWidth="100"  baseItemHeight="350" itemMargin="10" itemRenderer="Super.Human.Portal_Royale.views.renderers.CardTileRenderer"
-					 dataProvider="{proxy.mainItems}"/>
+					  percentWidth="100" baseItemHeight="350" baseItemWidth="300" itemMargin="10" 
+					  dataProvider="{proxy.mainItems}"
+					  itemRenderer="Super.Human.Portal_Royale.views.renderers.CategoryTileRenderer"/>
 </j:VGroup>
