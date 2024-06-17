@@ -138,8 +138,10 @@
 
     private function onServerItemChanged(event:Event):void
     {
-        this.currentState = 'dataGridState';
-        this.dg.dataProvider = this.proxy.itemsByCategory[tileGettingStarted.selectedItem.id];
+        if (this.dg)
+        {
+        		this.dg.dataProvider = this.proxy.itemsByCategory[tileGettingStarted.selectedItem.id];
+    		}
         
         breadcrumpGettingStarted.model = proxy.breadcrumpItems;
         if (tileGettingStarted.selectedItem)

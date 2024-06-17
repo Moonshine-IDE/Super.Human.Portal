@@ -94,14 +94,8 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
          	return _itemsByCategory;
         }
          
-        private var _mainItems:Array = [];/*new Array(
-        				new TileViewVO("usingThisPortal", "Using this Portal", "Run your Notes application in the cloud from any browser. Add bookmarks to key company resources for your employees -- both Domino databases and external URLs to for example your payroll time tracking system.", null, MaterialIconType.HOME, 3),
-			  		new TileViewVO("appMarketplace", "Application Marketplace", "Explore free and paid applications you can add to your environment. These range from simple utility apps to complex CRMs.", null, MaterialIconType.STORE, 3),
-					new TileViewVO("cloudAndMobileEmail", "Cloud Desktops & Mobile e-mail", "Mobile e-mail is just the first step.   Your entire set of Windows applications can be run in Cloud Desktops. This gives all of your staff a consistent interface and aids in recovery from ransomware attacks.", null, MaterialIconType.CLOUD, 3),
-					new TileViewVO("devCenter", "Developer's Corner", "Do you want to build a new app for Domino?   Browser based, Mobile first, REST, JSON, native Mac, Windows, Linux, and more? There are more ways than ever to deliver compelling user experiences with Domino.", null, MaterialIconType.CODE, 3),
-					new TileViewVO("mfaSecurity", "MFA, Security & Compliance", "Multi-Factor Authentication is critical in today's world.   Security training for your employees. Assess compliance needs ahead of your annual cyber liability insurance policy renewals.", null, MaterialIconType.SECURITY, 3),
-					new TileViewVO("verseCalndarAndMeetings", "Verse, Calendaring & Meetings", "Group calendaring helps your team stay organized and connected to vendors and customers. Schedule integration with MS Teams, Zoom, WebEx, GoToMeting, and Sametime directly from Notes and Verse. The Verse e-mail interface groups your key communications automatically.", null, MaterialIconType.PERM_CONTACT_CALENDAR, 3));
-*/
+        private var _mainItems:Array = [];
+        
 		[Bindable]
         public function get mainItems():Array
         {
@@ -242,6 +236,7 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
                     if (("documents" in json) && (json.documents is Array))
                     {
                         items = [];
+                        _itemsByCategory = {};
                         for (var i:int=0; i < json.documents.length; i++)
                         {
                             var item:DocumentationFormVO = DocumentationFormVO.getDocumentationFormVO(json.documents[i]);
@@ -250,16 +245,16 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
        		
 							for each (var cat:String in item.Categories)
 							{
-								if (!itemsByCategory[cat])
+								if (!_itemsByCategory[cat])
 								{
-									itemsByCategory[cat] = [];
+									_itemsByCategory[cat] = [];
 								}
 								
-								itemsByCategory[cat].push(item);
+								_itemsByCategory[cat].push(item);
 							}
                         }
  
-                        //this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
+                        this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
                     }
                 }
                 else
