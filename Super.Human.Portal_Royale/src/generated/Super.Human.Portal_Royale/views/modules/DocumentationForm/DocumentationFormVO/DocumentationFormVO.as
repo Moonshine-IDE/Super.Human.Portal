@@ -71,7 +71,7 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 			_image = value;
 		}
 		
-		private var _Categories:Array;
+		private var _Categories:Array = [];
 
 		public function get Categories():Array
 		{

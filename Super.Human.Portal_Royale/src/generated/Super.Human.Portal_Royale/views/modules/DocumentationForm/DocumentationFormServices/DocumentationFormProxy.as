@@ -171,29 +171,29 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
             if (this.selectedIndex != -1)
             {
                 this.lastEditingItem = value;
-            if (Constants.AGENT_BASE_URL)
-            	{
-            		Utils.setBusy();
-            		this.serviceDelegate.updateDocumentationForm(value.toRequestObject(), onDocumentationFormUpdated, onDocumentationFormUpdateFailed);
-            	}
-            	else
-            	{
-            		items[this.selectedIndex] = value;
-            		this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
-            	}
-            }
-            else
-            {
-                if (Constants.AGENT_BASE_URL)
-            	{
-            		Utils.setBusy();
-            		this.serviceDelegate.addNewDocumentationForm(value.toRequestObject(), onDocumentationFormCreated, onDocumentationFormCreationFailed);
-            	}
-            	else
-            	{
-            		items.push(value);
-            		this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
-            	}
+				if (Constants.AGENT_BASE_URL)
+					{
+						Utils.setBusy();
+						this.serviceDelegate.updateDocumentationForm(value.toRequestObject(), onDocumentationFormUpdated, onDocumentationFormUpdateFailed);
+					}
+					else
+					{
+						items[this.selectedIndex] = value;
+						this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
+					}
+				}
+				else
+				{
+					if (Constants.AGENT_BASE_URL)
+					{
+						Utils.setBusy();
+						this.serviceDelegate.addNewDocumentationForm(value.toRequestObject(), onDocumentationFormCreated, onDocumentationFormCreationFailed);
+					}
+					else
+					{
+						items.push(value);
+						this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
+					}
             }
         }
         

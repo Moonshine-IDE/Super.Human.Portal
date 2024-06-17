@@ -100,6 +100,8 @@
 	private function onSaveClick(event:Event):void
     {
         this.proxy.submitItem(this.itemVO);
+        
+        this.currentState = 'dataGridState';
     }
 
     private function onCancelClick(event:Event):void
@@ -125,6 +127,7 @@
         this.currentState = 'contentState';
         this.isDisabled = false;
         this.itemVO = new DocumentationFormVO();
+        this.itemVO.Categories.push(tileGettingStarted.selectedItem.id);
     }
 
     private function onEditItem(event:Event):void
