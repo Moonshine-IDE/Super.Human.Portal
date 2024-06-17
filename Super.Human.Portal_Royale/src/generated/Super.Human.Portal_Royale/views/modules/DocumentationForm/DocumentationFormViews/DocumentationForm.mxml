@@ -252,7 +252,10 @@
       	   </j:beads>
       </j:Button>
   </j:HGroup>
-  
+  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight" includeIn="dataGridState">
+		<j:Label percentWidth="100" text="* Double click to open item for more details."
+				 className="brandColor labelTextAlignRight"/>
+	</j:HGroup>
 	<j:VGroup includeIn="contentState" percentWidth="100" percentHeight="100" xmlns:j="library://ns.apache.org/royale/jewel"
 			gap="6">
 	
