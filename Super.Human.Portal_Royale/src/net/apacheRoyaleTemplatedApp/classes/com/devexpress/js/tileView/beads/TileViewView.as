@@ -40,6 +40,7 @@ package classes.com.devexpress.js.tileView.beads
 	        this._model.addEventListener("dataProviderChanged", handleDataProviderChanged);
 	        this._model.addEventListener("itemRendererChanged", handleItemRendererChanged);
 	        this._model.addEventListener("optionsChanged", handleOptionsChanged);
+	        this._model.addEventListener("refreshChangedDataProvider", handleDataProviderChanged);
         }
         
         	protected function handleDataProviderChanged(event:Event):void

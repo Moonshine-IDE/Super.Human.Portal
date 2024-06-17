@@ -242,16 +242,8 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
                             var item:DocumentationFormVO = DocumentationFormVO.getDocumentationFormVO(json.documents[i]);
 	                            item.showUnid = this.showUnid;
                             items.push(item);
-       		
-							for each (var cat:String in item.Categories)
-							{
-								if (!_itemsByCategory[cat])
-								{
-									_itemsByCategory[cat] = [];
-								}
-								
-								_itemsByCategory[cat].push(item);
-							}
+       						
+                             refreshItemsByCategory(item);
                         }
  
                         this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
@@ -331,9 +323,10 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
                 {
                     if ("document" in json)
                     {
-                    		items.push(
-                    		DocumentationFormVO.getDocumentationFormVO(json.document)
-                		);
+                    		var docItem:DocumentationFormVO = DocumentationFormVO.getDocumentationFormVO(json.document);
+                    		items.push(docItem);
+                		
+                			refreshItemsByCategory(docItem);
                     }
                     this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
                 }
@@ -421,7 +414,32 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
                 {
                     if (selectedIndex > -1)
                     {
-                        items.splice(this.selectedIndex, 1);
+                        var removedItems:Array = items.splice(this.selectedIndex, 1);
+                        
+                        if (removedItems.length > 0)
+                        {
+							for each (var docItem:DocumentationFormVO in removedItems)
+							{
+									for each (var cat:String in docItem.Categories)
+									{
+										var docItems:Array = _itemsByCategory[cat];
+										if (docItems)
+										{
+											for (var i:int = 0; i < docItems.length; i++)
+											{
+												var doc:Object = docItems[i];
+												if (doc.DominoUniversalID == docItem.DominoUniversalID)
+												{
+													docItems.splice(i, 1);
+													break;
+												}
+											}
+										}
+									}
+							}
+							
+							buildBreadcrumpModel();
+                   		}
                         this.selectedIndex = -1;
                         this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
                     }
@@ -508,6 +526,19 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 				this.editable = true;//loginProxy.config.config.ui_documentation_editable;
 				this.showUnid = loginProxy.config.config.ui_documentation_show_unid;
     			}
+        }
+
+        private function refreshItemsByCategory(item:DocumentationFormVO):void
+        {
+			for each (var cat:String in item.Categories)
+			{
+				if (!_itemsByCategory[cat])
+				{
+					_itemsByCategory[cat] = [];
+				}
+				
+				_itemsByCategory[cat].push(item);
+			}
         }
 	}
 }

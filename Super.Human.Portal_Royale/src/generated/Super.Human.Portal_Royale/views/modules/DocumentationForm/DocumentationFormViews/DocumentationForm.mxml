@@ -143,7 +143,15 @@
     {
         if (this.dg)
         {
-        		this.dg.dataProvider = this.proxy.itemsByCategory[tileGettingStarted.selectedItem.id];
+        		var items:Array = this.proxy.itemsByCategory[tileGettingStarted.selectedItem.id];
+        		if (items == this.dg.dataProvider)
+        		{
+        			this.dg.refreshDataProvider();
+    			}
+    			else
+    			{
+        			this.dg.dataProvider = items;
+    			}
     		}
         
         breadcrumpGettingStarted.model = proxy.breadcrumpItems;

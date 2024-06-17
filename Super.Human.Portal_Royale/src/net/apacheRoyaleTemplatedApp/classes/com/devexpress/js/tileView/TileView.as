@@ -169,5 +169,13 @@ package classes.com.devexpress.js.tileView
 		{
 			model["selectedItem"] = value;
 		}
+		
+		/*
+		* Method should be called when you add/remove some item from dataProvider
+		**/
+		public function refreshDataProvider():void
+		{
+			model.dispatchEvent(new Event("refreshChangedDataProvider"));
+		}
 	}
 }
