@@ -87,6 +87,13 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
             _items = value;
         }
         
+        private var _itemsByCategory:Object = {};
+        
+        public function get itemsByCategory():Object
+        {
+         	return _itemsByCategory;
+        }
+         
         private var _mainItems:Array = [];/*new Array(
         				new TileViewVO("usingThisPortal", "Using this Portal", "Run your Notes application in the cloud from any browser. Add bookmarks to key company resources for your employees -- both Domino databases and external URLs to for example your payroll time tracking system.", null, MaterialIconType.HOME, 3),
 			  		new TileViewVO("appMarketplace", "Application Marketplace", "Explore free and paid applications you can add to your environment. These range from simple utility apps to complex CRMs.", null, MaterialIconType.STORE, 3),
@@ -140,6 +147,8 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 				{
 					onCategoriesListFetched(documentationTask.completedTasks[0].result);
 					onDocumentationFormListLoaded(documentationTask.completedTasks[1].result);
+
+					buildBreadcrumpModel();
 				}
         		});
         		
@@ -161,51 +170,7 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
         {
         		return _breadcrumpItems;
         }
-        
-        public function getBreadcrumpModel():Object
-        {
-        		var breadcrumpItems:Array = [];
-        		
-        		var bItem:Object = null;
-        		for each (var tileItem:CategoryVO in mainItems)
-        		{      			
-        			bItem = {
-        				id: tileItem.id,
-        				parent: "gettingStarted",
-        				hash: null,
-        				label: tileItem.label,
-        				visited: -1,
-        				icon: tileItem.icon,
-        				data: {},
-        				children: []
-        			};
-        			
-        			breadcrumpItems.push(bItem.id);
-        			_breadcrumpItems[bItem.id] = bItem;
-        		}
-        		
-        		_breadcrumpItems.children = breadcrumpItems;
-        		
-        		/*for each (var docItem:DocumentationFormVO in items)
-        		{      			
-        			bItem = {
-        				id: docItem.DominoUniversalID,
-        				parent: "gettingStarted",
-        				hash: null,
-        				label: docItem.DocumentationName,
-        				visited: -1,
-        				icon: docItem.image ? docItem.image : docItem.emptyImage,
-        				data: docItem,
-        				children: []
-        			};
-        			
-        			breadcrumpItems.push(bItem.id);
-        			rootBreadcrump[bItem.id] = bItem;
-        		}*/
-        		
-        		return _breadcrumpItems;		
-        }
-        
+
         public function submitItem(value:DocumentationFormVO):void
         {
             // simple in-memory add/update for now
@@ -282,6 +247,16 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
                             var item:DocumentationFormVO = DocumentationFormVO.getDocumentationFormVO(json.documents[i]);
 	                            item.showUnid = this.showUnid;
                             items.push(item);
+       		
+							for each (var cat:String in item.Categories)
+							{
+								if (!itemsByCategory[cat])
+								{
+									itemsByCategory[cat] = [];
+								}
+								
+								itemsByCategory[cat].push(item);
+							}
                         }
  
                         //this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
@@ -361,9 +336,9 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
                 {
                     if ("document" in json)
                     {
-                        items.push(
-                            DocumentationFormVO.getDocumentationFormVO(json.document)
-                        );
+                    		items.push(
+                    		DocumentationFormVO.getDocumentationFormVO(json.document)
+                		);
                     }
                     this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
                 }
@@ -482,6 +457,50 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
                     "Removal of DocumentationForm failed!\n"+ event.message.toLocaleString()
                 )
             );
+        }
+                
+        private function buildBreadcrumpModel():void
+        {
+        		var breadcrumpItems:Array = [];
+        		
+        		var bItem:Object = null;
+        		for each (var category:CategoryVO in mainItems)
+        		{      			
+        			bItem = {
+        				id: category.id,
+        				parent: "gettingStarted",
+        				hash: null,
+        				label: category.label,
+        				visited: -1,
+        				icon: category.icon,
+        				data: {},
+        				children: []
+        			};
+        			
+        			breadcrumpItems.push(bItem.id);
+        			_breadcrumpItems[bItem.id] = bItem;
+        			
+        			var docItems:Array = items.filter(function itemsFilter(element:DocumentationFormVO, index:int, arr:Array):Boolean {
+        				return element.containsCategory(category.id);
+        			});
+        			
+        			for each (var dItem:DocumentationFormVO in docItems)
+        			{
+        				bItem.children.push(dItem.DominoUniversalID);
+        				_breadcrumpItems[dItem.DominoUniversalID] = {
+        					id: dItem.DominoUniversalID,
+						parent: bItem.id,
+						hash: null,
+						label: dItem.DocumentationName,
+						visited: -1,
+						icon: null,
+						data: dItem,
+						children: []
+        				};
+        			}
+        		}
+        		
+        		_breadcrumpItems.children = breadcrumpItems;	
         }
         
         public function loadConfig():void

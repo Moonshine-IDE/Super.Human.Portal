@@ -139,9 +139,9 @@
     private function onServerItemChanged(event:Event):void
     {
         this.currentState = 'dataGridState';
-        this.dg.dataProvider = this.proxy.items;
+        this.dg.dataProvider = this.proxy.itemsByCategory[tileGettingStarted.selectedItem.id];
         
-        breadcrumpGettingStarted.model = proxy.getBreadcrumpModel();
+        breadcrumpGettingStarted.model = proxy.breadcrumpItems;
         if (tileGettingStarted.selectedItem)
         {
         		breadcrumpGettingStarted.buildBreadcrump(breadcrumpGettingStarted.model[tileGettingStarted.selectedItem.id]);
@@ -164,6 +164,11 @@
         Alert.show(errorMessage,  'Error!', Alert.OK);
     }
 
+    private function onDocClickItem(event:TileViewEvent):void
+    {
+    		breadcrumpGettingStarted.buildBreadcrump(breadcrumpGettingStarted.model[event.item.DominoUniversalID]);	
+    }
+    
 	private function removeItem():void
 	{
 		var alert:Alert = Alert.show('Are you sure you want to remove this item?',  'Remove', Alert.OK | Alert.CANCEL);
@@ -274,7 +279,7 @@
   <tileView:TileView localId="dg" className="tileViewJS" 
   					percentWidth="100" baseItemWidth="245" baseItemHeight="300" itemMargin="5" direction="vertical" 
   					itemRenderer="Super.Human.Portal_Royale.views.renderers.DocumentationTileRenderer"
-  					includeIn="dataGridState"/>
+  					includeIn="dataGridState" clickItemTileView="onDocClickItem(event)" doubleClickItemTileView="onEditItem(event)"/>
   <tileView:TileView localId="tileGettingStarted" className="tileViewJS" direction="vertical" includeIn="startview"
 					  percentWidth="100" baseItemHeight="350" baseItemWidth="300" itemMargin="10" 
 					  dataProvider="{proxy.mainItems}"

@@ -24,7 +24,6 @@ package mediator
 		override public function onRegister():void 
 		{
 			super.onRegister();
-
 			
 			proxy = DocumentationFormProxy.getInstance();
 			proxy.loadConfig();
