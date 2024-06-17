@@ -7,7 +7,6 @@ import com.moonshine.domino.crud.UpdateAgentBase;
 import com.moonshine.domino.field.FieldDefinition;
 import com.moonshine.domino.field.FieldType;
 import com.moonshine.domino.security.*;
-import com.moonshine.domino.util.DominoUtils;
 import com.moonshine.domino.util.ParameterException;
 
 import lotus.domino.*;
@@ -33,7 +32,7 @@ public class CategoryUpdateBase extends UpdateAgentBase {
 		fields.add(new FieldDefinition("Icon", FieldType.TEXT, false));
 
 
-		fields.add(new FieldDefinition("Order", FieldType.TEXT, false));
+		fields.add(new FieldDefinition("Order", FieldType.NUMBER, false));
 
 
 

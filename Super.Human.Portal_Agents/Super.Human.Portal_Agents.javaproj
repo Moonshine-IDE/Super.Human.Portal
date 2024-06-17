@@ -1,6 +1,6 @@
 <project>
   <gradleBuild>
-    <option commandLine="clean importAll"/>
+    <option commandLine="clean build"/>
     <actions>
       <action action="clean" actionName="Clean"/>
       <action action="publishToMavenLocal" actionName="Publish to Maven Local"/>
@@ -14,11 +14,11 @@
     <class path="src/test/java"/>
   </classpaths>
   <build>
-    <option mainclass="Super.Human.Portal_Agents"/>
     <option mainClassPath=""/>
+    <option mainclass="Super.Human.Portal_Agents"/>
   </build>
   <options>
-    <option projectType="java-domino"/>
     <option jdkType="jdk-8"/>
+    <option projectType="java-domino"/>
   </options>
 </project>

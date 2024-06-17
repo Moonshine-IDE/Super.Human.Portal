@@ -85,7 +85,7 @@ CategoryID | Text | false |
 Label | Text | false | 
 Description | Text | false | 
 Icon | Text | false | 
-Order | Text | false | 
+Order | Number | false | 
 
 
 ### Create
@@ -101,7 +101,7 @@ CategoryID | Text | false | false |
 Label | Text | false | false | 
 Description | Text | false | false | 
 Icon | Text | false | false | 
-Order | Text | false | false | 
+Order | Number | false | false | 
 
 
 Response properties | JSON Format | Notes
@@ -140,7 +140,7 @@ CategoryID | Text | false | false |
 Label | Text | false | false | 
 Description | Text | false | false | 
 Icon | Text | false | false | 
-Order | Text | false | false | 
+Order | Number | false | false | 
 
 
 Response:  No additional values.  TODO: return the document?
