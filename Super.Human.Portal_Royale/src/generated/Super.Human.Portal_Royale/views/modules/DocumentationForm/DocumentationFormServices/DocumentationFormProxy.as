@@ -346,7 +346,7 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 			
 			if (loginProxy.config)
 			{
-				this.editable = true;//loginProxy.config.config.ui_documentation_editable;
+				this.editable = loginProxy.config.config.ui_documentation_editable;
 				this.showUnid = loginProxy.config.config.ui_documentation_show_unid;
     			}
         }
