@@ -218,7 +218,7 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
             else
             {
                 items.splice(indexOf, 1);
-                this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
+                this.dispatchEvent(new Event(EVENT_ITEM_REMOVED));
             }
         }
 
@@ -441,7 +441,7 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 							buildBreadcrumpModel();
                    		}
                         this.selectedIndex = -1;
-                        this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
+                        this.dispatchEvent(new Event(EVENT_ITEM_REMOVED));
                     }
                 }
                 else

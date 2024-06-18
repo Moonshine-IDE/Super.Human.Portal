@@ -36,7 +36,7 @@
     	    proxy = DocumentationFormProxy.getInstance();
         proxy.addEventListener(ErrorEvent.SERVER_ERROR, onServerError);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_UPDATED, onServerItemChanged);
-        proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_REMOVED, onServerItemChanged);
+        proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_REMOVED, onServerItemRemoved);
         
         breadcrump.model = proxy.breadcrumpItems;
         breadcrump.buildBreadcrump(proxy.breadcrumpItems.gettingStarted);
@@ -92,6 +92,7 @@
     {
     		this.currentState = 'contentState';
         this.isDisabled = true;
+        this.backCancelButtonIcon.text = MaterialIconType.ARROW_BACK;
         this.backCancelButton.text = "Back";
         this.proxy.selectedIndex = dg.selectedIndex;
         this.itemVO = dg.selectedItem.clone();
@@ -134,6 +135,7 @@
     {
         this.currentState = 'contentState';
         this.isDisabled = false;
+        this.backCancelButtonIcon.text = MaterialIconType.CANCEL;
         this.backCancelButton.text = "Cancel";
         this.proxy.selectedIndex = dg.selectedIndex;
         this.itemVO = dg.selectedItem.clone();
@@ -162,6 +164,12 @@
       //  this.dg.refreshCurrentDataProvider();
     }
 
+    private function onServerItemRemoved(event:Event):void
+    {
+    		currentState = "dataGridState";
+    		onServerItemChanged(event);
+    }
+    
     private function onServerError(event:ErrorEvent):void
     {
         var errorMessage:String = event.errorMessage;
@@ -211,13 +219,37 @@
             <js:MaterialIcon text="{MaterialIconType.ADD}" />
         </j:icon>
       </j:IconButton>
+      <j:IconButton text="Refresh" 
+                    click="{refreshItems()}">
+        <j:icon>
+            <js:MaterialIcon text="{MaterialIconType.REFRESH}" />
+        </j:icon>
+      </j:IconButton>
+       <j:IconButton localId="backButton" text="Back" click="onBackClick(event)">
+          <j:icon>
+              <js:MaterialIcon text="{MaterialIconType.ARROW_BACK}" />
+          </j:icon>
+        </j:IconButton>
+  </j:HGroup>
+  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="1" includeIn="contentState">
+       <j:style>
+           <js:SimpleCSSStyles paddingLeft="10" paddingTop="10" marginTop="0"/>
+      </j:style>
+      <j:IconButton text="Save" click="onSaveClick(event)" visible="{this.proxy.editable}">
+      	  <j:icon>
+              <js:MaterialIcon text="{MaterialIconType.SAVE}" />
+          </j:icon>
+           <j:beads>
+              <j:Disabled disabled="{isDisabled}"/>
+           </j:beads>
+      </j:IconButton >
       <j:IconButton text="Edit"
                     click="onEditItem(event)" visible="{this.proxy.editable}">
           <j:icon>
               <js:MaterialIcon text="{MaterialIconType.MODE_EDIT}" />
           </j:icon>
            <j:beads>
-                <j:Disabled disabled="{dg.selectedIndex == -1}"/>
+                <j:Disabled disabled="{isDisabled == false}"/>
           </j:beads>
       </j:IconButton>
        <j:IconButton text="Remove" click="{removeItem()}" visible="{this.proxy.editable}">
@@ -225,32 +257,16 @@
               <js:MaterialIcon text="{MaterialIconType.REMOVE}" />
           </j:icon>
           <j:beads>
-            <j:Disabled disabled="{dg.selectedIndex == -1}"/>
+            <j:Disabled disabled="{isDisabled == false}"/>
           </j:beads>
         </j:IconButton>
-      <j:IconButton text="Refresh" 
-                    click="{refreshItems()}">
-        <j:icon>
-            <js:MaterialIcon text="{MaterialIconType.REFRESH}" />
-        </j:icon>
-      </j:IconButton>
-      <j:Button localId="backButton" text="Back" click="onBackClick(event)"/>
-  </j:HGroup>
-  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="1" includeIn="contentState">
-       <j:style>
-           <js:SimpleCSSStyles paddingLeft="10" paddingTop="10" marginTop="0"/>
-      </j:style>
-      <j:Button text="Save" click="onSaveClick(event)" visible="{this.proxy.editable}">
-           <j:beads>
-              <j:Disabled disabled="{isDisabled}"/>
-           </j:beads>
-      </j:Button>
-      <j:Button localId="backCancelButton" text="Back" click="onCancelClick(event)"/>
-      <j:Button text="Edit" click="onEditItem(event)" visible="{this.proxy.editable}">
-      	   <j:beads>
-      		   <j:Disabled disabled="{isDisabled == false}"/>
-      	   </j:beads>
-      </j:Button>
+         <j:IconButton localId="backCancelButton" text="Back" click="onCancelClick(event)">
+          <j:icon>
+              <js:MaterialIcon localId="backCancelButtonIcon" text="{MaterialIconType.ARROW_BACK}" />
+          </j:icon>
+        </j:IconButton>
+        <!--
+      <j:Button localId="backCancelButton" text="Back" click="onCancelClick(event)"/>-->
   </j:HGroup>
 	<j:VGroup includeIn="contentState" percentWidth="100" percentHeight="100" xmlns:j="library://ns.apache.org/royale/jewel"
 			gap="6">
