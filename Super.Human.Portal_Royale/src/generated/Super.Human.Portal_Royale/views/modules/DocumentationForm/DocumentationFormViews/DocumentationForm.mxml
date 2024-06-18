@@ -15,14 +15,14 @@
   </j:states>
   <fx:Script><![CDATA[
 	import Super.Human.Portal_Royale.classes.events.ErrorEvent;
+	import Super.Human.Portal_Royale.classes.htmlEditor.events.HtmlEditorEvent;
+	import Super.Human.Portal_Royale.classes.htmlEditor.helpers.ToolbarItems;
 	import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormServices.DocumentationFormProxy;
 	import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormVO.DocumentationFormVO;
 
-	import org.apache.royale.jewel.Alert;
-	import Super.Human.Portal_Royale.classes.htmlEditor.events.HtmlEditorEvent;
-	import Super.Human.Portal_Royale.classes.htmlEditor.helpers.ToolbarItems;
-	import model.vo.TileViewVO;
 	import classes.com.devexpress.js.tileView.events.TileViewEvent;
+
+	import org.apache.royale.jewel.Alert;
 
 	[Bindable] private var proxy:DocumentationFormProxy;
 
@@ -38,8 +38,8 @@
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_UPDATED, onServerItemChanged);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_REMOVED, onServerItemChanged);
         
-        breadcrumpGettingStarted.model = proxy.breadcrumpItems;
-        breadcrumpGettingStarted.buildBreadcrump(proxy.breadcrumpItems.gettingStarted);
+        breadcrump.model = proxy.breadcrumpItems;
+        breadcrump.buildBreadcrump(proxy.breadcrumpItems.gettingStarted);
     }
     
     private function onDocumentationFormStateChange(event:Event):void
@@ -66,7 +66,7 @@
 
         this.itemVO = null;
         
-        breadcrumpGettingStarted.buildBreadcrump(proxy.breadcrumpItems.gettingStarted);
+        breadcrump.buildBreadcrump(proxy.breadcrumpItems.gettingStarted);
     }
     
     public function refreshItems():void
@@ -154,10 +154,10 @@
     			}
     		}
         
-        breadcrumpGettingStarted.model = proxy.breadcrumpItems;
+        breadcrump.model = proxy.breadcrumpItems;
         if (tileGettingStarted.selectedItem)
         {
-        		breadcrumpGettingStarted.buildBreadcrump(breadcrumpGettingStarted.model[tileGettingStarted.selectedItem.id]);
+        		breadcrump.buildBreadcrump(breadcrump.model[tileGettingStarted.selectedItem.id]);
     		}
       //  this.dg.refreshCurrentDataProvider();
     }
@@ -179,7 +179,9 @@
 
     private function onDocClickItem(event:TileViewEvent):void
     {
-    		breadcrumpGettingStarted.buildBreadcrump(breadcrumpGettingStarted.model[event.item.DominoUniversalID]);	
+    		breadcrump.buildBreadcrump(breadcrump.model[event.item.DominoUniversalID]);
+    		
+    		initReadOnlyForm();	
     }
     
 	private function removeItem():void
@@ -196,10 +198,8 @@
 		this.itemVO.DocumentationBody = event.text;
 	}
 	
-
-
 ]]></fx:Script>
-  <breadcrump:Breadcrump localId="breadcrumpGettingStarted"/>
+  <breadcrump:Breadcrump localId="breadcrump"/>
   
   <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2" includeIn="dataGridState">
       <j:style>
@@ -252,10 +252,6 @@
       	   </j:beads>
       </j:Button>
   </j:HGroup>
-  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight" includeIn="dataGridState">
-		<j:Label percentWidth="100" text="* Double click to open item for more details."
-				 className="brandColor labelTextAlignRight"/>
-	</j:HGroup>
 	<j:VGroup includeIn="contentState" percentWidth="100" percentHeight="100" xmlns:j="library://ns.apache.org/royale/jewel"
 			gap="6">
 	
@@ -295,7 +291,7 @@
   <tileView:TileView localId="dg" className="tileViewJS" 
   					percentWidth="100" baseItemWidth="245" baseItemHeight="300" itemMargin="5" direction="vertical" 
   					itemRenderer="Super.Human.Portal_Royale.views.renderers.DocumentationTileRenderer"
-  					includeIn="dataGridState" clickItemTileView="onDocClickItem(event)" doubleClickItemTileView="onEditItem(event)"/>
+  					includeIn="dataGridState" clickItemTileView="onDocClickItem(event)" />
   <tileView:TileView localId="tileGettingStarted" className="tileViewJS" direction="vertical" includeIn="startview"
 					  percentWidth="100" baseItemHeight="350" baseItemWidth="300" itemMargin="10" 
 					  dataProvider="{proxy.mainItems}"
