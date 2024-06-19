@@ -71,6 +71,18 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 			_image = value;
 		}
 		
+		private var _icon:String;
+
+		public function get icon():String
+		{
+			return _icon;
+		}
+
+		public function set icon(value:String):void
+		{
+			_icon = value;
+		}
+		
 		private var _Categories:Array = [];
 
 		public function get Categories():Array
@@ -94,6 +106,8 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 				tmpVO.DocumentationBody = this.DocumentationBody;
 				tmpVO.DominoUniversalID = this.DominoUniversalID;
 				tmpVO.Categories = this.Categories;
+				tmpVO.image = this.image;
+				tmpVO.icon = this.icon;
 				
 		    return tmpVO;
 		}
@@ -126,6 +140,8 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 			if ("DocumentationBody" in value){	tmpVO.DocumentationBody = value.DocumentationBody;	}
 			if ("DominoUniversalID" in value){	tmpVO.DominoUniversalID = value.DominoUniversalID;	}
 			if ("Categories" in value){ tmpVO.Categories = value.Categories; }
+			if ("image" in value){ tmpVO.image = value.image; }
+			if ("icon" in value){ tmpVO.icon = value.icon; }
 
             return tmpVO;
         }
