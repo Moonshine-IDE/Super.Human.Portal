@@ -97,7 +97,7 @@
 							<js:MaterialIcon text="{MaterialIconType.REFRESH}" />
 						</j:icon>
 					</j:IconButton>
-					<j:Button localId="installAppBtn" text="Install" emphasis="{StyledUIBase.PRIMARY}" maxWidth="150">
+					<j:Button localId="installAppBtn" text="Install" emphasis="{StyledUIBase.PRIMARY}" minWidth="120" maxWidth="150">
 						<j:beads>
 							<j:Disabled localId="installDisabled" disabled="true"/>
 						</j:beads>
