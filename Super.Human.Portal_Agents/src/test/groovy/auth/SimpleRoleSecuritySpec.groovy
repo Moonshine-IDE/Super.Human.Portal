@@ -174,7 +174,7 @@ class SimpleRoleSecuritySpec extends Specification {
         new GenesisDirectoryCreate()        | ['Administrator']
         new GenesisDirectoryDelete()        | ['Administrator']
         new GenesisDirectoryRead()          | ['Administrator']
-        new GenesisRead()                   | ['Administrator']
+        new GenesisRead()                   | ['All']
         new GenesisInstall()                | ['Administrator']
 
 
