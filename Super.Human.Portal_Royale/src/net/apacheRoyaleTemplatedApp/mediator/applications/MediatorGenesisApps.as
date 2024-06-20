@@ -17,6 +17,8 @@ package mediator.applications
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
     import classes.com.devexpress.js.dataGrid.events.DataGridEvent;
+    import model.proxy.login.ProxyLogin;
+    import constants.Roles;
     
     public class MediatorGenesisApps extends Mediator implements IMediator
     {
@@ -24,6 +26,7 @@ package mediator.applications
 		
 		private var genesisAppsProxy:ProxyGenesisApps;
 		private var urlParamsProxy:ProxyUrlParameters;
+		private var loginProxy:ProxyLogin;
 		
 		public function MediatorGenesisApps(component:IGenesisAppsView) 
 		{
@@ -33,11 +36,12 @@ package mediator.applications
 		override public function onRegister():void 
 		{			
 			super.onRegister();
-			
+
 			view.genesisAppsList.addEventListener(DataGridEvent.SELECTION_CHANGED, onGenesisAppsListChange);
 			view.installApplicationButton.addEventListener(MouseEvent.CLICK, onInstallAppClick);
 			view.refreshButton.addEventListener(MouseEvent.CLICK, onRefreshButtonClick);
-			
+							
+			this.loginProxy = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			this.genesisAppsProxy = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
 			sendNotification(ApplicationConstants.COMMAND_ADD_PROXY_FOR_DATA_DISPOSE, ProxyGenesisApps.NAME);
 
@@ -104,6 +108,9 @@ package mediator.applications
 		{
 			view.learnMore["html"] = "<a href='http://genesis.directory/articles/what-is-genesis' target='_blank'>Learn More</a>";
 			view.selectedApp = "Select an application from the list below";
+
+			var hasAdminRole:Boolean = loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR);
+			view.installApplicationButton["text"] = hasAdminRole ? "Install" : "Install (Admin-only)";
 			
 			if (!genesisAppsProxy.getData())
 			{
@@ -124,8 +131,10 @@ package mediator.applications
 
 		private function refreshInstallButtonState():void
 		{
+			var hasAdminRole:Boolean = loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR);
+
 			var disabled:Disabled = view.installApplicationButton["getBeadByType"](Disabled);
-			disabled.disabled = genesisAppsProxy.selectedApplication == null;
+			disabled.disabled = genesisAppsProxy.selectedApplication == null && hasAdminRole == false;
 		}
 		
 		private function refreshSeeMoreDetails():void

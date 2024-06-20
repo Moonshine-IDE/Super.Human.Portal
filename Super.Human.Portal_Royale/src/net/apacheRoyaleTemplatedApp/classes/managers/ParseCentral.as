@@ -252,12 +252,9 @@ package classes.managers
 		public static function parseGenesisCatalogList(jsonData:Array):Array 
 		{
 			var tmpArr:Array = [];
-			
-			var viewEntryCount:int = jsonData.length;
-			
-			for (var i:int = 0; i < viewEntryCount; i++)
+
+			for each (var app:Object in jsonData)
 			{
-				var app:Object = jsonData[i];
 				var tmpVO:ApplicationVO = new ApplicationVO(app.AppID, app.DetailsURL, app.Label, app.InstallCommand, app.Installed, app.InstallTimeS, app.access, app.directory);
 				
 				tmpArr.push(tmpVO);

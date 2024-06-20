@@ -13,6 +13,7 @@ package controller.roles.executeRoles
     import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
     import model.proxy.customBookmarks.ProxyBookmarks;
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
+    import mediator.applications.MediatorGenesisDirs;
 
 	public class CommandExecuteRolesMainContent extends SimpleCommand 
 	{
@@ -25,24 +26,27 @@ package controller.roles.executeRoles
 				var mainContentMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;
 				var mainContentModel:LeftMenuNavigationModel = mainContentMediator.view["model"];
 				
+				//Remove "Additional directories" - avialable as admin
 				if (loginProxy.user && !loginProxy.user.hasRole(Roles.ADMINISTRATOR))
 				{
-					for (var i:int = mainContentModel.mainNavigation.length - 1; i > 0; i--)
+					for (var i:int = mainContentModel.mainNavigation.length - 1; i >= 0; i--)
 					{
 						var navItem:NavigationLinkVO = mainContentModel.mainNavigation.getItemAt(i) as NavigationLinkVO;
 						if (navItem.idSelectedItem == MediatorGenesisApps.NAME)
 						{
-							mainContentModel.mainNavigation.removeItemAt(i);
+							if (navItem.subMenu)
+							{
+								for (var j:int = navItem.subMenu.length - 1; j >= 0; j--)
+								{
+									var subItem:NavigationLinkVO = navItem.subMenu.getItemAt(j) as NavigationLinkVO;
+									if (subItem.idSelectedItem == MediatorGenesisDirs.NAME)
+									{
+										navItem.subMenu.removeItemAt(j);
+									}
+								}
+							}
 						}
 					}
-					
-					mainContentModel.navigationLinks.removeItemAt(0);
-				}
-		
-				if (loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR))
-				{
-					var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
-						genesisAppsProxy.getInstalledApps();
 				}
 			}
 		}
