@@ -4,7 +4,7 @@
 									    xmlns:js="library://ns.apache.org/royale/basic" 
 									    xmlns:html="library://ns.apache.org/royale/html" 
 									    xmlns="http://www.w3.org/1999/xhtml"
-									    visible="{data.visible}"
+									    visible="{dataVO.visible}"
 									    sectionClick="onRendererSectionClick(event)">
 	<j:beads>
 		<js:ItemRendererDataBinding />
@@ -12,6 +12,7 @@
 	<fx:Script>
 		<![CDATA[
 			import org.apache.royale.jewel.Navigation;
+			import model.vo.NavigationLinkVO;
 
 			private var _childNavClassName:String =  "navigation-section-group";
 
@@ -32,11 +33,26 @@
 				if (value.visible)
 				{
 					refreshEnabled();
+					refreshExpandIcon();
 					
 					this.open = value.open;
+					
+					if (dataVO.subMenu)
+					{
+						if (!dataVO.subMenu.hasEventListener("lengthChanged"))
+						{
+							dataVO.subMenu.addEventListener("lengthChanged", onSubMenuLengthChanged);
+						}
+					}
 				}
 			}
 	
+			[Bindable("dataChange")]
+            public function get dataVO():NavigationLinkVO
+            {
+                return data as NavigationLinkVO;
+            }
+            
         		override public function onChange(selectedItem:Object):void
         		{
         			super.onChange(selectedItem);
@@ -52,6 +68,8 @@
 	                }
 	                parentNav.dispatchEvent(new Event('change'));
 	            }
+	            
+	            refreshExpandIcon();
 	        }			
         		
         		override public function getSelectedSubmenuItem():Object
@@ -62,7 +80,12 @@
 				}        			
 				return null;	
         		}
-        		        		
+        		      
+        		protected function onSubMenuLengthChanged(event:Event):void
+        		{
+        			refreshExpandIcon();
+        		}
+        		  		
         		protected function onRendererSectionClick(event:Event):void
         		{
 	            if (event.target == this)
@@ -74,6 +97,13 @@
 	                		this.data.open = this.open;
 	                }
 	            }
+	            
+	            refreshExpandIcon();
+        		}
+        		
+        		private function refreshExpandIcon():void
+        		{
+        			expandIcon.visible = dataVO.subMenu != null && dataVO.subMenu.length > 0;	
         		}
         		
 			private function refreshEnabled():void
@@ -94,15 +124,16 @@
 				{
 					childNavigation.selectedItem = null;
 				}
+				
+				refreshExpandIcon();
 			}
 		]]>
 	</fx:Script>
 	
 	<j:HGroup gap="2" itemsVerticalAlign="itemsCenter" height="48">
-		<html:Span class="{data ? data.icon : ''}" visible="{data ? data.icon != null : false}"/>
+		<html:Span class="{dataVO ? dataVO.icon : ''}" visible="{dataVO ? dataVO.icon != null : false}"/>
 		
-		<html:Span text="{data ? data.name : ''}"/>
-		<js:MaterialIcon text="{open? MaterialIconType.EXPAND_LESS: MaterialIconType.EXPAND_MORE}" className="hint" 
-                         visible="{data.subMenu != null}"/>
+		<html:Span text="{dataVO ? dataVO.name : ''}"/>
+		<js:MaterialIcon localId="expandIcon" text="{open? MaterialIconType.EXPAND_LESS: MaterialIconType.EXPAND_MORE}" className="hint" />
 	</j:HGroup>
 </j:CollapsibleNavigationSectionRenderer>
