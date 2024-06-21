@@ -4,7 +4,7 @@
 									    xmlns:js="library://ns.apache.org/royale/basic" 
 									    xmlns:html="library://ns.apache.org/royale/html" 
 									    xmlns="http://www.w3.org/1999/xhtml"
-									    visible="{dataVO.visible}"
+									    visible="{dataVO.visible}" 
 									    sectionClick="onRendererSectionClick(event)">
 	<j:beads>
 		<js:ItemRendererDataBinding />
@@ -104,6 +104,17 @@
         		private function refreshExpandIcon():void
         		{
         			expandIcon.visible = dataVO.subMenu != null && dataVO.subMenu.length > 0;	
+        			if (expandIcon.visible)
+        			{
+        				this.removeClass("no-submenu")
+        			}
+        			else
+        			{
+      				if (!this.containsClass("no-submenu"))
+        				{
+        					this.addClass("no-submenu");
+    					}
+        			}
         		}
         		
 			private function refreshEnabled():void
