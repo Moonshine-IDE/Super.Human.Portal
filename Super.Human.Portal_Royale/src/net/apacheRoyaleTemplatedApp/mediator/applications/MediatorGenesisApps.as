@@ -134,7 +134,7 @@ package mediator.applications
 			var hasAdminRole:Boolean = loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR);
 
 			var disabled:Disabled = view.installApplicationButton["getBeadByType"](Disabled);
-			disabled.disabled = genesisAppsProxy.selectedApplication == null && hasAdminRole == false;
+			disabled.disabled = genesisAppsProxy.selectedApplication == null || hasAdminRole == false;
 		}
 		
 		private function refreshSeeMoreDetails():void
