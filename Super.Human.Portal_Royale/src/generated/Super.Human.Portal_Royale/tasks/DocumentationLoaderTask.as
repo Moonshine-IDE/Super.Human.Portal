@@ -18,7 +18,7 @@ package Super.Human.Portal_Royale.tasks
 
 		override public function run(data:Object=null):void 
 		{
-			var categoriesTask:PromiseTask = new PromiseTask(new Promise(function(resolve:Function, reject:Function){
+			var categoriesTask:PromiseTask = new PromiseTask(new Promise(function categoriesDelegate(resolve:Function, reject:Function):void {
 				var categoryDelegate:CategoriesDelegate = new CategoriesDelegate();
 					categoryDelegate.getCategoriesList(function(event:Event):void{
 						resolve(event);
@@ -31,7 +31,7 @@ package Super.Human.Portal_Royale.tasks
 			
 			if (Constants.AGENT_BASE_URL)
 			{
-				var documentationTask:PromiseTask = new PromiseTask(new Promise(function(resolve:Function, reject:Function){
+				var documentationTask:PromiseTask = new PromiseTask(new Promise(function documentationDelegate(resolve:Function, reject:Function):void {
 					var documentationDelegate:DocumentationFormServices = new DocumentationFormServices();
 						documentationDelegate.getDocumentationFormList(function(event:Event):void {
 							resolve(event);

@@ -17,7 +17,6 @@ package controller.startup.prepareModel
 
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
-	import model.proxy.ProxyCategories;
 				
 	public class CommandPrepareModel extends SimpleCommand
 	{
