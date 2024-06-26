@@ -84,6 +84,7 @@ DominoUniveralID    | Text | No         | Used as the lookup key for Create and 
 DocumentationName | Text | false | 
 DocumentationUNID | Text | false | 
 Categories | Text | true | 
+Icon | Text | false | 
 DocumentationBody | Richtext | false | 
 
 
@@ -99,6 +100,7 @@ Parameters | Type | Multivalue | Required | Notes
 DocumentationName | Text | false | false | 
 DocumentationUNID | Text | false | false | 
 Categories | Text | true | false | 
+Icon | Text | false | false | 
 DocumentationBody | Richtext | false | false | 
 
 
@@ -137,6 +139,7 @@ DominoUniversalID | Text | No | Yes |
 DocumentationName | Text | false | false | 
 DocumentationUNID | Text | false | false | 
 Categories | Text | true | false | 
+Icon | Text | false | false | 
 DocumentationBody | Richtext | false | false | 
 
 

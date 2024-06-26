@@ -30,6 +30,9 @@ public class DocumentationFormUpdateBase extends UpdateAgentBase {
 		fields.add(new FieldDefinition("Categories", FieldType.TEXT, true));
 
 
+		fields.add(new FieldDefinition("Icon", FieldType.TEXT, false));
+
+
 		fields.add(new FieldDefinition("DocumentationBody", FieldType.RICHTEXT, false));
 
 

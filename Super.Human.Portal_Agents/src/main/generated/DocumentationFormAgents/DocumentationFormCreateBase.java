@@ -33,6 +33,9 @@ public class DocumentationFormCreateBase extends CreateAgentBase {
 		fields.add(new FieldDefinition("Categories", FieldType.TEXT, true));
 
 
+		fields.add(new FieldDefinition("Icon", FieldType.TEXT, false));
+
+
 		fields.add(new FieldDefinition("DocumentationBody", FieldType.RICHTEXT, false));
 
 
@@ -73,6 +76,7 @@ public class DocumentationFormCreateBase extends CreateAgentBase {
 		fields.add(new FieldDefinition("DocumentationName", FieldType.TEXT, false));
 		fields.add(new FieldDefinition("DocumentationUNID", FieldType.TEXT, false));
 		fields.add(new FieldDefinition("Categories", FieldType.TEXT, true));
+		fields.add(new FieldDefinition("Icon", FieldType.TEXT, false));
 		fields.add(new FieldDefinition("DocumentationBody", FieldType.RICHTEXT, false));
 
 		return fields;

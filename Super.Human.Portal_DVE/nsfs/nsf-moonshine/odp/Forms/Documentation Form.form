@@ -34,6 +34,8 @@
       
       <text>Categories</text>
       
+      <text>Icon</text>
+      
       <text>DocumentationBody</text>
       
     </textlist>
@@ -46,9 +48,9 @@
       
       <pardef id="1013" align="left" dominotype="domino" hide="" list="none"/>
       
-      <pardef id="10007" align="left" dominotype="domino" hide="" list="none" linespacing="1" spacebefore="1" spaceafter="1"/>
+      <pardef id="10011" align="left" dominotype="domino" hide="" list="none" linespacing="1" spacebefore="1" spaceafter="1"/>
       
-      <par def="10007" paragraph="true" dominotype="paragraph" spacingInterline="1" spacingBelow="1" spacingAbove="1" alignPardef="left" listPardef="none" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop">
+      <par def="10011" paragraph="true" dominotype="paragraph" spacingInterline="1" spacingBelow="1" spacingAbove="1" alignPardef="left" listPardef="none" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop">
         
         <run>
           
@@ -80,9 +82,9 @@
       
       <pardef id="1014" align="left" dominotype="domino" hide="" list="none"/>
       
-      <pardef id="10008" align="left" dominotype="domino" hide="" list="none" linespacing="1" spacebefore="1" spaceafter="1"/>
+      <pardef id="10012" align="left" dominotype="domino" hide="" list="none" linespacing="1" spacebefore="1" spaceafter="1"/>
       
-      <par def="10008" paragraph="true" dominotype="paragraph" spacingInterline="1" spacingBelow="1" spacingAbove="1" alignPardef="left" listPardef="none" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop">
+      <par def="10012" paragraph="true" dominotype="paragraph" spacingInterline="1" spacingBelow="1" spacingAbove="1" alignPardef="left" listPardef="none" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop">
         
         <run>
           
@@ -93,29 +95,38 @@
         <run>
           
           <font color="black" size="10pt" style="normal" name="sans-serif"/>
-          <field listdisplayseparator="newline" listinputseparators="comma semicolon newline" object="defaultvalue" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="true" width="100pt" height="30pt" bgcolor="#ffffff" name="Categories"/>
+          <field listdisplayseparator="newline" listinputseparators="comma semicolon newline" object="defaultvalue" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="true" width="100pt" height="30pt" bgcolor="#ffffff" name="Categories" sign="false" seal="false" protected="false"/>
           
         </run>
         
       </par>
       
-      <pardef id="1015" align="left" dominotype="domino" hide=""/>
+      <pardef id="1015" align="left" dominotype="domino" hide="" list="none"/>
       
-      <par def="1015" paragraph="true" dominotype="paragraph" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop">
+      <pardef id="10013" align="left" dominotype="domino" hide="" list="none" linespacing="1" spacebefore="1" spaceafter="1"/>
+      
+      <par def="10013" paragraph="true" dominotype="paragraph" spacingInterline="1" spacingBelow="1" spacingAbove="1" alignPardef="left" listPardef="none" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop">
         
         <run>
           
           <font color="system" size="12pt" style="normal" name="serif"/>
-           
+          Icon: 
+        </run>
+        
+        <run>
+          
+          <font color="black" size="10pt" style="normal" name="sans-serif"/>
+          <field listdisplayseparator="newline" listinputseparators="comma semicolon newline" object="defaultvalue" linespacing="1" spacebefore="1" spaceafter="1" useappletinbrowser="false" allowtabout="false" defaultfocus="false" storelocally="false" alignPardef="left" listPardef="none" type="text" kind="editable" computeaftervalidation="false" allowmultivalues="false" width="100pt" height="30pt" bgcolor="#ffffff" name="Icon" sign="false" seal="false" protected="false"/>
+          
         </run>
         
       </par>
       
       <pardef id="1016" align="left" dominotype="domino" hide="" list="none"/>
       
-      <pardef id="10009" align="left" dominotype="domino" hide="" list="none" linespacing="1" spacebefore="1" spaceafter="1"/>
+      <pardef id="10014" align="left" dominotype="domino" hide="" list="none" linespacing="1" spacebefore="1" spaceafter="1"/>
       
-      <par def="10009" paragraph="true" dominotype="paragraph" spacingInterline="1" spacingBelow="1" spacingAbove="1" alignPardef="left" listPardef="none" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop">
+      <par def="10014" paragraph="true" dominotype="paragraph" spacingInterline="1" spacingBelow="1" spacingAbove="1" alignPardef="left" listPardef="none" class="flexHorizontalLayoutWrap flexHorizontalLayoutLeft flexHorizontalLayoutTop">
         
         <run>
           
@@ -147,63 +158,48 @@ End Sub
   <item name="$$FormScript" summary="false" sign="true">
     <text>'++LotusScript Development Environment:2:5:(Options):0:74
 '++LotusScript Development Environment:2:5:(Forward):0:1
-Declare Sub Querymodechange(Source As Notesuidocument, Continue As Variant)
-Declare Sub Queryrecalc(Source As Notesuidocument, Continue As Variant)
-Declare Sub Querysend(Source As Notesuidocument, Continue As Variant)
-Declare Sub Postsend(Source As Notesuidocument)
-Declare Sub Postmodechange(Source As Notesuidocument)
-Declare Sub Initialize
-Declare Sub Querysave(Source As Notesuidocument, Continue As Variant)
 Declare Sub Queryopen(Source As Notesuidocument, Mode As Integer, Isnewdoc As Variant, Continue As Variant)
-Declare Sub Postsave(Source As Notesuidocument)
-Declare Sub Terminate
+Declare Sub Postrecalc(Source As Notesuidocument)
+Declare Sub Querysend(Source As Notesuidocument, Continue As Variant)
 Declare Sub Queryclose(Source As Notesuidocument, Continue As Variant)
 Declare Sub Postopen(Source As Notesuidocument)
-Declare Sub Postrecalc(Source As Notesuidocument)
+Declare Sub Initialize
+Declare Sub Queryrecalc(Source As Notesuidocument, Continue As Variant)
+Declare Sub Postsave(Source As Notesuidocument)
+Declare Sub Terminate
+Declare Sub Querysave(Source As Notesuidocument, Continue As Variant)
+Declare Sub Querymodechange(Source As Notesuidocument, Continue As Variant)
+Declare Sub Postsend(Source As Notesuidocument)
+Declare Sub Postmodechange(Source As Notesuidocument)
 
 '++LotusScript Development Environment:2:5:(Declarations):0:10
 '++LotusScript Development Environment:2:2:BindEvents:1:129
 Private Sub BindEvents(Byval Objectname_ As String)
          Static Source As NOTESUIDOCUMENT
          Set Source = Bind(Objectname_)
-         On Event Querymodechange From Source Call Querymodechange
-         On Event Queryrecalc From Source Call Queryrecalc
+         On Event Queryopen From Source Call Queryopen
+         On Event Postrecalc From Source Call Postrecalc
          On Event Querysend From Source Call Querysend
+         On Event Queryclose From Source Call Queryclose
+         On Event Postopen From Source Call Postopen
+
+         On Event Queryrecalc From Source Call Queryrecalc
+         On Event Postsave From Source Call Postsave
+
+         On Event Querysave From Source Call Querysave
+         On Event Querymodechange From Source Call Querymodechange
          On Event Postsend From Source Call Postsend
          On Event Postmodechange From Source Call Postmodechange
 
-         On Event Querysave From Source Call Querysave
-         On Event Queryopen From Source Call Queryopen
-         On Event Postsave From Source Call Postsave
-
-         On Event Queryclose From Source Call Queryclose
-         On Event Postopen From Source Call Postopen
-         On Event Postrecalc From Source Call Postrecalc
-
-End Sub
-'++LotusScript Development Environment:2:2:Querymodechange:1:12
-Sub Querymodechange(Source As Notesuidocument, Continue As Variant)
-End Sub
-'++LotusScript Development Environment:2:2:Queryrecalc:1:12
-Sub Queryrecalc(Source As Notesuidocument, Continue As Variant)
-End Sub
-'++LotusScript Development Environment:2:2:Querysend:1:12
-Sub Querysend(Source As Notesuidocument, Continue As Variant)
-End Sub
-'++LotusScript Development Environment:2:2:Postsend:1:12
-Sub Postsend(Source As Notesuidocument)
-End Sub
-'++LotusScript Development Environment:2:2:Postmodechange:1:12
-Sub Postmodechange(Source As Notesuidocument)
-End Sub
-'++LotusScript Development Environment:2:2:Querysave:1:12
-Sub Querysave(Source As Notesuidocument, Continue As Variant)
 End Sub
 '++LotusScript Development Environment:2:2:Queryopen:1:12
 Sub Queryopen(Source As Notesuidocument, Mode As Integer, Isnewdoc As Variant, Continue As Variant)
 End Sub
-'++LotusScript Development Environment:2:2:Postsave:1:12
-Sub Postsave(Source As Notesuidocument)
+'++LotusScript Development Environment:2:2:Postrecalc:1:12
+Sub Postrecalc(Source As Notesuidocument)
+End Sub
+'++LotusScript Development Environment:2:2:Querysend:1:12
+Sub Querysend(Source As Notesuidocument, Continue As Variant)
 End Sub
 '++LotusScript Development Environment:2:2:Queryclose:1:12
 Sub Queryclose(Source As Notesuidocument, Continue As Variant)
@@ -211,8 +207,23 @@ End Sub
 '++LotusScript Development Environment:2:2:Postopen:1:12
 Sub Postopen(Source As Notesuidocument)
 End Sub
-'++LotusScript Development Environment:2:2:Postrecalc:1:12
-Sub Postrecalc(Source As Notesuidocument)
+'++LotusScript Development Environment:2:2:Queryrecalc:1:12
+Sub Queryrecalc(Source As Notesuidocument, Continue As Variant)
+End Sub
+'++LotusScript Development Environment:2:2:Postsave:1:12
+Sub Postsave(Source As Notesuidocument)
+End Sub
+'++LotusScript Development Environment:2:2:Querysave:1:12
+Sub Querysave(Source As Notesuidocument, Continue As Variant)
+End Sub
+'++LotusScript Development Environment:2:2:Querymodechange:1:12
+Sub Querymodechange(Source As Notesuidocument, Continue As Variant)
+End Sub
+'++LotusScript Development Environment:2:2:Postsend:1:12
+Sub Postsend(Source As Notesuidocument)
+End Sub
+'++LotusScript Development Environment:2:2:Postmodechange:1:12
+Sub Postmodechange(Source As Notesuidocument)
 End Sub
       <break/></text>
   </item>
