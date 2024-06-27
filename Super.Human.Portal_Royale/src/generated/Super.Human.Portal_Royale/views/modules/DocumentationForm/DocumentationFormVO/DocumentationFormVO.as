@@ -118,7 +118,9 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 				DocumentationName: this.DocumentationName,
 				DocumentationUNID: this.DocumentationUNID,
 				DocumentationBody: this.DocumentationBody,
-				Categories: this.Categories
+				Categories: this.Categories,
+				Image: this.image,
+				Icon: this.icon
 			};
 			if (DominoUniversalID) tmpRequestObject.DominoUniversalID = DominoUniversalID;
 			return tmpRequestObject;
@@ -140,8 +142,8 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 			if ("DocumentationBody" in value){	tmpVO.DocumentationBody = value.DocumentationBody;	}
 			if ("DominoUniversalID" in value){	tmpVO.DominoUniversalID = value.DominoUniversalID;	}
 			if ("Categories" in value){ tmpVO.Categories = value.Categories; }
-			if ("image" in value){ tmpVO.image = value.image; }
-			if ("icon" in value){ tmpVO.icon = value.icon; }
+			if ("Image" in value){ tmpVO.image = value.Image; }
+			if ("Icon" in value){ tmpVO.icon = value.Icon; }
 
             return tmpVO;
         }
