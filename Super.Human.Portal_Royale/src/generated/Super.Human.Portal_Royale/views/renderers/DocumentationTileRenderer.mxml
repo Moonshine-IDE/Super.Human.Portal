@@ -9,6 +9,7 @@
 	<fx:Script>
 	<![CDATA[
 		import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormVO.DocumentationFormVO;
+		import org.apache.royale.events.Event;
 
 		override public function set data(value:Object):void
 		{
@@ -27,13 +28,9 @@
         }
 	]]>
 </fx:Script>
-	<j:Card percentHeight="100" percentWidth="100" className="cardTile">
+	<j:Card percentHeight="100" className="cardTile">
 		<j:CardPrimaryContent itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" gap="2">
-			<j:IconButton visible="{dataVO.image == null}" className="cardTileButtonIcon">
-				 <j:icon>
-					<js:MaterialIcon text="{dataVO.icon ? dataVO.icon : dataVO.emptyImage}" className="cardTileIcon"/>
-				</j:icon>
-			</j:IconButton>
+			<html:Span localId="tileIcon" visible="{dataVO.image == null}" className="{dataVO.icon ? dataVO.icon + ' cardMdiTileIcon' : dataVO.emptyImage}"/>
 			<j:Image src="{dataVO.image}" visible="{dataVO.image != null}"/>
 			<j:Label multiline="true" text="{dataVO.DocumentationName}"/>
 		</j:CardPrimaryContent>

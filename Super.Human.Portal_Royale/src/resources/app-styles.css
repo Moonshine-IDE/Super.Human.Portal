@@ -68,6 +68,10 @@ a:hover {
 	textAlign: center;
 }
 
+.cardMdiTileIcon {
+	fontSize: 100px;
+}
+
 .material-icons.cardTileIcon {
 	fontSize: 100px !important;
 }

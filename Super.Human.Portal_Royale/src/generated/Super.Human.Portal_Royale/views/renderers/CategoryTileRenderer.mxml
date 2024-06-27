@@ -30,11 +30,7 @@
 	<j:Card percentHeight="100" percentWidth="100" className="cardTile">
 		<j:CardTitle text="{dataVO.label}" className="cardTileTitle" multiline="true" percentWidth="100"/>
 		<j:CardPrimaryContent itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" gap="2">
-			<j:IconButton visible="{dataVO.icon != null}" className="cardTileButtonIcon">
-				 <j:icon>
-					<js:MaterialIcon text="{dataVO.icon}" className="cardTileIcon"/>
-				</j:icon>
-			</j:IconButton>
+			<html:Span localId="tileIcon" visible="{dataVO.icon != null}" className="{dataVO.icon + ' cardMdiTileIcon'}"/>
 			<j:Label multiline="true" text="{dataVO.description}"/>
 		</j:CardPrimaryContent>
 		<!--
