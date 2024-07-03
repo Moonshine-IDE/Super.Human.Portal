@@ -1,4 +1,4 @@
-package DocumentationFormAgents;
+package CategoryAgents;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,20 +16,20 @@ import lotus.domino.*;
 
 /**
  * Generated Code
- * Update {@link DocumentationFormRead} instead, so that this class can be replaced if necessary.
+ * Update {@link CategoryRead} instead, so that this class can be replaced if necessary.
  */
-public class DocumentationFormReadBase extends GetAllAgentBase {
+public class CategoryReadBase extends GetAllAgentBase {
 	protected View getLookupView() throws NotesException {
-		return agentDatabase.getView("All By UNID/CRUD/Documentation Form");
+		return agentDatabase.getView("All By UNID/CRUD/Category");
 	}
 	
 	protected Collection<FieldDefinition> getFieldList() {
 		Collection<FieldDefinition> fields = new ArrayList<FieldDefinition>();
-		fields.add(new FieldDefinition("DocumentationName", FieldType.TEXT, false));
-		fields.add(new FieldDefinition("DocumentationUNID", FieldType.TEXT, false));
-		fields.add(new FieldDefinition("Categories", FieldType.TEXT, true));
+		fields.add(new FieldDefinition("CategoryID", FieldType.TEXT, false));
+		fields.add(new FieldDefinition("Label", FieldType.TEXT, false));
+		fields.add(new FieldDefinition("Description", FieldType.TEXT, false));
 		fields.add(new FieldDefinition("Icon", FieldType.TEXT, false));
-		fields.add(new FieldDefinition("DocumentationBody", FieldType.RICHTEXT, false));
+		fields.add(new FieldDefinition("Order", FieldType.NUMBER, false));
 
 		return fields;
 	}

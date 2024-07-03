@@ -22,6 +22,7 @@ import com.moonshine.domino.security.SecurityInterface
 import com.moonshine.domino.log.DefaultLogInterface;
 
 import config.*;
+import CategoryAgents.*;
 import CustomBookmarkAgents.*;
 import DocumentationFormAgents.*;
 import genesis.*;
@@ -160,6 +161,10 @@ class SimpleRoleSecuritySpec extends Specification {
         new DocumentationFormDelete()       | ['All']
         new DocumentationFormCreate()       | ['All']
         new DocumentationFormUpdate()       | ['All']
+        new CategoryRead()                  | ['All']
+        new CategoryDelete()                | ['All']
+        new CategoryCreate()                | ['All']
+        new CategoryUpdate()                | ['All']
         new CustomBookmarkDelete()          | ['Administrator']
         new CustomBookmarkCreate()          | ['Administrator']
         new CustomBookmarkUpdate()          | ['Administrator']
@@ -169,7 +174,7 @@ class SimpleRoleSecuritySpec extends Specification {
         new GenesisDirectoryCreate()        | ['Administrator']
         new GenesisDirectoryDelete()        | ['Administrator']
         new GenesisDirectoryRead()          | ['Administrator']
-        new GenesisRead()                   | ['Administrator']
+        new GenesisRead()                   | ['All']
         new GenesisInstall()                | ['Administrator']
 
 

@@ -2,16 +2,10 @@ package genesis;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Collection;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +20,6 @@ import auth.RoleRestrictedAgent;
 import auth.SecurityBuilder;
 import auth.SimpleRoleSecurity;
 import lotus.domino.Document;
-import lotus.domino.Name;
 import lotus.domino.NotesException;
 import lotus.domino.View;
 import lotus.domino.ViewEntry;
@@ -53,7 +46,7 @@ public class GenesisRead extends CRUDAgentBase implements RoleRestrictedAgent
 	protected LinkProcessor linkProcessor = null;
 	
 	public Collection<String> getAllowedRoles() {
-		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
 	}
 	
 	public SecurityInterface checkSecurity() {

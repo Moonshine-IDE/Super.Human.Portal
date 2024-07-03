@@ -1,4 +1,4 @@
-package DocumentationFormAgents;
+package CategoryAgents;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,36 +7,35 @@ import com.moonshine.domino.crud.CreateAgentBase;
 import com.moonshine.domino.field.FieldDefinition;
 import com.moonshine.domino.field.FieldType;
 import com.moonshine.domino.security.*;
-import com.moonshine.domino.util.DominoUtils;
 import com.moonshine.domino.util.ParameterException;
 
 import lotus.domino.*;
 
 /**
  * Generated Code
- * Update {@link DocumentationFormCreate} instead, so that this class can be replaced if necessary.
+ * Update {@link CategoryCreate} instead, so that this class can be replaced if necessary.
  */
-public class DocumentationFormCreateBase extends CreateAgentBase {
+public class CategoryCreateBase extends CreateAgentBase {
 	protected String getFormName() {
-		return "Documentation Form";
+		return "Category";
 	}
 	 
 
 	protected Collection<FieldDefinition> getFieldList() {
 		Collection<FieldDefinition> fields = new ArrayList<FieldDefinition>();
-		fields.add(new FieldDefinition("DocumentationName", FieldType.TEXT, false));
+		fields.add(new FieldDefinition("CategoryID", FieldType.TEXT, false));
 
 
-		fields.add(new FieldDefinition("DocumentationUNID", FieldType.TEXT, false));
+		fields.add(new FieldDefinition("Label", FieldType.TEXT, false));
 
 
-		fields.add(new FieldDefinition("Categories", FieldType.TEXT, true));
+		fields.add(new FieldDefinition("Description", FieldType.TEXT, false));
 
 
 		fields.add(new FieldDefinition("Icon", FieldType.TEXT, false));
 
 
-		fields.add(new FieldDefinition("DocumentationBody", FieldType.RICHTEXT, false));
+		fields.add(new FieldDefinition("Order", FieldType.NUMBER, false));
 
 
 
@@ -60,7 +59,7 @@ public class DocumentationFormCreateBase extends CreateAgentBase {
 		
 		/* If uniqueness validation is desired:
 		try {
-			return DominoUtils.getView(agentDatabase, "All By UNID/CRUD/Documentation Form");
+			return DominoUtils.getView(agentDatabase, "All By UNID/CRUD/Category");
 		}
 		catch (Exception ex) {
 			getLog().err("Could not open lookup view: ", ex);
@@ -73,11 +72,11 @@ public class DocumentationFormCreateBase extends CreateAgentBase {
 	@Override
 	protected Collection<FieldDefinition> getReturnFieldList() {
 		Collection<FieldDefinition> fields = new ArrayList<FieldDefinition>();
-		fields.add(new FieldDefinition("DocumentationName", FieldType.TEXT, false));
-		fields.add(new FieldDefinition("DocumentationUNID", FieldType.TEXT, false));
-		fields.add(new FieldDefinition("Categories", FieldType.TEXT, true));
+		fields.add(new FieldDefinition("CategoryID", FieldType.TEXT, false));
+		fields.add(new FieldDefinition("Label", FieldType.TEXT, false));
+		fields.add(new FieldDefinition("Description", FieldType.TEXT, false));
 		fields.add(new FieldDefinition("Icon", FieldType.TEXT, false));
-		fields.add(new FieldDefinition("DocumentationBody", FieldType.RICHTEXT, false));
+		fields.add(new FieldDefinition("Order", FieldType.NUMBER, false));
 
 		return fields;
 		

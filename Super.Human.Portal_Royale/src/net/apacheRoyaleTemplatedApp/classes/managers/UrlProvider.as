@@ -195,6 +195,13 @@ package classes.managers
 			return _databaseRead;
 		}
 		
+		private var _categoriesRead:String = "/SuperHumanPortal.nsf/CategoryRead?OpenAgent";
+
+		public function get categoriesRead():String
+		{
+			return _categoriesRead;
+		}
+		
 		private var _appVersion:String;
 		
 		public function setAppVersion(value:String):void

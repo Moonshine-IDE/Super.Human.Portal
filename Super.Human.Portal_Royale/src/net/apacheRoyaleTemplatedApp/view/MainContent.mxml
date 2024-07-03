@@ -324,7 +324,7 @@
                                                             var mainContentView:Object = this[selectedContent + '_ID'];
                                                             if (mainContentView)
                                                             {
-                                                            	   mainContentView.cancelFormEdit();
+                                                            	   mainContentView.resetDocumentationForm();
                                                         	   }
                                                             this.mainContent.selectedContent = selectedContent;
                                                         }; onMainNavChange(event);}" 
@@ -369,7 +369,7 @@
 	</j:Drawer>
 	<j:TopAppBar id="topappbar" hasDrawer="{drawer.isOpen}" visible="false">
         <j:BarRow>
-			<j:BarSection itemsHorizontalAlign="itemsLeft">
+			<j:BarSection itemsHorizontalAlign="itemsLeft" gap="2">
 				<j:IconButton id="btnDrawer">
 					<j:icon>
 						<js:MaterialIcon text="{MaterialIconType.VIEW_HEADLINE}"/>
