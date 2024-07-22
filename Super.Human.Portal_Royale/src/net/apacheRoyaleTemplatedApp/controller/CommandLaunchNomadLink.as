@@ -4,17 +4,17 @@ package controller
 
 	import model.proxy.login.ProxyLogin;
 
+	import org.apache.royale.events.DetailEvent;
 	import org.apache.royale.html.elements.Iframe;
 	import org.apache.royale.jewel.Snackbar;
 	import org.apache.royale.net.URLRequest;
+	import org.apache.royale.net.URLStream;
 	import org.apache.royale.net.navigateToURL;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 
 	import view.controls.snackbarNomadHelperUrl.SnackbarNomadHelperUrl;
 	import view.controls.snackbarNomadHelperUrl.SnackbarNomadPopupBlocked;
-	import org.apache.royale.net.URLLoader;
-	import org.apache.royale.net.HTTPConstants;
 
 	/**
 	 * This is a workaround to open a Nomad link directly in an existing Nomad tab by using the Nomad service worker.
@@ -48,13 +48,14 @@ package controller
 				var encodedLink:String = encodeURIComponent(link);
 				var nomadHelperUrl:String = loginProxy.config.config.nomad_helper_url;
 				
-				var urlCheck:URLLoader = new URLLoader(new URLRequest(nomadHelperUrl));
-					urlCheck.addEventListener(HTTPConstants.IO_ERROR, function onNomadUrlComplete(event:Event):void {
-						urlCheck.removeEventListener(HTTPConstants.IO_ERROR, onNomadUrlComplete);
+				var urlCheck:URLStream = new URLStream();
+					urlCheck.addEventListener("communicationError", function onNomadUrlError(event:DetailEvent):void {
+						urlCheck.removeEventListener("communicationError", onNomadUrlError);
 						Snackbar.show("It looks like the server for " + nomadHelperUrl + " is not responding. Please check DNS, the Domino server, and the Nomad task to ensure it is running.", 
 										6000);
 						
 					});
+					urlCheck.load(new URLRequest(nomadHelperUrl));
 				nomadHelper.src = nomadHelperUrl + "?link=" + encodedLink;
 			}
 			else   // otherwise, don't use nomadhelper.html.  Open the Nomad link in a new tab.  If Nomad is open already, the database will be opened in the original tab
