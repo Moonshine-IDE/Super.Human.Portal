@@ -36,6 +36,8 @@ if (!templatePath || !new File(templatePath).exists()) {
     throw new Exception("Invalid path:  '$templatePath'")
 }
 
+String nsfName = new File(nsfPath).getName()
+
 // TODO:  support Windows  line separators. Note that this will need a pattern as well
 String separator = '/'
 String separatorPattern = '/'
@@ -45,12 +47,22 @@ String attachmentsDir = 'genesis_attachments'
 Files.createDirectories(Paths.get(attachmentsDir))
 String installJSONFile = 'install.json'
 
+// path defaults
+String fromBase = '${baseurl}/0/${docid}/$FILE'
+String toBase = '${directory}/domino/html/Super.Human.Portal/js-release'
+String toDominoBase = '${directory}'
+
 
 println "find '$filesPath' -type f"
 def fileListProc = "find $filesPath -type f".execute()
 fileListProc.waitFor()
 def fileList = fileListProc.text
+
+// initialize file list and add an entry for the databaes
 def fileMap = []
+fileMap << [ from: "$fromBase/$nsfName", to: "$toDominoBase/$nsfName" ]
+Files.copy(Paths.get(nsfPath), Paths.get(attachmentsDir, nsfName))
+
 fileList.eachLine { String line ->
     //String cleaned = line.replaceAll("^\\.$separatorPattern", '')
     String cleaned = line.replaceAll("^$filesPath$separatorPattern", '')
@@ -61,18 +73,14 @@ fileList.eachLine { String line ->
     }
     else {
         Files.copy(Paths.get(line), Paths.get(attachmentsDir, collapsedName))
-        fileMap << [ path: cleaned, collapsed: collapsedName ]
+        fileMap << [ from: "$fromBase/${collapsedName}", to: "$toBase/${cleaned}" ]
     }
 }
 
-// path defaults
-String fromBase = '${baseurl}/0/${docid}/$FILE'
-String toBase = '${directory}/domino/html/Super.Human.Portal/js-release'
-
 JsonBuilder filesJSON = new JsonBuilder()
 filesJSON fileMap, {curMap ->
-    from "$fromBase/${curMap.collapsed}"
-    to "$toBase/${curMap.path}"
+    from curMap.from
+    to curMap.to
     replace true
 }
 //println JsonOutput.prettyPrint(filesJSON.toString())
