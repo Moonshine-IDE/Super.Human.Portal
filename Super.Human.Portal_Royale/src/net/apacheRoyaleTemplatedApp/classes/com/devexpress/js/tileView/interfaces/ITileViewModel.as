@@ -24,5 +24,8 @@ package classes.com.devexpress.js.tileView.interfaces
 		
 		function get itemMargin():Number;
 		function set itemMargin(value:Number):void;
+		
+		function get showScrollbar():String;
+		function set showScrollbar(value:String):void;
 	}
 }

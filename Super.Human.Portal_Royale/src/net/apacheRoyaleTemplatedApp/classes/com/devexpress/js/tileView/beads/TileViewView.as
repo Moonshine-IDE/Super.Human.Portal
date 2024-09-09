@@ -106,6 +106,7 @@ package classes.com.devexpress.js.tileView.beads
 		private function optionsChanged():void
 		{
 			window["$"](host.element).dxTileView({
+				showScrollbar: _model.showScrollbar,
 				direction: _model.direction,
 				height: "100%",
 				width: "100%",

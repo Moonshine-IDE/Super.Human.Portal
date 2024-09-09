@@ -12,6 +12,9 @@ package model.vo
 		[Bindable]
 		public var icon:String;
 		
+		[Bindable]
+		public var link:String;
+		
 		private var _id:String;
 
 		public function get id():String
@@ -20,7 +23,7 @@ package model.vo
 		}
 
 		public function CategoryVO(dominoUniversalID:String = "", categoryID:String = "", description:String = "",
-								  order:Number = 0, label:String = "", icon:String = "")
+								  order:Number = 0, label:String = "", icon:String = "", link:String = "")
 		{
 			this.dominoUniversalID = dominoUniversalID;
 			this.categoryID = categoryID;
@@ -28,6 +31,7 @@ package model.vo
 			this.order = order;
 			this.label = label;
 			this.icon = icon;
+			this.link = link;
 		}
 		
 		public function toRequestObject():Object

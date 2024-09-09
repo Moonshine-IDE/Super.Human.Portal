@@ -146,5 +146,20 @@ package classes.com.devexpress.js.tileView.beads.models
 				dispatchEvent(new Event("selectedItemChanged"));
 			}
 		}
+		
+		private var _showScrollbar:String = "onScroll";
+		
+		public function get showScrollbar():String
+		{
+			return _showScrollbar;
+		}
+		
+		public function set showScrollbar(value:String):void
+		{
+			if (_showScrollbar != value)
+			{
+				_showScrollbar = value;
+			}
+		}
 	}
 }

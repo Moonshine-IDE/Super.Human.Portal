@@ -170,6 +170,19 @@ package classes.com.devexpress.js.tileView
 			model["selectedItem"] = value;
 		}
 		
+		/**
+		 * @royaleignorecoercion classes.com.devexpress.js.tileView.interfaces.ITileViewModel
+		 */
+		public function get showScrollbar():String
+		{
+			return model["showScrollbar"];
+		}
+		
+		public function set showScrollbar(value:String):void
+		{
+			model["showScrollbar"] = value;
+		}
+		
 		/*
 		* Method should be called when you add/remove some item from dataProvider
 		**/
