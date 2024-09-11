@@ -72,6 +72,8 @@ package mediator
 
 		private function onTileViewClickItem(event:TileViewEvent):void
 		{
+			if (event.item.link != "") return;
+    		
 			this.view.currentState = 'dataGridState';
 			this.proxy.dispatchEvent(new Event(DocumentationFormProxy.EVENT_ITEM_UPDATED));
 		}

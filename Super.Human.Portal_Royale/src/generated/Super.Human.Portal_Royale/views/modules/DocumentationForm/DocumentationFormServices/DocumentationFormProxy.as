@@ -93,25 +93,7 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
         {
          	return _itemsByCategory;
         }
-         
-        private var _linkItems:Array = [
-        		new CategoryVO("moonshinedev", "moonshinedev", "A fast way to start building applications and databases. " +
-														   "Explore plenty of examples and customize them to kickstart your project. Our tools support rapid" + 
-														   "development across multiple platforms, ensuring a seamless experience.", 0, "Moonshine.dev",
-														   "resources/images/moonshine-logo-circle.png", "https://www.moonshine.dev/")
-        ];
-        
-        [Bindable]
-        public function get linkItems():Array 
-        {
-        		return _linkItems;
-        }
-        
-        public function set linkItems(value:Array):void
-        {
-        		_linkItems = value;
-        }
-        
+
         private var _mainItems:Array = [];
         
 		[Bindable]

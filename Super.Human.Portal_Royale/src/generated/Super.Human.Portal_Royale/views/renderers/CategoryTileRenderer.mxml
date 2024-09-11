@@ -30,8 +30,22 @@
 	<j:Card percentHeight="100" percentWidth="100" className="cardTile">
 		<j:CardTitle text="{dataVO.label}" className="cardTileTitle" multiline="true" percentWidth="100"/>
 		<j:CardPrimaryContent itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" gap="2">
-			<html:Span localId="tileIcon" visible="{dataVO.icon != null}" className="{dataVO.icon + ' cardMdiTileIcon'}"/>
-			<j:Label multiline="true" text="{dataVO.description}"/>
+			<html:Span localId="tileIcon" visible="{dataVO.icon != '' &amp;&amp; dataVO.link == ''}" className="{dataVO.icon + ' cardMdiTileIcon'}"/>
+			<j:Label multiline="true" text="{dataVO.description}" visible="{dataVO.icon != '' &amp;&amp; dataVO.link == ''}"/>
+			
+			<html:A href="{dataVO.link}" target="_blank" visible="{dataVO.link != ''}">
+				<html:style>
+						<js:AllCSSStyles textDecoration="none" textAlign="center"/>
+				</html:style>
+				<j:Image src="{dataVO.icon}" maxWidth="135" maxHeight="135"/>
+				<j:HGroup percentWidth="100">
+					<j:Label multiline="true" text="{dataVO.description}">
+						<j:style>
+							<js:AllCSSStyles color="#333" textAlign="left" cursor="pointer"/>
+						</j:style>
+					</j:Label>
+				</j:HGroup>
+			</html:A>
 		</j:CardPrimaryContent>
 		<!--
 		<j:CardActions visible="{dataVO.link != null}" className="cardTileActions">

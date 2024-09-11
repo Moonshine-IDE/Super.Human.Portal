@@ -307,14 +307,8 @@
   					percentWidth="100" baseItemWidth="245" baseItemHeight="300" itemMargin="5" direction="vertical" 
   					itemRenderer="Super.Human.Portal_Royale.views.renderers.DocumentationTileRenderer"
   					includeIn="dataGridState" clickItemTileView="onDocClickItem(event)" />
-  <j:VGroup includeIn="startview" percentWidth="100">
-	<tileView:TileView localId="linksGettingStarted" className="tileViewJS" direction="vertical"
-						percentWidth="100" baseItemHeight="350" baseItemWidth="300" itemMargin="10" 
-						dataProvider="{proxy.linkItems}" showScrollbar="never" maxHeight="370"
-						itemRenderer="Super.Human.Portal_Royale.views.renderers.LinkTileRenderer"/>
-	<tileView:TileView localId="tileGettingStarted" className="tileViewJS" direction="vertical"
-						percentWidth="100" baseItemHeight="350" baseItemWidth="300" itemMargin="10" 
-						dataProvider="{proxy.mainItems}" showScrollbar="never"
+<tileView:TileView localId="tileGettingStarted" className="tileViewJS" direction="vertical"
+						percentWidth="100" baseItemHeight="360" baseItemWidth="300" itemMargin="10" 
+						dataProvider="{proxy.mainItems}" includeIn="startview" 
 						itemRenderer="Super.Human.Portal_Royale.views.renderers.CategoryTileRenderer"/>
-  </j:VGroup>
 </j:VGroup>
