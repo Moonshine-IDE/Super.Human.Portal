@@ -86,6 +86,7 @@ Label | Text | false |
 Description | Text | false | 
 Icon | Text | false | 
 Order | Number | false | 
+Link | Text | false | 
 
 
 ### Create
@@ -102,6 +103,7 @@ Label | Text | false | false |
 Description | Text | false | false | 
 Icon | Text | false | false | 
 Order | Number | false | false | 
+Link | Text | false | false | 
 
 
 Response properties | JSON Format | Notes
@@ -141,6 +143,7 @@ Label | Text | false | false |
 Description | Text | false | false | 
 Icon | Text | false | false | 
 Order | Number | false | false | 
+Link | Text | false | false | 
 
 
 Response:  No additional values.  TODO: return the document?

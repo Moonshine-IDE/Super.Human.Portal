@@ -7,6 +7,7 @@ import com.moonshine.domino.crud.CreateAgentBase;
 import com.moonshine.domino.field.FieldDefinition;
 import com.moonshine.domino.field.FieldType;
 import com.moonshine.domino.security.*;
+import com.moonshine.domino.util.DominoUtils;
 import com.moonshine.domino.util.ParameterException;
 
 import lotus.domino.*;
@@ -36,6 +37,9 @@ public class CategoryCreateBase extends CreateAgentBase {
 
 
 		fields.add(new FieldDefinition("Order", FieldType.NUMBER, false));
+
+
+		fields.add(new FieldDefinition("Link", FieldType.TEXT, false));
 
 
 
@@ -77,6 +81,7 @@ public class CategoryCreateBase extends CreateAgentBase {
 		fields.add(new FieldDefinition("Description", FieldType.TEXT, false));
 		fields.add(new FieldDefinition("Icon", FieldType.TEXT, false));
 		fields.add(new FieldDefinition("Order", FieldType.NUMBER, false));
+		fields.add(new FieldDefinition("Link", FieldType.TEXT, false));
 
 		return fields;
 		
