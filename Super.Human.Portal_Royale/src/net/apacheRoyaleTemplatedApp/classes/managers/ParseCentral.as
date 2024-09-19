@@ -346,7 +346,7 @@ package classes.managers
 			{
 				var cat:Object = jsonData[i];
 				var tmpVO:CategoryVO = new CategoryVO(cat.DominoUniversalID, cat.CategoryID, cat.Description,
-													 Number(cat.Order), cat.Label, cat.Icon, cat.link);
+													 Number(cat.Order), cat.Label, cat.Icon, cat.Link);
 				
 				tmpArr.push(tmpVO);
 			}
