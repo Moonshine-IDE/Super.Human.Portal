@@ -22,3 +22,7 @@ Super.Human.Portal_Agents/.settings
 
 # Generated agent project - the changes will be copied into Super.Human.Portal_Agents
 Super.Human.Portal_DVE_JavaAgents
+
+# Files for local deployment
+Super.Human.Portal_Agents.zip
+rsync.sh
