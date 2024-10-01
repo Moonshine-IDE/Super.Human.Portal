@@ -440,9 +440,9 @@
 		</j:ScrollableSectionContent>-->
 
 		<!--START_GENERATED_SCROLLABLE_SECTION_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING BELOW THIS LINE MANUALLY**-->
-		<j:SectionContent name="{Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.DocumentationForm.NAME}" className="sectionCenter">
+		<j:ScrollableSectionContent name="{Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.DocumentationForm.NAME}" className="sectionCenter">
 			<DocumentationForm:DocumentationForm localId="DocumentationForm_ID" xmlns:DocumentationForm="Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormViews.*" />
-		</j:SectionContent>
+		</j:ScrollableSectionContent>
 		<!--END_GENERATED_SCROLLABLE_SECTION_Super.Human.Portal_Royale_DocumentationForm:  **DO NOT MODIFY ANYTHING ABOVE THIS LINE MANUALLY**-->
 		<!--GENERATED_VIEWS_CURSOR:  New  snippets will be inserted here-->
 		<j:ScrollableSectionContent localId="sectionInstalledApps">
