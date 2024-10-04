@@ -36,5 +36,9 @@ This will generate:
 
 ## Testing
 
-1. From an existing Super.Human.Installer instance, run `sudo domino console` and run `tell Genesis install superhumanportal`.  Test the application to confirm it is correct
+1. From an existing Super.Human.Installer instance:
+    1. Stop the server:  `sudo domino stop`
+    2. Delete SuperHumanPortal.nsf - if you don't do this, then it currently gives agent errors later.
+    3. Start the server:  `sudo domino start`
+    4. Run `sudo domino console` and run `tell Genesis install superhumanportal`.  Test the application to confirm it is correct.  
 2. Create a new Super.Human.Installer instance, and test that the correct version of Super.Human.Portal is installed. 
