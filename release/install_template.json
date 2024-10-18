@@ -24,7 +24,7 @@
     },
     {
         "title": "--- Step 3 (final). Completed ---",
-        "messages": ["You have installed Super Human Portal v${version}"]
+        "messages": ["You have installed SuperHumanPortal v${version}"]
     }
 
     ]
