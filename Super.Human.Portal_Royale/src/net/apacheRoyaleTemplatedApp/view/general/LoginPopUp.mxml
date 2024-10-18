@@ -139,8 +139,8 @@
 			<controls:CustomFormItem required="true" className="horizontalContentItemsCenteredFormItem">
 				<j:TextInput id="txtUsername" percentWidth="100">
 					<j:beads>
-						<j:EmailValidator required="1"/>
-						<j:TextPrompt prompt="E-mail"/>
+						<j:StringValidator required="1"/>
+						<j:TextPrompt prompt="E-mail or Username"/>
 						<beads:AutoFocusBead autoFocus="true"/>
 					</j:beads>
 				</j:TextInput>
