@@ -21,6 +21,8 @@ import util.ValidationException;
 public class LinkProcessorTest extends LinkProcessor {
 	private JSONArray testData = null;
 	
+	protected String serverCanonicalEscaped = null;
+	
 	public LinkProcessorTest() {
 		super(null, new DefaultLogInterface(), null);
 		initializeInsertionParameters();
@@ -31,8 +33,11 @@ public class LinkProcessorTest extends LinkProcessor {
 	protected void initializeInsertionParameters(Database configDatabase) {
 		serverAbbr = 'test-1.test.com/test';
 		serverCommon = 'test-1.test.com';
-			addInsertionParameter("%SERVER_ABBR%", serverAbbr);
-			addInsertionParameter("%SERVER_COMMON%", serverCommon);
+		serverCanonical = 'CN=test-1.test.com/O=test';
+		serverCanonicalEscaped = 'CN%3Dtest-1.test.com%2FO%3Dtest';
+		addInsertionParameter("%SERVER_ABBR%", serverAbbr);
+		addInsertionParameter("%SERVER_COMMON%", serverCommon);
+		addInsertionParameter("%SERVER_CANONICAL%", serverCanonical);
 	}
 	
 	protected void setTestData(JSONArray testData) {
@@ -60,5 +65,11 @@ public class LinkProcessorTest extends LinkProcessor {
     protected String getCommonNameSafe(String name) {
     		// simplified solution to work with test case
     		return name.replaceAll('^(.*)/(.*)$', '$1');
+	}
+    
+	@Override // remove Notes API reference
+    protected String getCanonicalNameSafe(String name) {
+    		// simplified solution to work with test case
+    		return name.replaceAll('^(.*)/(.*)$', 'CN=$1/O=$2');
 	}
 }

@@ -26,6 +26,7 @@ public class LinkProcessor
 	
 	protected String serverAbbr = null;
 	protected String serverCommon = null;
+	protected String serverCanonical = null;
 	
 	protected static final Pattern notesURLPattern = Pattern.compile("notes://([^/]+)/([^?]+.nsf)(?:/[^/?])?(?:.*)?$", Pattern.CASE_INSENSITIVE);
 	/** Detect a URI based on the protocol only.  The rest of the URL does not have to be valid */
@@ -88,6 +89,7 @@ public class LinkProcessor
     			// initialize local variables for the server, so that it can be overridden by custom servers
     			String serverAbbr = this.serverAbbr;
     			String serverCommon = this.serverCommon;
+    			String serverCanonical = this.serverCanonical;
     			Map<String, String> insertionParameters = new TreeMap<String,String>(this.insertionParameters);  //  clone - this could be cloned only when updated if this becomes a performance issue.
     			
     			
@@ -101,6 +103,8 @@ public class LinkProcessor
 					insertionParameters.put("%SERVER_ABBR%", serverAbbr);
 					serverCommon = getCommonNameSafe(customServer);
 					insertionParameters.put("%SERVER_COMMON%", serverCommon);
+					serverCanonical = getCanonicalNameSafe(customServer);
+					insertionParameters.put("%SERVER_CANONICAL%", serverCanonical);
     					
     					// Don't update the server name here.
     					// We could update it to use the clean serverAbbr value if needed
@@ -138,18 +142,26 @@ public class LinkProcessor
 						}
 						
 						// TODO:  handle the FQDN in a better way?  The format is enforces for Super.Human.Installer, but we'll needs something more generic for other servers.
-						String url = "notes://" + serverCommon + "/" + databaseEnc;
-						// Add view if available
-						String view = JSONUtils.getStringSafe(link, "view");
-						if (!DominoUtils.isValueEmpty(view)) {
-							try {
-								url += "/" + URLEncoder.encode(view, "utf-8") + "?OpenView";
+						//String url = "notes://" + serverCommon + "/" + databaseEnc;
+						// Use the canonical name instead of the common name to work around a bug:  https://github.com/Moonshine-IDE/Super.Human.Portal/issues/66
+						// Since this is expected to contain at least one '/' it needs to be escaped
+						try {
+							String url = "notes://" + URLEncoder.encode(serverCanonical, "utf-8") + "/" + databaseEnc;
+							// Add view if available
+							String view = JSONUtils.getStringSafe(link, "view");
+							if (!DominoUtils.isValueEmpty(view)) {
+								try {
+									url += "/" + URLEncoder.encode(view, "utf-8") + "?OpenView";
+								}
+								catch (UnsupportedEncodingException ex) {
+									getLog().err("Encoding exception for view:  ", ex);
+								}
 							}
-							catch (UnsupportedEncodingException ex) {
-								getLog().err("Encoding exception:  ", ex);
-							}
+							link.put("url", url);
 						}
-						link.put("url", url);
+						catch (UnsupportedEncodingException ex) {
+							getLog().err("Encoding exception for canonical name:  ", ex);
+						}
 					}
 					// else: url was already set "properly", so keep the original value
 					
@@ -255,6 +267,8 @@ public class LinkProcessor
     			addInsertionParameter("%SERVER_ABBR%", serverAbbr);
     			serverCommon = nameObj.getCommon();
     			addInsertionParameter("%SERVER_COMMON%", serverCommon);
+    			serverCanonical = nameObj.getCanonical();
+    			addInsertionParameter("%SERVER_CANONICAL%", serverCanonical);
     		}
     		catch (NotesException ex) {
     			getLog().err("Exception in initializeInsertionParameters.  They will be skipped:  ", ex);
@@ -295,6 +309,9 @@ public class LinkProcessor
     			log.err("Failed to generate abbreviated name for '" + name + "'.  Returning default value:  ", ex);
     			return "UNKNOWN";
     		}
+    		finally {
+    			DominoUtils.recycle(session, nameObj);
+    		}
     }
     protected String getCommonNameSafe(String name) {
     		Name nameObj = null;
@@ -305,6 +322,23 @@ public class LinkProcessor
     		catch (NotesException ex) {
     			log.err("Failed to generate common name for '" + name + "'.  Returning default value:  ", ex);
     			return "UNKNOWN";
+    		}
+    		finally {
+    			DominoUtils.recycle(session, nameObj);
+    		}
+    }
+    protected String getCanonicalNameSafe(String name) {
+    		Name nameObj = null;
+    		try {
+    			nameObj = session.createName(name);
+    			return nameObj.getCanonical();
+    		}
+    		catch (NotesException ex) {
+    			log.err("Failed to generate common name for '" + name + "'.  Returning default value:  ", ex);
+    			return "UNKNOWN";
+    		}
+    		finally {
+    			DominoUtils.recycle(session, nameObj);
     		}
     }
     

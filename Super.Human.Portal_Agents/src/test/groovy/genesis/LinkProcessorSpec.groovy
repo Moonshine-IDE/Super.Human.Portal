@@ -66,8 +66,8 @@ class LinkProcessorSpec extends Specification {
 		then:
 		JSONUtils.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
 		JSONUtils.getStringSafe(testLink, 'type') == 'database'
-		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dombackup.nsf"
-		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dombackup.nsf"
+		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCanonicalEscaped}/dombackup.nsf"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCanonicalEscaped}/dombackup.nsf"
 		JSONUtils.getStringSafe(testLink, 'database') == 'dombackup.nsf'
 		JSONUtils.getStringSafe(testLink, 'server') == test.serverAbbr
 		!JSONUtils.getStringSafe(testLink, 'view')
@@ -88,8 +88,8 @@ class LinkProcessorSpec extends Specification {
 		then:
 		JSONUtils.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
 		JSONUtils.getStringSafe(testLink, 'type') == 'database'
-		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/actual.nsf"
-		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/actual.nsf"
+		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCanonicalEscaped}/actual.nsf"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCanonicalEscaped}/actual.nsf"
 		JSONUtils.getStringSafe(testLink, 'database') == 'actual.nsf'
 		JSONUtils.getStringSafe(testLink, 'server') == test.serverAbbr
 		!JSONUtils.getStringSafe(testLink, 'view')
@@ -102,7 +102,7 @@ class LinkProcessorSpec extends Specification {
 		JSONObject testLink = new JSONObject("""{
 			"name": "NotesDatabase Link",
 			"type": "database",
-			"url": "notes://${test.serverCommon}/dombackup.nsf",  
+			"url": "notes://${test.serverCommon}/dombackup.nsf",
 			"database": "actual.nsf"		
 		}""")
 		test.cleanupLink(testLink);
@@ -130,8 +130,8 @@ class LinkProcessorSpec extends Specification {
 		then:
 		JSONUtils.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
 		JSONUtils.getStringSafe(testLink, 'type') == 'database'
-		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dom+backup.nsf"
-		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dom+backup.nsf"
+		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCanonicalEscaped}/dom+backup.nsf"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCanonicalEscaped}/dom+backup.nsf"
 		JSONUtils.getStringSafe(testLink, 'database') == 'dom backup.nsf'
 		JSONUtils.getStringSafe(testLink, 'server') == test.serverAbbr
 		!JSONUtils.getStringSafe(testLink, 'view')
@@ -153,8 +153,8 @@ class LinkProcessorSpec extends Specification {
 		then:
 		JSONUtils.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
 		JSONUtils.getStringSafe(testLink, 'type') == 'database'
-		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dombackup.nsf/TestView?OpenView"
-		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dombackup.nsf/TestView?OpenView"
+		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCanonicalEscaped}/dombackup.nsf/TestView?OpenView"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCanonicalEscaped}/dombackup.nsf/TestView?OpenView"
 		JSONUtils.getStringSafe(testLink, 'database') == 'dombackup.nsf'
 		JSONUtils.getStringSafe(testLink, 'server') == test.serverAbbr
 		JSONUtils.getStringSafe(testLink, 'view') == "TestView"
@@ -175,8 +175,8 @@ class LinkProcessorSpec extends Specification {
 		then:
 		JSONUtils.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
 		JSONUtils.getStringSafe(testLink, 'type') == 'database'
-		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dombackup.nsf/8.+Config?OpenView"
-		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dombackup.nsf/8.+Config?OpenView"
+		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCanonicalEscaped}/dombackup.nsf/8.+Config?OpenView"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCanonicalEscaped}/dombackup.nsf/8.+Config?OpenView"
 		JSONUtils.getStringSafe(testLink, 'database') == 'dombackup.nsf'
 		JSONUtils.getStringSafe(testLink, 'server') == test.serverAbbr
 		JSONUtils.getStringSafe(testLink, 'view') == "8. Config"
@@ -197,8 +197,8 @@ class LinkProcessorSpec extends Specification {
 		then:
 		JSONUtils.getStringSafe(testLink, 'name') == 'NotesDatabase Link'
 		JSONUtils.getStringSafe(testLink, 'type') == 'database'
-		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/test%2Fdombackup.nsf/foo%5Cbar%5Ctestview?OpenView"
-		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/test%2Fdombackup.nsf/foo%5Cbar%5Ctestview?OpenView"
+		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCanonicalEscaped}/test%2Fdombackup.nsf/foo%5Cbar%5Ctestview?OpenView"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCanonicalEscaped}/test%2Fdombackup.nsf/foo%5Cbar%5Ctestview?OpenView"
 		JSONUtils.getStringSafe(testLink, 'database') == 'test/dombackup.nsf'
 		JSONUtils.getStringSafe(testLink, 'server') == test.serverAbbr
 		JSONUtils.getStringSafe(testLink, 'view') == "foo\\bar\\testview"
@@ -222,8 +222,8 @@ class LinkProcessorSpec extends Specification {
 		then:
 		JSONUtils.getStringSafe(testLink, 'name') == "Test Insertion:  '${test.serverAbbr}', '${test.serverCommon}'"
 		JSONUtils.getStringSafe(testLink, 'type') == 'database'
-		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCommon}/dombackup.nsf/TestView?OpenView"
-		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}/dombackup.nsf/TestView?OpenView"
+		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.serverCanonicalEscaped}/dombackup.nsf/TestView?OpenView"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCanonicalEscaped}/dombackup.nsf/TestView?OpenView"
 		JSONUtils.getStringSafe(testLink, 'database') == 'dombackup.nsf'
 		JSONUtils.getStringSafe(testLink, 'server') == test.serverAbbr
 		JSONUtils.getStringSafe(testLink, 'view') == "TestView"
@@ -250,8 +250,8 @@ class LinkProcessorSpec extends Specification {
 		
 		JSONUtils.getStringSafe(testLink, 'name') == "Test Insertion:  'test/TEST', 'test'"
 		JSONUtils.getStringSafe(testLink, 'type') == 'database'
-		JSONUtils.getStringSafe(testLink, 'url') == "notes://test/dombackup.nsf/TestView?OpenView"
-		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://test/dombackup.nsf/TestView?OpenView"
+		JSONUtils.getStringSafe(testLink, 'url') == "notes://CN%3Dtest%2FO%3DTEST/dombackup.nsf/TestView?OpenView"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.serverCommon}/nomad/#/notes://CN%3Dtest%2FO%3DTEST/dombackup.nsf/TestView?OpenView"
 		JSONUtils.getStringSafe(testLink, 'database') == 'dombackup.nsf'
 		JSONUtils.getStringSafe(testLink, 'server') == 'test/TEST'
 		JSONUtils.getStringSafe(testLink, 'view') == "TestView"
