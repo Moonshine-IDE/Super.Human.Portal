@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Element;
 
 import com.moonshine.domino.crud.CRUDAgentBase;
@@ -115,6 +116,8 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 			for (String role : roles) {
 				jsonRoles.put(role);
 			}
+			
+			jsonRoot.put("display", getDisplayRules(agentDatabase));
 		}
 		else {
 			Element rolesElement = xmlDoc.createElement("roles");
@@ -125,8 +128,9 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 			}
 			
 			xmlRoot.appendChild(rolesElement);
+			
+			// TODO: support display as well
 		}
-		
 		
 	}
 	
@@ -202,5 +206,37 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 			return false;
 		}
 		
+	}
+	
+	
+	public JSONObject getDisplayRules(Database configDatabase) {
+		JSONObject display = new JSONObject();
+		display.put("documentation", shouldDisplay(configDatabase, "documentation"));
+		display.put("installApps", shouldDisplay(configDatabase, "installApps"));
+		display.put("genesisDirectory", shouldDisplay(configDatabase, "genesisDirectory"));
+		display.put("viewInstalledApps", shouldDisplay(configDatabase, "viewInstalledApps"));
+		display.put("viewBookmarks", shouldDisplay(configDatabase, "viewBookmarks"));
+		display.put("manageBookmarks", shouldDisplay(configDatabase, "manageBookmarks"));
+		display.put("browseMyServer", shouldDisplay(configDatabase, "browseMyServer"));
+		return display;
+	}
+	
+	/**
+	 * Determine whether the interface indicated by the given ID should be displayed, based on the user roles and configuration values.
+	 * The configuration document for a given sectionID is "allow_sectionID".
+	 * @param  configDatabase - the database instance for configuration
+	 * @param sectionID  the ID of the section to check
+	 * 
+	 */
+	public boolean shouldDisplay(Database configDatabase, String sectionID) {
+		try {
+			String value = ConfigurationUtils.getConfigAsString(configDatabase, "allow_" + sectionID);
+			return "true".equalsIgnoreCase(value);
+			// treat any other value as false
+		}
+		catch (Exception ex) {
+			getLog().err("Exception when checking display rights for '" + sectionID + "'.   Default to hidden");
+			return false;
+		}
 	}
 }
