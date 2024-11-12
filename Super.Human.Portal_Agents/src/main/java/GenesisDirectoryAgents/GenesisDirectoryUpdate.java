@@ -12,6 +12,10 @@ import auth.SecurityBuilder;
  */
 public class GenesisDirectoryUpdate extends GenesisDirectoryUpdateBase implements RoleRestrictedAgent {
 	
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_GENESIS_MANAGE;
+	}
+	
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
 	}

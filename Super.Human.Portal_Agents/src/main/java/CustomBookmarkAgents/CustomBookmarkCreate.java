@@ -18,6 +18,10 @@ import lotus.domino.NotesException;
  */
 public class CustomBookmarkCreate extends CustomBookmarkCreateBase implements RoleRestrictedAgent {
 	
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_BOOKMARKS_MANAGE;
+	}
+	
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
 	}

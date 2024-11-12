@@ -12,6 +12,10 @@ import auth.SecurityBuilder;
  */
 public class CustomBookmarkDelete extends CustomBookmarkDeleteBase implements RoleRestrictedAgent {
 	
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_BOOKMARKS_MANAGE;
+	}
+	
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
 	}

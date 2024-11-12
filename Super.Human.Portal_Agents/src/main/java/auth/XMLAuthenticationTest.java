@@ -26,6 +26,10 @@ import lotus.domino.*;
  */
 public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrictedAgent {
 	
+	public String getRoleRestrictionID() {
+		return null;  // allow all
+	}
+	
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
 	}
@@ -211,13 +215,15 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 	
 	public JSONObject getDisplayRules(Database configDatabase) {
 		JSONObject display = new JSONObject();
-		display.put("documentation", shouldDisplay(configDatabase, "documentation"));
-		display.put("installApps", shouldDisplay(configDatabase, "installApps"));
-		display.put("genesisDirectory", shouldDisplay(configDatabase, "genesisDirectory"));
-		display.put("viewInstalledApps", shouldDisplay(configDatabase, "viewInstalledApps"));
-		display.put("viewBookmarks", shouldDisplay(configDatabase, "viewBookmarks"));
-		display.put("manageBookmarks", shouldDisplay(configDatabase, "manageBookmarks"));
-		display.put("browseMyServer", shouldDisplay(configDatabase, "browseMyServer"));
+		display.put("documentation", shouldDisplay(configDatabase, SecurityBuilder.RESTRICT_DOCUMENTATION_VIEW));
+		display.put("viewDocumentation", shouldDisplay(configDatabase, SecurityBuilder.RESTRICT_DOCUMENTATION_VIEW));
+		display.put("manageDocumentation", shouldDisplay(configDatabase, SecurityBuilder.RESTRICT_DOCUMENTATION_VIEW));
+		display.put("installApps", shouldDisplay(configDatabase, SecurityBuilder.RESTRICT_APPS_INSTALL));
+		display.put("additionalGenesis", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_GENESIS_MANAGE));
+		display.put("viewInstalledApps", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_APPS_VIEW));
+		display.put("viewBookmarks", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_BOOKMARKS_VIEW));
+		display.put("manageBookmarks", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_BOOKMARKS_MANAGE));
+		display.put("browseMyServer", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_BROWSE_MY_SERVER));
 		return display;
 	}
 	
@@ -230,9 +236,11 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 	 */
 	public boolean shouldDisplay(Database configDatabase, String sectionID) {
 		try {
-			String value = ConfigurationUtils.getConfigAsString(configDatabase, "allow_" + sectionID);
-			return "true".equalsIgnoreCase(value);
-			// treat any other value as false
+			// // UI Testing
+			// String value = ConfigurationUtils.getConfigAsString(configDatabase, "allow_" + sectionID);
+			// return "true".equalsIgnoreCase(value);
+			// // treat any other value as false
+			return ((SimpleRoleSecurity)getSecurity()).isAuthorizedForRoles(sectionID);
 		}
 		catch (Exception ex) {
 			getLog().err("Exception when checking display rights for '" + sectionID + "'.   Default to hidden");

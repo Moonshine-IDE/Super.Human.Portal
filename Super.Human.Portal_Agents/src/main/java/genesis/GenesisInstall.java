@@ -26,6 +26,11 @@ import util.ValidationException;
 public class GenesisInstall extends GenesisRead 
 {
 	@Override
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_APPS_INSTALL;
+	}
+	
+	@Override
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
 	}

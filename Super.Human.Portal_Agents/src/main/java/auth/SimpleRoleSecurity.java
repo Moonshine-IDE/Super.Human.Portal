@@ -50,8 +50,9 @@ import lotus.domino.Session;
 public class SimpleRoleSecurity  extends SecurityInterface
 {
 	protected LogInterface log = null;
-	protected Set<String> allowedRoles = new TreeSet<String>();
+	protected Set<String> allowedRoles = null;  // Initialize when loaded.   new TreeSet<String>();
 	protected Set<String> userRoles = new TreeSet<String>();
+	protected String roleRestrictionID = null;
 	protected Database roleDatabase = null;
 	
 	protected Collection<String> userLookupKeys = new ArrayList<String>();
@@ -122,6 +123,33 @@ public class SimpleRoleSecurity  extends SecurityInterface
 		this(roleDatabase, session, log);
 		for (String role : roles) {
 			addAllowedRole(role);
+		}
+	}
+	
+	/**
+	 * Initialize the security with a list of roles.
+	 * Add additional roles with {@link #addAllowedRole(String)}.
+	 * @param roleDatabase  the role configuration database
+	 * @param session  the session
+	 * @param log  the log
+	 */
+	public SimpleRoleSecurity(Database roleDatabase, String roleRestrictionID, Collection<String> roles, Session session, LogInterface log)
+	{
+		this(roleDatabase, session, log);
+		if (!DominoUtils.isValueEmpty(roleRestrictionID)){
+			log.dbg("Using role restriction ID for agent security.");
+			this.roleRestrictionID = roleRestrictionID;
+			// initialize role list dynamically to avoid Domino calls in test cases
+		}
+		else {
+			if (null != roles && roles.size() > 0) {
+				for (String role : roles) {
+					addAllowedRole(role);
+				}
+			}
+			else {
+				log.err("No roles defined.");
+			}
 		}
 	}
 	
@@ -375,7 +403,11 @@ public class SimpleRoleSecurity  extends SecurityInterface
 	 * With the default logic, this will return <code>true</code> if the user has any of the specified roles.
 	 */
 	public boolean isAuthorizedForRoles() {
-		for (String allowedRole : this.allowedRoles) {
+		return isAuthorizedForRoles(getAllowedRoles());
+	}
+	
+	public boolean isAuthorizedForRoles(Collection<String> allowedRoles) {
+		for (String allowedRole : allowedRoles) {
 			if (userRoles.contains(allowedRole)) {
 				return true;
 			}
@@ -385,11 +417,58 @@ public class SimpleRoleSecurity  extends SecurityInterface
 	}
 	
 	/**
+	 * Utility for XMLAuthenticationTest to lookup restrictions for multiple IDs
+	 */
+	public boolean isAuthorizedForRoles(String roleRestrictionID) {
+		return isAuthorizedForRoles(getRolesByRestrictionID(roleRestrictionID));
+	}
+	
+	/**
 	 * Get the allowed roles for a user
 	 */
 	public Collection<String> getAllowedRoles() {
+		// initialize dynamically when using roleRestrictionID
+		if (null == allowedRoles) {
+			if (!DominoUtils.isValueEmpty(roleRestrictionID)) {
+				// make sure the roles are initialized regardless
+				allowedRoles = new TreeSet<String>();
+				allowedRoles.addAll(getRolesByRestrictionID(roleRestrictionID));
+			}
+			else {
+				log.dbg("No roles defined.  Initializing empty list");
+				allowedRoles = new TreeSet<String>();
+			}
+		}
 		// return an independent copy to avoid edits
 		return new TreeSet<String>(allowedRoles);
+	}
+	
+	/**
+	 * Lookup the allowed roles for the given roleRestrictionID
+	 */
+	public Collection<String> getRolesByRestrictionID(String roleRestrictionID) {
+		TreeSet<String> roles = new TreeSet<String>();
+		try {
+			String key = "allow_roles_" + roleRestrictionID;
+			log.dbg("Looking up roles for key '" + key + "'");
+			Vector raw = ConfigurationUtils.getConfigAsVector(roleDatabase, key);
+			if (!DominoUtils.isListEmpty(raw)) {
+				for (Object curRole : raw) {
+					roles.add(curRole.toString());
+				}
+			}
+			else {
+				log.err("No roles defined for key '" + key + "'");
+			}
+		}
+		catch(Exception ex) {
+			log.err("Exception while loading roles for ID '" + roleRestrictionID + "':  ", ex);
+		}
+		return roles;
+	}
+	
+	public String getRoleRestrictionID() {
+		return roleRestrictionID;
 	}
 	
 	/**
@@ -398,6 +477,9 @@ public class SimpleRoleSecurity  extends SecurityInterface
 	 * @return <code>true</code> if the role was not already added
 	 */
 	public boolean addAllowedRole(String role) {
+		if (null == allowedRoles) {
+			allowedRoles = new TreeSet<String>();
+		}
 		return allowedRoles.add(role);
 	}
 	

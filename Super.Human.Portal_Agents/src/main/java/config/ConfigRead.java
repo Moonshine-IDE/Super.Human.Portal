@@ -23,6 +23,10 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 {
 	protected JSONObject configJSON = null;
 	
+	public String getRoleRestrictionID() {
+		return null;  // allow all
+	}
+	
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
 	}

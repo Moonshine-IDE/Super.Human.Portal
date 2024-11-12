@@ -45,6 +45,10 @@ public class GenesisRead extends CRUDAgentBase implements RoleRestrictedAgent
 	
 	protected LinkProcessor linkProcessor = null;
 	
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_APPS_VIEW;
+	}
+	
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
 	}

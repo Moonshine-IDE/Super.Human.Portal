@@ -12,6 +12,10 @@ import auth.SecurityBuilder;
  */
 public class GenesisDirectoryDelete extends GenesisDirectoryDeleteBase implements RoleRestrictedAgent {
 	
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_GENESIS_MANAGE;
+	}
+	
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
 	}

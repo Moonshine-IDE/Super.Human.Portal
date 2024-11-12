@@ -13,6 +13,10 @@ import auth.SimpleRoleSecurity;
  */
 public class CategoryCreate extends CategoryCreateBase implements RoleRestrictedAgent {
 	
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_DOCUMENTATION_MANAGE;
+	}
+	
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
 	}

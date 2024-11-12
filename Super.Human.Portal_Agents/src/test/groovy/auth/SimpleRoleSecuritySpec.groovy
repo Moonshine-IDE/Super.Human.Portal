@@ -33,6 +33,7 @@ import GenesisDirectoryAgents.*;
  */
 class SimpleRoleSecuritySpec extends Specification {
 	def roleMap = new TreeMap<String, Collection<String> >();
+	def restrictionMap = new TreeMap<String, Collection<String> >();
 	private String testUser = '';
 	
 	private class SimpleRoleSecurityTest extends SimpleRoleSecurity {
@@ -45,6 +46,17 @@ class SimpleRoleSecuritySpec extends Specification {
 			// need to regenerate the roles at this point
 			initializeUserRoles();
 		}
+		
+		// public SimpleRoleSecurityTest(String user, boolean allowAnonymous, roleMap, String roleRestrictionID, allowedRoles, restrictionMap) {
+		// 	super(null, roleRestrictionID, listToStringCollection(allowedRoles), null, new DefaultLogInterface());
+		// 	this.testUser = user;
+		// 	setAllowAnonymous(allowAnonymous);
+		// 	this.roleMap = roleMap;
+		// 	this.restrictionMap = restrictionMap;
+		// 	
+		// 	// need to regenerate the roles at this point
+		// 	initializeUserRoles();
+		// }
 		
 		@Override
 		public String getUserID() {
@@ -84,6 +96,21 @@ class SimpleRoleSecuritySpec extends Specification {
 		@Override
 		protected void initializeAllowAnonymous() {
 			// nothing to do
+		}
+		
+		public Collection<String> getRolesByRestrictionID(String roleRestrictionID) {
+			if (null == restrictionMap) {
+				return new TreeSet<String>();
+			}
+			return listToStringCollection(restrictionMap.get(roleRestrictionID));
+		}
+		
+		public static Collection<String> listToStringCollection(list) {
+			Collection<String> result = new TreeSet<String>();
+			if (null != list) {
+				list.each { String current -> result.add(current) };
+			}
+			return result;
 		}
 	}
 	
@@ -157,25 +184,70 @@ class SimpleRoleSecuritySpec extends Specification {
         agent                               | allowedRoles
         new ConfigRead()                    | ['All']
         new XMLAuthenticationTest()         | ['All']
-        new DocumentationFormRead()         | ['All']
-        new DocumentationFormDelete()       | ['All']
-        new DocumentationFormCreate()       | ['All']
-        new DocumentationFormUpdate()       | ['All']
-        new CategoryRead()                  | ['All']
-        new CategoryDelete()                | ['All']
-        new CategoryCreate()                | ['All']
-        new CategoryUpdate()                | ['All']
-        new CustomBookmarkDelete()          | ['Administrator']
-        new CustomBookmarkCreate()          | ['Administrator']
-        new CustomBookmarkUpdate()          | ['Administrator']
-        new CustomBookmarkRead()            | ['All']
-        new DatabaseRead()                  | ['All']
-        new GenesisDirectoryUpdate()        | ['Administrator']
-        new GenesisDirectoryCreate()        | ['Administrator']
-        new GenesisDirectoryDelete()        | ['Administrator']
-        new GenesisDirectoryRead()          | ['Administrator']
-        new GenesisRead()                   | ['All']
-        new GenesisInstall()                | ['Administrator']
+        // the rest were changed to useRoleRestrictionID
+        // new DocumentationFormRead()         | ['All']
+        // new DocumentationFormDelete()       | ['All']
+        // new DocumentationFormCreate()       | ['All']
+        // new DocumentationFormUpdate()       | ['All']
+        // new CategoryRead()                  | ['All']
+        // new CategoryDelete()                | ['All']
+        // new CategoryCreate()                | ['All']
+        // new CategoryUpdate()                | ['All']
+        // new CustomBookmarkDelete()          | ['Administrator']
+        // new CustomBookmarkCreate()          | ['Administrator']
+        // new CustomBookmarkUpdate()          | ['Administrator']
+        // new CustomBookmarkRead()            | ['All']
+        // new DatabaseRead()                  | ['All']
+        // new GenesisDirectoryUpdate()        | ['Administrator']
+        // new GenesisDirectoryCreate()        | ['Administrator']
+        // new GenesisDirectoryDelete()        | ['Administrator']
+        // new GenesisDirectoryRead()          | ['Administrator']
+        // new GenesisRead()                   | ['All']
+        // new GenesisInstall()                | ['Administrator']
+
+
+
+	}	
+	
+	@Unroll
+	def 'Test roleRestrictionID for agent #agent.getClass()'() {
+		expect:
+		
+
+		agent instanceof RoleRestrictedAgent
+		agent.getRoleRestrictionID() == roleRestrictionID
+		// This triggers a StackOverflowError.  I think this is because of the dependency on DominoAPI instances for initialization
+		// SecurityInterface security = agent.checkSecurity();
+		// security
+		// security instanceof SimpleRoleSecurity
+		// security.getAllowedRoles() == agent.getAllowedRoles();
+
+		
+		where:
+		// TODO:  dynamically identify the agents from agentProperties (or AgentBase subclasses) and create instances
+		
+        agent                               | roleRestrictionID
+        new ConfigRead()                    | null
+        new XMLAuthenticationTest()         | null
+        new DocumentationFormRead()         | SecurityBuilder.RESTRICT_DOCUMENTATION_VIEW
+        new DocumentationFormDelete()       | SecurityBuilder.RESTRICT_DOCUMENTATION_MANAGE
+        new DocumentationFormCreate()       | SecurityBuilder.RESTRICT_DOCUMENTATION_MANAGE
+        new DocumentationFormUpdate()       | SecurityBuilder.RESTRICT_DOCUMENTATION_MANAGE
+        new CategoryRead()                  | SecurityBuilder.RESTRICT_DOCUMENTATION_VIEW
+        new CategoryDelete()                | SecurityBuilder.RESTRICT_DOCUMENTATION_MANAGE
+        new CategoryCreate()                | SecurityBuilder.RESTRICT_DOCUMENTATION_MANAGE
+        new CategoryUpdate()                | SecurityBuilder.RESTRICT_DOCUMENTATION_MANAGE
+        new CustomBookmarkDelete()          | SecurityBuilder.RESTRICT_BOOKMARKS_MANAGE
+        new CustomBookmarkCreate()          | SecurityBuilder.RESTRICT_BOOKMARKS_MANAGE
+        new CustomBookmarkUpdate()          | SecurityBuilder.RESTRICT_BOOKMARKS_MANAGE
+        new CustomBookmarkRead()            | SecurityBuilder.RESTRICT_BOOKMARKS_VIEW
+        new DatabaseRead()                  | SecurityBuilder.RESTRICT_BROWSE_MY_SERVER
+        new GenesisDirectoryUpdate()        | SecurityBuilder.RESTRICT_GENESIS_MANAGE
+        new GenesisDirectoryCreate()        | SecurityBuilder.RESTRICT_GENESIS_MANAGE
+        new GenesisDirectoryDelete()        | SecurityBuilder.RESTRICT_GENESIS_MANAGE
+        new GenesisDirectoryRead()          | SecurityBuilder.RESTRICT_GENESIS_MANAGE
+        new GenesisRead()                   | SecurityBuilder.RESTRICT_APPS_VIEW
+        new GenesisInstall()                | SecurityBuilder.RESTRICT_APPS_INSTALL
 
 
 

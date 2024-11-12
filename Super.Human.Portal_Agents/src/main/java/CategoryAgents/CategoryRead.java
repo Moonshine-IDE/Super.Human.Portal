@@ -15,6 +15,10 @@ import lotus.domino.View;
  */
 public class CategoryRead extends CategoryReadBase implements RoleRestrictedAgent {
 	
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_DOCUMENTATION_VIEW;
+	}
+	
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
 	}

@@ -34,6 +34,10 @@ public class DatabaseRead extends CRUDAgentBase implements RoleRestrictedAgent
 	
 	protected Map<String, Collection<String> > bookmarkCache = null;
 	
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_BROWSE_MY_SERVER;
+	}
+	
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
 	}
