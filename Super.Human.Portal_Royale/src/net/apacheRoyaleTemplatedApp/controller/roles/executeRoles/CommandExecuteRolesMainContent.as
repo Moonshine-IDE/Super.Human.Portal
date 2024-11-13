@@ -25,13 +25,14 @@ package controller.roles.executeRoles
 				
 				var mainContentMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;
 				var mainContentModel:LeftMenuNavigationModel = mainContentMediator.view["model"];
+				var navItem:NavigationLinkVO = null;
 				
 				//Remove "Additional directories" - avialable as admin
 				if (loginProxy.user && !loginProxy.user.hasRole(Roles.ADMINISTRATOR))
 				{
 					for (var i:int = mainContentModel.mainNavigation.length - 1; i >= 0; i--)
 					{
-						var navItem:NavigationLinkVO = mainContentModel.mainNavigation.getItemAt(i) as NavigationLinkVO;
+						navItem = mainContentModel.mainNavigation.getItemAt(i) as NavigationLinkVO;
 						if (navItem.idSelectedItem == MediatorGenesisApps.NAME)
 						{
 							if (navItem.subMenu)
@@ -44,6 +45,33 @@ package controller.roles.executeRoles
 										navItem.subMenu.removeItemAt(j);
 									}
 								}
+							}
+						}
+					}
+				}
+				
+				if (loginProxy.user && loginProxy.user.display)
+				{
+					var k:int = -1;
+					
+					if (!loginProxy.user.display.viewInstalledApps)
+					{
+						for (k = mainContentModel.navigationLinks.length - 1; k >= 0; k--)
+						{
+							navItem = mainContentModel.navigationLinks.getItemAt(k) as NavigationLinkVO;
+							if (navItem.idSelectedItem == "installedApps") {
+								mainContentModel.navigationLinks.removeItemAt(k);
+							}
+						}
+					}
+					
+					if (!loginProxy.user.display.viewBookmarks)
+					{
+						for (k = mainContentModel.customBookmarks.length - 1; k >= 0; k--)
+						{
+							navItem = mainContentModel.customBookmarks.getItemAt(k) as NavigationLinkVO;
+							if (navItem.idSelectedItem == "bookmarksList") {
+								mainContentModel.customBookmarks.removeItemAt(k);
 							}
 						}
 					}

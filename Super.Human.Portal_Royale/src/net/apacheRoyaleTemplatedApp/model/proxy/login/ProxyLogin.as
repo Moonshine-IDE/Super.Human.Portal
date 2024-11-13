@@ -13,6 +13,7 @@ package model.proxy.login
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
 	import services.login.LoginServiceDelegate;
+	import model.vo.DisplayVO;
 			
 	public class ProxyLogin extends Proxy
 	{
@@ -228,6 +229,17 @@ package model.proxy.login
 				}
 				
 				var user:UserVO = new UserVO(username, serverUserName, commonName, status, roles, loginResult.loginURL);
+					user.display = new DisplayVO();
+				if (loginResult.display)
+				{
+					user.display.additionalGenesis = loginResult.display.additionalGenesis;
+					user.display.browseMyServer = loginResult.display.browseMyServer;
+					user.display.documentation = loginResult.display.documentation;
+					user.display.installApps = loginResult.display.installApps;
+					user.display.manageBookmarks = loginResult.display.manageBookmarks;
+					user.display.viewBookmarks = loginResult.display.viewBookmarks;
+					user.display.viewInstalledApps = loginResult.display.viewInstalledApps;
+				}
 				this.setData(user);
 				
 				// get all the configuration before

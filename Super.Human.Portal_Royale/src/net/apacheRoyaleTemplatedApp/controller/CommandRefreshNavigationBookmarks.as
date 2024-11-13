@@ -11,11 +11,18 @@ package controller
 	import org.apache.royale.collections.ArrayList;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
+	import model.proxy.login.ProxyLogin;
 
 	public class CommandRefreshNavigationBookmarks extends SimpleCommand
 	{
 		override public function execute(note:INotification):void 
 		{	
+			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
+			if (loginProxy.user.display && !loginProxy.user.display.viewBookmarks) 
+			{
+				return;	
+			}
+			
 			var bookmarks:Array = note.getBody() as Array;
 
 			var mainMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;

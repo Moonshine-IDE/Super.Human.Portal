@@ -37,7 +37,7 @@ package model
 			_mainNavigation = value;
 		}
 		
-		private var installedApp:NavigationLinkVO = new NavigationLinkVO("Installed Apps", "$collapsible", "mdi mdi-folder mdi-24px", "");
+		private var installedApp:NavigationLinkVO = new NavigationLinkVO("Installed Apps", "$collapsible", "mdi mdi-folder mdi-24px", "installedApps");
 		
 		private var _navigationLinks:ArrayList = new ArrayList([
 			installedApp
@@ -61,7 +61,7 @@ package model
 			_installedAppsNavLinks = value;
 		}
 		
-		private var customBookmarksList:NavigationLinkVO = new NavigationLinkVO("Bookmarks", "$collapsible", "mdi mdi-folder mdi-24px", "");
+		private var customBookmarksList:NavigationLinkVO = new NavigationLinkVO("Bookmarks", "$collapsible", "mdi mdi-folder mdi-24px", "bookmarksList");
 		
 		private var _customBookmarks:ArrayList = new ArrayList([
 			customBookmarksList

@@ -60,6 +60,19 @@ package model.vo
 			_status = value;
 		}
 		
+		private var _display:DisplayVO;
+
+		[Bindable]
+		public function get display():DisplayVO
+		{
+			return _display;
+		}
+
+		public function set display(value:DisplayVO):void
+		{
+			_display = value;
+		}
+		
 		private var _roles:Array;
 
 		public function get roles():Array
