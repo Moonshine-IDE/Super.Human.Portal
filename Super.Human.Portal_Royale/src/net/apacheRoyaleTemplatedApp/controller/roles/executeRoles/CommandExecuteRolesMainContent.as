@@ -64,17 +64,6 @@ package controller.roles.executeRoles
 							}
 						}
 					}
-					
-					if (!loginProxy.user.display.viewBookmarks)
-					{
-						for (k = mainContentModel.customBookmarks.length - 1; k >= 0; k--)
-						{
-							navItem = mainContentModel.customBookmarks.getItemAt(k) as NavigationLinkVO;
-							if (navItem.idSelectedItem == "bookmarksList") {
-								mainContentModel.customBookmarks.removeItemAt(k);
-							}
-						}
-					}
 				}
 			}
 		}
