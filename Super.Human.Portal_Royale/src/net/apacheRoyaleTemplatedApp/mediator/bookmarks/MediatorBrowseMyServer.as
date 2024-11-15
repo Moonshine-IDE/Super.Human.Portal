@@ -121,9 +121,21 @@ package mediator.bookmarks
 		private function onTopMenuItemChange(event:TopMenuEvent):void
 		{
 			this.view.breadcrump.model = this.view.topMenu.model;
-								
+
 			this.view.breadcrump.buildBreadcrump(event.subItem ? event.subItem : event.item);
-			view.selectedItem = event.subItem ? event.subItem.data : event.item.data;
+			
+			if (event.subItem)
+			{
+				view.selectedItem = event.subItem.data;
+			} 
+			else if (event.item)
+			{
+				view.selectedItem = event.item.data;
+			}
+			else 
+			{
+				view.selectedItem = null;
+			}
 			
 			this.refreshButtonLinks();
 			this.refreshCurrentState(event.item, event.subItem);
@@ -179,7 +191,6 @@ package mediator.bookmarks
 		
 		private function refreshButtonLinks():void
 		{
-			
 			if (view.selectedItem)
 			{
 				view.openClient.html = "<a target='_blank' href='" + view.selectedItem.url + "'>Open in Client</a>";
