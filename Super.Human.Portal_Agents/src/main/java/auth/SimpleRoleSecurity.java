@@ -82,6 +82,11 @@ public class SimpleRoleSecurity  extends SecurityInterface
 	public static final String ALLOW_ANONYMOUS_KEY = "allow_anonymous";
 	protected boolean allowAnonymous = DEFAULT_ALLOW_ANONYMOUS;
 	
+	public static final boolean DEFAULT_FILTER_DOCS = false;
+	public static final String FILTER_DOCS_KEY = "filter_documents_by_role";
+	protected boolean filterDocs = DEFAULT_FILTER_DOCS;
+	public static final String FILTER_DOCS_FIELD = "AllowedRoles";
+	
 	/**
 	 * Initialize the security with no allowed roles.
 	 * Add roles with {@link #addAllowedRole(String)}.
@@ -95,6 +100,7 @@ public class SimpleRoleSecurity  extends SecurityInterface
 		this.log = log;
 		this.roleDatabase = roleDatabase;
 		initializeAllowAnonymous();
+		initializeFilterDocs();
 		initializeUserRoles();
 	}
 	
@@ -165,7 +171,50 @@ public class SimpleRoleSecurity  extends SecurityInterface
 	 * See {@link #isAuthorizedForRoles()}.
 	 */
 	public boolean allowAccess(Document document) {
-		return isAuthenticated() && isAuthorizedForRoles();
+		if (!isAuthenticated()) {
+			return false;
+		} 
+		if (!isAuthorizedForRoles()) {
+			return false;
+		}
+		
+		if (getFilterDocs()) {
+			return checkDocumentRoles(document);
+		}
+		else {
+			return true;
+		}
+	}
+	
+	/**
+	 * Check if the document has additional role restrictions. 
+	 * If the relevant field(s) do not exist, then default to granting access for legacy support.
+	 * Roles are case sensitive.
+	 * @return <code>true</code> if the document should be allowed based on the document-specific logic.  Other checks may restrict access
+	 *         <code>false</code> otherwise.
+	 * 
+	 */
+	public boolean checkDocumentRoles(Document document) {
+		try {
+			// role field is not required
+			if (!document.hasItem(FILTER_DOCS_FIELD)) {
+				return true;   
+			}
+			Vector roles = document.getItemValue(FILTER_DOCS_FIELD);
+			if (DominoUtils.isListEmpty(roles)) {
+				return true;
+			}
+			TreeSet<String> cleaned = new TreeSet<String>();
+			for (Object curRole : roles) {
+				cleaned.add(curRole.toString());
+			}
+			cleaned.retainAll(getUserRoles());
+			return cleaned.size() > 0;
+		}
+		catch (Exception ex) {
+			log.err("Exception in checkDocumentRoles:  ", ex);
+			return false;  // fail by default
+		}
 	}
 	
 	
@@ -182,7 +231,7 @@ public class SimpleRoleSecurity  extends SecurityInterface
 				setAllowAnonymous(DEFAULT_ALLOW_ANONYMOUS);  // default to false
 			}
 			else {
-				setAllowAnonymous(allowAnonymousStr.equals("true"));
+				setAllowAnonymous(allowAnonymousStr.equalsIgnoreCase("true"));
 			}
 			
 		}
@@ -208,6 +257,43 @@ public class SimpleRoleSecurity  extends SecurityInterface
 	 */
 	public void setAllowAnonymous(boolean value) {
 		this.allowAnonymous = value;
+	}
+	
+	
+	
+	protected void initializeFilterDocs() {
+		// check the configuration
+		try {
+			String filterDocsStr = ConfigurationUtils.getConfigAsString(session.getCurrentDatabase(), FILTER_DOCS_KEY);
+			if (DominoUtils.isValueEmpty(filterDocsStr)) {
+				setFilterDocs(DEFAULT_FILTER_DOCS);  // default to false
+			}
+			else {
+				setFilterDocs(filterDocsStr.equalsIgnoreCase("true"));
+			}
+			
+		}
+		catch (Exception ex) {
+			log.err("Could not read configuration value '" + FILTER_DOCS_KEY + "'", ex);
+			setFilterDocs(DEFAULT_FILTER_DOCS);
+		}
+	}
+	
+	/**
+	 * @return  <code>true</code> if anonymous users are allowed to have roles.
+	 *          <code>false</code> if anonymous users will be rejected automatically.
+	 */
+	public boolean getFilterDocs() {
+		return filterDocs;
+	}
+	
+	/**
+	 * Override the allow anonymous logic
+	 * @param value  <code>true</code> to allow anonymous users to have roles.
+	 *               <code>false</code> to reject anonymous users.
+	 */
+	public void setFilterDocs(boolean value) {
+		this.filterDocs = value;
 	}
 	
 	/**

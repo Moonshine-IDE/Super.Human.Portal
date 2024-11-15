@@ -97,6 +97,11 @@ class SimpleRoleSecuritySpec extends Specification {
 		protected void initializeAllowAnonymous() {
 			// nothing to do
 		}
+	
+		@Override
+		protected void initializeFilterDocs() {
+			// nothing to do
+		}
 		
 		public Collection<String> getRolesByRestrictionID(String roleRestrictionID) {
 			if (null == restrictionMap) {
