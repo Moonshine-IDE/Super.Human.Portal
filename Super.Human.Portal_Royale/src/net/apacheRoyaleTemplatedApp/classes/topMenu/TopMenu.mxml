@@ -338,6 +338,11 @@
 																	    this.rootMenu.selectedItem as TopMenuVO;
 			var itemsOrder:Array = this.model.itemsOrder;
 			
+			if (!mainSelectedItem && itemsOrder.length == 0)
+			{
+				return false;	
+			}
+			
 			return mainSelectedItem.id != itemsOrder[itemsOrder.length - 1];
 		}
 		
@@ -346,6 +351,11 @@
 			var mainSelectedItem:TopMenuVO = this.subMenu.selectedItem ? this.subMenu.selectedItem as TopMenuVO : 
 																	    this.rootMenu.selectedItem as TopMenuVO;
 			var itemsOrder:Array = this.model.itemsOrder;
+			
+			if (!mainSelectedItem && itemsOrder.length == 0)
+			{
+				return false;	
+			}
 			
 			return mainSelectedItem.id != itemsOrder[1];
 		}
@@ -374,7 +384,7 @@
 			{
 				currentSelectedItem = this.rootMenu.selectedItem as TopMenuVO;
 				
-				if (!currentSelectedItem.hasChildren())
+				if (currentSelectedItem && !currentSelectedItem.hasChildren())
 				{
 					var siblings:Array = TopMenuUtils.getSiblings(currentSelectedItem.id, this.model);
 					this.setRootMenuItems(siblings);
@@ -427,7 +437,8 @@
 				}	
 				else
 				{
-					var subMenuChildren:Array = TopMenuUtils.getChildren(currentSelectedItem.id, this.model);
+					var targetId:String = currentSelectedItem ? currentSelectedItem.id : null;
+					var subMenuChildren:Array = TopMenuUtils.getChildren(targetId, this.model);
 					this.setSubMenuItems(subMenuChildren);
 				}
 			}

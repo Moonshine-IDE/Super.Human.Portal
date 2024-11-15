@@ -33,11 +33,11 @@ package controller.roles.executeRoles
 						var bookmark:Bookmark = bookmarksMediator.view.bookmarksList.getElementAt(i) as Bookmark;
 						if (bookmark)
 						{
-							bookmark.editable = hasAdminRole;
+							bookmark.editable = hasAdminRole && loginProxy.user.display.manageBookmarks;
 						}
 					}
 					
-					bookmarksMediator.view.addBookmark["visible"] = hasAdminRole;
+					bookmarksMediator.view.addBookmark["visible"] = hasAdminRole && loginProxy.user.display.manageBookmarks;
 				}
 			}
 		}
