@@ -13,6 +13,7 @@ import auth.RoleRestrictedAgent;
 import auth.SecurityBuilder;
 import auth.SimpleRoleSecurity;
 import genesis.LinkProcessor;
+import lotus.domino.Database;
 import lotus.domino.Name;
 import lotus.domino.NotesException;
 
@@ -53,8 +54,11 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 		jsonRoot.put("config", configJSON);
 		
 		// rather than return documents, return configuration values as properties
-		addConfigPropertyBoolean("ui_documentation_editable", false); // `true` if the Getting Started UI should be editable, `false` otherwise
+		// addConfigPropertyBoolean("ui_documentation_editable", false); // `true` if the Getting Started UI should be editable, `false` otherwise
+		// switch to new role-based permissions
+		configJSON.put("ui_documentation_editable", shouldDisplay(agentDatabase, SecurityBuilder.RESTRICT_DOCUMENTATION_MANAGE));
 		addConfigPropertyBoolean("ui_documentation_show_unid", false); // `true` if the DocumentationUNID column should be displayed, false otherwise.
+		
 		addConfigPropertyString("ui_title", "Super.Human.Portal"); // The title for the application.  This may be customized with the server name or the organizational certifier.
 		addConfigPropertyString("nomad_helper_url", ""); // A URL for nomadhelper.html if this has been configured. If it is blank, open the Nomad URLs directly.
 		
@@ -144,4 +148,25 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
     			return "UNKNOWN";
     		}
     }
+	
+	/**
+	 * Determine whether the interface indicated by the given ID should be displayed, based on the user roles and configuration values.
+	 * The configuration document for a given sectionID is "allow_sectionID".
+	 * @param  configDatabase - the database instance for configuration
+	 * @param sectionID  the ID of the section to check
+	 * 
+	 */
+	public boolean shouldDisplay(Database configDatabase, String sectionID) {
+		try {
+			// // UI Testing
+			// String value = ConfigurationUtils.getConfigAsString(configDatabase, "allow_" + sectionID);
+			// return "true".equalsIgnoreCase(value);
+			// // treat any other value as false
+			return ((SimpleRoleSecurity)getSecurity()).isAuthorizedForRoles(sectionID);
+		}
+		catch (Exception ex) {
+			getLog().err("Exception when checking display rights for '" + sectionID + "'.   Default to hidden");
+			return false;
+		}
+	}
 }
