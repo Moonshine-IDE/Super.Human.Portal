@@ -50,7 +50,8 @@ public class GenesisRead extends CRUDAgentBase implements RoleRestrictedAgent
 	}
 	
 	public Collection<String> getAllowedRoles() {
-		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+		//return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+		return null;  // use getRoleRestrictionID
 	}
 	
 	public SecurityInterface checkSecurity() {

@@ -32,7 +32,8 @@ public class GenesisInstall extends GenesisRead
 	
 	@Override
 	public Collection<String> getAllowedRoles() {
-		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+		// return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+		return null;  // use GetRoleRestrictionID
 	}
 	
 	@Override

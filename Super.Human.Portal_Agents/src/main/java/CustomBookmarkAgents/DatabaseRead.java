@@ -39,7 +39,8 @@ public class DatabaseRead extends CRUDAgentBase implements RoleRestrictedAgent
 	}
 	
 	public Collection<String> getAllowedRoles() {
-		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+		//return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+		return null;  // use GetRoleRestrictionID
 	}
 	
 	public SecurityInterface checkSecurity() {

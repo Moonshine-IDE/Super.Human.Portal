@@ -31,7 +31,8 @@ public class CustomBookmarkUpdate extends CustomBookmarkUpdateBase implements Ro
 	}
 	
 	public Collection<String> getAllowedRoles() {
-		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+		// return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+		return null;  // use GetRoleRestrictionID
 	}
 	
 	public SecurityInterface checkSecurity() {

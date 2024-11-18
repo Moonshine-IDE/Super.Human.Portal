@@ -18,7 +18,8 @@ public class CategoryDelete extends CategoryDeleteBase implements RoleRestricted
 	}
 	
 	public Collection<String> getAllowedRoles() {
-		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+		// return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+		return null;  // use getRoleRestrictionID
 	}
 	
 	public SecurityInterface checkSecurity() {
