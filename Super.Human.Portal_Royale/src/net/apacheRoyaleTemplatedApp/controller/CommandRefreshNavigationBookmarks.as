@@ -11,13 +11,16 @@ package controller
 	import org.apache.royale.collections.ArrayList;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
+	import model.proxy.login.ProxyLogin;
 
 	public class CommandRefreshNavigationBookmarks extends SimpleCommand
 	{
 		override public function execute(note:INotification):void 
 		{	
 			var bookmarks:Array = note.getBody() as Array;
-
+								
+			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
+			
 			var mainMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;
 			var bookmarksProxy:ProxyBookmarks = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
 			
@@ -53,12 +56,17 @@ package controller
 					defaultItem = groups.splice(defaultIndex, 1);
 				}
 			}
-					
-			groups.insertAt(0, {name: "Browse My Server"});
+			
+			var initialGroupIndexItem:int = 0;
+			if (loginProxy.user.display.browseMyServer)
+			{
+				groups.insertAt(initialGroupIndexItem, {name: "Browse My Server"});
+				initialGroupIndexItem = 1;
+			}
 			
 			if (defaultItem.length > 0)
 			{
-				groups.insertAt(1, defaultItem[0]);
+				groups.insertAt(initialGroupIndexItem, defaultItem[0]);
 			}
 			
 			groups.forEach(function(group:Object, index:int, arr:Array):void{

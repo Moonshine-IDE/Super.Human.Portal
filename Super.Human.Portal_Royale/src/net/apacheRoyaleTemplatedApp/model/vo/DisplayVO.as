@@ -63,6 +63,18 @@ package model.vo
 			_manageBookmarks = value;
 		}
 		
+		private var _manageDocumentation:Boolean;
+
+		public function get manageDocumentation():Boolean
+		{
+			return _manageDocumentation;
+		}
+
+		public function set manageDocumentation(value:Boolean):void
+		{
+			_manageDocumentation = value;
+		}
+		
 		private var _viewBookmarks:Boolean;
 
 		public function get viewBookmarks():Boolean
@@ -73,6 +85,18 @@ package model.vo
 		public function set viewBookmarks(value:Boolean):void
 		{
 			_viewBookmarks = value;
+		}
+		
+		private var _viewDocumentation:Boolean;
+		
+		public function get viewDocumentation():Boolean
+		{
+			return _viewDocumentation;
+		}
+
+		public function set viewDocumentation(value:Boolean):void
+		{
+			_viewDocumentation = value;
 		}
 		
 		private var _viewInstalledApps:Boolean;

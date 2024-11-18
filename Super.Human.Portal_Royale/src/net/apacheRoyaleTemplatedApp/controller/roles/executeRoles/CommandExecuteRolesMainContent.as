@@ -28,7 +28,8 @@ package controller.roles.executeRoles
 				var navItem:NavigationLinkVO = null;
 				
 				//Remove "Additional directories" - avialable as admin
-				if (loginProxy.user && !loginProxy.user.hasRole(Roles.ADMINISTRATOR))
+				//&& !loginProxy.user.hasRole(Roles.ADMINISTRATOR)
+				if (loginProxy.user && !loginProxy.user.display.additionalGenesis)
 				{
 					for (var i:int = mainContentModel.mainNavigation.length - 1; i >= 0; i--)
 					{
@@ -61,6 +62,14 @@ package controller.roles.executeRoles
 							navItem = mainContentModel.navigationLinks.getItemAt(k) as NavigationLinkVO;
 							if (navItem.idSelectedItem == "installedApps") {
 								mainContentModel.navigationLinks.removeItemAt(k);
+							}
+						}
+						
+						for (k = mainContentModel.mainNavigation.length - 1; k >= 0; k--)
+						{
+							navItem = mainContentModel.mainNavigation.getItemAt(k) as NavigationLinkVO;
+							if (navItem.idSelectedItem == MediatorGenesisApps.NAME) {
+								mainContentModel.mainNavigation.removeItemAt(k);
 							}
 						}
 					}

@@ -237,7 +237,9 @@ package model.proxy.login
 					user.display.documentation = loginResult.display.documentation;
 					user.display.installApps = loginResult.display.installApps;
 					user.display.manageBookmarks = loginResult.display.manageBookmarks;
+					user.display.manageDocumentation = loginResult.display.manageDocumentation;
 					user.display.viewBookmarks = loginResult.display.viewBookmarks;
+					user.display.viewDocumentation = loginResult.display.viewDocumentation;
 					user.display.viewInstalledApps = loginResult.display.viewInstalledApps;
 				}
 				this.setData(user);
