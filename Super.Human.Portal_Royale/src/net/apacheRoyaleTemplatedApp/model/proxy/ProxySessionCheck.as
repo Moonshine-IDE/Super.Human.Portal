@@ -24,7 +24,7 @@ package model.proxy
 		
 		private const SESSION_UNAUTHENTICATED: String = "session-not-authenticated";
 		private const SESSION_AUTHENTICATED: String = "authenticated";
-		private const SESSION_AUTHLIMITEDACCESS: String = "authenticated-with-insufficient-access";
+		public const SESSION_AUTHLIMITEDACCESS: String = "authenticated-with-insufficient-access";
 		
 		private var loginProxy:ProxyLogin;
 		private var sessionDelegate:SessionCheckDelegate;
