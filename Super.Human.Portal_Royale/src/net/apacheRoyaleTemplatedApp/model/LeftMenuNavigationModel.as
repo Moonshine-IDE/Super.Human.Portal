@@ -18,7 +18,7 @@ package model
 		private var genesisApps:NavigationLinkVO = new NavigationLinkVO("Genesis Apps", ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS, "mdi mdi-apps mdi-24px", MediatorGenesisApps.NAME, null, MediatorGenesisApps.NAME);
 		
 		private var _mainNavigation:ArrayList = new ArrayList([
-			new NavigationLinkVO("Getting Started", ApplicationConstants.NOTE_OPEN_VIEW_HELLO, "mdi mdi-apps mdi-24px", "", null, "DocumentationForm"),
+			new NavigationLinkVO("Getting Started", ApplicationConstants.NOTE_OPEN_VIEW_HELLO, "mdi mdi-apps mdi-24px", "GettingStartedDoc", null, "DocumentationForm"),
 			genesisApps
 		]);
 

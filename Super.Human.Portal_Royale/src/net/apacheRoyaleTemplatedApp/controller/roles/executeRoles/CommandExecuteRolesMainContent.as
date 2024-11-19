@@ -54,21 +54,34 @@ package controller.roles.executeRoles
 				if (loginProxy.user && loginProxy.user.display)
 				{
 					var k:int = -1;
-					
-					if (!loginProxy.user.display.viewInstalledApps)
+
+					for (k = mainContentModel.navigationLinks.length - 1; k >= 0; k--)
 					{
-						for (k = mainContentModel.navigationLinks.length - 1; k >= 0; k--)
+						navItem = mainContentModel.navigationLinks.getItemAt(k) as NavigationLinkVO;
+						if (!loginProxy.user.display.viewInstalledApps)
 						{
-							navItem = mainContentModel.navigationLinks.getItemAt(k) as NavigationLinkVO;
 							if (navItem.idSelectedItem == "installedApps") {
 								mainContentModel.navigationLinks.removeItemAt(k);
 							}
 						}
+					}
+					
+					for (k = mainContentModel.mainNavigation.length - 1; k >= 0; k--)
+					{
+						navItem = mainContentModel.mainNavigation.getItemAt(k) as NavigationLinkVO;
 						
-						for (k = mainContentModel.mainNavigation.length - 1; k >= 0; k--)
+						if (!loginProxy.user.display.viewInstalledApps)
 						{
-							navItem = mainContentModel.mainNavigation.getItemAt(k) as NavigationLinkVO;
-							if (navItem.idSelectedItem == MediatorGenesisApps.NAME) {
+							if (navItem.idSelectedItem == MediatorGenesisApps.NAME) 
+							{
+								mainContentModel.mainNavigation.removeItemAt(k);
+							}
+						}
+						
+						if (!loginProxy.user.display.viewDocumentation)
+						{
+							if (navItem.idSelectedItem == "GettingStartedDoc") 
+							{
 								mainContentModel.mainNavigation.removeItemAt(k);
 							}
 						}

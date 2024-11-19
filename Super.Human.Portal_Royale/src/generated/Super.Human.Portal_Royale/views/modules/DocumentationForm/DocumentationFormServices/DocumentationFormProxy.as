@@ -16,6 +16,7 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
     import org.apache.royale.jewel.Snackbar;
     import org.apache.royale.net.events.FaultEvent;
     import org.apache.royale.utils.async.PromiseTask;
+    import model.proxy.ProxySessionCheck;
 
 	public class DocumentationFormProxy extends EventDispatcher
 	{
@@ -230,7 +231,16 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
             if (fetchedData)
             {
                 var json:Object = JSON.parse(fetchedData as String);
-                if (!json.errorMessage)
+                var facade:ApplicationFacade = ApplicationFacade.getInstance("SuperHumanPortal_Royale");
+			    var sessionProxy:ProxySessionCheck = facade.retrieveProxy(ProxySessionCheck.NAME) as ProxySessionCheck;
+			
+			    if (json.status == sessionProxy.SESSION_AUTHLIMITEDACCESS)
+			    {
+			    		items = [];
+			    		
+			    		this.dispatchEvent(new Event(EVENT_ITEM_UPDATED));
+			    }
+                else if (!json.errorMessage)
                 {				
                     loadConfig();
                         
@@ -281,8 +291,14 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 			{
 				var jsonData:Object = JSON.parse(fetchedData);
 				var errorMessage:String = jsonData["errorMessage"];
-				
-				if (errorMessage)
+				var facade:ApplicationFacade = ApplicationFacade.getInstance("SuperHumanPortal_Royale");
+			    var sessionProxy:ProxySessionCheck = facade.retrieveProxy(ProxySessionCheck.NAME) as ProxySessionCheck;
+			
+			    if (jsonData.status == sessionProxy.SESSION_AUTHLIMITEDACCESS)
+			    {
+			    		mainItems = [];
+			    }
+                else if (errorMessage)
 				{
 					this.dispatchEvent(
                         new ErrorEvent(

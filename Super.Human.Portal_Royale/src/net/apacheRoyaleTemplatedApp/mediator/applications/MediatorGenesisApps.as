@@ -1,11 +1,15 @@
 package mediator.applications
 {
+    import classes.com.devexpress.js.dataGrid.events.DataGridEvent;
+
     import constants.ApplicationConstants;
     import constants.PopupType;
+    import constants.Roles;
 
     import interfaces.IGenesisAppsView;
 
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
+    import model.proxy.login.ProxyLogin;
     import model.proxy.urlParams.ProxyUrlParameters;
     import model.vo.ApplicationVO;
     import model.vo.PopupVO;
@@ -16,9 +20,6 @@ package mediator.applications
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-    import classes.com.devexpress.js.dataGrid.events.DataGridEvent;
-    import model.proxy.login.ProxyLogin;
-    import constants.Roles;
     
     public class MediatorGenesisApps extends Mediator implements IMediator
     {
@@ -109,7 +110,7 @@ package mediator.applications
 			view.learnMore["html"] = "<a href='http://genesis.directory/articles/what-is-genesis' target='_blank'>Learn More</a>";
 			view.selectedApp = "Select an application from the list below";
 
-			var hasAdminRole:Boolean = loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR);
+			var hasAdminRole:Boolean = loginProxy.user && loginProxy.user.display.installApps;
 			view.installApplicationButton["text"] = hasAdminRole ? "Install" : "Install (Admin-only)";
 			
 			if (!genesisAppsProxy.getData())
