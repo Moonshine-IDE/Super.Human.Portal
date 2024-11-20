@@ -71,6 +71,12 @@ package mediator.bookmarks
 			{
 				this.view.refreshButton.removeEventListener(MouseEvent.CLICK, onRefreshServersListClick);
 			}
+			
+			if (this.view.addBookmark)
+			{
+				view.addBookmark.removeEventListener(MouseEvent.CLICK, onAddBookmarkClick);	
+			}
+			
 			this.view["currentState"] = BOOKMARKS_VIEW_STATE;
 			
 			cleanUpBookmarksList();
