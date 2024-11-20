@@ -50,6 +50,24 @@ package classes.com.devexpress.js.tileView
 		{
 			model["dataSource"] = value;
 		}
+		
+		/**
+		 *  
+		 
+		 *  @royaleignorecoercion classes.com.devexpress.js.tileView.interfaces.ITileViewModel
+		 */
+		public function get noDataText():String
+		{
+			return model["noDataText"];
+		}
+		
+		/**
+		 * @royaleignorecoercion classes.com.devexpress.js.tileView.interfaces.ITileViewModel
+		 */
+		public function set noDataText(value:String):void
+		{
+			model["noDataText"] = value;
+		}
 
 		/**
 		 *  

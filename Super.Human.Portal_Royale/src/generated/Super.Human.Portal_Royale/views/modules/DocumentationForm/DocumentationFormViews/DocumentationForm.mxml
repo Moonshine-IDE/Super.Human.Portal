@@ -308,7 +308,14 @@
   					itemRenderer="Super.Human.Portal_Royale.views.renderers.DocumentationTileRenderer"
   					includeIn="dataGridState" clickItemTileView="onDocClickItem(event)" />
 <tileView:TileView localId="tileGettingStarted" className="tileViewJS" direction="vertical"
-						percentWidth="100" baseItemHeight="360" baseItemWidth="300" itemMargin="10" 
+						percentWidth="100" minWidth="350" baseItemHeight="360" baseItemWidth="300" itemMargin="10" 
 						dataProvider="{proxy.mainItems}" includeIn="startview" 
-						itemRenderer="Super.Human.Portal_Royale.views.renderers.CategoryTileRenderer"/>
+						itemRenderer="Super.Human.Portal_Royale.views.renderers.CategoryTileRenderer"
+						visible="{proxy.mainItems &amp;&amp; proxy.mainItems.length > 0}"/>
+<html:H3 text="Welcome to Super.Human.Portal. Select an option from the sidebar." 
+		 includeIn="startview" visible="{proxy.mainItems == null || proxy.mainItems.length == 0}" percentWidth="100">
+	<html:style>
+		<js:AllCSSStyles textAlign="center"/>
+	</html:style>
+</html:H3>
 </j:VGroup>

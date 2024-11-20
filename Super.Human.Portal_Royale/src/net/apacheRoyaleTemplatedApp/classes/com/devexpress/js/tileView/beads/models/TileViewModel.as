@@ -29,6 +29,23 @@ package classes.com.devexpress.js.tileView.beads.models
 			}				
 		}
 		
+		private var _noDataText:String = "No data to display";
+
+		public function get noDataText():String
+		{
+			return _noDataText;
+		}
+		
+		public function set noDataText(value:String):void
+		{
+			if (this._noDataText != value)
+			{
+				this._noDataText = value;	
+				
+				dispatchEvent(new Event("optionsChanged"));
+			}				
+		}
+		
 		private var _itemRenderer:IFactory;
 
 		public function get itemRenderer():IFactory

@@ -112,7 +112,8 @@ package classes.com.devexpress.js.tileView.beads
 				width: "100%",
 				baseItemWidth: _model.baseItemWidth,
 				baseItemHeight: _model.baseItemHeight,
-				itemMargin: _model.itemMargin
+				itemMargin: _model.itemMargin,
+				noDataText: _model.noDataText
 			});
 		}
 	}

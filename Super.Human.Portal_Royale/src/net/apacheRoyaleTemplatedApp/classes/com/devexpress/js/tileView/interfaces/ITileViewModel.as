@@ -10,6 +10,9 @@ package classes.com.devexpress.js.tileView.interfaces
 		function get dataSource():Object;
 		function set dataSource(value:Object):void;
 		
+		function get noDataText():String;
+		function set noDataText(value:String):void;
+		
 		function get itemRenderer():IFactory;
 		function set itemRenderer(value:IFactory):void;
 		
