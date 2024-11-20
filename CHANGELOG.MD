@@ -3,6 +3,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
 
+## Super.Human.Portal [1.2.0]
+
+### Summary
+
+Ths release was focused on updates to improve the experience and customization on customer server.
+
+
+### Added
+
+
+### Changed
+
+* Updated logic for hidden interfaces to be more flexible.  This is intended to support "End User" configurations for customer that will be focused on bookmarks.  ([#65](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/65))
+
+### Fixed
+
+* Non-email usernames are now accepted in the Login prompt.  ([#63](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/63))
+
+
 ## Super.Human.Portal [0.1.8]
 
 ### Summary
