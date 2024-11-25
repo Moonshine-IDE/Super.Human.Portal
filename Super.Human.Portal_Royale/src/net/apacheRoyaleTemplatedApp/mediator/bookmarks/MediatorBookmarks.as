@@ -40,6 +40,13 @@ package mediator.bookmarks
 			super(mediatorName, component);
 		}
 		
+		public static function getMediatorName(bookmarkGroup:String):String 
+		{
+			var appWhiteSpaceRegExp:RegExp = new RegExp(/\s+/gi);
+			
+			return MediatorBookmarks.NAME + bookmarkGroup.replace(appWhiteSpaceRegExp, "");	
+		}
+		
 		override public function onRegister():void 
 		{			
 			super.onRegister();
@@ -57,8 +64,6 @@ package mediator.bookmarks
 				this.view.currentState = this.bookmarksProxy.selectedGroup == "Browse My Server" ?
 											BROWSE_MY_SERVER_VIEW_STATE : BOOKMARKS_VIEW_STATE;
 			}
-			
-			sendNotification(ApplicationConstants.COMMAND_EXECUTE_BOOKMARKS_ROLES);
 		}
 		
 		override public function onRemove():void 
@@ -137,8 +142,6 @@ package mediator.bookmarks
 				
 				this.cleanUpBookmarksList();
 				this.updateListOfBookmarks();
-				
-				sendNotification(ApplicationConstants.COMMAND_EXECUTE_ROLES);		
 			}
 			else if (view["currentState"] == BROWSE_MY_SERVER_VIEW_STATE)
 			{
@@ -148,6 +151,8 @@ package mediator.bookmarks
 				facade.registerMediator(new MediatorBrowseMyServer(view.browseMyServerView));
 				view.title = "Browse My Server";
 			}
+					
+			sendNotification(ApplicationConstants.COMMAND_EXECUTE_ROLES);		
 		}
 
 		private function updateListOfBookmarks():void

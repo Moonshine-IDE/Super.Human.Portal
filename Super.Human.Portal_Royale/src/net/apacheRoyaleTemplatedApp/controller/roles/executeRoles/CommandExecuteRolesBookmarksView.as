@@ -18,7 +18,7 @@ package controller.roles.executeRoles
 		{
 			var bookmarksProxy:ProxyBookmarks = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
 			
-			var bookmarksMediatorName:String = MediatorBookmarks.NAME + bookmarksProxy.selectedGroup;
+			var bookmarksMediatorName:String = MediatorBookmarks.getMediatorName(bookmarksProxy.selectedGroup);
 			if (facade.hasMediator(bookmarksMediatorName))
 			{
 				var bookmarksMediator:MediatorBookmarks = facade.retrieveMediator(bookmarksMediatorName) as MediatorBookmarks;

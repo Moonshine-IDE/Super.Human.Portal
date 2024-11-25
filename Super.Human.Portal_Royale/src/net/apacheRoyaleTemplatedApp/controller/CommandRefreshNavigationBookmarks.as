@@ -27,7 +27,6 @@ package controller
 			var leftMenuNavModel:LeftMenuNavigationModel = mainMediator.view["model"] as LeftMenuNavigationModel;
 			var bookmarksNav:Object = mainMediator.view.viewBookmarksNavigation;
 			var bookmarksList:ArrayList = new ArrayList();
-			var appWhiteSpaceRegExp:RegExp = new RegExp(/\s+/gi);
 
 			var groups:Array = [];
 			for each (var bookmark:BookmarkVO in bookmarks)
@@ -72,7 +71,7 @@ package controller
 			groups.forEach(function(group:Object, index:int, arr:Array):void{
 								
 				var menuItem:NavigationLinkVO = new NavigationLinkVO(group.name, "", "mdi mdi-apps mdi-24px", 
-																	MediatorBookmarks.NAME + group.name.replace(appWhiteSpaceRegExp, ""), group);
+																	MediatorBookmarks.getMediatorName(group.name), group);
 				bookmarksList.addItem(menuItem);
 			});
 			
