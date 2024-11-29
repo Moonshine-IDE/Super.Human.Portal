@@ -104,7 +104,7 @@
 					_loginFailed = value;
 	            		loginFormValidator.loginFailed = value;
 					
-					dispatchEvent("loginFailed");
+					loginForm.dispatchEvent("loginFailed");
 				}
 	        }
 			
@@ -134,7 +134,7 @@
 		<j:Form localId="loginForm" percentWidth="100" includeIn="loginInternal">
 			<j:beads>
 				<j:FormValidator id="validatorForm" trigger="{btnLogin}" triggerEvent="click" />
-				<validators:LoginFormValidator localId="loginFormValidator" trigger="{this}" triggerEvent="loginFailed"/>
+				<validators:LoginFormValidator localId="loginFormValidator" trigger="{loginForm}" triggerEvent="loginFailed"/>
 			</j:beads>
 			<controls:CustomFormItem required="true" className="horizontalContentItemsCenteredFormItem">
 				<j:TextInput id="txtUsername" percentWidth="100">

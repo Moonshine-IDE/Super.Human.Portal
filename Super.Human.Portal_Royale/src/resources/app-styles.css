@@ -120,6 +120,10 @@ a:hover {
 	cursor: pointer;
 }
 
+.jewel.layout.vertical.form.errorBorder {
+  border: 1px #EC1C24 solid;
+}
+
 .jewel.label code {
 	color: #FFD740 !important;	
 }
