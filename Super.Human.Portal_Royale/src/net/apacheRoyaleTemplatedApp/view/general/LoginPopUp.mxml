@@ -104,7 +104,7 @@
 					_loginFailed = value;
 	            		loginFormValidator.loginFailed = value;
 					
-					loginForm.dispatchEvent("loginFailed");
+					loginForm.dispatchEvent(new Event("loginFailed"));
 				}
 	        }
 			
