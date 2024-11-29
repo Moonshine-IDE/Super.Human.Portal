@@ -12,9 +12,9 @@
  <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-	<royale.framework.version>0.9.11-SNAPSHOT</royale.framework.version>
-	<royale.compiler.version>0.9.11-SNAPSHOT</royale.compiler.version>
-	<royale.typedefs.version>0.9.11-SNAPSHOT</royale.typedefs.version>
+	<royale.framework.version>0.9.12-SNAPSHOT</royale.framework.version>
+	<royale.compiler.version>0.9.12-SNAPSHOT</royale.compiler.version>
+	<royale.typedefs.version>0.9.12-SNAPSHOT</royale.typedefs.version>
 		
 	<royale.showbindingWarnings>-compiler.show-binding-warnings=false;</royale.showbindingWarnings>
 	<royale.sourceMapSettings>-source-map=false;</royale.sourceMapSettings>
