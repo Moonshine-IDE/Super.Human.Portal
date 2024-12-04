@@ -63,7 +63,7 @@ package classes.com.devexpress.js.tileView.beads.models
 			}
 		}
 		
-		private var _direction:String;
+		private var _direction:String = "horizontal";
 
 		public function get direction():String
 		{

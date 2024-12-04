@@ -161,6 +161,7 @@
         {
         		breadcrump.buildBreadcrump(breadcrump.model[tileGettingStarted.selectedItem.id]);
     		}
+    		tileGettingStarted.direction="vertical";
       //  this.dg.refreshCurrentDataProvider();
     }
 
@@ -307,8 +308,8 @@
   					percentWidth="100" baseItemWidth="245" baseItemHeight="300" itemMargin="5" direction="vertical" 
   					itemRenderer="Super.Human.Portal_Royale.views.renderers.DocumentationTileRenderer"
   					includeIn="dataGridState" clickItemTileView="onDocClickItem(event)" />
-<tileView:TileView localId="tileGettingStarted" className="tileViewJS" direction="vertical"
-						percentWidth="100" minWidth="350" baseItemHeight="360" baseItemWidth="300" itemMargin="10" 
+<tileView:TileView localId="tileGettingStarted" className="tileViewJS" 
+				   minWidth="350" minHeight="200" baseItemHeight="360" baseItemWidth="300" itemMargin="10" 
 						dataProvider="{proxy.mainItems}" includeIn="startview" 
 						itemRenderer="Super.Human.Portal_Royale.views.renderers.CategoryTileRenderer"
 						visible="{proxy.mainItems &amp;&amp; proxy.mainItems.length > 0}"/>
