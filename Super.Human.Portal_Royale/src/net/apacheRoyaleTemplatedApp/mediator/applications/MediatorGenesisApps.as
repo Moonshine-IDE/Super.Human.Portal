@@ -110,8 +110,7 @@ package mediator.applications
 			view.learnMore["html"] = "<a href='http://genesis.directory/articles/what-is-genesis' target='_blank'>Learn More</a>";
 			view.selectedApp = "Select an application from the list below";
 
-			var hasAdminRole:Boolean = loginProxy.user && loginProxy.user.display.installApps;
-			view.installApplicationButton["text"] = hasAdminRole ? "Install" : "Install (Admin-only)";
+			refreshInstallButtonState();
 			
 			if (!genesisAppsProxy.getData())
 			{
@@ -132,10 +131,11 @@ package mediator.applications
 
 		private function refreshInstallButtonState():void
 		{
-			var hasAdminRole:Boolean = loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR);
+			var canInstall:Boolean = loginProxy.user && loginProxy.user.display.installApps;
 
 			var disabled:Disabled = view.installApplicationButton["getBeadByType"](Disabled);
-			disabled.disabled = genesisAppsProxy.selectedApplication == null || hasAdminRole == false;
+			disabled.disabled = genesisAppsProxy.selectedApplication == null || canInstall == false;
+			view.installApplicationButton["text"] = canInstall ? "Install" : "Install (Admin-only)";
 		}
 		
 		private function refreshSeeMoreDetails():void
