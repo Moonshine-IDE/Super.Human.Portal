@@ -3,6 +3,28 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
 
+## Super.Human.Portal [1.3.0]
+
+### Summary
+
+Miscellaneous bug fixes from the 1.2.0 release.
+
+
+### Added
+
+
+### Changed
+
+
+### Fixed
+
+* No Error Message for Invalid Password. ([#74](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/74))
+* Document Tiles Default to Single Column. ([#67](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/67))
+* Add Bookmarks Unexpectedly Visible.  ([#68](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/68))
+* Install Apps Requires Administrator Role.  ([#76](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/75))
+
+
+
 ## Super.Human.Portal [1.2.0]
 
 ### Summary
