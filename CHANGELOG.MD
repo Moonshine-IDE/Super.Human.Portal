@@ -15,6 +15,8 @@ Miscellaneous bug fixes from the 1.2.0 release.
 
 ### Changed
 
+* Update to Royale 0.9.13:  ([#77](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/77))
+
 
 ### Fixed
 
