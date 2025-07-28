@@ -10,37 +10,61 @@ plugins {
 
 archivesBaseName='Super.Human.Portal_Agents'
 
-String notesInstallation = project.findProperty('notesInstallation')
+String notesInstallation = project.findProperty('notesInstallation') ?: '/Applications/HCL Notes.app/Contents/MacOS/'
 if (!notesInstallation) {
 	throw new GradleException("Missing configured path for Notes installation.  Set notesInstallation in gradle.properties.")
 }
 else if (!(new File(notesInstallation).exists())) {
-	throw new GradleException("Invalid configured path for Notes installation ($notesInstallation).  Check notesInstallation in build.gradle.")
+	throw new GradleException("Invalid configured path for Notes installation ($notesInstallation).  Check notesInstallation in gradle.properties.")
 }
 
-String notesJarExtDir = "$notesInstallation/jvm/lib/ext"
-String notesJarPath = "$notesJarExtDir/Notes.jar"
+
+String notesJarBaseDir = "$notesInstallation"
+String envPath = System.getenv('PATH')
+if (!envPath) {
+	logger.warn "Missing PATH environment variable."
+	envPath = ''  // default to empty string to avoid null errors later
+}
+
+
 // change envPath as needed
 if (notesInstallation.toLowerCase().startsWith('/applications/')) { // treat as macOS
-	if (!(new File(notesJarPath).exists())) {
-		// alternative location for macOS:  /Applications/HCL Notes.app/Contents/Resources/jvm/lib/ext/Notes.jar 
-		logger.info "Notes.jar not found at $notesJarPath"
-		notesJarExtDir = "$notesInstallation/../Resources/jvm/lib/ext"
-		notesJarPath = "$notesJarExtDir/Notes.jar"
-	}
-	if (!(new File(notesJarPath).exists())) {
-		// alternative location for macOS and Notes 14:  /Applications/HCL Notes.app/Contents/Resources/ndext/Notes.jar 
-		logger.info "Notes.jar not found at $notesJarPath"
-		notesJarExtDir = "$notesInstallation/../Resources/ndext"
-		notesJarPath = "$notesJarExtDir/Notes.jar"
-	}
-	if (!(new File(notesJarPath).exists())) {
-		logger.info "Notes.jar not found at $notesJarPath"
-		throw new GradleException("ERROR: Could not find Notes.jar")
-	}
-	logger.info("Notes JAR path:  $notesJarPath")
+        // directory for additional JARs is inconsistent across version, so just use `/Applications/HCL Notes.app/Contents`
+        notesJarBaseDir = "$notesInstallation/.."
 }
-// no special logic for Windows
+else { // treat as Windows
+	// update PATH
+	envPath = "$envPath;$notesInstallation"
+	println "Updated PATH: $envPath"
+}
+
+/**
+ * Method to find a file under the given path
+ * @param baseDir  the base directory to search
+ * @param findName  the name of the file to find.  TODO:  support patterns
+ * @return the absolute path of the file, or null if the file was not found.
+ */
+String findFile(String baseDir, String findName) {
+    String foundFile = null;
+    // search for a file with the given pattern.  If multiple copies are found, use the last
+    new File(baseDir).eachFileRecurse {File curFile ->
+        if (curFile.getName() == findName) {
+            foundFile = curFile.getAbsolutePath()
+            println "Found file '$findName' at '${curFile.getAbsolutePath()}'"
+        }
+    }
+
+    if (!foundFile) {
+        println ("Could not find '$findName' in '$baseDir'")
+    }
+
+    return foundFile
+}
+
+// build a jar path to use for Notes.jar
+// Supports local and Linux server executions
+String notesJarPath = findFile(notesJarBaseDir, 'Notes.jar')
+String jarClassPath = "./Notes.jar {{ domino_install_dir }}/jvm/lib/ext/Notes.jar ${notesJarPath.replaceAll(' ', '%20').replaceAll('^\\w+:', '/$0')}"
 
 repositories {
     mavenCentral()
@@ -66,18 +90,20 @@ dependencies {
     // CRUD API library
     implementation files('lib/Moonshine-Domino-CRUD.jar')
 
+    
     // Local JAR dependency
     implementation files(notesJarPath)
+    // the paths to these files vary for the different Domino installations, so search for them instead
 
     // DXL Importer
     dxlRuntime files('dxlLib/ImportDxlNsf.jar')
     
     // Dependencies for DXL Importer
     dxlRuntime 'org.tmatesoft.svnkit:svnkit:1.8.5'
-    dxlRuntime files("$notesJarExtDir/websvc.jar")
+    dxlRuntime files(findFile(notesJarBaseDir, 'websvc.jar'))
     // New Dependencies for Domino 12.0.2
-    dxlRuntime files("$notesJarExtDir/lwpd.domino.napi.jar")
-    dxlRuntime files("$notesJarExtDir/lwpd.commons.jar")
+    implementation files(findFile(notesJarBaseDir, 'lwpd.domino.napi.jar'))
+    implementation files(findFile(notesJarBaseDir, 'lwpd.commons.jar'))
     
     // Dependencies for SimpleHTTPClient
     implementation 'commons-codec:commons-codec:1.4'
