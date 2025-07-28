@@ -224,6 +224,7 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 		display.put("viewBookmarks", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_BOOKMARKS_VIEW));
 		display.put("manageBookmarks", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_BOOKMARKS_MANAGE));
 		display.put("browseMyServer", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_BROWSE_MY_SERVER));
+		display.put("improvementRequests", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_IMPROVEMENT_REQUESTS));
 		return display;
 	}
 	

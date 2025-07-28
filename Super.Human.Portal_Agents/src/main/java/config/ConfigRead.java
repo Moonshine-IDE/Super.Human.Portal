@@ -14,8 +14,12 @@ import auth.SecurityBuilder;
 import auth.SimpleRoleSecurity;
 import genesis.LinkProcessor;
 import lotus.domino.Database;
+import lotus.domino.DocumentCollection;
 import lotus.domino.Name;
 import lotus.domino.NotesException;
+import lotus.domino.View;
+import lotus.domino.ViewEntryCollection;
+import lotus.domino.Document;
 
 /**
  * Return the configuration options for the application
@@ -98,7 +102,48 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 		configJSON.put("configuration_link", configLink);
 		
 
+		// additional user info for improvement requests
+		addConfigPropertyString("customer_id", "UNKNOWN"); // Prominic customer ID populated by customer.
+		jsonRoot.put("userInfo", getUserInfo());
 		
+	}
+	
+	protected JSONObject getUserInfo() {
+		final String defaultValue = "UNKNOWN";
+		JSONObject json = new JSONObject();
+		String userID = getSecurity().getUserID();
+		json.put("name", getAbbrNameSafe(userID));   // is the full username better?
+		Database namesDB = null;
+		View userView = null;
+		DocumentCollection matches = null;
+		Document personDoc = null;
+		String email = null;
+		try {
+			namesDB = session.getDatabase("", "names.nsf");
+			if (!DominoUtils.isDatabaseOpen(namesDB)) {
+				throw new Exception("Could not open names.nsf.");
+			}
+			userView = DominoUtils.getView(namesDB, "($Users)");
+			matches = userView.getAllDocumentsByKey(userID, true);
+			if (matches.getCount() <= 0) {
+				throw new Exception("Could not find person document for user '" + userID + "'.");
+			}
+			if (matches.getCount() > 1) {
+				throw new Exception("Multiple person documents for user '" + userID + "'.");
+			}
+			personDoc = matches.getFirstDocument();
+			email = personDoc.getItemValueString("InternetAddress"); 
+			if (DominoUtils.isValueEmpty("email")) {
+				getLog().err("No email address found in user document.");
+				email = defaultValue;
+			}
+		}
+		catch (Exception ex) {
+			getLog().err("Failed to generate user JSON:  ", ex);
+			email = defaultValue;
+		}
+		json.put("email", email);
+		return json;
 	}
 	
 	protected void addConfigPropertyString(String key, String defaultValue) {
@@ -145,6 +190,18 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
     		}
     		catch (NotesException ex) {
     			getLog().err("Failed to generate abbreviated name for '" + name + "'.  Returning default value:  ", ex);
+    			return "UNKNOWN";
+    		}
+    }
+    
+    protected String getCommonNameSafe(String name) {
+    		Name nameObj = null;
+    		try {
+    			nameObj = session.createName(name);
+    			return nameObj.getCommon();
+    		}
+    		catch (NotesException ex) {
+    			getLog().err("Failed to generate commmon name for '" + name + "'.  Returning default value:  ", ex);
     			return "UNKNOWN";
     		}
     }
