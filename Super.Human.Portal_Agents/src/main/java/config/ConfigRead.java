@@ -109,15 +109,49 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 	}
 	
 	protected JSONObject getUserInfo() {
-		final String defaultValue = "UNKNOWN";
 		JSONObject json = new JSONObject();
 		String userID = getSecurity().getUserID();
 		json.put("name", getAbbrNameSafe(userID));   // is the full username better?
+		json.put("email", getEmailAddress());
+		return json;
+	}
+	
+	protected String getEmailAddress() {
+		final String defaultValue = ""; // leave it blank so that the user needs to fill it in in the form.
+		String email = null;
+		
+		
+		// lookup with UserName object
+		// This didn't work because getUserNameObject() returned the server name
+		// Setting Run as Web User didn't change this behavior
+		// Name userName = null;
+		// try {
+		// 	userName = session.getUserNameObject();
+		// 	getLog().dbg("session.getUserNameObject().getCanonical():  " + session.getUserNameObject().getCanonical());
+		// 	getLog().dbg("session.getUserNameObject().getAddr822Comment1():  " + session.getUserNameObject().getAddr822Comment1());
+		// 	getLog().dbg("session.getUserNameObject().getAddr822Comment2():  " + session.getUserNameObject().getAddr822Comment2());
+		// 	getLog().dbg("session.getUserNameObject().getAddr822Comment3():  " + session.getUserNameObject().getAddr822Comment3());
+		// 	getLog().dbg("session.getUserNameObject().getAddr822LocalPart():  " + session.getUserNameObject().getAddr822LocalPart());
+		// 	getLog().dbg("session.getUserNameObject().getAddr822Phrase():  " + session.getUserNameObject().getAddr822Phrase());
+		// 	email = userName.getAddr821();
+		// 	if (DominoUtils.isValueEmpty(email)) {
+		// 		email = defaultValue;
+		// 		getLog().err("No email address found in getUserNameObject.");
+		// 	}
+		// }
+		// catch (NotesException ex) {
+		// 	getLog().err("Error when reading email from getUserNameObject:  ", ex);
+		// }
+		// finally {
+		// 	DominoUtils.recycle(session, userName);
+		// }
+		
+		// lookup by userID
+		String userID = getSecurity().getUserID();
 		Database namesDB = null;
 		View userView = null;
 		DocumentCollection matches = null;
 		Document personDoc = null;
-		String email = null;
 		try {
 			namesDB = session.getDatabase("", "names.nsf");
 			if (!DominoUtils.isDatabaseOpen(namesDB)) {
@@ -126,6 +160,7 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 			userView = DominoUtils.getView(namesDB, "($Users)");
 			matches = userView.getAllDocumentsByKey(userID, true);
 			if (matches.getCount() <= 0) {
+				// TODO:  check directory assistance as well
 				throw new Exception("Could not find person document for user '" + userID + "'.");
 			}
 			if (matches.getCount() > 1) {
@@ -139,11 +174,23 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 			}
 		}
 		catch (Exception ex) {
-			getLog().err("Failed to generate user JSON:  ", ex);
+			getLog().err("Failed lookup email address:  ", ex);
 			email = defaultValue;
 		}
-		json.put("email", email);
-		return json;
+		finally {
+			DominoUtils.recycle(session, personDoc);
+			DominoUtils.recycle(session, matches);
+			DominoUtils.recycle(session, userView);
+			DominoUtils.recycle(session, namesDB);
+			
+		}
+		
+		// normalize 
+		if (DominoUtils.isValueEmpty(email)) {
+			getLog().err("No email address found.");
+			email = defaultValue;
+		}
+		return email;
 	}
 	
 	protected void addConfigPropertyString(String key, String defaultValue) {
