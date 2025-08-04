@@ -11,23 +11,23 @@ jobs:
         java: [ 16 ]
     steps:
     - name: Checkout Super.Human.Portal
-      uses: actions/checkout@v3.3.0
+      uses: actions/checkout@v4.2.2
       with:
         path: './SuperHumanPortal'
     - name: Checkout PureMVC
-      uses: actions/checkout@v3.3.0 
+      uses: actions/checkout@v4.2.2 
       with:
         repository: 'PureMVC/puremvc-as3-multicore-framework'
         path: './puremvc-as3-multicore-framework'
     - name: Set up JDK 
-      uses: actions/setup-java@v3.9.0
+      uses: actions/setup-java@v3.14.1
       with:
           distribution: adopt
           java-version: ${{ matrix.java }}
     - name: Build Super.Human.Portal
       run: mvn -s SuperHumanPortal/Super.Human.Portal_Royale/settings.xml -P build-dev-release clean package --file SuperHumanPortal/Super.Human.Portal_Royale/pom.xml
     - name: Store artifact in GitHub
-      uses: actions/upload-artifact@v3.1.2
+      uses: actions/upload-artifact@v4.6.2
       with:
         name: Super.Human.Portal-dev
         path: './SuperHumanPortal/Super.Human.Portal_Royale/target/javascript/bin/js-release'
