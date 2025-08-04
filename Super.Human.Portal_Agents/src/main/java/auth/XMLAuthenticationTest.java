@@ -96,20 +96,34 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 		
 		// write login URL
 		String loginURL = getLoginURL();
+		String logoutURL = getLogoutURL();
 		if (useJSON()) {
 			jsonRoot.put("loginURL", loginURL);
+			jsonRoot.put("logoutURL", logoutURL);
 		}
 		else {
-			Element statusElement = xmlDoc.createElement("loginURL");
+			Element loginElement = xmlDoc.createElement("loginURL");
 			if (null == loginURL) {
 				// normalize as ""
-				statusElement.appendChild(xmlDoc.createTextNode(""));
+				loginElement.appendChild(xmlDoc.createTextNode(""));
 			}
 			else {
-				statusElement.appendChild(xmlDoc.createTextNode(loginURL));
+				loginElement.appendChild(xmlDoc.createTextNode(loginURL));
 			}
 			
-			xmlRoot.appendChild(statusElement);
+			xmlRoot.appendChild(loginElement);
+			
+			
+			Element logoutElement = xmlDoc.createElement("logoutURL");
+			if (null == logoutURL) {
+				// normalize as ""
+				logoutElement.appendChild(xmlDoc.createTextNode(""));
+			}
+			else {
+				logoutElement.appendChild(xmlDoc.createTextNode(logoutURL));
+			}
+			
+			xmlRoot.appendChild(logoutElement);
 		}
 		
 		// write the security roles
@@ -155,6 +169,29 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 		}
 		else {
 			return loginURL;
+		}
+	}	
+	/**
+	 * Return a URL to use for logout instead of the Domino default.
+	 * This is intended for use with OIDC
+	 * Note: this is currently also in ConfigRead
+	 */
+	public String getLogoutURL() {
+		String logoutURL = null;
+		try {
+			logoutURL = ConfigurationUtils.getConfigAsString(agentDatabase, "logout_url");		
+		}
+		catch (Exception ex) {
+			// ignore the error - it indicates the config was not found
+		}
+		
+		// TODO:  Need to compute OIDC URL?
+		
+		if (DominoUtils.isValueEmpty(logoutURL)) {
+			return "/names.nsf?logout";  // default
+		}
+		else {
+			return logoutURL;
 		}
 	}
 	

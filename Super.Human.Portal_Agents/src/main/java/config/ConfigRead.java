@@ -75,6 +75,7 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 		
 		// For nomadhelper.html instructions:  https://github.com/Moonshine-IDE/Super.Human.Portal/issues/54#issuecomment-2110781462
 		addConfigPropertyString("nomad_base_url", ""); // A URL for the corresponding Nomad server - empty if no Nomad server is defined
+		addConfigPropertyString("logout_url", "/names.nsf?logout"); // A logout URL to support OIDC.  
 		// data directory
 		// TODO:  find a dynamic way to determine this
 		// TODO:  read from notes.ini?
