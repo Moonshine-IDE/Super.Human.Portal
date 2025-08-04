@@ -15,18 +15,18 @@ jobs:
     steps:
 
     - name: Checkout Super.Human.Portal
-      uses: actions/checkout@v3.3.0
+      uses: actions/checkout@v4.2.2
       with:
         path: './SuperHumanPortal'
 
     - name: Checkout PureMVC
-      uses: actions/checkout@v3.3.0 
+      uses: actions/checkout@v4.2.2
       with:
         repository: 'PureMVC/puremvc-as3-multicore-framework'
         path: './puremvc-as3-multicore-framework'
 
     - name: Set up JDK 
-      uses: actions/setup-java@v3.9.0
+      uses: actions/setup-java@v3.14.1
       with:
           distribution: adopt
           java-version: ${{ matrix.java }}
@@ -47,7 +47,7 @@ jobs:
         zip Super.Human.Portal.zip js-release/ -r
 
     - name: Create release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2.3.2
       with:
         name: Super.Human.Portal ${{ steps.readversion.outputs.info }}
         tag_name: ${{ github.ref_name }}
