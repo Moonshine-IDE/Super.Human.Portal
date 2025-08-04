@@ -12,6 +12,7 @@
  	<fx:Metadata>
 		[Event(name="editButtonClick", type="org.apache.royale.events.Event")]
 		[Event(name="deleteButtonClick", type="org.apache.royale.events.Event")]
+		[Event(name="appImprovementButtonClick", type="org.apache.royale.events.Event")]
 	</fx:Metadata>
 	<fx:Script>
 		<![CDATA[
@@ -33,6 +34,8 @@
 			public var nomadOpenLink:String;
 			[Bindable]
 			public var editable:Boolean;
+			[Bindable]
+			public var requestAppImprovement:Boolean;
 
 			public function get openInNomad():IEventDispatcher
 			{
@@ -69,6 +72,11 @@
 			private function onDeleteButtonClick(event:MouseEvent):void
 			{
 				this.dispatchEvent(new Event("deleteButtonClick"));
+			}
+			
+			private function onAppImprovementReqClick(event:MouseEvent):void
+			{
+				this.dispatchEvent(new Event("appImprovementButtonClick"));
 			}
 		]]>
 	</fx:Script>
@@ -145,6 +153,8 @@
 			</j:HGroup>
 			<j:Button className="noLinkStyle" minWidth="130" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
 			<j:Button localId="openNomad" className="noLinkStyle" minWidth="130" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
+	    		<j:Button text="App Improvement Request" minWidth="130" className="noLinkStyle" visible="{requestAppImprovement}"
+	    				  click="onAppImprovementReqClick(event)"/>
 		</j:CardActions>
 	</j:Card>
 </j:VGroup>

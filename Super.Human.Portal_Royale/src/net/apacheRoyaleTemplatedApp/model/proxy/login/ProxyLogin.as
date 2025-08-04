@@ -27,6 +27,7 @@ package model.proxy.login
 		public static const NOTE_TEST_AUTHENTICATION_SUCCESS:String = NAME + "NoteTestAuthenticationSuccess";
 		public static const NOTE_ACCOUNTS_LOAD_FAILED:String = NAME + "NoteAccountsLoadFailed";
 		
+		private const APP_IMPROVEMENT_REQUEST_BASE:String = "https://xd.prominic.net/app/apprequest.nsf/router";
 		protected var loginServiceDelegate:LoginServiceDelegate;
 	
 		private var username:String;
@@ -58,6 +59,25 @@ package model.proxy.login
 		public function get config():Object
 		{
 			return _config;	
+		}
+		
+		public function getAppImprovementRequestUrl():URL
+		{
+			var url:URL = new URL(APP_IMPROVEMENT_REQUEST_BASE);
+			url.searchParams.set("req", "sso");
+			if (config)
+			{
+				url.searchParams.set("user", config.userInfo.name);
+				url.searchParams.set("email", config.userInfo.email);
+				url.searchParams.set("customerId", config.customer_id);
+				url.searchParams.set("context", config.config.configuration_link.server + "|" +
+															   config.config.configuration_link.database + "|" +
+															   config.config.configuration_link.view);
+			}
+			
+			// Manually construct the final URL to avoid '=' after openagent
+			var finalUrl:String = url.href.replace("?", "?openagent&");
+			return new URL(finalUrl);
 		}
 		
 		public function isNomadHelperUrlExists():Boolean 
@@ -241,6 +261,7 @@ package model.proxy.login
 					user.display.viewBookmarks = loginResult.display.viewBookmarks;
 					user.display.viewDocumentation = loginResult.display.viewDocumentation;
 					user.display.viewInstalledApps = loginResult.display.viewInstalledApps;
+					user.display.improvementRequests = loginResult.display.improvementRequests;
 				}
 				this.setData(user);
 				

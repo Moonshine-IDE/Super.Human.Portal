@@ -32,6 +32,19 @@
 				_editableBookmarks = value;
 			}
 			
+			private var _requestAppImprovement:Boolean;
+
+			[Bindable]
+			public function get requestAppImprovement():Boolean
+			{
+				return _requestAppImprovement;
+			}
+
+			public function set requestAppImprovement(value:Boolean):void
+			{
+				_requestAppImprovement = value;
+			}
+			
 			private var _selectedItem:ServerVO;
 
 			[Bindable]
@@ -68,6 +81,11 @@
 			public function get openNomadWeb():Object
 			{
 				return this.nomadWebOpen;
+			}
+			
+			public function get appImprovement():Object
+			{
+				return appImprovementRequest;	
 			}
 			
 			public function get copyToClipboardServer():IEventDispatcher
@@ -211,6 +229,9 @@
 				</j:VGroup>
 			</j:CardPrimaryContent>
 			<j:CardActions itemsHorizontalAlign="itemsRight" itemsVerticalAlign="itemsCenter" gap="1" includeIn="selectedDatabaseState">
+			    <j:HGroup percentWidth="100" visible="{requestAppImprovement}">
+			    		<j:Button localId="appImprovementRequest" text="App Improvement Request" minWidth="130" className="noLinkStyle"/>
+			    </j:HGroup>
 				<j:Button localId="clientOpen" text="Open in Client" minWidth="130" className="noLinkStyle"/>
 				<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle"/>
 				<j:Button localId="bookmarkAdd" text="Add Bookmark" minWidth="130" className="noLinkStyle"

@@ -11,6 +11,7 @@ package interfaces
 	{
 		function get editableBookmarks():Boolean;
 		function set editableBookmarks(value:Boolean):void;
+		function set requestAppImprovement(value:Boolean):void
 		function get breadcrump():Breadcrump;
 		function get topMenu():TopMenu;
 		function get selectedItem():ServerVO;
@@ -18,6 +19,7 @@ package interfaces
 		function set currentState(value:String):void;
 		function get openClient():Object;
 		function get openNomadWeb():Object;
+		function get appImprovement():Object;
 		function get addBookmark():IEventDispatcher;
 		function get copyToClipboardServer():IEventDispatcher;
 		function get copyToClipboardDatabase():IEventDispatcher;

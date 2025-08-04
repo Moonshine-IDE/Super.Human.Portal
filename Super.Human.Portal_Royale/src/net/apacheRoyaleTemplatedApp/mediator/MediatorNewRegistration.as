@@ -121,7 +121,6 @@ package mediator
 				newRegistrationProxy.newRegistration.typeSecondaryPhone = view.dropDownTypeSecondaryPhone["selectedItem"];
 				
 				view.registrationFailed = false;
-				view.registrationFailed = "";
 				newRegistrationProxy.register();
 			}	
 		}		

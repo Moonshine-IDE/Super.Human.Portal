@@ -110,5 +110,17 @@ package model.vo
 		{
 			_viewInstalledApps = value;
 		}
+		
+		private var _improvementRequests:Boolean;
+
+		public function get improvementRequests():Boolean
+		{
+			return _improvementRequests;
+		}
+
+		public function set improvementRequests(value:Boolean):void
+		{
+			_improvementRequests = value;
+		}
 	}
 }

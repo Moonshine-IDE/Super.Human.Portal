@@ -17,7 +17,6 @@ package mediator.applications
 
     import view.applications.ConfigurationAppDetails;
     import view.controls.LinkWithDescriptionAppButton;
-    import org.apache.royale.net.navigateToURL;
     import org.apache.royale.net.URLRequest;
     
     public class MediatorInstalledApps extends Mediator implements IMediator
