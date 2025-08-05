@@ -191,7 +191,7 @@ package mediator.bookmarks
 		
 		private function onAppImprovementReq(event:Event):void
 		{
-			var url:URL = this.loginProxy.getAppImprovementRequestUrl();
+			var url:URL = this.loginProxy.getAppImprovementRequestUrl(this.view.selectedItem);
 			// Use window.open instead of navigateToURL to avoid interaction trigger issues
 			if (typeof window !== "undefined" && window.open) {
 				window.open(url.href, "_blank");

@@ -61,7 +61,7 @@ package model.proxy.login
 			return _config;	
 		}
 		
-		public function getAppImprovementRequestUrl():URL
+		public function getAppImprovementRequestUrl(context:Object = null):URL
 		{
 			var url:URL = new URL(APP_IMPROVEMENT_REQUEST_BASE);
 			url.searchParams.set("req", "sso");
@@ -70,9 +70,9 @@ package model.proxy.login
 				url.searchParams.set("user", config.userInfo.name);
 				url.searchParams.set("email", config.userInfo.email);
 				url.searchParams.set("customerId", config.config.customer_id);
-				url.searchParams.set("context", config.config.configuration_link.server + "|" +
-															   config.config.configuration_link.database + "|" +
-															   config.config.configuration_link.view);
+				
+				var contextParam:String = getAppImprovementUrlContext(context || config.config.configuration_link);
+				url.searchParams.set("context", contextParam);
 			}
 			
 			// Manually construct the final URL to avoid '=' after openagent
@@ -273,6 +273,27 @@ package model.proxy.login
 			{
 				sendNotification(NOTE_ANONYMOUS_USER, {loginUrl: loginResult.loginURL});
 			}
+		}
+
+		private function getAppImprovementUrlContext(context:Object):String
+		{
+			var contextParam:Array = [];
+			if (context.server)
+			{
+				contextParam.push(context.server);
+			}
+			
+			if (context.database)
+			{
+				contextParam.push(context.database);
+			}
+			
+			if (context.view)
+			{
+				contextParam.push(context.view);
+			}
+			
+			return contextParam.join("|");
 		}
 	}
 }
