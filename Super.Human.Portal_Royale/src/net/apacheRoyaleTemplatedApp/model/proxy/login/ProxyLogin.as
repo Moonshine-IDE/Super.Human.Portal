@@ -69,7 +69,7 @@ package model.proxy.login
 			{
 				url.searchParams.set("user", config.userInfo.name);
 				url.searchParams.set("email", config.userInfo.email);
-				url.searchParams.set("customerId", config.customer_id);
+				url.searchParams.set("customerId", config.config.customer_id);
 				url.searchParams.set("context", config.config.configuration_link.server + "|" +
 															   config.config.configuration_link.database + "|" +
 															   config.config.configuration_link.view);
