@@ -119,7 +119,7 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 	protected JSONObject getUserInfo() {
 		JSONObject json = new JSONObject();
 		String userID = getSecurity().getUserID();
-		json.put("name", getAbbrNameSafe(userID));   // is the full username better?
+		json.put("name", getCommonNameSafe(userID));   // is the full username better?
 		json.put("email", getEmailAddress());
 		return json;
 	}
@@ -325,7 +325,7 @@ public class ConfigRead extends CRUDAgentBase implements RoleRestrictedAgent
 			}
 		}
 		catch (Exception ex) {
-			getLog().err("Failed to read configuration value '" + key + "'.", ex);
+			getLog().err("Failed to read configuration value '" + key + "'.");
 			value = defaultValue;
 		}
 		
