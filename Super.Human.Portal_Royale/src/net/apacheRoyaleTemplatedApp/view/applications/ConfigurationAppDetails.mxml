@@ -153,8 +153,10 @@
 			</j:HGroup>
 			<j:Button className="noLinkStyle" minWidth="130" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
 			<j:Button localId="openNomad" className="noLinkStyle" minWidth="130" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
-	    		<j:Button text="App Improvement Request" minWidth="130" className="noLinkStyle" visible="{requestAppImprovement}"
-	    				  click="onAppImprovementReqClick(event)"/>
+	    		 <j:HGroup percentWidth="100" visible="{requestAppImprovement}">
+				<j:Button text="App Improvement Request" className="noLinkStyle"
+						click="onAppImprovementReqClick(event)" minWidth="130"/>
+		  	</j:HGroup>
 		</j:CardActions>
 	</j:Card>
 </j:VGroup>
