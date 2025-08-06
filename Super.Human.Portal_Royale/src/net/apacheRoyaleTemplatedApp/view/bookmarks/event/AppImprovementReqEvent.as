@@ -6,9 +6,18 @@ package view.bookmarks.event
 	{
 		public static const APP_IMPROVEMENT_REQ:String = "appImprovementReq";
 		 
-		public function AppImprovementReqEvent(type:String)
+		public function AppImprovementReqEvent(type:String, context:Object = null)
 		{
 			super(type);
+			
+			this._context = context;
+		}
+		
+		private var _context:Object;
+		
+		public function get context():Object
+		{
+			return _context;
 		}
 	}
 }

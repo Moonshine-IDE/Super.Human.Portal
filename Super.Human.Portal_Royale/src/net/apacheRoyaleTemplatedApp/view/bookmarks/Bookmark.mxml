@@ -86,7 +86,7 @@
 			
 			private function onAppImprovementReq(event:Event):void
 			{
-				this.dispatchEvent(new AppImprovementReqEvent(AppImprovementReqEvent.APP_IMPROVEMENT_REQ));
+				this.dispatchEvent(new AppImprovementReqEvent(AppImprovementReqEvent.APP_IMPROVEMENT_REQ, this.bookmark));
 			}
 		]]>
 	</fx:Script>
