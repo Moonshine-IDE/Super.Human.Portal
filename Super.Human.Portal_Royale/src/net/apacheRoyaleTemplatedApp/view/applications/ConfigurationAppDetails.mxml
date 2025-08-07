@@ -89,14 +89,14 @@
 		<j:CardPrimaryContent>
 			<j:SimpleTable className="formTable">
 				<j:TBody>
-					<j:TableRow visible="{server != null}">
-						<j:TableCell className="formTableCell">
+					<j:TableRow>
+						<j:TableCell className="formTableCell"  visible="{server != null}">
 							<j:Label text="Server:" className="formItemAppDetailsLabel bigFont"/>
 						</j:TableCell>
-						<j:TableCell className="formTableCell">
+						<j:TableCell className="formTableCell" visible="{server != null}">
 							<j:Label html="{server}" className="bigFont"/>
 						</j:TableCell>
-						<j:TableCell className="formTableCell">
+						<j:TableCell className="formTableCell" visible="{server != null}">
 							<j:IconButton click="onCopyToClipboardServerClick(event)">
 								<j:icon>
 									<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
@@ -106,6 +106,15 @@
 									</js:MaterialIcon>
 								</j:icon>
 							</j:IconButton>
+						</j:TableCell>
+						<j:TableCell className="formTableCell" visible="{requestAppImprovement}">
+							<j:HGroup percentWidth="100">
+								<j:style>
+									<js:SimpleCSSStyles marginLeft="10"/>
+								</j:style>
+								<j:Button text="App Improvement Request" className="noLinkStyle"
+									click="onAppImprovementReqClick(event)" minWidth="130"/>
+							</j:HGroup>
 						</j:TableCell>
 					</j:TableRow>
 					<j:TableRow visible="{database != null}">
@@ -153,10 +162,6 @@
 			</j:HGroup>
 			<j:Button className="noLinkStyle" minWidth="130" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
 			<j:Button localId="openNomad" className="noLinkStyle nomadGreen" minWidth="130" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
-	    		 <j:HGroup percentWidth="100" visible="{requestAppImprovement}">
-				<j:Button text="App Improvement Request" className="noLinkStyle"
-						click="onAppImprovementReqClick(event)" minWidth="130"/>
-		  	</j:HGroup>
 		</j:CardActions>
 	</j:Card>
 </j:VGroup>
