@@ -461,4 +461,51 @@
 	text-decoration: none !important;
 }
 
+/* Orange styling for App Improvement Request button */
+.jewel.button.appImprovementOrange,
+.jewel.button.noLinkStyle.appImprovementOrange {
+	background: linear-gradient(#ff9800, #f57c00) !important;
+	border: 1px solid #e65100 !important;
+	box-shadow: inset 0 1px 0 #ffcc80 !important;
+	border-radius: 0.25rem !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.appImprovementOrange:hover, .jewel.button.appImprovementOrange:hover:focus,
+.jewel.button.noLinkStyle.appImprovementOrange:hover, .jewel.button.noLinkStyle.appImprovementOrange:hover:focus {
+	background: linear-gradient(#fb8c00, #ef6c00) !important;
+	border: 1px solid #d84315 !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.appImprovementOrange:active, .jewel.button.appImprovementOrange:active:focus,
+.jewel.button.noLinkStyle.appImprovementOrange:active, .jewel.button.noLinkStyle.appImprovementOrange:active:focus {
+	background: linear-gradient(#ef6c00, #e65100) !important;
+	border: 1px solid #bf360c !important;
+	box-shadow: inset 0px 1px 3px 0px rgba(50, 50, 50, 0.5) !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.appImprovementOrange:focus,
+.jewel.button.noLinkStyle.appImprovementOrange:focus {
+	border: 1px solid #e65100 !important;
+	box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.appImprovementOrange[disabled],
+.jewel.button.noLinkStyle.appImprovementOrange[disabled] {
+	background: #4d4d4d !important;
+	border: 1px solid #666666 !important;
+	box-shadow: none !important;
+	color: #999999 !important;
+	text-shadow: none !important;
+}
+
+.jewel.button.appImprovementOrange a,
+.jewel.button.noLinkStyle.appImprovementOrange a {
+	color: #FFFFFF !important;
+	text-decoration: none !important;
+}
+
 /*# sourceMappingURL=defaults.css.map */

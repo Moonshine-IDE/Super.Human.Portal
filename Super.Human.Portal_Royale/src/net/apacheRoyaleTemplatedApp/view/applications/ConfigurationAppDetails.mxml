@@ -112,7 +112,7 @@
 								<j:style>
 									<js:SimpleCSSStyles marginLeft="10"/>
 								</j:style>
-								<j:Button text="App Improvement Request" className="noLinkStyle"
+								<j:Button text="App Improvement Request" className="noLinkStyle appImprovementOrange"
 									click="onAppImprovementReqClick(event)" minWidth="130"/>
 							</j:HGroup>
 						</j:TableCell>

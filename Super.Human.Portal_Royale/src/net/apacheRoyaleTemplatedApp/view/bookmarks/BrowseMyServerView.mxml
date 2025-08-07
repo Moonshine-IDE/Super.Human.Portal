@@ -230,7 +230,7 @@
 			</j:CardPrimaryContent>
 			<j:CardActions itemsHorizontalAlign="itemsRight" itemsVerticalAlign="itemsCenter" gap="1" includeIn="selectedDatabaseState">
 			    <j:HGroup percentWidth="100" visible="{requestAppImprovement}">
-			    		<j:Button localId="appImprovementRequest" text="App Improvement Request" minWidth="130" className="noLinkStyle"/>
+			    		<j:Button localId="appImprovementRequest" text="App Improvement Request" minWidth="130" className="noLinkStyle appImprovementOrange"/>
 			    </j:HGroup>
 				<j:Button localId="clientOpen" text="Open in Client" minWidth="130" className="noLinkStyle"/>
 				<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle nomadGreen"/>
