@@ -152,7 +152,7 @@
 				</j:IconButton>
 			</j:HGroup>
 			<j:Button className="noLinkStyle" minWidth="130" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
-			<j:Button localId="openNomad" className="noLinkStyle" minWidth="130" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
+			<j:Button localId="openNomad" className="noLinkStyle nomadGreen" minWidth="130" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
 	    		 <j:HGroup percentWidth="100" visible="{requestAppImprovement}">
 				<j:Button text="App Improvement Request" className="noLinkStyle"
 						click="onAppImprovementReqClick(event)" minWidth="130"/>

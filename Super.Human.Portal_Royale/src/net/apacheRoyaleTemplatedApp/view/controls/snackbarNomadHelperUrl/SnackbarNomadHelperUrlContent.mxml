@@ -110,7 +110,7 @@
 							<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
 						</j:beads>
 					</j:Button>
-					<j:Button text="Open in Nomad" click="onOpenInNomadClick(event)">
+					<j:Button text="Open in Nomad" click="onOpenInNomadClick(event)" className="nomadGreen">
 						<j:beads>
 							<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
 						</j:beads>

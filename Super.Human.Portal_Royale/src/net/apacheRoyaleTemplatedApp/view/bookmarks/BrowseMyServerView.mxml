@@ -233,7 +233,7 @@
 			    		<j:Button localId="appImprovementRequest" text="App Improvement Request" minWidth="130" className="noLinkStyle"/>
 			    </j:HGroup>
 				<j:Button localId="clientOpen" text="Open in Client" minWidth="130" className="noLinkStyle"/>
-				<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle"/>
+				<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle nomadGreen"/>
 				<j:Button localId="bookmarkAdd" text="Add Bookmark" minWidth="130" className="noLinkStyle"
 						  visible="{editableBookmarks}" />
 				<j:VGroup itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" visible="{selectedItem.hasBookmarks}">
