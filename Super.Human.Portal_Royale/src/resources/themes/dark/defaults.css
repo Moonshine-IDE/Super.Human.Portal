@@ -638,6 +638,10 @@ a font {
 	color: #d9534f !important;
 }
 
+.jewel.label.multiline.categoryLabel {
+	color: #FFFFFF !important;
+}
+
 .layout.horizontal.bookmarkTitleContainer {
     background: #1ca8dd;
 	border-radius: 0.25rem;

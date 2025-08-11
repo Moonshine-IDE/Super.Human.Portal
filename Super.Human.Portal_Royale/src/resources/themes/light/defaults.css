@@ -397,6 +397,10 @@
 	color: #EC1C24 !important;
 }
 
+.jewel.label.multiline.categoryLabel {
+	color: #333333 !important;
+}
+
 .jewel.card.cardTile {
 	background: none !important;
 	border: none !important;

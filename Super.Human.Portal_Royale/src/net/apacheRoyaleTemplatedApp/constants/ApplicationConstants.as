@@ -31,6 +31,8 @@ package constants
 		public static const NOTE_OK_POPUP:String = NAME + SEPARATOR + "OKPopup";
 		public static const NOTE_CANCEL_POPUP:String = NAME + SEPARATOR + "CancelPopup";
 		
+		public static const NOTE_THEME_CHANGED:String = NAME + SEPARATOR + "NoteThemeChanged";
+		
 		public static const NOTE_CONTACTS_DATA_UPDATED:String = NAME + SEPARATOR + "NoteContactsDataUpdated";
 
 		public static const NOTE_OPEN_NEW_ACCOUNT_REQUEST:String = NAME + SEPARATOR + "NoteOpenNewAccountRequest";
