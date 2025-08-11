@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		"source-path": [
+			"src/net/apacheRoyaleTemplatedApp",
+			"../../puremvc-as3-multicore-framework/src",
+			"src/generated"
+		],
+		"default-frame-rate": 60,
+		"default-background-color": "#FFFFFF",
+		"output": "bin-debug/SuperHumanPortal_Royale.swf",
+		"default-size": {
+			"width": 800,
+			"height": 600
+		},
+		"target-player": "20.0",
+		"warnings": true,
+		"optimize": false,
+		"use-network": true,
+		"accessible": false,
+		"verbose-stacktraces": false,
+		"static-link-runtime-shared-libraries": false,
+		"benchmark": false,
+		"use-resource-bundle-metadata": true,
+		"show-unused-type-selector-warnings": true,
+		"strict": true
+	},
+	"files": [
+		"src/net/apacheRoyaleTemplatedApp/SuperHumanPortal_Royale.mxml"
+	],
+	"additionalOptions": "-theme=${royalelib}/themes/JewelTheme/src/main/resources/defaults.css -html-template=src/resources/jewel-index-template.html -js-dynamic-access-unknown-members=true -debug=true"
+}
