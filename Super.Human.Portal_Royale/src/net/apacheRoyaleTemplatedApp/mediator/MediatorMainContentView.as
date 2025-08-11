@@ -253,6 +253,8 @@ package mediator
 			{
 				var bookmarksProxy:ProxyBookmarks = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
 					bookmarksProxy.getCustomBookmarksList();
+				var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
+					genesisAppsProxy.getInstalledApps();
 			}
 			
 			private function initializeGenesisApplicationsList():void

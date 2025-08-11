@@ -24,6 +24,10 @@ package mediator.bookmarks
     import view.bookmarks.Bookmark;
     import view.bookmarks.event.BookmarkEvent;
     import view.controls.LinkWithDescriptionAppButton;
+    import model.proxy.login.ProxyLogin;
+    import view.bookmarks.event.AppImprovementReqEvent;
+    import org.apache.royale.net.navigateToURL;
+    import org.apache.royale.net.URLRequest;
     
     public class MediatorBookmarks extends Mediator implements IMediator
     {
@@ -32,6 +36,8 @@ package mediator.bookmarks
 		public static const BOOKMARKS_VIEW_STATE:String = "bookmarksView";
 		public static const BROWSE_MY_SERVER_VIEW_STATE:String = "browseMyServerView";
 		
+		private var loginProxy:ProxyLogin;
+
 		private var bookmarksProxy:ProxyBookmarks;
 		private var urlParamsProxy:ProxyUrlParameters;
 		
@@ -40,10 +46,18 @@ package mediator.bookmarks
 			super(mediatorName, component);
 		}
 		
+		public static function getMediatorName(bookmarkGroup:String):String 
+		{
+			var appWhiteSpaceRegExp:RegExp = new RegExp(/\s+/gi);
+			
+			return MediatorBookmarks.NAME + bookmarkGroup.replace(appWhiteSpaceRegExp, "");	
+		}
+		
 		override public function onRegister():void 
 		{			
 			super.onRegister();
 			
+			this.loginProxy = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
 			
 			this.view["addEventListener"]("stateChangeComplete", onViewStateChangeComplete);
@@ -57,8 +71,6 @@ package mediator.bookmarks
 				this.view.currentState = this.bookmarksProxy.selectedGroup == "Browse My Server" ?
 											BROWSE_MY_SERVER_VIEW_STATE : BOOKMARKS_VIEW_STATE;
 			}
-			
-			sendNotification(ApplicationConstants.COMMAND_EXECUTE_BOOKMARKS_ROLES);
 		}
 		
 		override public function onRemove():void 
@@ -71,6 +83,12 @@ package mediator.bookmarks
 			{
 				this.view.refreshButton.removeEventListener(MouseEvent.CLICK, onRefreshServersListClick);
 			}
+			
+			if (this.view.addBookmark)
+			{
+				view.addBookmark.removeEventListener(MouseEvent.CLICK, onAddBookmarkClick);	
+			}
+			
 			this.view["currentState"] = BOOKMARKS_VIEW_STATE;
 			
 			cleanUpBookmarksList();
@@ -131,8 +149,6 @@ package mediator.bookmarks
 				
 				this.cleanUpBookmarksList();
 				this.updateListOfBookmarks();
-				
-				sendNotification(ApplicationConstants.COMMAND_EXECUTE_ROLES);		
 			}
 			else if (view["currentState"] == BROWSE_MY_SERVER_VIEW_STATE)
 			{
@@ -142,6 +158,8 @@ package mediator.bookmarks
 				facade.registerMediator(new MediatorBrowseMyServer(view.browseMyServerView));
 				view.title = "Browse My Server";
 			}
+					
+			sendNotification(ApplicationConstants.COMMAND_EXECUTE_ROLES);		
 		}
 
 		private function updateListOfBookmarks():void
@@ -169,9 +187,13 @@ package mediator.bookmarks
 					bookmarkView.currentState = "database";
 				}
 				
+				bookmarkView.requestAppImprovement = this.loginProxy.user && 
+											 this.loginProxy.user.display && 
+											 this.loginProxy.user.display.improvementRequests;
 				bookmarkView.addEventListener("initComplete", onBookmarkInitComplete);
 				bookmarkView.addEventListener(BookmarkEvent.EDIT_BOOKMARK, onModifyBookmark);
 				bookmarkView.addEventListener(BookmarkEvent.DELETE_BOOKMARK, onModifyBookmark);
+				bookmarkView.addEventListener(AppImprovementReqEvent.APP_IMPROVEMENT_REQ, appImprovementReqClick);
 									
 				view.bookmarksList.addElement(bookmarkView);
 			}
@@ -185,6 +207,8 @@ package mediator.bookmarks
 				var bookmarkView:Bookmark = view.bookmarksList.getElementAt(i);
 					bookmarkView.removeEventListener(BookmarkEvent.EDIT_BOOKMARK, onModifyBookmark);
 					bookmarkView.removeEventListener(BookmarkEvent.DELETE_BOOKMARK, onModifyBookmark);
+					bookmarkView.removeEventListener(AppImprovementReqEvent.APP_IMPROVEMENT_REQ, appImprovementReqClick);
+					
 					bookmarkView.removeEventListener("initComplete", onBookmarkInitComplete);
 				if (bookmarkView.linkWithDesc && bookmarkView.bookmark.defaultAction == "nomad")
 				{
@@ -253,6 +277,17 @@ package mediator.bookmarks
 			else
 			{
 				sendNotification(ApplicationConstants.NOTE_OPEN_ADD_EDIT_BOOKMARK);
+			}
+		}
+		
+		private function appImprovementReqClick(event:AppImprovementReqEvent):void
+		{
+			var url:URL = this.loginProxy.getAppImprovementRequestUrl(this.bookmarksProxy.selectedBookmark || event.context);
+			// Use window.open instead of navigateToURL to avoid interaction trigger issues
+			if (typeof window !== "undefined" && window.open) {
+				window.open(url.href, "_blank");
+			} else {
+				navigateToURL(new URLRequest(url.href), "_blank");
 			}
 		}
 		

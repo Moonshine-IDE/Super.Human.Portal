@@ -12,6 +12,7 @@
  	<fx:Metadata>
 		[Event(name="editButtonClick", type="org.apache.royale.events.Event")]
 		[Event(name="deleteButtonClick", type="org.apache.royale.events.Event")]
+		[Event(name="appImprovementButtonClick", type="org.apache.royale.events.Event")]
 	</fx:Metadata>
 	<fx:Script>
 		<![CDATA[
@@ -33,6 +34,8 @@
 			public var nomadOpenLink:String;
 			[Bindable]
 			public var editable:Boolean;
+			[Bindable]
+			public var requestAppImprovement:Boolean;
 
 			public function get openInNomad():IEventDispatcher
 			{
@@ -70,6 +73,11 @@
 			{
 				this.dispatchEvent(new Event("deleteButtonClick"));
 			}
+			
+			private function onAppImprovementReqClick(event:MouseEvent):void
+			{
+				this.dispatchEvent(new Event("appImprovementButtonClick"));
+			}
 		]]>
 	</fx:Script>
 
@@ -77,74 +85,113 @@
 		<js:ContainerDataBinding />
 	</j:beads>
 
-	<j:Card>
-		<j:CardPrimaryContent>
-			<j:SimpleTable className="formTable">
-				<j:TBody>
-					<j:TableRow visible="{server != null}">
-						<j:TableCell className="formTableCell">
-							<j:Label text="Server:" className="formItemAppDetailsLabel bigFont"/>
-						</j:TableCell>
-						<j:TableCell className="formTableCell">
-							<j:Label html="{server}" className="bigFont"/>
-						</j:TableCell>
-						<j:TableCell className="formTableCell">
-							<j:IconButton click="onCopyToClipboardServerClick(event)">
-								<j:icon>
-									<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
-										<js:style>
-											<js:SimpleCSSStyles fontSize="16"/>
-										</js:style>
-									</js:MaterialIcon>
-								</j:icon>
-							</j:IconButton>
-						</j:TableCell>
-					</j:TableRow>
-					<j:TableRow visible="{database != null}">
-						<j:TableCell className="formTableCell">
-							<j:Label text="Database:" className="formItemAppDetailsLabel bigFont"/>
-						</j:TableCell>
-						<j:TableCell className="formTableCell">
-							<j:Label html="{database}" className="bigFont" />
-						</j:TableCell>
-						<j:TableCell className="formTableCell">
-							<j:IconButton click="onCopyToClipboardDatabaseClick(event)">
-								<j:icon>
-									<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
-										<js:style>
-											<js:SimpleCSSStyles fontSize="16"/>
-										</js:style>
-									</js:MaterialIcon>
-								</j:icon>
-							</j:IconButton>
-						</j:TableCell>
-					</j:TableRow>
-					<j:TableRow visible="{viewName != null}">
-						<j:TableCell className="formTableCell">
-							<j:Label text="View:" className="formItemAppDetailsLabel bigFont"/>
-						</j:TableCell>
-						<j:TableCell className="formTableCell">
-							<j:Label html="{viewName}" className="bigFont"/>
-						</j:TableCell>
-					</j:TableRow>
-				</j:TBody>
-			</j:SimpleTable>
-		</j:CardPrimaryContent>
-		<j:CardActions itemsHorizontalAlign="itemsRight" gap="1">
-			<j:HGroup gap="1" percentWidth="100" includeIn="bookmark" visible="{editable}">
-				<j:IconButton click="onEditButtonClick(event)">
-					<j:icon>
-						<js:MaterialIcon text="{MaterialIconType.EDIT}"/>
-					</j:icon>
-				</j:IconButton>
-				<j:IconButton click="onDeleteButtonClick(event)">
-					<j:icon>
-						<js:MaterialIcon text="{MaterialIconType.DELETE}"/>
-					</j:icon>
-				</j:IconButton>
-			</j:HGroup>
-			<j:Button className="noLinkStyle" minWidth="130" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
-			<j:Button localId="openNomad" className="noLinkStyle" minWidth="130" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
-		</j:CardActions>
-	</j:Card>
+	<j:HGroup gap="1">
+		<j:style>
+			<js:AllCSSStyles border="1px solid #d9d9d9"/>
+		</j:style>
+		<j:Card>
+			<j:style>
+				<js:AllCSSStyles borderTop="none" borderLeft="none" borderBottom="none" borderRight="1px solid #d9d9d9"/>
+			</j:style>
+			<j:CardHeader>
+				<j:style>
+					<js:AllCSSStyles border="none"/>
+				</j:style>
+				<html:H4 text="Configuration"/>
+			</j:CardHeader>
+			<j:CardPrimaryContent>
+					<j:SimpleTable className="formTable">
+						<j:TBody>
+							<j:TableRow>
+								<j:TableCell className="formTableCell"  visible="{server != null}">
+									<j:Label text="Server:" className="formItemAppDetailsLabel bigFont"/>
+							</j:TableCell>
+							<j:TableCell className="formTableCell" visible="{server != null}">
+								<j:Label html="{server}" className="bigFont"/>
+							</j:TableCell>
+							<j:TableCell className="formTableCell" visible="{server != null}">
+								<j:IconButton click="onCopyToClipboardServerClick(event)">
+									<j:icon>
+										<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+											<js:style>
+												<js:SimpleCSSStyles fontSize="16"/>
+											</js:style>
+										</js:MaterialIcon>
+									</j:icon>
+								</j:IconButton>
+							</j:TableCell>
+						</j:TableRow>
+						<j:TableRow visible="{database != null}">
+							<j:TableCell className="formTableCell">
+								<j:Label text="Database:" className="formItemAppDetailsLabel bigFont"/>
+							</j:TableCell>
+							<j:TableCell className="formTableCell">
+								<j:Label html="{database}" className="bigFont" />
+							</j:TableCell>
+							<j:TableCell className="formTableCell">
+								<j:IconButton click="onCopyToClipboardDatabaseClick(event)">
+									<j:icon>
+										<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+											<js:style>
+												<js:SimpleCSSStyles fontSize="16"/>
+											</js:style>
+										</js:MaterialIcon>
+									</j:icon>
+								</j:IconButton>
+							</j:TableCell>
+						</j:TableRow>
+						<j:TableRow visible="{viewName != null}">
+							<j:TableCell className="formTableCell">
+								<j:Label text="View:" className="formItemAppDetailsLabel bigFont"/>
+							</j:TableCell>
+							<j:TableCell className="formTableCell">
+								<j:Label html="{viewName}" className="bigFont"/>
+							</j:TableCell>
+						</j:TableRow>
+					</j:TBody>
+					</j:SimpleTable>
+			</j:CardPrimaryContent>
+			<j:CardActions itemsHorizontalAlign="itemsRight" gap="1">
+				<j:style>
+					<js:AllCSSStyles border="none"/>
+				</j:style>
+				<j:HGroup gap="1" percentWidth="100" includeIn="bookmark" visible="{editable}">
+					<j:IconButton click="onEditButtonClick(event)">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.EDIT}"/>
+						</j:icon>
+					</j:IconButton>
+					<j:IconButton click="onDeleteButtonClick(event)">
+						<j:icon>
+							<js:MaterialIcon text="{MaterialIconType.DELETE}"/>
+						</j:icon>
+					</j:IconButton>
+				</j:HGroup>
+				<j:Button className="noLinkStyle" minWidth="130" html="{clientOpenLink}" visible="{clientOpenLink != null}"/>
+				<j:Button localId="openNomad" className="noLinkStyle nomadGreen" minWidth="130" html="{nomadOpenLink}" visible="{nomadOpenLink != null}"/>
+			</j:CardActions>
+		</j:Card>
+		<j:Card>
+			<j:style>
+				<js:AllCSSStyles border="none"/>
+			</j:style>
+			<j:CardPrimaryContent>
+				<j:SimpleTable className="formTable" visible="{requestAppImprovement}">
+						<j:TBody>
+							<j:TableRow>
+								<j:TableCell className="formTableCell">
+									<j:HGroup percentWidth="100">
+										<j:style>
+											<js:SimpleCSSStyles marginLeft="10" marginTop="-10"/>
+										</j:style>
+									<j:Button text="App Improvement Request" className="noLinkStyle appImprovementNeutral"
+										click="onAppImprovementReqClick(event)" minWidth="130"/>
+									</j:HGroup>
+								</j:TableCell>
+						</j:TableRow>
+					</j:TBody>
+				</j:SimpleTable>
+			</j:CardPrimaryContent>
+		</j:Card>
+	</j:HGroup>
 </j:VGroup>

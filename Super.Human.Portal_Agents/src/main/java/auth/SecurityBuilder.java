@@ -16,8 +16,18 @@ public class SecurityBuilder
 {
 	public static final String ROLE_ADMINISTRATOR = "Administrator";
 	
+	public static final String RESTRICT_DOCUMENTATION_VIEW = "viewDocumentation";
+	public static final String RESTRICT_DOCUMENTATION_MANAGE = "manageDocumentation";
+	public static final String RESTRICT_APPS_VIEW = "viewInstalledApps";
+	public static final String RESTRICT_APPS_INSTALL = "installApps";
+	public static final String RESTRICT_BOOKMARKS_VIEW = "viewBookmarks";
+	public static final String RESTRICT_BOOKMARKS_MANAGE = "manageBookmarks";
+	public static final String RESTRICT_BROWSE_MY_SERVER = "browseMyServer";
+	public static final String RESTRICT_GENESIS_MANAGE = "additionalGenesis";
+	public static final String RESTRICT_IMPROVEMENT_REQUESTS = "improvementRequests";
+	
 	public static SecurityInterface buildInstance(Database roleDatabase, RoleRestrictedAgent agent, Session session, LogInterface log) {
-		return new SimpleRoleSecurity(roleDatabase, agent.getAllowedRoles(), session, log);
+		return new SimpleRoleSecurity(roleDatabase, agent.getRoleRestrictionID(), agent.getAllowedRoles(), session, log);
 	}
 	
 	public static Collection<String> buildList(String role1) {

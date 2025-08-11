@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view name="Categories\SelectionMap" noreplace="true" propagatenoreplace="false" showinmenu="false" unreadmarks="none" publicaccess="false" onopengoto="lastopened" onrefresh="displayindicator" opencollapsed="false" showresponsehierarchy="true" showmargin="true" shrinkrows="false" extendlastcolumn="false" showhierarchies="false" unreadcolor="black" rowlinecount="1" rowspacing="1" bgcolor="white" totalscolor="black" headerbgcolor="white">
+  <code event="selection">
+    <formula>SELECT "$FormName" = Form</formula>
+  </code>
+  <column sort="ascending" categorized="false" separatemultiplevalues="true" totals="none" hidedetailrows="false" width="40" resizable="true" sortnoaccent="true" sortnocase="true" showaslinks="false" itemname="$8">
+    <font name="sans-serif" style="normal" color="#000000"/>
+    <columnheader title="Lookup">
+      <font name="sans-serif" style="bold" size="9" color="#000000"/>
+    </columnheader>
+    <code event="value">
+      <formula>Label + " | " + CategoryID</formula>
+    </code>
+  </column>
+</view>

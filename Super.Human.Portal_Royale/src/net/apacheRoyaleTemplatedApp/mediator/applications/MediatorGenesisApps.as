@@ -1,11 +1,15 @@
 package mediator.applications
 {
+    import classes.com.devexpress.js.dataGrid.events.DataGridEvent;
+
     import constants.ApplicationConstants;
     import constants.PopupType;
+    import constants.Roles;
 
     import interfaces.IGenesisAppsView;
 
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
+    import model.proxy.login.ProxyLogin;
     import model.proxy.urlParams.ProxyUrlParameters;
     import model.vo.ApplicationVO;
     import model.vo.PopupVO;
@@ -16,7 +20,6 @@ package mediator.applications
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-    import classes.com.devexpress.js.dataGrid.events.DataGridEvent;
     
     public class MediatorGenesisApps extends Mediator implements IMediator
     {
@@ -24,6 +27,7 @@ package mediator.applications
 		
 		private var genesisAppsProxy:ProxyGenesisApps;
 		private var urlParamsProxy:ProxyUrlParameters;
+		private var loginProxy:ProxyLogin;
 		
 		public function MediatorGenesisApps(component:IGenesisAppsView) 
 		{
@@ -33,11 +37,12 @@ package mediator.applications
 		override public function onRegister():void 
 		{			
 			super.onRegister();
-			
+
 			view.genesisAppsList.addEventListener(DataGridEvent.SELECTION_CHANGED, onGenesisAppsListChange);
 			view.installApplicationButton.addEventListener(MouseEvent.CLICK, onInstallAppClick);
 			view.refreshButton.addEventListener(MouseEvent.CLICK, onRefreshButtonClick);
-			
+							
+			this.loginProxy = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			this.genesisAppsProxy = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
 			sendNotification(ApplicationConstants.COMMAND_ADD_PROXY_FOR_DATA_DISPOSE, ProxyGenesisApps.NAME);
 
@@ -104,6 +109,8 @@ package mediator.applications
 		{
 			view.learnMore["html"] = "<a href='http://genesis.directory/articles/what-is-genesis' target='_blank'>Learn More</a>";
 			view.selectedApp = "Select an application from the list below";
+
+			refreshInstallButtonState();
 			
 			if (!genesisAppsProxy.getData())
 			{
@@ -124,8 +131,11 @@ package mediator.applications
 
 		private function refreshInstallButtonState():void
 		{
+			var canInstall:Boolean = loginProxy.user && loginProxy.user.display.installApps;
+
 			var disabled:Disabled = view.installApplicationButton["getBeadByType"](Disabled);
-			disabled.disabled = genesisAppsProxy.selectedApplication == null;
+			disabled.disabled = genesisAppsProxy.selectedApplication == null || canInstall == false;
+			view.installApplicationButton["text"] = canInstall ? "Install" : "Install (Admin-only)";
 		}
 		
 		private function refreshSeeMoreDetails():void

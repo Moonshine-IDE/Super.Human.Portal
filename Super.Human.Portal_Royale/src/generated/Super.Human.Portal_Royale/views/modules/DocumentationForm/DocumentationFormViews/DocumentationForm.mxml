@@ -1,27 +1,30 @@
 <j:VGroup  xmlns:j="library://ns.apache.org/royale/jewel" xmlns:fx="http://ns.adobe.com/mxml/2009"
 			xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html"
 			xmlns:dataGrid="Super.Human.Portal_Royale.classes.dataGrid.*"
-			xmlns:components="Super.Human.Portal_Royale.views.components.*" xmlns:htmlEditor="Super.Human.Portal_Royale.classes.htmlEditor.*"
-			currentState="dataGridState" gap="5" stateChangeComplete="{this.dispatchEvent(new Event('valueChange'))}"
-			itemsVerticalAlign="itemsTop" initComplete="onViewInitComplete(event)" percentHeight="100" className="bodyPadding">
+			xmlns:components="Super.Human.Portal_Royale.views.components.*" xmlns:htmlEditor="Super.Human.Portal_Royale.classes.htmlEditor.*" 
+			xmlns:tileView="classes.com.devexpress.js.tileView.*" xmlns:breadcrump="classes.breadcrump.*"
+			currentState="startview" gap="5" stateChangeComplete="onDocumentationFormStateChange(event)"
+			itemsVerticalAlign="itemsTop" initComplete="onViewInitComplete(event)" className="bodyPadding">
   <j:beads>
     <js:ContainerDataBinding/>
-    <js:SimpleStatesImpl/>
   </j:beads>
   <j:states>
+  	<js:State name="startview" />
     <js:State name="dataGridState"/>
     <js:State name="contentState"/>
   </j:states>
   <fx:Script><![CDATA[
 	import Super.Human.Portal_Royale.classes.events.ErrorEvent;
+	import Super.Human.Portal_Royale.classes.htmlEditor.events.HtmlEditorEvent;
+	import Super.Human.Portal_Royale.classes.htmlEditor.helpers.ToolbarItems;
 	import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormServices.DocumentationFormProxy;
 	import Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationFormVO.DocumentationFormVO;
 
-	import org.apache.royale.jewel.Alert;
-	import Super.Human.Portal_Royale.classes.htmlEditor.events.HtmlEditorEvent;
-	import Super.Human.Portal_Royale.classes.htmlEditor.helpers.ToolbarItems;
+	import classes.com.devexpress.js.tileView.events.TileViewEvent;
 
-	[Bindable] private var proxy:DocumentationFormProxy = DocumentationFormProxy.getInstance();
+	import org.apache.royale.jewel.Alert;
+
+	[Bindable] private var proxy:DocumentationFormProxy;
 
 	[Bindable] private var itemVO:DocumentationFormVO;
 	[Bindable] private var isDisabled:Boolean = false;
@@ -30,9 +33,40 @@
 
     private function onViewInitComplete(event:Event):void
     {
+    	    proxy = DocumentationFormProxy.getInstance();
         proxy.addEventListener(ErrorEvent.SERVER_ERROR, onServerError);
         proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_UPDATED, onServerItemChanged);
-        proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_REMOVED, onServerItemChanged);
+        proxy.addEventListener(DocumentationFormProxy.EVENT_ITEM_REMOVED, onServerItemRemoved);
+        
+        breadcrump.model = proxy.breadcrumpItems;
+        breadcrump.buildBreadcrump(proxy.breadcrumpItems.gettingStarted);
+    }
+    
+    private function onDocumentationFormStateChange(event:Event):void
+    {
+    		this.dispatchEvent(new Event('valueChange'));	
+    }
+    
+    public function resetDocumentationForm():void
+    {
+    		this.currentState = 'startview';
+    		this.proxy.selectedIndex = -1;
+    		
+    		if (this.dg)
+    		{
+    			this.dg.selectedIndex = -1;
+    			this.dg.selectedItem = null;
+   		} 
+   		
+        if (this.itemVO)
+        {
+        		this.itemVO.DocumentationName = null;
+        		this.itemVO.DocumentationUNID = null;
+    		}
+
+        this.itemVO = null;
+        
+        breadcrump.buildBreadcrump(proxy.breadcrumpItems.gettingStarted);
     }
     
     public function refreshItems():void
@@ -50,14 +84,15 @@
         		this.itemVO.DocumentationName = null;
         		this.itemVO.DocumentationUNID = null;
     		}
-    		
+
         this.itemVO = null;
     }
 
-    private function initReadOnlyForm():void
+    public function initReadOnlyForm():void
     {
     		this.currentState = 'contentState';
         this.isDisabled = true;
+        this.backCancelButtonIcon.text = MaterialIconType.ARROW_BACK;
         this.backCancelButton.text = "Back";
         this.proxy.selectedIndex = dg.selectedIndex;
         this.itemVO = dg.selectedItem.clone();
@@ -66,6 +101,8 @@
 	private function onSaveClick(event:Event):void
     {
         this.proxy.submitItem(this.itemVO);
+        
+        this.currentState = 'dataGridState';
     }
 
     private function onCancelClick(event:Event):void
@@ -80,34 +117,60 @@
     		}
     }
 
+    private function onBackClick(event:Event):void
+    {
+    		this.resetDocumentationForm();
+    }
+    
     private function onAddItem(event:Event):void
     {
         this.proxy.selectedIndex = -1;
         this.currentState = 'contentState';
         this.isDisabled = false;
         this.itemVO = new DocumentationFormVO();
+        this.itemVO.Categories.push(tileGettingStarted.selectedItem.id);
     }
 
     private function onEditItem(event:Event):void
     {
         this.currentState = 'contentState';
         this.isDisabled = false;
+        this.backCancelButtonIcon.text = MaterialIconType.CANCEL;
         this.backCancelButton.text = "Cancel";
         this.proxy.selectedIndex = dg.selectedIndex;
         this.itemVO = dg.selectedItem.clone();
     }
 
-    private function onGridDoubleClick(event:Event):void
-    {
-        this.initReadOnlyForm();
-    }
-
     private function onServerItemChanged(event:Event):void
     {
-        this.currentState = 'dataGridState';
-        this.dg.refreshCurrentDataProvider();
+        if (this.dg)
+        {
+        		var items:Array = this.proxy.itemsByCategory[tileGettingStarted.selectedItem.id];
+        		if (items == this.dg.dataProvider)
+        		{
+        			this.dg.refreshDataProvider();
+    			}
+    			else
+    			{
+        			this.dg.dataProvider = items;
+    			}
+    		}
+        
+        breadcrump.model = proxy.breadcrumpItems;
+        if (tileGettingStarted.selectedItem)
+        {
+        		breadcrump.buildBreadcrump(breadcrump.model[tileGettingStarted.selectedItem.id]);
+    		}
+    		tileGettingStarted.direction="vertical";
+      //  this.dg.refreshCurrentDataProvider();
     }
 
+    private function onServerItemRemoved(event:Event):void
+    {
+    		currentState = "dataGridState";
+    		onServerItemChanged(event);
+    }
+    
     private function onServerError(event:ErrorEvent):void
     {
         var errorMessage:String = event.errorMessage;
@@ -123,6 +186,13 @@
         Alert.show(errorMessage,  'Error!', Alert.OK);
     }
 
+    private function onDocClickItem(event:TileViewEvent):void
+    {
+    		breadcrump.buildBreadcrump(breadcrump.model[event.item.DominoUniversalID]);
+    		
+    		initReadOnlyForm();	
+    }
+    
 	private function removeItem():void
 	{
 		var alert:Alert = Alert.show('Are you sure you want to remove this item?',  'Remove', Alert.OK | Alert.CANCEL);
@@ -136,9 +206,11 @@
 	{
 		this.itemVO.DocumentationBody = event.text;
 	}
-
+	
 ]]></fx:Script>
-  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2" excludeFrom="contentState">
+  <breadcrump:Breadcrump localId="breadcrump"/>
+  
+  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="2" includeIn="dataGridState">
       <j:style>
           <js:SimpleCSSStyles padding="10"/>
       </j:style>
@@ -148,13 +220,37 @@
             <js:MaterialIcon text="{MaterialIconType.ADD}" />
         </j:icon>
       </j:IconButton>
+      <j:IconButton text="Refresh" 
+                    click="{refreshItems()}">
+        <j:icon>
+            <js:MaterialIcon text="{MaterialIconType.REFRESH}" />
+        </j:icon>
+      </j:IconButton>
+       <j:IconButton localId="backButton" text="Back" click="onBackClick(event)">
+          <j:icon>
+              <js:MaterialIcon text="{MaterialIconType.ARROW_BACK}" />
+          </j:icon>
+        </j:IconButton>
+  </j:HGroup>
+  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="1" includeIn="contentState">
+       <j:style>
+           <js:SimpleCSSStyles paddingLeft="10" paddingTop="10" marginTop="0"/>
+      </j:style>
+      <j:IconButton text="Save" click="onSaveClick(event)" visible="{this.proxy.editable}">
+      	  <j:icon>
+              <js:MaterialIcon text="{MaterialIconType.SAVE}" />
+          </j:icon>
+           <j:beads>
+              <j:Disabled disabled="{isDisabled}"/>
+           </j:beads>
+      </j:IconButton >
       <j:IconButton text="Edit"
                     click="onEditItem(event)" visible="{this.proxy.editable}">
           <j:icon>
               <js:MaterialIcon text="{MaterialIconType.MODE_EDIT}" />
           </j:icon>
            <j:beads>
-                <j:Disabled disabled="{dg.selectedIndex == -1}"/>
+                <j:Disabled disabled="{isDisabled == false}"/>
           </j:beads>
       </j:IconButton>
        <j:IconButton text="Remove" click="{removeItem()}" visible="{this.proxy.editable}">
@@ -162,68 +258,65 @@
               <js:MaterialIcon text="{MaterialIconType.REMOVE}" />
           </j:icon>
           <j:beads>
-            <j:Disabled disabled="{dg.selectedIndex == -1}"/>
+            <j:Disabled disabled="{isDisabled == false}"/>
           </j:beads>
         </j:IconButton>
-      <j:IconButton text="Refresh" 
-                    click="{refreshItems()}">
-        <j:icon>
-            <js:MaterialIcon text="{MaterialIconType.REFRESH}" />
-        </j:icon>
-      </j:IconButton>
+         <j:IconButton localId="backCancelButton" text="Back" click="onCancelClick(event)">
+          <j:icon>
+              <js:MaterialIcon localId="backCancelButtonIcon" text="{MaterialIconType.ARROW_BACK}" />
+          </j:icon>
+        </j:IconButton>
+        <!--
+      <j:Button localId="backCancelButton" text="Back" click="onCancelClick(event)"/>-->
   </j:HGroup>
-  <j:HGroup percentWidth="100" itemsHorizontalAlign="itemsLeft" gap="1" includeIn="contentState">
-       <j:style>
-           <js:SimpleCSSStyles paddingLeft="10" paddingTop="10" marginTop="0"/>
-      </j:style>
-      <j:Button text="Save" click="onSaveClick(event)" visible="{this.proxy.editable}">
-           <j:beads>
-              <j:Disabled disabled="{isDisabled}"/>
-           </j:beads>
-      </j:Button>
-      <j:Button localId="backCancelButton" text="Back" click="onCancelClick(event)"/>
-      <j:Button text="Edit" click="onEditItem(event)" visible="{this.proxy.editable}">
-      	   <j:beads>
-      		   <j:Disabled disabled="{isDisabled == false}"/>
-      	   </j:beads>
-      </j:Button>
-  </j:HGroup>
-  
-<j:VGroup includeIn="contentState" percentWidth="100" percentHeight="100" xmlns:j="library://ns.apache.org/royale/jewel"
-		  gap="6">
-  
-  <j:beads>
-    
-    <j:ScrollingViewport/>
-    
-  </j:beads>
-  
-  <j:HGroup gap="2" itemsVerticalAlign="itemsCenter">
-    
-    <components:DominoTextInputMultiline text="{itemVO.DocumentationName}" change="{itemVO.DocumentationName = event.currentTarget.text;}" 
-    										isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
-    										isTextArea="true" fontSize="x-large"/>
-    
-    <j:Label text="(" className="cursor-pointer" visible="{isDisabled &amp;&amp; this.proxy.showUnid}"/>
-    
-    <components:DominoTextInputMultiline text="{itemVO.DocumentationUNID}" change="{itemVO.DocumentationUNID = event.currentTarget.text;}" 
-    										isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
-    										isTextArea="false" visible="{this.proxy.showUnid}"/>
-    
-    <j:Label text="{isDisabled ? ')' : '(DocumentationUNID)'}" className="cursor-pointer" visible="{this.proxy.showUnid}"/>
-    
-  </j:HGroup>
-
-  <j:HGroup percentWidth="100">
-    <htmlEditor:HtmlEditor data="{itemVO.DocumentationBody}" readOnly="{isDisabled}" 
-    						  toolbarItems="{isDisabled ? [] : ToolbarItems.ALL_ITEMS}"
-    						  textChange="onHtmlEditorTextChange(event)" />
-  </j:HGroup>
-  
-</j:VGroup>
+	<j:VGroup includeIn="contentState" percentWidth="100" percentHeight="100" xmlns:j="library://ns.apache.org/royale/jewel"
+			gap="6">
+	
+		<j:beads>
+			<j:ScrollingViewport/>
+		</j:beads>
+		
+		<j:HGroup gap="2" itemsVerticalAlign="itemsCenter">
+			
+			<components:DominoTextInputMultiline text="{itemVO.DocumentationName}" change="{itemVO.DocumentationName = event.currentTarget.text;}" 
+													isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
+													isTextArea="true" fontSize="x-large"/>
+			
+			<j:Label text="(" className="cursor-pointer" visible="{isDisabled &amp;&amp; this.proxy.showUnid}"/>
+			
+			<components:DominoTextInputMultiline text="{itemVO.DocumentationUNID}" change="{itemVO.DocumentationUNID = event.currentTarget.text;}" 
+													isDisabled="{isDisabled}" xmlns:components="Super.Human.Portal_Royale.views.components.*"
+													isTextArea="false" visible="{this.proxy.showUnid}"/>
+			
+			<j:Label text="{isDisabled ? ')' : '(DocumentationUNID)'}" className="cursor-pointer" visible="{this.proxy.showUnid}"/>
+			
+		</j:HGroup>
+		
+		<j:HGroup percentWidth="100">
+			<htmlEditor:HtmlEditor data="{itemVO.DocumentationBody}" readOnly="{isDisabled}" 
+									toolbarItems="{isDisabled ? [] : ToolbarItems.ALL_ITEMS}"
+									textChange="onHtmlEditorTextChange(event)" />
+		</j:HGroup>
+	
+	</j:VGroup>
 
 
-  <dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName', allowSorting: false, allowFiltering: true, filterType: 'exclude'}, 
+  <!--<dataGrid:DataGrid columns="{[{caption: 'DocumentationName', dataField: 'DocumentationName', allowSorting: false, allowFiltering: true, filterType: 'exclude'}, 
   							   {caption: 'DocumentationUNID', dataField: 'DocumentationUNID', dataType: 'number', alignment: 'left', sortOrder: 'asc', allowFiltering: false, visible: this.proxy.showUnid}]}" dataProvider="{this.proxy.items}" 
-  					 filterRow="{ {visible: true, applyFilter: 'auto'} }" localId="dg" includeIn="dataGridState" className="dxDataGrid scrollHeightDocFormGridJS" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>
+  					 filterRow="{ {visible: true, applyFilter: 'auto'} }" localId="dg" includeIn="dataGridState" className="dxDataGrid scrollHeightDocFormGridJS" percentWidth="100" doubleClick="onGridDoubleClick(event)"/>-->
+  <tileView:TileView localId="dg" className="tileViewJS" 
+  					percentWidth="100" baseItemWidth="245" baseItemHeight="300" itemMargin="5" direction="vertical" 
+  					itemRenderer="Super.Human.Portal_Royale.views.renderers.DocumentationTileRenderer"
+  					includeIn="dataGridState" clickItemTileView="onDocClickItem(event)" />
+<tileView:TileView localId="tileGettingStarted" className="tileViewJS" 
+				   minWidth="350" minHeight="200" baseItemHeight="360" baseItemWidth="300" itemMargin="10" 
+						dataProvider="{proxy.mainItems}" includeIn="startview" 
+						itemRenderer="Super.Human.Portal_Royale.views.renderers.CategoryTileRenderer"
+						visible="{proxy.mainItems &amp;&amp; proxy.mainItems.length > 0}"/>
+<html:H3 text="Welcome to Super.Human.Portal. Select an option from the sidebar." 
+		 includeIn="startview" visible="{proxy.mainItems == null || proxy.mainItems.length == 0}" percentWidth="100">
+	<html:style>
+		<js:AllCSSStyles textAlign="center"/>
+	</html:style>
+</html:H3>
 </j:VGroup>

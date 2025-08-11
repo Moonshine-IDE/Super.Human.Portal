@@ -13,8 +13,13 @@ import auth.SimpleRoleSecurity;
  */
 public class DocumentationFormRead extends DocumentationFormReadBase implements RoleRestrictedAgent {
 	
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_DOCUMENTATION_VIEW;
+	}
+	
 	public Collection<String> getAllowedRoles() {
-		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+		// return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+		return null;  // use GetRoleRestrictionID
 	}
 	
 	public SecurityInterface checkSecurity() {

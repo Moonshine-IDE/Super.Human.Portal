@@ -18,7 +18,7 @@ package controller.roles.executeRoles
 				var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 
 				var browseMyServerMediator:MediatorBrowseMyServer = facade.retrieveMediator(MediatorBrowseMyServer.NAME) as MediatorBrowseMyServer;
-					browseMyServerMediator.view.editable = loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR);
+					browseMyServerMediator.view.editableBookmarks = loginProxy.user && loginProxy.user.display.manageBookmarks;
 			}
 		}
 	}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<itemRenderers:TileViewItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:j="library://ns.apache.org/royale/jewel"
+		 xmlns:js="library://ns.apache.org/royale/basic" xmlns:html="library://ns.apache.org/royale/html" 
+		 xmlns:itemRenderers="classes.com.devexpress.js.tileView.itemRenderers.*">
+	<itemRenderers:beads>
+		<js:ItemRendererDataBinding />
+	</itemRenderers:beads>
+	<fx:Script>
+	<![CDATA[
+		import model.vo.CategoryVO;
+		
+		override public function set data(value:Object):void
+		{
+			if (super.data != value)
+			{
+				super.data = value;
+					;
+				dispatchEvent(new Event("dataChange"));
+			}
+		}
+            
+		[Bindable("dataChange")]
+        public function get dataVO():CategoryVO
+        {
+        		return data as CategoryVO;
+        }
+	]]>
+</fx:Script>
+	<j:Card percentHeight="100" percentWidth="100" className="cardTile">
+		<j:CardTitle text="{dataVO.label}" className="cardTileTitle" multiline="true" percentWidth="100"/>
+		<j:CardPrimaryContent itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" gap="2">
+			<html:Span localId="tileIcon" visible="{dataVO.icon != '' &amp;&amp; dataVO.link == ''}" className="{dataVO.icon + ' cardMdiTileIcon'}"/>
+			<j:Label multiline="true" text="{dataVO.description}" visible="{dataVO.icon != '' &amp;&amp; dataVO.link == ''}"/>
+			
+			<html:A href="{dataVO.link}" target="_blank" visible="{dataVO.link != ''}">
+				<html:style>
+						<js:AllCSSStyles textDecoration="none" textAlign="center"/>
+				</html:style>
+				<j:Image src="{dataVO.icon}" maxWidth="135" maxHeight="135"/>
+				<j:HGroup percentWidth="100">
+					<j:Label multiline="true" text="{dataVO.description}" className="categoryLabel">
+						<j:style>
+							<js:AllCSSStyles textAlign="left" cursor="pointer"/>
+						</j:style>
+					</j:Label>
+				</j:HGroup>
+			</html:A>
+		</j:CardPrimaryContent>
+		<!--
+		<j:CardActions visible="{dataVO.link != null}" className="cardTileActions">
+			<j:Button text="See More"/>
+		</j:CardActions>-->
+	</j:Card>
+</itemRenderers:TileViewItemRenderer>

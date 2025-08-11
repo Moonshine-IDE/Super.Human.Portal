@@ -2,6 +2,7 @@ package model.proxy
 {
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 	import constants.Theme;
+	import constants.ApplicationConstants;
 	
 	public class ProxyTheme extends Proxy
 	{
@@ -40,6 +41,8 @@ package model.proxy
 					window["Cookies"].set("SuperHumanPortalThemeId", themeId, { sameSite: 'strict' });
 					
 					this.setData({theme: theme, themeId: themeId});
+
+					this.sendNotification(ApplicationConstants.NOTE_THEME_CHANGED, this.getData());
 					break;
 				}
 			}

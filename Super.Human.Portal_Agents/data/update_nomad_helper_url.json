@@ -11,9 +11,9 @@
                     "documents":[
                         { 
                             "action": "update", 
-                            "findDocument": {
-                            		"Form":"Config Value",
-                            		"Key": "nomad_helper_url"
+                            "search": {
+                                        "formula":"Form=\"Config Value\" & Key=\"nomad_helper_url\"",
+                                        "number":0
                             },
                             "computeWithForm": true,
                             "items": {

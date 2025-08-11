@@ -1,0 +1,31 @@
+{
+    "title": "Super Human Portal v${version} (Prominic.NET)",
+    "versionjson": "${versionjson}",
+
+    "config":
+    {
+        "version": "${version}"
+    },
+
+    "steps": [
+    {
+        "title": "--- Step 1. Download file ---",
+        "files": %filesJSON%
+    },
+    {
+        "title": "--- Step 2. Sign database ---",
+        "databases": [
+             {
+                "action": "update",
+                "filePath": "SuperHumanPortal.nsf",
+                "sign": true
+              }
+        ]
+    },
+    {
+        "title": "--- Step 3 (final). Completed ---",
+        "messages": ["You have installed SuperHumanPortal v${version}"]
+    }
+
+    ]
+}

@@ -16,12 +16,13 @@ package mediator.bookmarks
 
 	import org.apache.royale.events.MouseEvent;
 	import org.apache.royale.net.URLRequest;
-	import org.apache.royale.net.navigateToURL;
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 
 	import utils.ClipboardText;
+	import model.proxy.login.ProxyLogin;
+	import org.apache.royale.net.navigateToURL;
 								
 	public class MediatorBrowseMyServer extends Mediator implements IMediator
 	{
@@ -29,6 +30,7 @@ package mediator.bookmarks
 
 		private var bookmarksProxy:ProxyBookmarks;
 		private var browseMyServerProxy:ProxyBrowseMyServer;
+		private var loginProxy:ProxyLogin;
 		
 		public function MediatorBrowseMyServer(component:IBrowseMyServerView) 
 		{
@@ -39,6 +41,7 @@ package mediator.bookmarks
 		{			
 			super.onRegister();
 			
+			this.loginProxy = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			this.bookmarksProxy = facade.retrieveProxy(ProxyBookmarks.NAME) as ProxyBookmarks;
 			this.browseMyServerProxy = facade.retrieveProxy(ProxyBrowseMyServer.NAME) as ProxyBrowseMyServer;
 			
@@ -47,6 +50,7 @@ package mediator.bookmarks
 			this.view.topMenu.addEventListener(TopMenuEvent.MENU_ITEM_CHANGE, onTopMenuItemChange);
 			this.view.addBookmark.addEventListener(MouseEvent.CLICK, onAddBookmarkClick);
 			this.view.openNomadWeb.addEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+			this.view.appImprovement.addEventListener(MouseEvent.CLICK, onAppImprovementReq);
 			this.view.copyToClipboardServer.addEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.addEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.addEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
@@ -56,6 +60,10 @@ package mediator.bookmarks
 			{
 				this.browseMyServerProxy.getServersList();
 			}
+			
+			this.view.requestAppImprovement = this.loginProxy.user && 
+											 this.loginProxy.user.display && 
+											 this.loginProxy.user.display.improvementRequests;
 			
 			sendNotification(ApplicationConstants.COMMAND_EXECUTE_BROWSE_MY_SERVER_ROLES);
 		}
@@ -69,6 +77,7 @@ package mediator.bookmarks
 			this.view.topMenu.removeEventListener(TopMenuEvent.MENU_ITEM_CHANGE, onTopMenuItemChange);
 			this.view.addBookmark.removeEventListener(MouseEvent.CLICK, onAddBookmarkClick);
 			this.view.openNomadWeb.removeEventListener(MouseEvent.CLICK, onOpenNomadWeb);
+			this.view.appImprovement.removeEventListener(MouseEvent.CLICK, onAppImprovementReq);
 			this.view.copyToClipboardServer.removeEventListener(MouseEvent.CLICK, onCopyToClipboardServer);
 			this.view.copyToClipboardDatabase.removeEventListener(MouseEvent.CLICK, onCopyToClipboardDatabase);
 			this.view.copyToClipboardReplica.removeEventListener(MouseEvent.CLICK, onCopyToClipboardReplica);
@@ -121,9 +130,21 @@ package mediator.bookmarks
 		private function onTopMenuItemChange(event:TopMenuEvent):void
 		{
 			this.view.breadcrump.model = this.view.topMenu.model;
-								
+
 			this.view.breadcrump.buildBreadcrump(event.subItem ? event.subItem : event.item);
-			view.selectedItem = event.subItem ? event.subItem.data : event.item.data;
+			
+			if (event.subItem)
+			{
+				view.selectedItem = event.subItem.data;
+			} 
+			else if (event.item)
+			{
+				view.selectedItem = event.item.data;
+			}
+			else 
+			{
+				view.selectedItem = null;
+			}
 			
 			this.refreshButtonLinks();
 			this.refreshCurrentState(event.item, event.subItem);
@@ -168,6 +189,17 @@ package mediator.bookmarks
 			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, {name: selectedApp.name, link: view.selectedItem.nomadURL});
 		}
 		
+		private function onAppImprovementReq(event:Event):void
+		{
+			var url:URL = this.loginProxy.getAppImprovementRequestUrl(this.view.selectedItem);
+			// Use window.open instead of navigateToURL to avoid interaction trigger issues
+			if (typeof window !== "undefined" && window.open) {
+				window.open(url.href, "_blank");
+			} else {
+				navigateToURL(new URLRequest(url.href), "_blank");
+			}
+		}
+		
 		private function updateView():void
 		{
 			if (view.topMenu.selectedItem)
@@ -179,7 +211,6 @@ package mediator.bookmarks
 		
 		private function refreshButtonLinks():void
 		{
-			
 			if (view.selectedItem)
 			{
 				view.openClient.html = "<a target='_blank' href='" + view.selectedItem.url + "'>Open in Client</a>";

@@ -14,6 +14,7 @@ package model.proxy.applicationsCatalog
 	import org.puremvc.as3.multicore.patterns.proxy.Proxy;
 
 	import services.GenesisAppsDelegate;
+	import model.vo.UserVO;
 						
 	public class ProxyGenesisApps extends Proxy implements IDisposable
 	{
@@ -105,7 +106,8 @@ package model.proxy.applicationsCatalog
 			if (fetchedData)
 			{
 				var jsonData:Object = JSON.parse(fetchedData);
-				if (!sessionCheckProxy.checkUserSession(jsonData))
+				
+				if (jsonData.status != sessionCheckProxy.SESSION_AUTHLIMITEDACCESS && !sessionCheckProxy.checkUserSession(jsonData))
 				{
 					return;
 				}

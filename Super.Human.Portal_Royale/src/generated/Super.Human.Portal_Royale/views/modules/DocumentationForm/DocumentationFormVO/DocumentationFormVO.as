@@ -34,9 +34,66 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 		{
 				_DocumentationBody = value;
 		}
+		
+		private var _showUnid:Boolean;
 
+		public function get showUnid():Boolean
+		{
+			return _showUnid;
+		}
 
+		public function set showUnid(value:Boolean):void
+		{
+			_showUnid = value;
+		}
+		
+		private var _emptyImage:String = "image";
 
+		public function get emptyImage():String
+		{
+			return _emptyImage;
+		}
+
+		public function set emptyImage(value:String):void
+		{
+			_emptyImage = value;
+		}
+		
+		private var _image:String;
+
+		public function get image():String
+		{
+			return _image;
+		}
+
+		public function set image(value:String):void
+		{
+			_image = value;
+		}
+		
+		private var _icon:String;
+
+		public function get icon():String
+		{
+			return _icon;
+		}
+
+		public function set icon(value:String):void
+		{
+			_icon = value;
+		}
+		
+		private var _Categories:Array = [];
+
+		public function get Categories():Array
+		{
+			return _Categories;
+		}
+		public function set Categories(value:Array):void
+		{
+			_Categories = value;
+		}
+		
 		public function DocumentationFormVO()
 		{
 		}
@@ -48,29 +105,45 @@ package Super.Human.Portal_Royale.views.modules.DocumentationForm.DocumentationF
 				tmpVO.DocumentationUNID = this.DocumentationUNID;
 				tmpVO.DocumentationBody = this.DocumentationBody;
 				tmpVO.DominoUniversalID = this.DominoUniversalID;
-
+				tmpVO.Categories = this.Categories;
+				tmpVO.image = this.image;
+				tmpVO.icon = this.icon;
+				
 		    return tmpVO;
 		}
 
 		public function toRequestObject():Object
 		{
 			var tmpRequestObject:Object = {
-	
-DocumentationName: this.DocumentationName,
-DocumentationUNID: this.DocumentationUNID,
-DocumentationBody: this.DocumentationBody
-};
-if (DominoUniversalID) tmpRequestObject.DominoUniversalID = DominoUniversalID;
-return tmpRequestObject;
+				DocumentationName: this.DocumentationName,
+				DocumentationUNID: this.DocumentationUNID,
+				DocumentationBody: this.DocumentationBody,
+				Categories: this.Categories,
+				Image: this.image,
+				Icon: this.icon
+			};
+			if (DominoUniversalID) tmpRequestObject.DominoUniversalID = DominoUniversalID;
+			return tmpRequestObject;
 		}
 
+		public function containsCategory(category:String):Boolean {
+			if (!Categories) return false;
+			
+			return Categories.some(function hasCat(cat:String, index:int, arr:Array):Boolean {
+				return category == cat;
+			});
+		}
+		
 		public static function getDocumentationFormVO(value:Object):DocumentationFormVO
         {
             var tmpVO:DocumentationFormVO = new DocumentationFormVO();
             if ("DocumentationName" in value){	tmpVO.DocumentationName = value.DocumentationName;	}
-if ("DocumentationUNID" in value){	tmpVO.DocumentationUNID = value.DocumentationUNID;	}
-if ("DocumentationBody" in value){	tmpVO.DocumentationBody = value.DocumentationBody;	}
-if ("DominoUniversalID" in value){	tmpVO.DominoUniversalID = value.DominoUniversalID;	}
+			if ("DocumentationUNID" in value){	tmpVO.DocumentationUNID = value.DocumentationUNID;	}
+			if ("DocumentationBody" in value){	tmpVO.DocumentationBody = value.DocumentationBody;	}
+			if ("DominoUniversalID" in value){	tmpVO.DominoUniversalID = value.DominoUniversalID;	}
+			if ("Categories" in value){ tmpVO.Categories = value.Categories; }
+			if ("Image" in value){ tmpVO.image = value.Image; }
+			if ("Icon" in value){ tmpVO.icon = value.Icon; }
 
             return tmpVO;
         }

@@ -18,7 +18,7 @@ package model
 		private var genesisApps:NavigationLinkVO = new NavigationLinkVO("Genesis Apps", ApplicationConstants.NOTE_OPEN_GENESIS_APPLICATIONS, "mdi mdi-apps mdi-24px", MediatorGenesisApps.NAME, null, MediatorGenesisApps.NAME);
 		
 		private var _mainNavigation:ArrayList = new ArrayList([
-			new NavigationLinkVO("Getting Started", ApplicationConstants.NOTE_OPEN_VIEW_HELLO, "mdi mdi-apps mdi-24px", "", null, "DocumentationForm"),
+			new NavigationLinkVO("Getting Started", ApplicationConstants.NOTE_OPEN_VIEW_HELLO, "mdi mdi-apps mdi-24px", "GettingStartedDoc", null, "DocumentationForm"),
 			genesisApps
 		]);
 
@@ -37,7 +37,7 @@ package model
 			_mainNavigation = value;
 		}
 		
-		private var installedApp:NavigationLinkVO = new NavigationLinkVO("Installed Apps", "$collapsible", "mdi mdi-folder mdi-24px", "");
+		private var installedApp:NavigationLinkVO = new NavigationLinkVO("Installed Apps", "$collapsible", "mdi mdi-folder mdi-24px", "installedApps");
 		
 		private var _navigationLinks:ArrayList = new ArrayList([
 			installedApp
@@ -61,7 +61,7 @@ package model
 			_installedAppsNavLinks = value;
 		}
 		
-		private var customBookmarksList:NavigationLinkVO = new NavigationLinkVO("Bookmarks", "$collapsible", "mdi mdi-folder mdi-24px", "");
+		private var customBookmarksList:NavigationLinkVO = new NavigationLinkVO("Bookmarks", "$collapsible", "mdi mdi-folder mdi-24px", "bookmarksList");
 		
 		private var _customBookmarks:ArrayList = new ArrayList([
 			customBookmarksList

@@ -19,17 +19,30 @@
 
 			import org.apache.royale.events.IEventDispatcher;
 
-			private var _editable:Boolean;
+			private var _editableBookmarks:Boolean;
 			
 			[Bindable]
-			public function get editable():Boolean
+			public function get editableBookmarks():Boolean
 			{
-				return _editable;
+				return _editableBookmarks;
 			}
 			
-			public function set editable(value:Boolean):void
+			public function set editableBookmarks(value:Boolean):void
 			{
-				_editable = value;
+				_editableBookmarks = value;
+			}
+			
+			private var _requestAppImprovement:Boolean;
+
+			[Bindable]
+			public function get requestAppImprovement():Boolean
+			{
+				return _requestAppImprovement;
+			}
+
+			public function set requestAppImprovement(value:Boolean):void
+			{
+				_requestAppImprovement = value;
 			}
 			
 			private var _selectedItem:ServerVO;
@@ -68,6 +81,11 @@
 			public function get openNomadWeb():Object
 			{
 				return this.nomadWebOpen;
+			}
+			
+			public function get appImprovement():Object
+			{
+				return appImprovementRequest;	
 			}
 			
 			public function get copyToClipboardServer():IEventDispatcher
@@ -211,10 +229,13 @@
 				</j:VGroup>
 			</j:CardPrimaryContent>
 			<j:CardActions itemsHorizontalAlign="itemsRight" itemsVerticalAlign="itemsCenter" gap="1" includeIn="selectedDatabaseState">
+			    <j:HGroup percentWidth="100" visible="{requestAppImprovement}">
+			    		<j:Button localId="appImprovementRequest" text="App Improvement Request" minWidth="130" className="noLinkStyle appImprovementNeutral"/>
+			    </j:HGroup>
 				<j:Button localId="clientOpen" text="Open in Client" minWidth="130" className="noLinkStyle"/>
-				<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle"/>
+				<j:Button localId="nomadWebOpen" text="Open in Nomad" minWidth="130" className="noLinkStyle nomadGreen"/>
 				<j:Button localId="bookmarkAdd" text="Add Bookmark" minWidth="130" className="noLinkStyle"
-						  visible="{editable}" />
+						  visible="{editableBookmarks}" />
 				<j:VGroup itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" visible="{selectedItem.hasBookmarks}">
 					<js:MaterialIcon text="{MaterialIconType.CHECK}">
 						<js:style>

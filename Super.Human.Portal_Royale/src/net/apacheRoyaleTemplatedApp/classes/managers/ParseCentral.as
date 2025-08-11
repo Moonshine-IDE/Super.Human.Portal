@@ -13,6 +13,7 @@ package classes.managers
 
 	import utils.UtilsCore;
 	import model.vo.ServerVO;
+	import model.vo.CategoryVO;
 	
 	/**
 	 * ParseCentral
@@ -251,12 +252,9 @@ package classes.managers
 		public static function parseGenesisCatalogList(jsonData:Array):Array 
 		{
 			var tmpArr:Array = [];
-			
-			var viewEntryCount:int = jsonData.length;
-			
-			for (var i:int = 0; i < viewEntryCount; i++)
+
+			for each (var app:Object in jsonData)
 			{
-				var app:Object = jsonData[i];
 				var tmpVO:ApplicationVO = new ApplicationVO(app.AppID, app.DetailsURL, app.Label, app.InstallCommand, app.Installed, app.InstallTimeS, app.access, app.directory);
 				
 				tmpArr.push(tmpVO);
@@ -298,40 +296,75 @@ package classes.managers
 		{
 			var tmpArr:Array = [];
 			
-			var viewEntryCount:int = jsonData.length;
-			
-			for (var i:int = 0; i < viewEntryCount; i++)
+			if (jsonData)
 			{
-				var bookmark:Object = jsonData[i];
-				var tmpVO:BookmarkVO = new BookmarkVO(bookmark.group, bookmark.DominoUniversalID, bookmark.name,
-																 bookmark.server, bookmark.database, bookmark.view,
-																 bookmark.type, bookmark.url, bookmark.nomadURL, bookmark.defaultAction, bookmark.description);
+				var viewEntryCount:int = jsonData.length;
 				
-				tmpArr.push(tmpVO);
+				for (var i:int = 0; i < viewEntryCount; i++)
+				{
+					var bookmark:Object = jsonData[i];
+					var tmpVO:BookmarkVO = new BookmarkVO(bookmark.group, bookmark.DominoUniversalID, bookmark.name,
+																	bookmark.server, bookmark.database, bookmark.view,
+																	bookmark.type, bookmark.url, bookmark.nomadURL, bookmark.defaultAction, bookmark.description);
+					
+					tmpArr.push(tmpVO);
+				}
 			}
-
+			
 			return tmpArr;
 		}
 		
 		public static function parseDatabases(databases:Array):Array
 		{
 			var folders:Array = [];
-			var nonFolders:Array = [];
 			
-			var viewEntryCount:int = databases.length;
-			
-			for (var i:int = 0; i < viewEntryCount; i++)
+			if (databases)
 			{
-				var db:Object = databases[i];
-				var bookmarks:Array = parseCustomBookmarksList(db.bookmarks);
+				var nonFolders:Array = [];
 				
-				var tmpVO:ServerVO = new ServerVO(db.name, db.type, db.url, db.nomadURL, db.server, db.database, 
-												 db.view, db.replicaID, db.hasBookmarks, db.bookmarkCount, bookmarks);
-				folders.push(tmpVO);
+				var viewEntryCount:int = databases.length;
+				
+				for (var i:int = 0; i < viewEntryCount; i++)
+				{
+					var db:Object = databases[i];
+					var bookmarks:Array = parseCustomBookmarksList(db.bookmarks);
+					
+					var tmpVO:ServerVO = new ServerVO(db.name, db.type, db.url, db.nomadURL, db.server, db.database, 
+													db.view, db.replicaID, db.hasBookmarks, db.bookmarkCount, bookmarks);
+					folders.push(tmpVO);
+				}
 			}
 			
 			return folders;
 		}
+		
+		/**
+		 * Parse genesis application catalog list
+		 *
+		 * @return Array
+		 */
+		public static function parseCategoriesList(jsonData:Array):Array 
+		{
+			var tmpArr:Array = [];
+			
+			if (jsonData)
+			{
+				var viewEntryCount:int = jsonData.length;
+				
+				for (var i:int = 0; i < viewEntryCount; i++)
+				{
+					var cat:Object = jsonData[i];
+					var tmpVO:CategoryVO = new CategoryVO(cat.DominoUniversalID, cat.CategoryID, cat.Description,
+														Number(cat.Order), cat.Label, cat.Icon, cat.Link);
+					
+					tmpArr.push(tmpVO);
+				}
+				
+				UtilsCore.sortItems(tmpArr, "order", false, true);
+			}
+			return tmpArr;
+		}
+		
 		//--------------------------------------------------------------------------
 		//
 		//  PRIVATE STATIC API

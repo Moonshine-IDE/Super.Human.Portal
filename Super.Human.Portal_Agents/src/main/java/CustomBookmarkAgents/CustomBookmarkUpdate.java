@@ -26,8 +26,13 @@ import lotus.domino.View;
  */
 public class CustomBookmarkUpdate extends CustomBookmarkUpdateBase implements RoleRestrictedAgent {
 	
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_BOOKMARKS_MANAGE;
+	}
+	
 	public Collection<String> getAllowedRoles() {
-		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+		// return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+		return null;  // use GetRoleRestrictionID
 	}
 	
 	public SecurityInterface checkSecurity() {

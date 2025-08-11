@@ -22,11 +22,11 @@
 }
 
 .jewel.button, .jewel.button.primary {
-	background: #1ca8dd;
+	background: #1ca8dd !important;
 	border-radius: 0.25rem;
 	border-color: transparent;
 	box-shadow: none;
-	color: #2a2a2a;
+	color: #2a2a2a !important;
 	text-shadow: none;
 }
 
@@ -638,6 +638,10 @@ a font {
 	color: #d9534f !important;
 }
 
+.jewel.label.multiline.categoryLabel {
+	color: #FFFFFF !important;
+}
+
 .layout.horizontal.bookmarkTitleContainer {
     background: #1ca8dd;
 	border-radius: 0.25rem;
@@ -652,4 +656,100 @@ a font {
 	width: 200px;
 	height: 200px;
 }
+
+
+/* Green styling for Open in Nomad button */
+.jewel.button.nomadGreen,
+.jewel.button.noLinkStyle.nomadGreen {
+	background: linear-gradient(#98cc50, #7eb435) !important;
+	border: 1px solid #638c29 !important;
+	box-shadow: inset 0 1px 0 #bbdd8b !important;
+	border-radius: 0.25rem !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.nomadGreen:hover, .jewel.button.nomadGreen:hover:focus,
+.jewel.button.noLinkStyle.nomadGreen:hover, .jewel.button.noLinkStyle.nomadGreen:hover:focus {
+	background: linear-gradient(#8CC63C, #71a02f) !important;
+	border: 1px solid #557923 !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.nomadGreen:active, .jewel.button.nomadGreen:active:focus,
+.jewel.button.noLinkStyle.nomadGreen:active, .jewel.button.noLinkStyle.nomadGreen:active:focus {
+	background: linear-gradient(#71a02f, #557923) !important;
+	border: 1px solid #395118 !important;
+	box-shadow: inset 0px 1px 3px 0px rgba(50, 50, 50, 0.5) !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.nomadGreen:focus,
+.jewel.button.noLinkStyle.nomadGreen:focus {
+	border: 1px solid #638c29 !important;
+	box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.nomadGreen[disabled],
+.jewel.button.noLinkStyle.nomadGreen[disabled] {
+	background: #4d4d4d !important;
+	border: 1px solid #666666 !important;
+	box-shadow: none !important;
+	color: #999999 !important;
+	text-shadow: none !important;
+}
+
+.jewel.button.nomadGreen a,
+.jewel.button.noLinkStyle.nomadGreen a {
+	color: #FFFFFF !important;
+	text-decoration: none !important;
+}
+
+/* Neutral styling for App Improvement Request button (secondary) - dark */
+.jewel.button.appImprovementNeutral,
+.jewel.button.noLinkStyle.appImprovementNeutral {
+	background: linear-gradient(#3b3f46, #2e3238) !important;
+	border: 1px solid #4b5563 !important;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.06) !important;
+	border-radius: 0.25rem !important;
+	color: #e5e7eb !important;
+}
+
+.jewel.button.appImprovementNeutral:hover, .jewel.button.appImprovementNeutral:hover:focus,
+.jewel.button.noLinkStyle.appImprovementNeutral:hover, .jewel.button.noLinkStyle.appImprovementNeutral:hover:focus {
+	background: linear-gradient(#444952, #353a42) !important;
+	border: 1px solid #5b6675 !important;
+	color: #e5e7eb !important;
+}
+
+.jewel.button.appImprovementNeutral:active, .jewel.button.appImprovementNeutral:active:focus,
+.jewel.button.noLinkStyle.appImprovementNeutral:active, .jewel.button.noLinkStyle.appImprovementNeutral:active:focus {
+	background: linear-gradient(#353a42, #2f333a) !important;
+	border: 1px solid #46505d !important;
+	box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.35) !important;
+	color: #e5e7eb !important;
+}
+
+.jewel.button.appImprovementNeutral:focus,
+.jewel.button.noLinkStyle.appImprovementNeutral:focus {
+	border: 1px solid #5b6675 !important;
+	box-shadow: 0 0 0 3px rgba(59,130,246,0.22), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+	color: #e5e7eb !important;
+}
+
+.jewel.button.appImprovementNeutral[disabled],
+.jewel.button.noLinkStyle.appImprovementNeutral[disabled] {
+	background: #2a2e33 !important;
+	border: 1px solid #3b434d !important;
+	box-shadow: none !important;
+	color: #9ca3af !important;
+	text-shadow: none !important;
+}
+
+.jewel.button.appImprovementNeutral a,
+.jewel.button.noLinkStyle.appImprovementNeutral a {
+	color: #e5e7eb !important;
+	text-decoration: none !important;
+}
+
 /*# sourceMappingURL=defaults.css.map */

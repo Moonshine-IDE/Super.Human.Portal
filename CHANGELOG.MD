@@ -3,6 +3,49 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
 
+## Super.Human.Portal [1.3.0]
+
+### Summary
+
+Miscellaneous bug fixes from the 1.2.0 release.
+
+
+### Added
+
+
+### Changed
+
+* Update to Royale 0.9.13:  ([#77](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/77))
+
+
+### Fixed
+
+* No Error Message for Invalid Password. ([#74](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/74))
+* Document Tiles Default to Single Column. ([#67](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/67))
+* Add Bookmarks Unexpectedly Visible.  ([#68](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/68))
+* Install Apps Requires Administrator Role.  ([#76](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/75))
+
+
+
+## Super.Human.Portal [1.2.0]
+
+### Summary
+
+Ths release was focused on updates to improve the experience and customization on customer server.
+
+
+### Added
+
+
+### Changed
+
+* Updated logic for hidden interfaces to be more flexible.  This is intended to support "End User" configurations for customer that will be focused on bookmarks.  ([#65](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/65))
+
+### Fixed
+
+* Non-email usernames are now accepted in the Login prompt.  ([#63](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/63))
+
+
 ## Super.Human.Portal [0.1.8]
 
 ### Summary

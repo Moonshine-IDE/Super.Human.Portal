@@ -21,10 +21,14 @@
 			import model.vo.BookmarkVO;
 
 			import view.bookmarks.event.BookmarkEvent;
+			import view.bookmarks.event.AppImprovementReqEvent;
 			
 			[Bindable]
 			public var editable:Boolean;
-						
+			
+			[Bindable]			
+			public var requestAppImprovement:Boolean;
+			
 			[Bindable]
 			private var urlOpenDefault:String;
 			
@@ -79,6 +83,11 @@
 			{
 				this.dispatchEvent(new BookmarkEvent(BookmarkEvent.DELETE_BOOKMARK, this.bookmark));
 			}
+			
+			private function onAppImprovementReq(event:Event):void
+			{
+				this.dispatchEvent(new AppImprovementReqEvent(AppImprovementReqEvent.APP_IMPROVEMENT_REQ, this.bookmark));
+			}
 		]]>
 	</fx:Script>
 	<j:HGroup includeIn="browser" itemsVerticalAlign="itemsCenter" percentWidth="100" gap="2">
@@ -94,7 +103,8 @@
 											   appName="{bookmark.name}" nomadURL="{bookmark.nomadURL}"/>
 		<applications:ConfigurationAppDetails localId="configurationDetails" data="{bookmark}" server="{bookmark.server}"
 											 database="{bookmark.database}" viewName="{bookmark.view}" nomadOpenLink="{bookmark.nomadURL}"
-											 percentWidth="100" visible="false" editable="{editable}" 
-											 editButtonClick="onEditBookmark(event)" deleteButtonClick="onDeleteBookmark(event)"/>
+											 percentWidth="100" visible="false" editable="{editable}" requestAppImprovement="{requestAppImprovement}"
+											 editButtonClick="onEditBookmark(event)" deleteButtonClick="onDeleteBookmark(event)"
+											 appImprovementButtonClick="onAppImprovementReq(event)"/>
 	</j:VGroup>
 </j:HGroup>

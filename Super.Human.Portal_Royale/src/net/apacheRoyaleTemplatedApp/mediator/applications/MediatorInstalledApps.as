@@ -5,7 +5,6 @@ package mediator.applications
     import interfaces.IInstalledAppView;
 
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
-    import model.proxy.urlParams.ProxyUrlParameters;
     import model.vo.ApplicationVO;
 
     import org.apache.royale.events.MouseEvent;
@@ -17,6 +16,8 @@ package mediator.applications
 
     import view.applications.ConfigurationAppDetails;
     import view.controls.LinkWithDescriptionAppButton;
+    import model.proxy.login.ProxyLogin;
+    import view.bookmarks.event.AppImprovementReqEvent;
     import org.apache.royale.net.navigateToURL;
     import org.apache.royale.net.URLRequest;
     
@@ -25,7 +26,8 @@ package mediator.applications
 		public static const NAME:String  = 'MediatorInstalledApp';
 		
 		private var genesisAppsProxy:ProxyGenesisApps;
-		private var urlParamsProxy:ProxyUrlParameters;
+
+		private var loginProxy:ProxyLogin;
 
 		public function MediatorInstalledApps(mediatorName:String, component:IInstalledAppView) 
 		{
@@ -37,6 +39,7 @@ package mediator.applications
 			super.onRegister();
 			
 			this.genesisAppsProxy = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
+			this.loginProxy = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
 			
 			updateView();
 		}
@@ -162,6 +165,10 @@ package mediator.applications
 							configurationDetails.viewName = link.view;
 							configurationDetails.clientOpenLink = link.url ? '<a height="100%" width="100%" href="' + link.url + '" target="_blank">Open in Client</a>' : null;
 							configurationDetails.nomadOpenLink = link.nomadURL ? '<a height="100%" width="100%" href="' + link.nomadURL + '" target="_blank">Open in Nomad</a>' : null;
+							configurationDetails.requestAppImprovement = this.loginProxy.user && 
+															this.loginProxy.user.display && 
+															this.loginProxy.user.display.improvementRequests;
+							configurationDetails.addEventListener("appImprovementButtonClick", appImprovementReqClick);
 
 							configurationDetails.visible = false;
 							
@@ -202,6 +209,7 @@ package mediator.applications
 					if (confItem)
 					{
 						confItem.openInNomad.removeEventListener(MouseEvent.CLICK, onOpenInNomadConfig);
+						confItem.removeEventListener("appImprovementButtonClick", appImprovementReqClick);
 					}
 				}
 				
@@ -239,6 +247,17 @@ package mediator.applications
 			var selectedApp:Object = confView.data;
 			
 			sendNotification(ApplicationConstants.COMMAND_LAUNCH_NOMAD_LINK, {name: selectedApp.database, link: selectedApp.nomadURL});
+		}
+
+		private function appImprovementReqClick(event:Event):void 
+		{
+			var url:URL = this.loginProxy.getAppImprovementRequestUrl(event["currentTarget"].data);
+			// Use window.open instead of navigateToURL to avoid interaction trigger issues
+			if (typeof window !== "undefined" && window.open) {
+				window.open(url.href, "_blank");
+			} else {
+				navigateToURL(new URLRequest(url.href), "_blank");
+			}
 		}
     }
 }

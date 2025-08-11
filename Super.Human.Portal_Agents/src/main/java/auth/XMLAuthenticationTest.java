@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Element;
 
 import com.moonshine.domino.crud.CRUDAgentBase;
@@ -24,6 +25,10 @@ import lotus.domino.*;
  *
  */
 public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrictedAgent {
+	
+	public String getRoleRestrictionID() {
+		return null;  // allow all
+	}
 	
 	public Collection<String> getAllowedRoles() {
 		return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
@@ -91,20 +96,34 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 		
 		// write login URL
 		String loginURL = getLoginURL();
+		String logoutURL = getLogoutURL();
 		if (useJSON()) {
 			jsonRoot.put("loginURL", loginURL);
+			jsonRoot.put("logoutURL", logoutURL);
 		}
 		else {
-			Element statusElement = xmlDoc.createElement("loginURL");
+			Element loginElement = xmlDoc.createElement("loginURL");
 			if (null == loginURL) {
 				// normalize as ""
-				statusElement.appendChild(xmlDoc.createTextNode(""));
+				loginElement.appendChild(xmlDoc.createTextNode(""));
 			}
 			else {
-				statusElement.appendChild(xmlDoc.createTextNode(loginURL));
+				loginElement.appendChild(xmlDoc.createTextNode(loginURL));
 			}
 			
-			xmlRoot.appendChild(statusElement);
+			xmlRoot.appendChild(loginElement);
+			
+			
+			Element logoutElement = xmlDoc.createElement("logoutURL");
+			if (null == logoutURL) {
+				// normalize as ""
+				logoutElement.appendChild(xmlDoc.createTextNode(""));
+			}
+			else {
+				logoutElement.appendChild(xmlDoc.createTextNode(logoutURL));
+			}
+			
+			xmlRoot.appendChild(logoutElement);
 		}
 		
 		// write the security roles
@@ -115,6 +134,8 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 			for (String role : roles) {
 				jsonRoles.put(role);
 			}
+			
+			jsonRoot.put("display", getDisplayRules(agentDatabase));
 		}
 		else {
 			Element rolesElement = xmlDoc.createElement("roles");
@@ -125,8 +146,9 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 			}
 			
 			xmlRoot.appendChild(rolesElement);
+			
+			// TODO: support display as well
 		}
-		
 		
 	}
 	
@@ -147,6 +169,29 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 		}
 		else {
 			return loginURL;
+		}
+	}	
+	/**
+	 * Return a URL to use for logout instead of the Domino default.
+	 * This is intended for use with OIDC
+	 * Note: this is currently also in ConfigRead
+	 */
+	public String getLogoutURL() {
+		String logoutURL = null;
+		try {
+			logoutURL = ConfigurationUtils.getConfigAsString(agentDatabase, "logout_url");		
+		}
+		catch (Exception ex) {
+			// ignore the error - it indicates the config was not found
+		}
+		
+		// TODO:  Need to compute OIDC URL?
+		
+		if (DominoUtils.isValueEmpty(logoutURL)) {
+			return "/names.nsf?logout";  // default
+		}
+		else {
+			return logoutURL;
 		}
 	}
 	
@@ -202,5 +247,42 @@ public class XMLAuthenticationTest extends CRUDAgentBase implements RoleRestrict
 			return false;
 		}
 		
+	}
+	
+	
+	public JSONObject getDisplayRules(Database configDatabase) {
+		JSONObject display = new JSONObject();
+		display.put("documentation", shouldDisplay(configDatabase, SecurityBuilder.RESTRICT_DOCUMENTATION_VIEW));
+		display.put("viewDocumentation", shouldDisplay(configDatabase, SecurityBuilder.RESTRICT_DOCUMENTATION_VIEW));
+		display.put("manageDocumentation", shouldDisplay(configDatabase, SecurityBuilder.RESTRICT_DOCUMENTATION_VIEW));
+		display.put("installApps", shouldDisplay(configDatabase, SecurityBuilder.RESTRICT_APPS_INSTALL));
+		display.put("additionalGenesis", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_GENESIS_MANAGE));
+		display.put("viewInstalledApps", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_APPS_VIEW));
+		display.put("viewBookmarks", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_BOOKMARKS_VIEW));
+		display.put("manageBookmarks", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_BOOKMARKS_MANAGE));
+		display.put("browseMyServer", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_BROWSE_MY_SERVER));
+		display.put("improvementRequests", shouldDisplay(configDatabase,  SecurityBuilder.RESTRICT_IMPROVEMENT_REQUESTS));
+		return display;
+	}
+	
+	/**
+	 * Determine whether the interface indicated by the given ID should be displayed, based on the user roles and configuration values.
+	 * The configuration document for a given sectionID is "allow_sectionID".
+	 * @param  configDatabase - the database instance for configuration
+	 * @param sectionID  the ID of the section to check
+	 * 
+	 */
+	public boolean shouldDisplay(Database configDatabase, String sectionID) {
+		try {
+			// // UI Testing
+			// String value = ConfigurationUtils.getConfigAsString(configDatabase, "allow_" + sectionID);
+			// return "true".equalsIgnoreCase(value);
+			// // treat any other value as false
+			return ((SimpleRoleSecurity)getSecurity()).isAuthorizedForRoles(sectionID);
+		}
+		catch (Exception ex) {
+			getLog().err("Exception when checking display rights for '" + sectionID + "'.   Default to hidden");
+			return false;
+		}
 	}
 }

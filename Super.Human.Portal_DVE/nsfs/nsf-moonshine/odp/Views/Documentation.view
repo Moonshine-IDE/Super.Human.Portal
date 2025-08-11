@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view name="Documentation" noreplace="true" propagatenoreplace="false" showinmenu="false" unreadmarks="none" publicaccess="false" onopengoto="lastopened" onrefresh="displayindicator" opencollapsed="false" showresponsehierarchy="true" showmargin="true" shrinkrows="false" extendlastcolumn="false" showhierarchies="false" unreadcolor="black" rowlinecount="1" rowspacing="1" bgcolor="white" totalscolor="black" headerbgcolor="white">
+  <code event="selection">
+    <formula>SELECT "Documentation Form" = Form</formula>
+  </code>
+  <column sort="ascending" categorized="false" separatemultiplevalues="true" totals="none" hidedetailrows="false" width="27" resizable="true" sortnoaccent="true" sortnocase="true" showaslinks="false" itemname="$14">
+    <font name="sans-serif" style="normal" color="#000000"/>
+    <columnheader title="Documentation UNID">
+      <font name="sans-serif" style="bold" size="9" color="#000000"/>
+    </columnheader>
+    <code event="value">
+      <formula>DocumentationUNID</formula>
+    </code>
+  </column>
+  <column sort="none" categorized="false" hidedetailrows="false" width="30" resizable="true" sortnoaccent="true" sortnocase="true" showaslinks="false" itemname="DocumentationName">
+    <font name="sans-serif" style="normal" color="#000000"/>
+    <columnheader title="Name">
+      <font name="sans-serif" style="normal" size="9" color="#000000"/>
+    </columnheader>
+  </column>
+</view>

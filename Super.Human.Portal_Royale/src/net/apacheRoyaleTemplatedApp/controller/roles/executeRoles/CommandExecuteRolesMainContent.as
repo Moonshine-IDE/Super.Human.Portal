@@ -13,6 +13,7 @@ package controller.roles.executeRoles
     import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
     import model.proxy.customBookmarks.ProxyBookmarks;
     import model.proxy.applicationsCatalog.ProxyGenesisApps;
+    import mediator.applications.MediatorGenesisDirs;
 
 	public class CommandExecuteRolesMainContent extends SimpleCommand 
 	{
@@ -24,25 +25,67 @@ package controller.roles.executeRoles
 				
 				var mainContentMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;
 				var mainContentModel:LeftMenuNavigationModel = mainContentMediator.view["model"];
+				var navItem:NavigationLinkVO = null;
 				
-				if (loginProxy.user && !loginProxy.user.hasRole(Roles.ADMINISTRATOR))
+				//Remove "Additional directories" - avialable as admin
+				//&& !loginProxy.user.hasRole(Roles.ADMINISTRATOR)
+				if (loginProxy.user && !loginProxy.user.display.additionalGenesis)
 				{
-					for (var i:int = mainContentModel.mainNavigation.length - 1; i > 0; i--)
+					for (var i:int = mainContentModel.mainNavigation.length - 1; i >= 0; i--)
 					{
-						var navItem:NavigationLinkVO = mainContentModel.mainNavigation.getItemAt(i) as NavigationLinkVO;
+						navItem = mainContentModel.mainNavigation.getItemAt(i) as NavigationLinkVO;
 						if (navItem.idSelectedItem == MediatorGenesisApps.NAME)
 						{
-							mainContentModel.mainNavigation.removeItemAt(i);
+							if (navItem.subMenu)
+							{
+								for (var j:int = navItem.subMenu.length - 1; j >= 0; j--)
+								{
+									var subItem:NavigationLinkVO = navItem.subMenu.getItemAt(j) as NavigationLinkVO;
+									if (subItem.idSelectedItem == MediatorGenesisDirs.NAME)
+									{
+										navItem.subMenu.removeItemAt(j);
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				if (loginProxy.user && loginProxy.user.display)
+				{
+					var k:int = -1;
+
+					for (k = mainContentModel.navigationLinks.length - 1; k >= 0; k--)
+					{
+						navItem = mainContentModel.navigationLinks.getItemAt(k) as NavigationLinkVO;
+						if (!loginProxy.user.display.viewInstalledApps)
+						{
+							if (navItem.idSelectedItem == "installedApps") {
+								mainContentModel.navigationLinks.removeItemAt(k);
+							}
 						}
 					}
 					
-					mainContentModel.navigationLinks.removeItemAt(0);
-				}
-		
-				if (loginProxy.user && loginProxy.user.hasRole(Roles.ADMINISTRATOR))
-				{
-					var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
-						genesisAppsProxy.getInstalledApps();
+					for (k = mainContentModel.mainNavigation.length - 1; k >= 0; k--)
+					{
+						navItem = mainContentModel.mainNavigation.getItemAt(k) as NavigationLinkVO;
+						
+						if (!loginProxy.user.display.viewInstalledApps)
+						{
+							if (navItem.idSelectedItem == MediatorGenesisApps.NAME) 
+							{
+								mainContentModel.mainNavigation.removeItemAt(k);
+							}
+						}
+						
+						if (!loginProxy.user.display.viewDocumentation)
+						{
+							if (navItem.idSelectedItem == "GettingStartedDoc") 
+							{
+								mainContentModel.mainNavigation.removeItemAt(k);
+							}
+						}
+					}
 				}
 			}
 		}

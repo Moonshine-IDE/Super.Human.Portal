@@ -10,7 +10,14 @@ import com.moonshine.domino.security.SecurityInterface;
 public interface RoleRestrictedAgent 
 {
 	/**
-	 * Get the allowed roles for the agent.  Should be used when building the securityi
+	 * Get an ID that will be used to lookup the role restrictions for this agent.
+	 * If not <code>null</code>, this will have priority over {@link #getAllowedRoles()}.
+	 */
+	public String getRoleRestrictionID();
+	
+	/**
+	 * Get the allowed roles for the agent.  Should be used when building the security.
+	 * Lower priority than getRoleRestrictionID
 	 */
 	public Collection<String> getAllowedRoles();
 	

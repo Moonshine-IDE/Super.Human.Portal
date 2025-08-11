@@ -397,7 +397,119 @@
 	color: #EC1C24 !important;
 }
 
+.jewel.label.multiline.categoryLabel {
+	color: #333333 !important;
+}
+
+.jewel.card.cardTile {
+	background: none !important;
+	border: none !important;
+}
+
+.jewel.button.icon.cardTileButtonIcon {
+	border: none !important;
+	background: none !important;
+	padding: 0 !important;
+    box-shadow: none !important;
+}
+
 .prominicLogo {
 	content: url('../../images/loginlogo.jpg');
 }
+
+
+/* Green styling for Open in Nomad button */
+.jewel.button.nomadGreen,
+.jewel.button.noLinkStyle.nomadGreen {
+	background: linear-gradient(#98cc50, #7eb435) !important;
+	border: 1px solid #638c29 !important;
+	box-shadow: inset 0 1px 0 #bbdd8b !important;
+	border-radius: 0.25rem !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.nomadGreen:hover, .jewel.button.nomadGreen:hover:focus,
+.jewel.button.noLinkStyle.nomadGreen:hover, .jewel.button.noLinkStyle.nomadGreen:hover:focus {
+	background: linear-gradient(#8CC63C, #71a02f) !important;
+	border: 1px solid #557923 !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.nomadGreen:active, .jewel.button.nomadGreen:active:focus,
+.jewel.button.noLinkStyle.nomadGreen:active, .jewel.button.noLinkStyle.nomadGreen:active:focus {
+	background: linear-gradient(#71a02f, #557923) !important;
+	border: 1px solid #395118 !important;
+	box-shadow: inset 0px 1px 3px 0px rgba(50, 50, 50, 0.5) !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.nomadGreen:focus,
+.jewel.button.noLinkStyle.nomadGreen:focus {
+	border: 1px solid #638c29 !important;
+	box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+	color: #FFFFFF !important;
+}
+
+.jewel.button.nomadGreen[disabled],
+.jewel.button.noLinkStyle.nomadGreen[disabled] {
+	background: #4d4d4d !important;
+	border: 1px solid #666666 !important;
+	box-shadow: none !important;
+	color: #999999 !important;
+	text-shadow: none !important;
+}
+
+.jewel.button.nomadGreen a,
+.jewel.button.noLinkStyle.nomadGreen a {
+	color: #FFFFFF !important;
+	text-decoration: none !important;
+}
+
+/* Neutral styling for App Improvement Request button (secondary) */
+.jewel.button.appImprovementNeutral,
+.jewel.button.noLinkStyle.appImprovementNeutral {
+	background: linear-gradient(#f3f4f6, #e5e7eb) !important;
+	border: 1px solid #d1d5db !important;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.7) !important;
+	border-radius: 0.25rem !important;
+	color: #374151 !important;
+}
+
+.jewel.button.appImprovementNeutral:hover, .jewel.button.appImprovementNeutral:hover:focus,
+.jewel.button.noLinkStyle.appImprovementNeutral:hover, .jewel.button.noLinkStyle.appImprovementNeutral:hover:focus {
+	background: linear-gradient(#e9eaee, #dfe3e8) !important;
+	border: 1px solid #c7ccd1 !important;
+	color: #374151 !important;
+}
+
+.jewel.button.appImprovementNeutral:active, .jewel.button.appImprovementNeutral:active:focus,
+.jewel.button.noLinkStyle.appImprovementNeutral:active, .jewel.button.noLinkStyle.appImprovementNeutral:active:focus {
+	background: linear-gradient(#dfe3e8, #d1d5db) !important;
+	border: 1px solid #b6bcc3 !important;
+	box-shadow: inset 0px 1px 3px 0px rgba(50, 50, 50, 0.25) !important;
+	color: #374151 !important;
+}
+
+.jewel.button.appImprovementNeutral:focus,
+.jewel.button.noLinkStyle.appImprovementNeutral:focus {
+	border: 1px solid #c7ccd1 !important;
+	box-shadow: 0 0 0 3px rgba(59,130,246,0.18), inset 0 1px 0 rgba(255,255,255,0.6) !important;
+	color: #374151 !important;
+}
+
+.jewel.button.appImprovementNeutral[disabled],
+.jewel.button.noLinkStyle.appImprovementNeutral[disabled] {
+	background: #f0f0f0 !important;
+	border: 1px solid #dcdcdc !important;
+	box-shadow: none !important;
+	color: #9ca3af !important;
+	text-shadow: none !important;
+}
+
+.jewel.button.appImprovementNeutral a,
+.jewel.button.noLinkStyle.appImprovementNeutral a {
+	color: #374151 !important;
+	text-decoration: none !important;
+}
+
 /*# sourceMappingURL=defaults.css.map */

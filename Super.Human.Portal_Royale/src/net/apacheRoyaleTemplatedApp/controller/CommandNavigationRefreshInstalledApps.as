@@ -11,16 +11,23 @@ package controller
 	import org.apache.royale.collections.ArrayList;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
+	import model.proxy.login.ProxyLogin;
 
 	public class CommandNavigationRefreshInstalledApps extends SimpleCommand
 	{
 		override public function execute(note:INotification):void 
 		{	
-			var apps:Array = note.getBody() as Array;
-			var mainMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;
-			var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
+			var loginProxy:ProxyLogin = facade.retrieveProxy(ProxyLogin.NAME) as ProxyLogin;
+			if (loginProxy.user.display && !loginProxy.user.display.viewInstalledApps) 
+			{
+				return;	
+			}
 			
+			var mainMediator:MediatorMainContentView = facade.retrieveMediator(MediatorMainContentView.NAME) as MediatorMainContentView;
 			var installedAppNavModel:LeftMenuNavigationModel = mainMediator.view["model"] as LeftMenuNavigationModel;
+
+			var apps:Array = note.getBody() as Array;
+			var genesisAppsProxy:ProxyGenesisApps = facade.retrieveProxy(ProxyGenesisApps.NAME) as ProxyGenesisApps;
 
 			var installedApps:ArrayList = new ArrayList();
 			var appWhiteSpaceRegExp:RegExp = new RegExp(/\s+/gi);

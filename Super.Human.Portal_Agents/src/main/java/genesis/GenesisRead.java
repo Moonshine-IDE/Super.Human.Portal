@@ -1,17 +1,15 @@
 package genesis;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,7 +24,6 @@ import auth.RoleRestrictedAgent;
 import auth.SecurityBuilder;
 import auth.SimpleRoleSecurity;
 import lotus.domino.Document;
-import lotus.domino.Name;
 import lotus.domino.NotesException;
 import lotus.domino.View;
 import lotus.domino.ViewEntry;
@@ -42,7 +39,7 @@ public class GenesisRead extends CRUDAgentBase implements RoleRestrictedAgent
 {
 	protected static final String DEFAULT_GENESIS_REST_API = "http://appstore.dominogenesis.com/rest/v1/apps";
 	protected static final int API_TIMEOUT_MS = 5000;
-	protected Collection<String> installedApps = new TreeSet<String>();
+	protected Map<String, Properties> installedApps = new TreeMap<String, Properties>();
 	
 	protected static final int DEFAULT_INSTALL_TIME_S = 15;
 	protected int configInstallTimeS = -1;
@@ -52,8 +49,13 @@ public class GenesisRead extends CRUDAgentBase implements RoleRestrictedAgent
 	
 	protected LinkProcessor linkProcessor = null;
 	
+	public String getRoleRestrictionID() {
+		return SecurityBuilder.RESTRICT_APPS_VIEW;
+	}
+	
 	public Collection<String> getAllowedRoles() {
-		return SecurityBuilder.buildList(SecurityBuilder.ROLE_ADMINISTRATOR);
+		//return SecurityBuilder.buildList(SimpleRoleSecurity.ROLE_ALL);
+		return null;  // use getRoleRestrictionID
 	}
 	
 	public SecurityInterface checkSecurity() {
@@ -166,7 +168,12 @@ public class GenesisRead extends CRUDAgentBase implements RoleRestrictedAgent
 					addInstallationInfo(newNode, node.get("id").toString());
 					copyAccessInfo(newNode, node);
 					
-					applicationList.put(newNode);
+					if (allowAccess(node)) {
+						applicationList.put(newNode);
+					}
+					else {
+						getLog().dbg("Hiding application '" + node.get("id").toString() + ".");
+					}
 				}
 				catch (JSONException ex) {
 					getLog().err("Exception while processing application:  '" + entry.toString() + "':  ", ex);
@@ -194,7 +201,33 @@ public class GenesisRead extends CRUDAgentBase implements RoleRestrictedAgent
     		String[] addins = addinDir.list();
     		for (String addin : addins) { 
     			if (isAddin(addin)) {
-    				installedApps.add(cleanAddinName(addin));
+    				// try to load the properties file
+    				Properties properties = new Properties();
+    				FileInputStream fio = null;
+    				try {
+    					File configFile = new File(new File(addinDir, addin), "config.txt");
+    					if (configFile.exists()) {
+    						fio = new FileInputStream(configFile);
+    						properties.load(fio);
+    					}
+    					else {
+    						getLog().dbg("No configuration file found for addin '" + addin + "'.");
+    					}
+    				}
+    				catch (Exception ex) {
+    					getLog().err("Failed to load configuration file for addin '" + addin + "':  ", ex);
+    				}
+    				finally {
+    					if (null != fio) {
+    						try {
+    							fio.close();
+						}
+						catch (IOException ex) {
+							// ignore
+						}
+    					}
+    				}
+    				installedApps.put(cleanAddinName(addin), properties);
     			}
     		}
     }
@@ -219,7 +252,7 @@ public class GenesisRead extends CRUDAgentBase implements RoleRestrictedAgent
      * Determine if the addin is installed
      */
     protected boolean isInstalled(String addinName) {
-    		return installedApps.contains(cleanAddinName(addinName));
+    		return installedApps.keySet().contains(cleanAddinName(addinName));
     }
 	
 	/**
@@ -376,6 +409,69 @@ public class GenesisRead extends CRUDAgentBase implements RoleRestrictedAgent
 		catch (JSONException ex) {
 			// ignore
 		}
+    }
+    
+    
+    /**
+     * Check if the authenticated user should be allowed to view this application.
+     * Requirements <ul>
+     * <li> {@link SimpleRoleSecurity.FILTER_DOCS_KEY} is set to true
+     * <li> allowedRoles is defined in either the application JSON or JavaAddins/%app%/config.txt.  config.txt has priority if it has a non-empty value
+     * <li> allowedRoles is not empty - this will allow all access for legacy support
+     * </ul>
+     * If the conditions are met, access will be checked with SimpleRoleSecurity.isAuthorizedForRoles(allowedRoles).
+     * @returns <code>true</code> if the application should be displayed to the user, <code>false<code> otherwise.
+     * 
+     */
+    protected boolean allowAccess(JSONObject app) {
+    		if (!((SimpleRoleSecurity) getSecurity()).getFilterDocs()) {
+    			getLog().dbg("Skipping check to filter documents.");
+    			return true;
+    		}
+    		String appID = app.get("id").toString();
+    		TreeSet<String> allowedRoles = new TreeSet<String>();
+    		
+    		// load from JSON
+    		try {
+			Object allowedRolesObj = app.get("allowedRoles");
+			if (allowedRolesObj instanceof JSONArray) {
+				for (Object role : ((JSONArray) allowedRolesObj)) {
+					allowedRoles.add(role.toString());
+				}
+			}
+			else {
+				allowedRoles.add(allowedRolesObj.toString());
+			}
+		}
+		catch (JSONException ex) {
+			getLog().dbg("allowedRoles is not defined for application '" + app + "'.");
+		}
+    		
+    		Properties localProperties = installedApps.get(appID);
+    		if (null != localProperties) {
+    			String allowedRolesStr = localProperties.getProperty("allowedRoles");
+    			if (!DominoUtils.isValueEmpty(allowedRolesStr)) {
+    				getLog().dbg("allowedRoles is defined for app '" + appID + "' in config.txt.  Override:   " + allowedRolesStr);
+    				allowedRoles = new TreeSet<String>();
+    				String[] tokens = allowedRolesStr.split(",");
+    				for (String token : tokens) {
+    					allowedRoles.add(token.trim());
+    				}
+    			}
+    			else {
+    				getLog().dbg("allowedRoles is not defined for app '" + appID + "' in config.txt.");
+    			}
+		}
+		else {
+			getLog().dbg("No local configuration for app '" + appID + "'.");
+		}
+    		
+    		
+    		if (allowedRoles.size() == 0) {
+    			// If no roles are defined, allow for all users
+    			return true;
+		}
+    		return ((SimpleRoleSecurity) getSecurity()).isAuthorizedForRoles(allowedRoles);
     }
 
 }
