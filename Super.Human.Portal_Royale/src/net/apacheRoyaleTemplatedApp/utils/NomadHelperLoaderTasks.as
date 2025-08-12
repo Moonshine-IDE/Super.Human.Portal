@@ -26,7 +26,7 @@ package utils
 			
 			var localNomadHelperTask:PromiseTask = new PromiseTask(new Promise(function(resolve:Function, reject:Function){
 				var localNomadHelper:NomadHelperDelegate = new NomadHelperDelegate();
-					localNomadHelper.getLocalNomadHelper(function(event:Event):void{
+					localNomadHelper.getLocalNomadHelper(function localNomadHelperCallback(event:Event):void{
 						resolve(event);
 					}, function onFault(fault:FaultEvent):void{
 						reject(fault);
@@ -35,8 +35,8 @@ package utils
 			this.addTask(localNomadHelperTask);
 			
 			var remoteNomadHelperTask:PromiseTask = new PromiseTask(new Promise(function(resolve:Function, reject:Function){
-				var localNomadHelper:NomadHelperDelegate = new NomadHelperDelegate();
-					localNomadHelper.getNomadHelper(String(data), function(event:Event):void{
+				var remoteNomadHelper:NomadHelperDelegate = new NomadHelperDelegate();
+					remoteNomadHelper.getNomadHelper(String(data), function remoteNomadHelperCallback(event:Event):void{
 						resolve(event);
 					}, function onFault(fault:FaultEvent):void{
 						reject(fault);

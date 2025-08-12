@@ -14,6 +14,7 @@ package model.proxy.login
 
 	import services.login.LoginServiceDelegate;
 	import model.vo.DisplayVO;
+	import model.proxy.ProxyNomadHelperComparer;
 			
 	public class ProxyLogin extends Proxy
 	{
