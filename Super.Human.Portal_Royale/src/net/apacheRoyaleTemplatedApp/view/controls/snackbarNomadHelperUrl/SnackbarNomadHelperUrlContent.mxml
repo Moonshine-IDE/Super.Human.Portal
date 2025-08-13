@@ -19,8 +19,12 @@
 		[Bindable]
 		public var configurationNomadUrl:String = "";
 		
+		[Bindable]
+		public var showOutdatedNomadHelperMessage:Boolean = false;
+
 		private function snackbarContentInitComplete(event:Event):void
 		{
+			titleMessage.text = showOutdatedNomadHelperMessage ? 'The nomadhelper.html file deployed on the Nomad server is outdated. \nPlease update it on the server.' : 'This link is currently configured to open in a separate HCL Nomad Web window. For the best user experience, the administrator needs to setup nomadhelper.nsf like this:';
 			firstPathMessage.html = "Copy <code>" + dataDirectory + "/domino/html/Super.Human.Portal/js-release/resources/nomadhelper.html</code>"
 			secondPathMessage.html = "to <code>/opt/hcl/domino/notes/latest/linux/nomad-files</code>";
 			secondMessage.html = "Update <code>nomad_helper_url</code> to <code>" + nomadBaseUrl + "/nomadhelper.html</code> in SuperHumanPortal.nsf";
@@ -54,8 +58,7 @@
 		}
 	]]>
 </fx:Script>
-	<j:Label multiline="true"
-			 text="This link is currently configured to open in a separate HCL Nomad Web window. For the best user experience, the administrator needs to setup nomadhelper.nsf like this:"/>
+	<j:Label localId="titleMessage" multiline="true"/>
 	<html:Ul percentWidth="100">
 		<html:Li>
 			<html:style>
@@ -90,33 +93,31 @@
 				</j:HGroup>
 			</j:VGroup>
 		</html:Li>
-		<html:Li>
-			<j:VGroup percentWidth="100" itemsHorizontalAlign="itemsRight">
-				<j:HGroup percentWidth="100" itemsVerticalAlign="itemsCenter">
-					<j:Label localId="secondMessage" multiline="true" percentWidth="100"/>
-					<j:IconButton localId="secondMessageCopyToClipboard" click="onSecondMessageCopyClick(event)">
-						<j:icon>
-							<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
-								<js:style>
-									<js:SimpleCSSStyles fontSize="16"/>
-								</js:style>
-							</js:MaterialIcon>
-						</j:icon>
-					</j:IconButton>
-				</j:HGroup>
-				<j:HGroup gap="2">
-					<j:Button text="Open in Client" click="onOpenInNotesClick(event)">
-						<j:beads>
-							<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
-						</j:beads>
-					</j:Button>
-					<j:Button text="Open in Nomad" click="onOpenInNomadClick(event)" className="nomadGreen">
-						<j:beads>
-							<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
-						</j:beads>
-					</j:Button>
-				</j:HGroup>
-			</j:VGroup>
+		<html:Li visible="{showOutdatedNomadHelperMessage == false}">
+			<j:HGroup percentWidth="100" itemsVerticalAlign="itemsCenter" itemsHorizontalAlign="itemsRight">
+				<j:Label localId="secondMessage" multiline="true" percentWidth="100"/>
+				<j:IconButton localId="secondMessageCopyToClipboard" click="onSecondMessageCopyClick(event)">
+					<j:icon>
+						<js:MaterialIcon text="{MaterialIconType.CONTENT_COPY}">
+							<js:style>
+								<js:SimpleCSSStyles fontSize="16"/>
+							</js:style>
+						</js:MaterialIcon>
+					</j:icon>
+				</j:IconButton>
+			</j:HGroup>
 		</html:Li>
 	</html:Ul>
+	<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight" gap="2">
+		<j:Button text="Open in Client" click="onOpenInNotesClick(event)">
+			<j:beads>
+				<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
+			</j:beads>
+		</j:Button>
+		<j:Button text="Open in Nomad" click="onOpenInNomadClick(event)" className="nomadGreen">
+			<j:beads>
+				<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
+			</j:beads>
+		</j:Button>
+	</j:HGroup>
 </j:VGroup>

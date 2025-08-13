@@ -13,7 +13,7 @@ package view.controls.snackbarNomadHelperUrl
 		}
 		
 		public static function show(dataDirectory:String, nomadBaseUrl:String, configurationNomadUrl:String, 
-								   configurationNotesUrl:String, parent:Object = null):SnackbarNomadHelperUrl
+								   configurationNotesUrl:String, showOutdatedNomadHelperMessage:Boolean = false, parent:Object = null):SnackbarNomadHelperUrl
 		{
 			 var snackbar:SnackbarNomadHelperUrl = new SnackbarNomadHelperUrl();
             		 snackbar.message = "";
@@ -23,6 +23,7 @@ package view.controls.snackbarNomadHelperUrl
 				 snackbar.nomadBaseUrl = nomadBaseUrl;
 				 snackbar.configurationNomadUrl = configurationNomadUrl;
 				 snackbar.configurationNotesUrl = configurationNotesUrl;
+				 snackbar.showOutdatedNomadHelperMessage = showOutdatedNomadHelperMessage;
 				 
            		 snackbar.show(parent);
 			return snackbar;
@@ -66,6 +67,16 @@ package view.controls.snackbarNomadHelperUrl
 		public function set configurationNotesUrl(value:String):void
 		{
 			SnackbarNomadHelperUrlModel(model).configurationNotesUrl = value;
+		}
+
+		public function get showOutdatedNomadHelperMessage():Boolean
+		{
+			return SnackbarNomadHelperUrlModel(model).showOutdatedNomadHelperMessage;
+		}
+
+		public function set showOutdatedNomadHelperMessage(value:Boolean):void
+		{
+			SnackbarNomadHelperUrlModel(model).showOutdatedNomadHelperMessage = value;
 		}
 	}
 }

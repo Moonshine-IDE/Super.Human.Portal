@@ -32,7 +32,7 @@ package mediator
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
     import model.proxy.ProxyNomadHelperComparer;
-    import org.apache.royale.jewel.Snackbar;
+    import view.controls.snackbarNomadHelperUrl.SnackbarNomadHelperUrl;
                                                                                 
     public class MediatorMainContentView extends Mediator implements IMediator
     {
@@ -140,9 +140,10 @@ package mediator
 						var nomadHelperCompare:ProxyNomadHelperComparer = facade.retrieveProxy(ProxyNomadHelperComparer.NAME) as ProxyNomadHelperComparer;
 						if (!nomadHelperCompare.isNomadHelpersEqual())
 						{
-							Snackbar.show("The nomadhelper.html file deployed on the Nomad server is outdated. "
-										  + "Please update it on the server.", 
-															15000);
+							SnackbarNomadHelperUrl.show(loginProxy.config.config.domino_data_directory, 
+					  						     loginProxy.config.config.nomad_base_url,
+					  						     loginProxy.config.config.configuration_link.nomadURL,
+					  						     loginProxy.config.config.configuration_link.url, true);
 						}
 						break;				
 					case ApplicationConstants.NOTE_DRAWER_CLOSE:

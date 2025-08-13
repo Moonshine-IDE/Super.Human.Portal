@@ -32,6 +32,7 @@ package view.controls.snackbarNomadHelperUrl.beads
 				snackbarMessage.dataDirectory = model.dataDirectory;
 				snackbarMessage.configurationNomadUrl = model.configurationNomadUrl;
 				snackbarMessage.configurationNotesUrl = model.configurationNotesUrl;
+				snackbarMessage.showOutdatedNomadHelperMessage = model.showOutdatedNomadHelperMessage;
 				
 			var snackbarContent:Div = new Div();
 				snackbarContent.className = "jewel snackbar-content";

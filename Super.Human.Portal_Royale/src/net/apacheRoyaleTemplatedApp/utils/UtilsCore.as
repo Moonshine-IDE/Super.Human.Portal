@@ -47,7 +47,7 @@ package utils
 		}
 		
 		public static function computeHash(content:String):PromiseTask {
-			var resultPromise:PromiseTask = new PromiseTask(new Promise(function(resolve:Function, reject:Function){
+			var resultPromise:PromiseTask = new PromiseTask(new Promise(function(resolve:Function, reject:Function):void {
 					var encoder:TextEncoder = new TextEncoder();
 					var data:Uint8Array = encoder.encode(content);
 					var promise:PromiseTask = new PromiseTask(window["crypto"].subtle.digest('SHA-256', data));

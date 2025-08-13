@@ -13,5 +13,6 @@ package view.controls.snackbarNomadHelperUrl.beads
 		public var nomadBaseUrl:String;
 		public var configurationNomadUrl:String;
 		public var configurationNotesUrl:String;
+		public var showOutdatedNomadHelperMessage:Boolean;
 	}
 }
