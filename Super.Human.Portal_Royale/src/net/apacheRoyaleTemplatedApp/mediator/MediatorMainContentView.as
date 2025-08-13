@@ -142,7 +142,7 @@ package mediator
 						{
 							Snackbar.show("The nomadhelper.html file deployed on the Nomad server is outdated. "
 										  + "Please update it on the server.", 
-															6000);
+															15000);
 						}
 						break;				
 					case ApplicationConstants.NOTE_DRAWER_CLOSE:
