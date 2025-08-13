@@ -31,6 +31,8 @@ package mediator
     import org.puremvc.as3.multicore.interfaces.IMediator;
     import org.puremvc.as3.multicore.interfaces.INotification;
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+    import model.proxy.ProxyNomadHelperComparer;
+    import org.apache.royale.jewel.Snackbar;
                                                                                 
     public class MediatorMainContentView extends Mediator implements IMediator
     {
@@ -79,6 +81,7 @@ package mediator
 			{
 				var interests:Array = super.listNotificationInterests();
 					interests.push(ProxyLogin.NOTE_LOGIN_SUCCESS);
+					interests.push(ProxyNomadHelperComparer.NOTE_COMPARE_RESULTS);
 					interests.push(ProxyLogin.NOTE_LOGOUT_SUCCESS);		
 					interests.push(ProxyLogin.NOTE_ANONYMOUS_USER);
 					interests.push(ApplicationConstants.NOTE_OPEN_FORGOTPASSWORD);
@@ -132,7 +135,16 @@ package mediator
 						
 						sendNotification(ApplicationConstants.COMMAND_START_POST_LOGIN);
 						initializeLoggedUserInformation();
-						break;							
+						break;			
+					case ProxyNomadHelperComparer.NOTE_COMPARE_RESULTS:
+						var nomadHelperCompare:ProxyNomadHelperComparer = facade.retrieveProxy(ProxyNomadHelperComparer.NAME) as ProxyNomadHelperComparer;
+						if (!nomadHelperCompare.isNomadHelpersEqual())
+						{
+							Snackbar.show("The nomadhelper.html file deployed on the Nomad server is outdated. "
+										  + "Please update it on the server.", 
+															6000);
+						}
+						break;				
 					case ApplicationConstants.NOTE_DRAWER_CLOSE:
 						view.toggleDrawerOpen(false);
 						break;

@@ -49,15 +49,18 @@ package model.proxy
 	
 		private function compareNomadHelperUrl(nomadHelperUrlTask:PromiseTask, nomadHelperUrlTask2:PromiseTask):void
 		{
-			var nomadHelperUrlHash:PromiseTask = UtilsCore.computeHash(nomadHelperUrlTask.result.target.element.responseText);
-			var nomadHelperUrlHash2:PromiseTask = UtilsCore.computeHash(nomadHelperUrlTask2.result.target.element.responseText);
+			var nomadHelperHashText:String = nomadHelperUrlTask.result.target.element.responseText;
+			var nomadHelperHashText2:String = nomadHelperUrlTask2.result.target.element.responseText;
+			
+			var nomadHelperUrlHash:PromiseTask = UtilsCore.computeHash(nomadHelperHashText);
+			var nomadHelperUrlHash2:PromiseTask = UtilsCore.computeHash(nomadHelperHashText2);
 			
 			var sequentialHashTask:SequentialAsyncTask = new SequentialAsyncTask([
 				nomadHelperUrlHash,
 				nomadHelperUrlHash2
 			]);
 			
-			sequentialHashTask.done(function(task:PromiseTask) {
+			sequentialHashTask.done(function(task:PromiseTask):void {
 				if (sequentialHashTask.failed)
 				{
 					setData(false);
