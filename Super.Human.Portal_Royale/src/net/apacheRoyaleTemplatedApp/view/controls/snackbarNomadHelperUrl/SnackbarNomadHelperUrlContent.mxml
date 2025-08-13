@@ -108,7 +108,7 @@
 			</j:HGroup>
 		</html:Li>
 	</html:Ul>
-	<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight" gap="2">
+	<j:HGroup percentWidth="100" itemsHorizontalAlign="itemsRight" gap="2" visible="{showOutdatedNomadHelperMessage == false}">
 		<j:Button text="Open in Client" click="onOpenInNotesClick(event)">
 			<j:beads>
 				<j:Disabled disabled="{configurationNomadUrl == null || configurationNomadUrl == ''}"/>
