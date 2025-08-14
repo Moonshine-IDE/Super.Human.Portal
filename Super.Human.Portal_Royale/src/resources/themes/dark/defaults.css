@@ -713,6 +713,7 @@ a font {
 	box-shadow: inset 0 1px 0 rgba(255,255,255,0.06) !important;
 	border-radius: 0.25rem !important;
 	color: #e5e7eb !important;
+	font-weight: normal !important;
 }
 
 .jewel.button.appImprovementNeutral:hover, .jewel.button.appImprovementNeutral:hover:focus,
@@ -750,6 +751,7 @@ a font {
 .jewel.button.noLinkStyle.appImprovementNeutral a {
 	color: #e5e7eb !important;
 	text-decoration: none !important;
+	font-weight: normal !important;
 }
 
 /*# sourceMappingURL=defaults.css.map */
