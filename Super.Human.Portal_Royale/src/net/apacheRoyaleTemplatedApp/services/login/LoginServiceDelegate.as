@@ -6,6 +6,7 @@ package services.login
 	import org.apache.royale.net.HTTPService;
 	import org.apache.royale.net.beads.CORSCredentialsBead;
 	import org.apache.royale.net.events.FaultEvent;
+	import utils.UtilsCore;
 
 	public class LoginServiceDelegate
 	{
@@ -70,7 +71,7 @@ package services.login
 			service.send();
 		}
 	
-		public function logout(resultCallback:Function, faultCallback:Function=null):void
+		public function logout(logoutUrl:String, resultCallback:Function, faultCallback:Function=null):void
 		{
 			if (faultCallback == null)
 			{
@@ -82,7 +83,7 @@ package services.login
 			
 			var service:HTTPService = new HTTPService();
 			service.addBead(new CORSCredentialsBead(true));
-			service.url = UrlProvider.getInstance().logoutUser;
+			service.url = logoutUrl;
 			service.method = "POST";
 			service.contentData = urlParams;
 			service.addEventListener("complete", resultCallback);
@@ -107,7 +108,7 @@ package services.login
 		}
 		
 		public function onFault(event:FaultEvent):void {
-			Alert.show(event.message.toLocaleString(), this);
+			Alert.show(UtilsCore.getHttpServiceFaultMessage(event), this);
 		}
 	}
 }

@@ -33,6 +33,8 @@ package mediator
     import org.puremvc.as3.multicore.patterns.mediator.Mediator;
     import model.proxy.ProxyNomadHelperComparer;
     import view.controls.snackbarNomadHelperUrl.SnackbarNomadHelperUrl;
+    import model.vo.PopupVO;
+    import constants.PopupType;
                                                                                 
     public class MediatorMainContentView extends Mediator implements IMediator
     {
@@ -81,6 +83,7 @@ package mediator
 			{
 				var interests:Array = super.listNotificationInterests();
 					interests.push(ProxyLogin.NOTE_LOGIN_SUCCESS);
+					interests.push(ProxyLogin.NOTE_LOGOUT_FAILED);
 					interests.push(ProxyNomadHelperComparer.NOTE_COMPARE_RESULTS);
 					interests.push(ProxyLogin.NOTE_LOGOUT_SUCCESS);		
 					interests.push(ProxyLogin.NOTE_ANONYMOUS_USER);
@@ -145,7 +148,17 @@ package mediator
 					  						     loginProxy.config.config.configuration_link.nomadURL,
 					  						     loginProxy.config.config.configuration_link.url, true);
 						}
-						break;				
+						break;		
+					case ProxyLogin.NOTE_LOGOUT_FAILED:		
+						sendNotification(
+							ApplicationConstants.COMMAND_SHOW_POPUP,
+							new PopupVO(
+								PopupType.ERROR,
+								this.mediatorName,
+								"Logout failed due to an unexpected error. Please contact your administrator if the problem persists. Details: " + String(note.getBody())
+							)
+						);
+						break;	
 					case ApplicationConstants.NOTE_DRAWER_CLOSE:
 						view.toggleDrawerOpen(false);
 						break;

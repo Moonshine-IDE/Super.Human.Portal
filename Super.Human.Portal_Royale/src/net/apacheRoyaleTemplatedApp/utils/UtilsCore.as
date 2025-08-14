@@ -3,6 +3,8 @@ package utils
 	import org.apache.royale.collections.ArrayList;
 	import org.apache.royale.collections.CompareUtils;
 	import org.apache.royale.utils.async.PromiseTask;
+	import org.apache.royale.net.HTTPService;
+	import org.apache.royale.net.events.FaultEvent;
 	
 	public class UtilsCore
 	{
@@ -70,6 +72,34 @@ package utils
 			}))
 		
 			return resultPromise;
+		}
+
+		public static function getHttpServiceFaultMessage(event:FaultEvent):String {
+			var msg:String = null;
+
+			// 1) FaultEvent-provided message (when available)
+			if (event && event.message)
+			{
+				msg = event.message.toString();
+			}
+
+			// 2) Server response body (HTTPService may still have data on error)
+			if (!msg)
+			{
+				var svc:HTTPService = event ? event.target as HTTPService : null;
+				if (svc && svc.data)
+				{
+					msg = String(svc.data);
+				}
+			}
+
+			// 3) Fallback
+			if (!msg)
+			{
+				msg = "A network or server error occurred while contacting the service.";
+			}
+
+			return msg;
 		}
 	}
 }

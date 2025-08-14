@@ -5,7 +5,8 @@ package classes.managers
 		public static const LOGIN_REDIRECTION:String = "SuperHumanPortal.nsf/XMLAuthenticationTest?OpenAgent"; // Authentication Check
 		public static const APP_LOCAL_VERSION_URL:String = "resources/version.xml";
 		public static const NOMAD_HELPER_FILE_URL:String = "resources/nomadhelper.html";
-		
+		public static const DEFAULT_LOGOUT_URL:String = "/names.nsf?logout";
+
 		private static var _instance:UrlProvider;
 				
     		public function UrlProvider() 
@@ -42,7 +43,7 @@ package classes.managers
 			_loginUser = value;
 		} 
 		
-		private var _logoutUser:String = "/names.nsf?logout";
+		private var _logoutUser:String = DEFAULT_LOGOUT_URL;
 		
 		/**
 		 * logout an user

@@ -2,7 +2,7 @@ package model.vo
 {
 	public class UserVO  
 	{
-		public function UserVO(username:String, serverUsername:String, commonName:String, status:String, roles:Array = null, loginUrl:String = null)
+		public function UserVO(username:String, serverUsername:String, commonName:String, status:String, roles:Array = null, loginUrl:String = null, logoutUrl:String = null)
 		{
 			this.username = username;
 			this.serverUsername = serverUsername;
@@ -10,6 +10,7 @@ package model.vo
 			this.status = status;
 			this.roles = roles;
 			this.loginUrl = loginUrl;
+			this.logoutUrl = logoutUrl;
 		}
 		
 		private var _serverUsername:String;
@@ -97,6 +98,18 @@ package model.vo
 			_loginUrl = value;
 		}
 		
+		private var _logoutUrl:String;
+
+		public function get logoutUrl():String
+		{
+			return _logoutUrl;
+		}
+		
+		public function set logoutUrl(value:String):void
+		{
+			_logoutUrl = value;
+		}
+
 		public function hasRole(role:String):Boolean
 		{
 			if (!_roles || _roles.length == 0) return false;

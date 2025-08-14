@@ -15,6 +15,8 @@ package model.proxy.login
 	import services.login.LoginServiceDelegate;
 	import model.vo.DisplayVO;
 	import model.proxy.ProxyNomadHelperComparer;
+	import classes.managers.UrlProvider;
+	import utils.UtilsCore;
 			
 	public class ProxyLogin extends Proxy
 	{
@@ -23,6 +25,7 @@ package model.proxy.login
 		public static const NOTE_LOGIN_FAILED:String = NAME + "NoteLoginFailed";
 		public static const NOTE_LOGIN_FAILED_ON_SERVER:String = NAME + "NoteLoginFailedOnServer";
 		public static const NOTE_LOGOUT_SUCCESS:String = NAME + "NoteLogoutSucces";
+		public static const NOTE_LOGOUT_FAILED:String = NAME + "NoteLogoutFailed";
 		public static const NOTE_ANONYMOUS_USER:String = NAME + "NoteAnonymousUser";
 		public static const NOTE_INVALID_DOMINO_DOMAIN:String = NAME + "NoteInvalidDominoDomain";
 		public static const NOTE_TEST_AUTHENTICATION_SUCCESS:String = NAME + "NoteTestAuthenticationSuccess";
@@ -111,15 +114,15 @@ package model.proxy.login
 	
 		public function logout():void
 		{
-			loginServiceDelegate.logout(onLogout);
+			loginServiceDelegate.logout(getLogoutUrl(), onLogout, onLogoutFailed);
 		}
 		
 		public function forceLogout():void
 		{
 			//We are not interested in any logout results.
-			loginServiceDelegate.logout(function (event:Event):void {
+			loginServiceDelegate.logout(getLogoutUrl(), function (event:Event):void {
 			
-			 });	
+			 }, onLogoutFailed);	
 		}
 		
 		public function getAccounts(resultCallback:Function=null):void
@@ -208,7 +211,7 @@ package model.proxy.login
 		
 		private function onAccountsLoadFailed(event:FaultEvent):void
 		{
-			sendNotification(NOTE_ACCOUNTS_LOAD_FAILED, event.message.toLocaleString());
+			sendNotification(NOTE_ACCOUNTS_LOAD_FAILED, UtilsCore.getHttpServiceFaultMessage(event));
 		}
 		
 		private function onLogout(event:Event):void
@@ -220,6 +223,11 @@ package model.proxy.login
 			proxyUrlParams.setData(null);
 			
 			this.testAuthenticationWithoutBusyIndicator();
+		}
+
+		private function onLogoutFailed(event:FaultEvent):void
+		{
+			sendNotification(ProxyLogin.NOTE_LOGOUT_FAILED, UtilsCore.getHttpServiceFaultMessage(event));
 		}
 
 		private function failOnServer(data:Object):void
@@ -252,7 +260,7 @@ package model.proxy.login
 					username = serverUserName;
 				}
 				
-				var user:UserVO = new UserVO(username, serverUserName, commonName, status, roles, loginResult.loginURL);
+				var user:UserVO = new UserVO(username, serverUserName, commonName, status, roles, loginResult.loginURL, loginResult.logoutURL);
 					user.display = new DisplayVO();
 				if (loginResult.display)
 				{
@@ -298,6 +306,15 @@ package model.proxy.login
 			}
 			
 			return contextParam.join("|");
+		}
+
+		private function getLogoutUrl():String 
+		{
+			if (this.user && this.user.logoutUrl) {
+				return this.user.logoutUrl;
+			}
+
+			return UrlProvider.DEFAULT_LOGOUT_URL;
 		}
 	}
 }
