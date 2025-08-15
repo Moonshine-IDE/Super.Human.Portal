@@ -28,16 +28,22 @@
 	]]>
 </fx:Script>
 	<j:Card percentHeight="100" percentWidth="100" className="cardTile">
+		<j:style>
+			<js:AllCSSStyles cursor="pointer"/>
+		</j:style>
 		<j:CardTitle text="{dataVO.label}" className="cardTileTitle" multiline="true" percentWidth="100"/>
 		<j:CardPrimaryContent itemsHorizontalAlign="itemsCenter" itemsVerticalAlign="itemsCenter" gap="2">
 			<html:Span localId="tileIcon" visible="{dataVO.icon != '' &amp;&amp; dataVO.link == ''}" className="{dataVO.icon + ' cardMdiTileIcon'}"/>
-			<j:Label multiline="true" text="{dataVO.description}" visible="{dataVO.icon != '' &amp;&amp; dataVO.link == ''}"/>
-			
+			<j:Label multiline="true" text="{dataVO.description}" visible="{dataVO.icon != '' &amp;&amp; dataVO.link == ''}">
+				<j:style>
+					<js:AllCSSStyles cursor="pointer"/>
+				</j:style>
+			</j:Label>
 			<html:A href="{dataVO.link}" target="_blank" visible="{dataVO.link != ''}">
 				<html:style>
-						<js:AllCSSStyles textDecoration="none" textAlign="center"/>
+					<js:AllCSSStyles opacity="1" textDecoration="none" textAlign="center" />
 				</html:style>
-				<j:Image src="{dataVO.icon}" maxWidth="135" maxHeight="135"/>
+				<j:Image src="{dataVO.icon}" maxWidth="135" maxHeight="135" />
 				<j:HGroup percentWidth="100">
 					<j:Label multiline="true" text="{dataVO.description}" className="categoryLabel">
 						<j:style>
