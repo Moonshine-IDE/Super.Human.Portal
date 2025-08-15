@@ -40,7 +40,7 @@
 	  <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
-        <version>3.2.0</version>
+        <version>3.3.1</version>
         <executions>
           <!-- for js-release (copy all to 'modules' folder)-->
           <execution>
@@ -118,7 +118,7 @@
       <plugin>
         <groupId>org.apache.royale.compiler</groupId>
         <artifactId>royale-maven-plugin</artifactId>
- 		<version>${royale.compiler.version}</version>
+			<version>${royale.compiler.version}</version>
         <extensions>true</extensions>
         <configuration>
           <mainClass>SuperHumanPortal_Royale.mxml</mainClass>
@@ -137,6 +137,17 @@
 				<version>${royale.compiler.version}</version>
 			  </dependency>
 		</dependencies>
+      </plugin>
+      <!-- Pin compatible plugin versions to avoid Maven 4 beta warnings on Maven 3.x -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-install-plugin</artifactId>
+        <version>3.1.4</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>3.1.4</version>
       </plugin>
     </plugins>
   </build>
