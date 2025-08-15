@@ -155,8 +155,7 @@ package mediator
 							new PopupVO(
 								PopupType.ERROR,
 								this.mediatorName,
-								"Logout failed due to an unexpected error. Please contact your administrator if the problem persists. Details: " + String(note.getBody())
-							)
+								"Logout failed due to an unexpected error. Please contact your administrator if the problem persists. Details: " + String(note.getBody()))
 						);
 						break;	
 					case ApplicationConstants.NOTE_DRAWER_CLOSE:
