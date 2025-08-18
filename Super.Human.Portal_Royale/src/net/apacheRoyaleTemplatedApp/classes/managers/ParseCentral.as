@@ -303,9 +303,10 @@ package classes.managers
 				for (var i:int = 0; i < viewEntryCount; i++)
 				{
 					var bookmark:Object = jsonData[i];
+					var normalizedUrl:String = bookmark.type == ApplicationVO.LINK_BROWSER ? ensureHttps(bookmark.url) : bookmark.url;
 					var tmpVO:BookmarkVO = new BookmarkVO(bookmark.group, bookmark.DominoUniversalID, bookmark.name,
 																	bookmark.server, bookmark.database, bookmark.view,
-																	bookmark.type, bookmark.url, bookmark.nomadURL, bookmark.defaultAction, bookmark.description);
+																	bookmark.type, normalizedUrl, bookmark.nomadURL, bookmark.defaultAction, bookmark.description);
 					
 					tmpArr.push(tmpVO);
 				}
@@ -420,5 +421,19 @@ package classes.managers
 			
 			return value.prod_mode.file_upload_control_id.toString()
 		}
-	}
+		
+		/**
+		 * Ensure a URL has an https scheme when missing.
+		 * Preserves existing schemes (http, https, mailto, notes, etc.) and protocol-relative (//example.com).
+		 */
+		private static function ensureHttps(href:String):String
+		{
+			if (!href || href.length == 0) return href;
+			var s:String = StringUtil.trim(href);
+			var scheme:RegExp = /^[a-zA-Z][a-zA-Z0-9+.-]*:/;
+			if (scheme.test(s)) return s; // already has a scheme
+			if (s.indexOf("//") == 0) return "https:" + s; // protocol-relative
+			return "https://" + s;
+		}
+    }
 }
