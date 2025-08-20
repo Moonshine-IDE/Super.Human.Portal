@@ -3,6 +3,29 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) 
 
+## Super.Human.Portal [1.4.0]
+
+### Summary
+
+
+### Added
+
+* Link to App Improvement Tool ([#84](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/84))
+* Allow administrator to configure the logout URL ([#79](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/79))
+* Validate nomadhelper.html to avoid problems with out-dated copies ([#57](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/57))
+
+### Changed
+
+
+### Fixed
+
+* Fixed some problems with nomadhelper.html ([#83](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/83))
+* Improved appeance of Moonshine-IDE documentation tile in dark mode ([#88](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/88)
+* Updated default Nomad URL to match new conventions ([#80](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/80))
+* Handle Bookmark URLs without the protocol  ([#86](https://github.com/Moonshine-IDE/Super.Human.Portal/issues/86))
+
+
+
 ## Super.Human.Portal [1.3.0]
 
 ### Summary
