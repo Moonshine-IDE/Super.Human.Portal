@@ -78,7 +78,7 @@ class GenesisReadSpec extends Specification {
 					"type": "database",
 					"description": "This is a placeholder (%TEST%) description.  %THIS% is not an insertion parameter.",
 					"url": "notes://%SERVER_COMMON%/dombackup.nsf", 
-					"nomadURL": "https://nomadweb.%SERVER_COMMON%/nomad/#/notes://%SERVER_COMMON%/dombackup.nsf", 
+					"nomadURL": "https://notes.%SERVER_COMMON%/nomad/#/notes://%SERVER_COMMON%/dombackup.nsf", 
 					"server": "%SERVER_ABBR%", 
 					"database": "%TEST%actual.nsf",
 					"view": "View%TEST%"
@@ -92,7 +92,7 @@ class GenesisReadSpec extends Specification {
 		// 			"name": "Test addin on server ${test.serverAbbr}",
 		// 			"type": "database",
 		// 			"url": "notes://${test.serverCommon}/dombackup.nsf", 
-		// 			"nomadURL": "https://nomadweb.${test.serverCommon}/nomad/#/notes://${test.serverCommon}dombackup.nsf", 
+		// 			"nomadURL": "https://notes.${test.serverCommon}/nomad/#/notes://${test.serverCommon}dombackup.nsf", 
 		// 			"server": "${test.serverAbbr}", 
 		// 			"database": "fooactual.nsf",
 		// 			"view": "Viewfoo"
@@ -127,7 +127,7 @@ class GenesisReadSpec extends Specification {
 		JSONUtils.getStringSafe(testLink, 'description') == "This is a placeholder (foo) description.  %THIS% is not an insertion parameter."
 		JSONUtils.getStringSafe(testLink, 'url') == "notes://${test.linkProcessor.serverCommon}/dombackup.nsf"
 		// replace same parameter more than once
-		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://nomadweb.${test.linkProcessor.serverCommon}/nomad/#/notes://${test.linkProcessor.serverCommon}/dombackup.nsf"
+		JSONUtils.getStringSafe(testLink, 'nomadURL') == "https://notes.${test.linkProcessor.serverCommon}/nomad/#/notes://${test.linkProcessor.serverCommon}/dombackup.nsf"
 		JSONUtils.getStringSafe(testLink, 'server') == "${test.linkProcessor.serverAbbr}"
 		JSONUtils.getStringSafe(testLink, 'database') == "fooactual.nsf"
 		JSONUtils.getStringSafe(testLink, 'view') == "Viewfoo"

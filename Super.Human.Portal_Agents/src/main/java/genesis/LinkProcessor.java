@@ -353,6 +353,6 @@ public class LinkProcessor
 		// NOTE:  I am intentionally using the member instead of the local serverCommon variable.
 		// This determines the Nomad server, rather than the server for the link.
 		// Maybe this should be a separate configured (or user-specific) value instead, but that can be a future update.
-    		return "https://nomadweb." + this.serverCommon + "/nomad";
+    		return "https://notes." + this.serverCommon + "/nomad";
     }
 }
